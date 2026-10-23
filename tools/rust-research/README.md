@@ -1,8 +1,22 @@
 # 服务端研究复核工具
 
-这些脚本读取公开资料和本地服务端程序集，不会启动 Rust 或登录玩家账号。工具下载包、原始游戏程序集和生成的中间文件均被 Git 忽略。
+本目录包含公开资料和本地程序集的静态复核工具、正常客户端采集，以及独立网络研究探针。静态工具不执行游戏程序集；原生探针会在显式提供目标时建立网络连接。工具下载包、原始游戏程序集和生成的中间文件均被 Git 忽略。
 
 另有下述正常客户端观察工具；它们要求用户已经正常运行游戏，不能实现独立玩家登录。
+
+## 独立原生传输与身份探针
+
+`native-peer.py` 使用 64 位 Windows Python ctypes 调用明确路径、明确 SHA-256 的当前 RakNet.dll。不提供 `--host/--port` 时只创建并关闭；提供时限时建立传输连接并统计消息类型。不会提交玩家身份。
+
+`rust-peer.py` 通过 stdin 接收单个 JSON，字段为 `steamId`、`username`、`sessionTicketBase64`。票据须来自仍在线的 Steam 会话且在探针存活期间保持激活。建议使用 Steam 服务的 `rust-connect` 接口统一申请、取消和清理，避免把票据粘贴到终端或文件。探针核对 DLL 后按请求发送身份、处理审批和最小 Ready，遇 EAC 或保护要求时结束；没有实现有效 EAC 会话或玩家 Tick。
+
+`analyze-raknet-frames.mjs` 按实测小端、带数据报时间字段的格式离线解析：
+
+```powershell
+node .\tools\rust-research\analyze-raknet-frames.mjs .\captures\本次目录\rust1.pcapng --peer 61.147.247.35 --inspect-application-shapes --out .\work\帧汇总.json
+```
+
+`--inspect-application-shapes` 可选，检查身份字段长度及 Ready Protobuf 结构，跳过所有字符串、账号 ID 和票据/token 内容。分片按边界和序号核对，只把首片视为应用头。汇总不包含原始载荷、序号或身份值。实际结果见 `rust-research/independent-connection-2026-10-24.md`。
 
 ## 正常客户端采集与安全汇总
 

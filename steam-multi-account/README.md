@@ -87,6 +87,9 @@ Content-Type: application/json
 | GET | `/v1/free-games` | 无 | 商店免费游戏；查询参数 `term` 和 `start` |
 | POST | `/v1/accounts/{id}/free-license` | `{"appIds":[570]}` 或 `{"packageId":123}` | 申请免费游戏或免费游戏包许可 |
 | POST | `/v1/accounts/{id}/idle` | `{"appIds":[570,730]}` | 设置挂机，空数组停止 |
+| POST | `/v1/accounts/{id}/rust-auth-check` | `{}` | 申请并取消 Rust Steam 会话票据，核对所有权及加密票据签发 |
+
+`rust-auth-check` 仅检查固定 AppID `252490`。账号需在线；已有 Rust 会话票据时拒绝操作，同账号检查串行，加密票据申请尝试之间至少 60 秒。返回结果只有状态、长度、AppID、签名校验及取消数量；票据仅存内存，结束时清零，接口和日志均不输出票据。该检查不修改挂机配置或上报游戏活动，不连接游戏服务器；`serverValidated`、`eacVerified`、`playerConnected` 均为 `false`。成功仅表示 Steam 票据签发及本次会话票据取消得到确认，不能证明票据已被 Rust 服务器接受。请求超过 70 秒会返回 504，底层请求及清理继续执行，完成前拒绝再次检查。
 
 库存参数：`appId` 默认 753，`contextId` 默认 6，`startAssetId` 为上一页返回的 `nextAssetId`；`refresh=1` 强制刷新。每次最多返回 100 件物品。免费游戏列表返回 `nextStart`，可作为下一页 `start`；没有下一页时为 `null`。
 
@@ -191,12 +194,20 @@ await api.stopIdling('account1');
 | `STEAM_DATA_DIR` | 本项目的 `data` 目录 | 数据保存位置，建议使用绝对路径 |
 | `STEAM_WEB_COMPAT` | `1` | 使用 Steam WebSocket 443 端口；设置 `0` 使用库的默认传输选择 |
 | `STEAM_HTTP_PROXY` | 自动检测 | 库存与商店请求的 HTTP/HTTPS 代理地址；设置 `direct` 禁用代理 |
+| `RUST_NATIVE_DLL` | 无 | 独立 Rust 研究连接使用的本机 x64 RakNet.dll 绝对路径；加载前核对已研究版本的 SHA-256 |
+| `RUST_PYTHON` | 无 | 64 位 Windows Python 可执行文件的绝对路径 |
 
 库存与商店请求优先使用 `STEAM_HTTP_PROXY`，其次是 `HTTPS_PROXY` / `HTTP_PROXY`，最后读取 Windows 已启用的静态系统代理。此设置作用于新增的网站读取和免费包领取，不改变已有 CM 登录连接的传输设置。修改后重启服务生效。
 
 修改端口后，PowerShell 脚本使用 `-BaseUrl http://127.0.0.1:新端口`，Node 客户端传入 `{ baseUrl: 'http://127.0.0.1:新端口' }`。
 
 网络临时中断时由库自动重连；密码、令牌失效或登录被替换等终止性错误会显示为 `error`，避免无限重试账号认证。令牌能续期时会自动保存新令牌；被撤销或失效后仍可能需要密码及 Steam Guard 重新登录。保持电脑唤醒、网络连通及服务进程运行，连接才能持续。
+
+## 独立 Rust 连接研究接口
+
+`POST /v1/accounts/{id}/rust-connect` 接受 `{"host":"目标IPv4","port":28015,"seconds":60}`。账号须在线，且先配置上述两个本机路径；时长范围为 5 到 120 秒。接口等待此次连接结束及票据清理后返回阶段、消息数量和固定拒绝分类。票据只通过匿名本机管道传给独立网络进程，不出现在 API 返回、命令行或磁盘中。
+
+程序从 Steam 申请并核验新会话票据，在收到 Rust 身份请求后提交身份；只在审批指定不加密时发送经过当前版本核对的最小 Ready。遇到 EAC 数据或受保护消息要求时结束该尝试。`approved`、`readySent`、`worldMessages` 分别记录协议进展；本研究接口的 `playerConnected` 与 `eacVerified` 保持 false，不表示已完成持续玩家连接。此接口是限时研究探针，当前不提供永久留服功能。
 
 ## 检查
 

@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
+## 最新接续：独立 Steam 票据与原生传输已实测
+
+先读 `rust-research/independent-connection-2026-10-24.md` 及同名 JSON。独立 Python + 安装目录 RakNet.dll 已与 `61.147.247.35:28015` 建立传输连接，收到 accepted 与 RequestUserInformation，未启动新的 Steam/Rust 客户端。独立 Steam 服务已取得并核验所有权及240字节会话票据，取得143字节加密应用票据，诊断票据取消确认。它们尚不能证明Rust玩家入服或有效EAC。
+
+重连抓包内43,425个数据报、39,378个ACK、11个NAK已精确解析；数据报偏移8帧起点和ACK时间字段对应上游UDT时间字段分支。身份所有七个长度前缀u32LE；两次Ready均为982字节protobuf+头。此前“内部可靠消息/分片未解码”的记录已由新证据更新。
+
+`steam-multi-account/src/game-auth.js` 提供脱敏诊断和互斥的内部票据lease，断线会abort并等待取消/清零。新增 `rust-connect` 限时研究API和Python worker，遇EAC/保护要求结束尝试。服务启动前配置 `RUST_NATIVE_DLL` 和 `RUST_PYTHON` 的本机绝对路径。原始票据不得复制到命令行、报告或Git；不能复用抓包中的EOS身份或他人票据。
+
+首次独立身份尝试已实际运行60.078秒：Approved(encryption=0)→最小Ready→10078应用消息（1320 Entities/6257 EntityPosition/935 RPC），没有EAC或拒绝，由本地期限关闭。下一步明确匹配自身实体和FinishLoading，以及更长留服验证；不能把此阶段直接标为有效EAC。
+
 ## 最新接续：真实客户端已观测
 
 2026-10-24 在用户的新电脑上启动了 Steam 管理服务（`http://127.0.0.1:3210/`，`/health` 成功）。用户提供 Rust 安装目录 `E:\SteamLibrary\steamapps\common\Rust`，客户端已运行。先阅读新增的 `rust-research/client-observation-2026-10-24.md` 和同名 JSON，再参考下面的历史研究。

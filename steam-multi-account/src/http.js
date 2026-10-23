@@ -92,9 +92,17 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
       if (path === '/v1/free-games' && request.method === 'GET') {
         return send(response, 200, await catalog.search(url.searchParams.get('term') || '', Number(url.searchParams.get('start') || 0)));
       }
-      const route = path.match(/^\/v1\/accounts\/([a-zA-Z0-9_-]{1,64})(?:\/(login|guard|logout|details|profile-refresh|web-refresh|games|inventory|free-license|idle))?$/);
+      const route = path.match(/^\/v1\/accounts\/([a-zA-Z0-9_-]{1,64})(?:\/(login|guard|logout|details|profile-refresh|web-refresh|games|inventory|free-license|idle|rust-auth-check|rust-connect))?$/);
       if (!route) throw new ApiError(404, 'Route not found.');
       const [, id, action] = route;
+      if (request.method === 'POST' && action === 'rust-connect') {
+        return send(response, 200, await manager.features(id).rustConnect(await readJson(request)));
+      }
+      if (request.method === 'POST' && action === 'rust-auth-check') {
+        const input = await readJson(request);
+        if (Object.keys(input).length) throw new ApiError(400, '请求体必须是 {}。');
+        return send(response, 200, await manager.features(id).rustAuthCheck());
+      }
       if (request.method === 'GET' && action === 'details') return send(response, 200, manager.details(id));
       if (request.method === 'GET' && action === 'games') return send(response, 200, await manager.features(id).games(url.searchParams.get('refresh') === '1'));
       if (request.method === 'GET' && action === 'inventory') {

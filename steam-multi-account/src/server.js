@@ -54,7 +54,7 @@ const network = createSteamNetwork();
 const manager = new AccountManager({
   store,
   createClient: () => new SteamUser({
-    autoRelogin: true, renewRefreshTokens: true, dataDirectory: null,
+    autoRelogin: true, renewRefreshTokens: true, dataDirectory: null, saveAppTickets: false,
     webCompatibilityMode: process.env.STEAM_WEB_COMPAT !== '0',
     enablePicsCache: false, changelistUpdateInterval: 0,
   }),
