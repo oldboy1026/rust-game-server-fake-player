@@ -1,0 +1,7 @@
+[
+  {"id":"count-steamgameserver-docs","url":"https://partner.steamgames.com/doc/api/ISteamGameServer","pattern":"BUpdateUserData|BeginAuthSession|SetGameTags","maxMatches":10},
+  {"id":"count-server-query-docs","url":"https://developer.valvesoftware.com/wiki/Server_queries","pattern":"Players|A2S_INFO|Keywords","maxMatches":8},
+  {"id":"count-oxide-hook-docs","url":"https://docs.oxidemod.com/hooks/player/OnPlayerConnected","pattern":"PlayerInit|activePlayerList|OnPlayerConnected","maxMatches":6},
+  {"id":"oxide-hooks","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/src/RustHooks.cs"},
+  {"id":"oxide-patches","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/resources/Rust.opj"}
+]

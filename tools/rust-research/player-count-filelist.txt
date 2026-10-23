@@ -1,0 +1,1 @@
+regex:^RustDedicated_Data[/\\]Managed[/\\](Assembly-CSharp|Rust\.Platform\.Steam|Facepunch\.Steamworks\.Win64)\.dll$

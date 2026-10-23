@@ -81,3 +81,16 @@ node .\inspect-native.mjs .\steam-server-files\RustDedicated_Data\Plugins\x86_64
 `inspect-native.mjs` 仅从字节读取 PE 头、导入库、命名导出和 SHA-256，不加载或执行 DLL。它可接受可选的第三个命令行参数作为 JSON 输出文件路径，建议放在被忽略的本地目录。证书表字段只反映表是否存在，没有验证 Authenticode 签名。
 
 第二轮 `native-transport-evidence.json` 另外将这些导出与 dnlib 读取的 `Facepunch.Raknet.dll` 的 `MethodDef.ImplMap` 逐项对照，并保存原生声明与可靠性映射证据。该比对仍属于静态分析，不能证明运行时 ABI、目标传输兼容性或 EAC 认证。
+
+## 玩家人数发布路径
+
+`player-count-sources.json` 列出本轮官方文档和固定 Oxide 源码地址，可交给 `collect.mjs`。Valve Server_queries 页面本次返回反机器人挑战页，已在研究来源中排除；HTTP 200 不表示正文有效。
+
+`player-count-filelist.txt` 仅匹配人数研究使用的 3 个程序集，可用前述 DepotDownloader 命令替换 filelist 获取。`inspect-player-count.ps1` 只解析指定方法的 IL 上下文，输出模块哈希、MVID 和方法 token，不执行游戏程序集：
+
+```powershell
+New-Item -ItemType Directory -Force .\work | Out-Null
+powershell -NoProfile -ExecutionPolicy Bypass -File .\inspect-player-count.ps1 -ManagedDirectory .\steam-server-files\RustDedicated_Data\Managed -DnlibPath .\managed\dnlib.dll -OutputPath .\work\player-count-evidence.json
+```
+
+输出附带的 manifest 是本次研究来源，若分析其他版本需同步修订来源说明；工具不会自动判定文件属于该 manifest。先比较模块哈希，再解释方法上下文。默认建议输出到被忽略的 `work/`，不会重写已提交的证据。

@@ -1,0 +1,751 @@
+{
+  "generatedAt": "2026-10-23T07:32:53.9132798Z",
+  "scope": "Static player-count publication evidence; no player login or live server administration.",
+  "provenance": {
+    "appId": 258550,
+    "depotId": 258551,
+    "manifestId": "93946663446561466",
+    "parser": "dnlib 4.5.0"
+  },
+  "limitation": "The manifest identifies the research download, not independently verified binaries on the target server. Native SDK player-count behavior and Rust client browser field selection are not established by these excerpts.",
+  "modules": [
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "size": 10515792,
+      "methods": [
+        {
+          "method": "System.Void BasePlayer::PlayerInit(Network.Connection)",
+          "metadataToken": "0x06001aa1",
+          "instructionCount": 329,
+          "selectedInstructions": [
+            {
+              "index": 14,
+              "il": "IL_0031: ldarg.0"
+            },
+            {
+              "index": 15,
+              "il": "IL_0032: ldc.i4 256"
+            },
+            {
+              "index": 16,
+              "il": "IL_0037: ldc.i4.1"
+            },
+            {
+              "index": 17,
+              "il": "IL_0038: call System.Void BasePlayer::SetPlayerFlag(BasePlayer/PlayerFlags,System.Boolean)"
+            },
+            {
+              "index": 18,
+              "il": "IL_003D: ldsfld ListHashSet`1<BasePlayer> BasePlayer::activePlayerList"
+            },
+            {
+              "index": 19,
+              "il": "IL_0042: ldarg.0"
+            },
+            {
+              "index": 20,
+              "il": "IL_0043: callvirt System.Void ListHashSet`1<BasePlayer>::Add(BasePlayer)"
+            },
+            {
+              "index": 21,
+              "il": "IL_0048: ldsfld System.Collections.Generic.Dictionary`2<System.UInt64,BasePlayer> BasePlayer::activePlayerLookup"
+            },
+            {
+              "index": 22,
+              "il": "IL_004D: ldarg.1"
+            },
+            {
+              "index": 23,
+              "il": "IL_004E: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 277,
+              "il": "IL_0391: ldfld System.Boolean BasePlayer::isInvisible"
+            },
+            {
+              "index": 278,
+              "il": "IL_0396: brfalse.s IL_03A3"
+            },
+            {
+              "index": 279,
+              "il": "IL_0398: ldsfld ListHashSet`1<BasePlayer> BasePlayer::invisPlayers"
+            },
+            {
+              "index": 280,
+              "il": "IL_039D: ldarg.0"
+            },
+            {
+              "index": 281,
+              "il": "IL_039E: callvirt System.Void ListHashSet`1<BasePlayer>::Add(BasePlayer)"
+            },
+            {
+              "index": 282,
+              "il": "IL_03A3: ldarg.0"
+            },
+            {
+              "index": 283,
+              "il": "IL_03A4: call PlayerInventory BasePlayer::get_inventory()"
+            },
+            {
+              "index": 284,
+              "il": "IL_03A9: ldfld ItemCrafter PlayerInventory::crafting"
+            }
+          ]
+        },
+        {
+          "method": "System.Void ServerMgr::StartSteamServer()",
+          "metadataToken": "0x06007ab2",
+          "instructionCount": 18,
+          "selectedInstructions": [
+            {
+              "index": 1,
+              "il": "IL_0005: ldsfld RustPlatformHooks RustPlatformHooks::Instance"
+            },
+            {
+              "index": 2,
+              "il": "IL_000A: callvirt System.Boolean IPlatformService::Initialize(IPlatformHooks)"
+            },
+            {
+              "index": 3,
+              "il": "IL_000F: pop"
+            },
+            {
+              "index": 4,
+              "il": "IL_0010: ldarg.0"
+            },
+            {
+              "index": 5,
+              "il": "IL_0011: ldstr \"UpdateServerInformation\""
+            },
+            {
+              "index": 6,
+              "il": "IL_0016: ldc.r4 2"
+            },
+            {
+              "index": 7,
+              "il": "IL_001B: ldc.r4 30"
+            },
+            {
+              "index": 8,
+              "il": "IL_0020: call System.Void UnityEngine.MonoBehaviour::InvokeRepeating(System.String,System.Single,System.Single)"
+            },
+            {
+              "index": 9,
+              "il": "IL_0025: ldarg.0"
+            },
+            {
+              "index": 10,
+              "il": "IL_0026: ldstr \"UpdateItemDefinitions\""
+            },
+            {
+              "index": 11,
+              "il": "IL_002B: ldc.r4 10"
+            },
+            {
+              "index": 12,
+              "il": "IL_0030: ldc.r4 3600"
+            },
+            {
+              "index": 13,
+              "il": "IL_0035: call System.Void UnityEngine.MonoBehaviour::InvokeRepeating(System.String,System.Single,System.Single)"
+            },
+            {
+              "index": 14,
+              "il": "IL_003A: ldstr \"SteamServer Initialized\""
+            },
+            {
+              "index": 15,
+              "il": "IL_003F: ldc.i4.0"
+            },
+            {
+              "index": 16,
+              "il": "IL_0040: call System.Void UnityEngine.DebugEx::Log(System.Object,UnityEngine.StackTraceLogType)"
+            }
+          ]
+        },
+        {
+          "method": "System.Void ServerMgr::UpdateServerInformation()",
+          "metadataToken": "0x06007ac0",
+          "instructionCount": 427,
+          "selectedInstructions": [
+            {
+              "index": 0,
+              "il": "IL_0000: call System.Boolean Steamworks.SteamServer::get_IsValid()"
+            },
+            {
+              "index": 1,
+              "il": "IL_0005: brtrue.s IL_0008"
+            },
+            {
+              "index": 2,
+              "il": "IL_0007: ret"
+            },
+            {
+              "index": 3,
+              "il": "IL_0008: ldstr \"UpdateServerInformation\""
+            },
+            {
+              "index": 4,
+              "il": "IL_000D: ldc.i4.0"
+            },
+            {
+              "index": 5,
+              "il": "IL_000E: call TimeWarning TimeWarning::New(System.String,System.Int32)"
+            },
+            {
+              "index": 6,
+              "il": "IL_0013: stloc.0"
+            },
+            {
+              "index": 113,
+              "il": "IL_0178: call System.Boolean System.String::IsNullOrEmpty(System.String)"
+            },
+            {
+              "index": 114,
+              "il": "IL_017D: brtrue.s IL_0186"
+            },
+            {
+              "index": 115,
+              "il": "IL_017F: ldsfld System.String ConVar.Server::ping_region_code_override"
+            },
+            {
+              "index": 116,
+              "il": "IL_0184: stloc.s V_11"
+            },
+            {
+              "index": 117,
+              "il": "IL_0186: ldstr \"mp{0},cp{1},pt{2},qp{3},$r{4},v{5}{6}{7},{8},{9},cs{10}{11}{12}{13},ts{14}\""
+            },
+            {
+              "index": 118,
+              "il": "IL_018B: ldc.i4.s 15"
+            },
+            {
+              "index": 119,
+              "il": "IL_018D: newarr System.Object"
+            },
+            {
+              "index": 120,
+              "il": "IL_0192: dup"
+            },
+            {
+              "index": 123,
+              "il": "IL_0199: box System.Int32"
+            },
+            {
+              "index": 124,
+              "il": "IL_019E: stelem.ref"
+            },
+            {
+              "index": 125,
+              "il": "IL_019F: dup"
+            },
+            {
+              "index": 126,
+              "il": "IL_01A0: ldc.i4.1"
+            },
+            {
+              "index": 127,
+              "il": "IL_01A1: ldsfld ListHashSet`1<BasePlayer> BasePlayer::activePlayerList"
+            },
+            {
+              "index": 128,
+              "il": "IL_01A6: callvirt System.Int32 ListHashSet`1<BasePlayer>::get_Count()"
+            },
+            {
+              "index": 129,
+              "il": "IL_01AB: box System.Int32"
+            },
+            {
+              "index": 130,
+              "il": "IL_01B0: stelem.ref"
+            },
+            {
+              "index": 187,
+              "il": "IL_021A: box System.Int32"
+            },
+            {
+              "index": 188,
+              "il": "IL_021F: stelem.ref"
+            },
+            {
+              "index": 189,
+              "il": "IL_0220: call System.String System.String::Format(System.String,System.Object[])"
+            },
+            {
+              "index": 190,
+              "il": "IL_0225: call System.String ServerTagCompressor::CompressTags(System.String)"
+            },
+            {
+              "index": 191,
+              "il": "IL_022A: call System.Void Steamworks.SteamServer::set_GameTags(System.String)"
+            },
+            {
+              "index": 192,
+              "il": "IL_022F: ldsfld System.String ConVar.Server::description"
+            },
+            {
+              "index": 193,
+              "il": "IL_0234: brfalse.s IL_02AA"
+            },
+            {
+              "index": 194,
+              "il": "IL_0236: ldsfld System.String ConVar.Server::description"
+            }
+          ]
+        },
+        {
+          "method": "System.Boolean Auth_Steam/<Run>d__1::MoveNext()",
+          "metadataToken": "0x060078af",
+          "instructionCount": 222,
+          "selectedInstructions": [
+            {
+              "index": 32,
+              "il": "IL_0053: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 33,
+              "il": "IL_0058: ldarg.0"
+            },
+            {
+              "index": 34,
+              "il": "IL_0059: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 35,
+              "il": "IL_005E: ldfld System.Byte[] Network.Connection::token"
+            },
+            {
+              "index": 36,
+              "il": "IL_0063: callvirt System.Boolean IPlatformService::BeginPlayerSession(System.UInt64,System.Byte[])"
+            },
+            {
+              "index": 37,
+              "il": "IL_0068: brtrue.s IL_007D"
+            },
+            {
+              "index": 38,
+              "il": "IL_006A: ldarg.0"
+            },
+            {
+              "index": 39,
+              "il": "IL_006B: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 103,
+              "il": "IL_0136: ldsfld IPlatformService PlatformService::Instance"
+            },
+            {
+              "index": 104,
+              "il": "IL_013B: ldarg.0"
+            },
+            {
+              "index": 105,
+              "il": "IL_013C: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 106,
+              "il": "IL_0141: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 107,
+              "il": "IL_0146: callvirt System.Void IPlatformService::EndPlayerSession(System.UInt64)"
+            },
+            {
+              "index": 108,
+              "il": "IL_014B: ldc.i4.0"
+            },
+            {
+              "index": 109,
+              "il": "IL_014C: ret"
+            },
+            {
+              "index": 110,
+              "il": "IL_014D: ldarg.0"
+            },
+            {
+              "index": 125,
+              "il": "IL_0185: ldsfld IPlatformService PlatformService::Instance"
+            },
+            {
+              "index": 126,
+              "il": "IL_018A: ldarg.0"
+            },
+            {
+              "index": 127,
+              "il": "IL_018B: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 128,
+              "il": "IL_0190: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 129,
+              "il": "IL_0195: callvirt System.Void IPlatformService::EndPlayerSession(System.UInt64)"
+            },
+            {
+              "index": 130,
+              "il": "IL_019A: ldc.i4.0"
+            },
+            {
+              "index": 131,
+              "il": "IL_019B: ret"
+            },
+            {
+              "index": 132,
+              "il": "IL_019C: ldarg.0"
+            },
+            {
+              "index": 147,
+              "il": "IL_01D4: ldsfld IPlatformService PlatformService::Instance"
+            },
+            {
+              "index": 148,
+              "il": "IL_01D9: ldarg.0"
+            },
+            {
+              "index": 149,
+              "il": "IL_01DA: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 150,
+              "il": "IL_01DF: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 151,
+              "il": "IL_01E4: callvirt System.Void IPlatformService::EndPlayerSession(System.UInt64)"
+            },
+            {
+              "index": 152,
+              "il": "IL_01E9: ldc.i4.0"
+            },
+            {
+              "index": 153,
+              "il": "IL_01EA: ret"
+            },
+            {
+              "index": 154,
+              "il": "IL_01EB: ldarg.0"
+            },
+            {
+              "index": 169,
+              "il": "IL_0223: ldsfld IPlatformService PlatformService::Instance"
+            },
+            {
+              "index": 170,
+              "il": "IL_0228: ldarg.0"
+            },
+            {
+              "index": 171,
+              "il": "IL_0229: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 172,
+              "il": "IL_022E: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 173,
+              "il": "IL_0233: callvirt System.Void IPlatformService::EndPlayerSession(System.UInt64)"
+            },
+            {
+              "index": 174,
+              "il": "IL_0238: ldc.i4.0"
+            },
+            {
+              "index": 175,
+              "il": "IL_0239: ret"
+            },
+            {
+              "index": 176,
+              "il": "IL_023A: ldarg.0"
+            },
+            {
+              "index": 191,
+              "il": "IL_0276: ldsfld IPlatformService PlatformService::Instance"
+            },
+            {
+              "index": 192,
+              "il": "IL_027B: ldarg.0"
+            },
+            {
+              "index": 193,
+              "il": "IL_027C: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 194,
+              "il": "IL_0281: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 195,
+              "il": "IL_0286: callvirt System.Void IPlatformService::EndPlayerSession(System.UInt64)"
+            },
+            {
+              "index": 196,
+              "il": "IL_028B: ldc.i4.0"
+            },
+            {
+              "index": 197,
+              "il": "IL_028C: ret"
+            },
+            {
+              "index": 198,
+              "il": "IL_028D: ldsfld System.Boolean ConVar.Server::censorplayerlist"
+            },
+            {
+              "index": 199,
+              "il": "IL_0292: brtrue.s IL_02A1"
+            },
+            {
+              "index": 200,
+              "il": "IL_0294: ldarg.0"
+            },
+            {
+              "index": 201,
+              "il": "IL_0295: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 215,
+              "il": "IL_02C4: ldarg.0"
+            },
+            {
+              "index": 216,
+              "il": "IL_02C5: ldfld Network.Connection Auth_Steam/<Run>d__1::connection"
+            },
+            {
+              "index": 217,
+              "il": "IL_02CA: ldfld System.UInt64 Network.Connection::userid"
+            },
+            {
+              "index": 218,
+              "il": "IL_02CF: ldloc.1"
+            },
+            {
+              "index": 219,
+              "il": "IL_02D0: callvirt System.Void IPlatformService::UpdatePlayerSession(System.UInt64,System.String)"
+            },
+            {
+              "index": 220,
+              "il": "IL_02D5: ldc.i4.0"
+            },
+            {
+              "index": 221,
+              "il": "IL_02D6: ret"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "assembly": "Rust.Platform.Steam.dll",
+      "sha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11",
+      "mvid": "8488aab9-560d-4a1e-a7e2-84abf4312be5",
+      "size": 43856,
+      "methods": [
+        {
+          "method": "System.Boolean Rust.Platform.Steam.SteamPlatform::BeginPlayerSession(System.UInt64,System.Byte[])",
+          "metadataToken": "0x0600004a",
+          "instructionCount": 5,
+          "selectedInstructions": [
+            {
+              "index": 0,
+              "il": "IL_0000: ldarg.2"
+            },
+            {
+              "index": 1,
+              "il": "IL_0001: ldarg.1"
+            },
+            {
+              "index": 2,
+              "il": "IL_0002: call Steamworks.SteamId Steamworks.SteamId::op_Implicit(System.UInt64)"
+            },
+            {
+              "index": 3,
+              "il": "IL_0007: call System.Boolean Steamworks.SteamServer::BeginAuthSession(System.Byte[],Steamworks.SteamId)"
+            },
+            {
+              "index": 4,
+              "il": "IL_000C: ret"
+            }
+          ]
+        },
+        {
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::UpdatePlayerSession(System.UInt64,System.String)",
+          "metadataToken": "0x0600004b",
+          "instructionCount": 6,
+          "selectedInstructions": [
+            {
+              "index": 0,
+              "il": "IL_0000: ldarg.1"
+            },
+            {
+              "index": 1,
+              "il": "IL_0001: call Steamworks.SteamId Steamworks.SteamId::op_Implicit(System.UInt64)"
+            },
+            {
+              "index": 2,
+              "il": "IL_0006: ldarg.2"
+            },
+            {
+              "index": 3,
+              "il": "IL_0007: ldc.i4.0"
+            },
+            {
+              "index": 4,
+              "il": "IL_0008: call System.Void Steamworks.SteamServer::UpdatePlayer(Steamworks.SteamId,System.String,System.Int32)"
+            },
+            {
+              "index": 5,
+              "il": "IL_000D: ret"
+            }
+          ]
+        },
+        {
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::EndPlayerSession(System.UInt64)",
+          "metadataToken": "0x0600004c",
+          "instructionCount": 4,
+          "selectedInstructions": [
+            {
+              "index": 0,
+              "il": "IL_0000: ldarg.1"
+            },
+            {
+              "index": 1,
+              "il": "IL_0001: call Steamworks.SteamId Steamworks.SteamId::op_Implicit(System.UInt64)"
+            },
+            {
+              "index": 2,
+              "il": "IL_0006: call System.Void Steamworks.SteamServer::EndSession(Steamworks.SteamId)"
+            },
+            {
+              "index": 3,
+              "il": "IL_000B: ret"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "assembly": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "size": 601424,
+      "methods": [
+        {
+          "method": "System.Void Steamworks.SteamServer::UpdatePlayer(Steamworks.SteamId,System.String,System.Int32)",
+          "metadataToken": "0x060009b1",
+          "instructionCount": 7,
+          "selectedInstructions": [
+            {
+              "index": 0,
+              "il": "IL_0000: call Steamworks.ISteamGameServer Steamworks.SteamServer::get_Internal()"
+            },
+            {
+              "index": 1,
+              "il": "IL_0005: ldarg.0"
+            },
+            {
+              "index": 2,
+              "il": "IL_0006: ldarg.1"
+            },
+            {
+              "index": 3,
+              "il": "IL_0007: ldarg.2"
+            },
+            {
+              "index": 4,
+              "il": "IL_0008: callvirt System.Boolean Steamworks.ISteamGameServer::BUpdateUserData(Steamworks.SteamId,System.String,System.UInt32)"
+            },
+            {
+              "index": 5,
+              "il": "IL_000D: pop"
+            },
+            {
+              "index": 6,
+              "il": "IL_000E: ret"
+            }
+          ]
+        },
+        {
+          "method": "System.Boolean Steamworks.ISteamGameServer::BUpdateUserData(Steamworks.SteamId,System.String,System.UInt32)",
+          "metadataToken": "0x06000220",
+          "instructionCount": 18,
+          "selectedInstructions": [
+            {
+              "index": 5,
+              "il": "IL_000E: ldarg.1"
+            },
+            {
+              "index": 6,
+              "il": "IL_000F: ldloca.s V_0"
+            },
+            {
+              "index": 7,
+              "il": "IL_0011: call System.IntPtr Steamworks.Utf8StringToNative::get_Pointer()"
+            },
+            {
+              "index": 8,
+              "il": "IL_0016: ldarg.3"
+            },
+            {
+              "index": 9,
+              "il": "IL_0017: call System.Boolean Steamworks.ISteamGameServer::_BUpdateUserData(System.IntPtr,Steamworks.SteamId,System.IntPtr,System.UInt32)"
+            },
+            {
+              "index": 10,
+              "il": "IL_001C: stloc.1"
+            },
+            {
+              "index": 11,
+              "il": "IL_001D: leave.s IL_002D"
+            },
+            {
+              "index": 12,
+              "il": "IL_001F: ldloca.s V_0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "oxideHook": {
+    "commit": "aa85087dbf8ae6129d0c28da7680915f3ff56895",
+    "sourceIds": [
+      "oxide-hooks",
+      "oxide-patches"
+    ],
+    "patchedMethod": "BasePlayer.PlayerInit(Network.Connection)",
+    "injectionIndex": 225,
+    "injectedHook": "IOnPlayerConnected",
+    "publicHook": "OnPlayerConnected",
+    "assumption": "The observed Welcome.cs handler is reached through the standard Oxide path; the complete plugin and target server state were not supplied."
+  },
+  "findings": [
+    {
+      "id": "active-list-before-hook",
+      "finding": "PlayerInit adds the player to activePlayerList before the standard Oxide hook injection point.",
+      "limitation": "Does not independently prove completed client world loading or a particular EAC policy outcome."
+    },
+    {
+      "id": "cp-from-active-list",
+      "finding": "UpdateServerInformation formats cp from activePlayerList.Count, then publishes GameTags.",
+      "limitation": "Does not establish A2S_INFO players semantics or the field selected by the Rust client browser."
+    },
+    {
+      "id": "server-info-schedule",
+      "finding": "StartSteamServer invokes UpdateServerInformation after 2 seconds, repeating every 30 seconds.",
+      "limitation": "This is the server scheduling interval, not a guaranteed browser refresh deadline."
+    },
+    {
+      "id": "steam-player-data-path",
+      "finding": "Auth_Steam success calls UpdatePlayerSession, then SteamServer.UpdatePlayer and BUpdateUserData; the final wrapper discards the native boolean result.",
+      "limitation": "No observed failure or proven effect on the target player count; native SDK behavior was not inspected."
+    },
+    {
+      "id": "censored-names",
+      "finding": "The inspected censorplayerlist branch changes the selected name before UpdatePlayerSession; it does not skip that call.",
+      "limitation": "Does not describe every other use of this setting in the game."
+    }
+  ]
+}

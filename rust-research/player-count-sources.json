@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-10-23T07:35:04.736Z",
+  "records": [
+    {
+      "id": "oxide-hooks",
+      "url": "https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/src/RustHooks.cs",
+      "retrievalUrl": "https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/src/RustHooks.cs",
+      "status": 200,
+      "fetchedAt": "2026-10-23T05:59:56.814Z",
+      "sha256": "f36f0b7c4c41d37893bc68e534373f798a6370993947910cf3f97fae9bbb16d1",
+      "filename": "oxide-hooks.txt",
+      "bytes": 26987,
+      "used": true,
+      "assessment": "Used: retrieved source body was inspected.",
+      "limitations": null
+    },
+    {
+      "id": "oxide-patches",
+      "url": "https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/resources/Rust.opj",
+      "retrievalUrl": "https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/resources/Rust.opj",
+      "status": 200,
+      "fetchedAt": "2026-10-23T05:59:57.138Z",
+      "sha256": "ed1d1da3fb393e40470e950f3782a7b11c68b42a99c175c6575d89a8faa07054",
+      "filename": "oxide-patches.txt",
+      "bytes": 1635003,
+      "used": true,
+      "assessment": "Used: retrieved source body was inspected.",
+      "limitations": null
+    },
+    {
+      "id": "count-steamgameserver-docs",
+      "url": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "retrievalUrl": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "status": 200,
+      "fetchedAt": "2026-10-23T07:31:19.971Z",
+      "sha256": "b433a0d14329d6fa2794fac5cde1386ddc36ac6ed320d21a107899827ddf0b8d",
+      "filename": "count-steamgameserver-docs.txt",
+      "bytes": 172073,
+      "used": true,
+      "assessment": "Used: retrieved source body was inspected.",
+      "limitations": "Documents API semantics, not the target server native implementation."
+    },
+    {
+      "id": "count-oxide-hook-docs",
+      "url": "https://docs.oxidemod.com/hooks/player/OnPlayerConnected",
+      "retrievalUrl": "https://docs.oxidemod.com/hooks/player/OnPlayerConnected",
+      "status": 200,
+      "fetchedAt": "2026-10-23T07:31:20.330Z",
+      "sha256": "f29523172cdb6ff5258cbbdfce23a90c85e31432744fc889cad5414c905542cf",
+      "filename": "count-oxide-hook-docs.txt",
+      "bytes": 411556,
+      "used": true,
+      "assessment": "Used: retrieved source body was inspected.",
+      "limitations": null
+    },
+    {
+      "id": "count-server-query-docs",
+      "url": "https://developer.valvesoftware.com/wiki/Server_queries",
+      "retrievalUrl": "https://developer.valvesoftware.com/.within.website/?redir=https://developer.valvesoftware.com/wiki/Server_queries",
+      "status": 200,
+      "fetchedAt": "2026-10-23T07:31:20.418Z",
+      "sha256": "ca1ccbd68e5a99c77ae81a6d667cae9fd0725dd68271dccb1c76fe69ebf98def",
+      "filename": "count-server-query-docs.txt",
+      "bytes": 4160,
+      "used": false,
+      "assessment": "Excluded: anti-bot challenge page, not the requested technical article.",
+      "limitations": null
+    }
+  ]
+}

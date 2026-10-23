@@ -33,6 +33,8 @@ Rust 部分已完成有证据依据的服务端静态研究和公开服务器查
 
 用户已明确要求：每批文件更新后提交并推送到 Gitee，并核对远端提交；此偏好已写入 AGENTS.md。
 
+新增人数问题：用户确认 Welcome.cs 使用 `OnPlayerConnected`，账号能持续留服，但 Rust 游戏内服务器列表人数不增加。详见 `rust-research/player-count-diagnosis.md`、`player-count-evidence.json` 和 `player-count-sources.json`。标准 Oxide 钩子位于 PlayerInit 的活跃列表添加之后；原版服务端每 30 秒将 `activePlayerList.Count` 写入 `cp` 标签。不能再简单归因于只到初始认证或短暂连接，也不能未经核对就把 cp 当成 A2S_INFO players 或 Rust 浏览器最终显示值。Steam 玩家资料另经 UpdatePlayerSession → BUpdateUserData 更新；本轮没有观察到实际调用失败或确认其对 A2S 人数字段的影响。下一步需要同一时刻的内部活跃列表、cp、A2S_INFO players 和手动刷新后的浏览器人数。目标服务端状态、完整 Welcome.cs 和控制程序均未取得；原因尚未定位。本轮没有新建玩家连接。
+
 ## 在新电脑上的下一步
 
 1. 获取用户提供的 Rust 安装目录，确认当前客户端版本、目录结构和普通客户端日志位置。静态读取程序集作为数据分析，区分托管程序集、原生网络组件和 EAC 组件。
