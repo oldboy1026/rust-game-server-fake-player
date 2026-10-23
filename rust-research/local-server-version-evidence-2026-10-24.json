@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "inspectionTimeUtc": "2026-10-23T20:01:19Z",
+  "scope": "Read-only local process metadata, disk hashes, static IL and visible extension inventory. No startup scripts, process command lines, credentials, server settings, RCON commands, network packets, loaded process memory or EAC state changes were read or performed for this investigation.",
+  "conclusion": "The first disk snapshot mixed a Rust.Global printable protocol of 2634.289.1 with Assembly-CSharp protocol checks and platform version publication inlined as 2635. That explains the originally reported serverinfo.Protocol versus A2S discrepancy without requiring the old-process hypothesis. An external change occurred during this investigation: by 20:05:05 UTC no RustDedicated process was present and the three key disk modules matched the recorded protocol-2635 original hashes. The initial mixed snapshot is historical, not a statement of the final disk state.",
+  "reportedRuntimeObservations": {
+    "source": "Parent investigation, not repeated by this static subtask",
+    "serverinfoProtocol": "2634.289.1",
+    "a2sVersion": "2635"
+  },
+  "processMetadata": {
+    "matchingProcessCount": 1,
+    "executablePath": "D:/RustServer/rustds/RustDedicated.exe",
+    "startTimeUtc": "2026-10-23T19:44:01.9525024Z",
+    "nativeExecutableFileVersion": "6000.3.15.11082995",
+    "limitation": "This file version is the native Unity executable version. It does not identify the loaded Rust managed game protocol."
+  },
+  "initialDiskModules": [
+    {
+      "module": "Assembly-CSharp.dll",
+      "sha256": "04fb89520f18a1920c1b1a350b82dd24a4258f31d97b82496971a9cc7a49dcb7",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "lastWriteTimeUtc": "2026-10-22T18:00:50.1791463Z",
+      "length": 10721280,
+      "classification": "Contains Oxide hooks and differs from the recorded original depot hash. Its MVID is nevertheless the same as that original module."
+    },
+    {
+      "module": "Rust.Global.dll",
+      "sha256": "3a3234169ca21f4ffa5ecf7fe80634f80dadd2b7378c98e3678d448563aafd3b",
+      "mvid": "5cfc48a2-3898-4c94-a230-cfdfd18f3246",
+      "lastWriteTimeUtc": "2026-10-15T11:48:05.7967344Z",
+      "length": 129872,
+      "classification": "Contains Rust.Protocol.network=2634 and printable 2634.289.1."
+    },
+    {
+      "module": "Facepunch.Network.dll",
+      "sha256": "9be357106b3de79e48f54568f8acc962a2b2f5d8186655a82a013953c2b94c2e",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480",
+      "lastWriteTimeUtc": "2026-10-22T18:00:50.2018507Z",
+      "length": 114176,
+      "classification": "Differs from the recorded original depot hash but retains its MVID."
+    },
+    {
+      "module": "Rust.Data.dll",
+      "sha256": "b56e90e0586ae721e33cba1da5b69a3e2a226a3cfe215868b5685696e5372925",
+      "lastWriteTimeUtc": "2026-10-08T12:27:28.7291370Z",
+      "length": 2050384
+    },
+    {
+      "module": "Oxide.Rust.dll",
+      "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+      "mvid": "cfda664a-335e-470a-9404-e150d3f84ba0",
+      "lastWriteTimeUtc": "2026-10-22T18:01:08.7352315Z",
+      "length": 120320
+    },
+    {
+      "module": "Oxide.Core.dll",
+      "sha256": "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05",
+      "lastWriteTimeUtc": "2026-02-05T18:21:26Z",
+      "length": 203776
+    },
+    {
+      "module": "Rust.Harmony.dll",
+      "sha256": "626a4c80f38a242a549245288d03c5709cd8af7e32c2b6a5754a6b5d3122c1b7",
+      "mvid": "73879866-567b-46a3-bc02-56fd12987d12",
+      "lastWriteTimeUtc": "2026-10-15T11:48:05.7967344Z",
+      "length": 28496
+    }
+  ],
+  "protocolEvidenceSource": "Initial patched disk snapshot unless explicitly marked otherwise. The methods were statically read before the later external replacement.",
+  "protocolEvidence": [
+    {
+      "module": "Rust.Global.dll",
+      "member": "Rust.Protocol.network / save / report",
+      "metadataTokens": ["0x040001A5", "0x040001A6", "0x040001A7"],
+      "finding": "Public constants are network=2634, save=289 and report=1."
+    },
+    {
+      "module": "Rust.Global.dll",
+      "method": "Rust.Protocol.get_printable",
+      "metadataToken": "0x06000220",
+      "il": ["IL_0008", "IL_0020", "IL_0038"],
+      "finding": "Constructs its printable version from inlined 2634, 289 and 1."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ConVar.Admin.ServerInfo",
+      "metadataToken": "0x06009E79",
+      "il": ["IL_017F..IL_0190"],
+      "finding": "Writes the inlined integer 2635 into ServerInfoOutput.Version, then calls Rust.Protocol.get_printable for ServerInfoOutput.Protocol. The same result object can legitimately contain Version=2635 and Protocol=2634.289.1 in this mixed disk installation."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "RustPlatformHooks.get_ServerParameters",
+      "metadataToken": "0x0600783C",
+      "il": ["IL_0057..IL_005F", "IL_008A"],
+      "finding": "Uses inlined integer 2635, converted to text, as the game-version constructor input for platform server parameters. It does not use Rust.Protocol.get_printable. This is consistent with the separately reported A2S version."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.OnGiveUserInformation",
+      "metadataToken": "0x06007AA3",
+      "il": ["IL_028D..IL_0297", "IL_0317..IL_0321"],
+      "finding": "The current patched disk method reads connection.protocol and compares it directly with inlined 2635, rejecting values above and below it. It does not call the older Rust.Protocol getter for these checks."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ConnectionAuth.OnNewConnection",
+      "metadataToken": "0x060078B7",
+      "il": ["IL_003D..IL_0048", "IL_004A..IL_0085"],
+      "finding": "Also compares connection.protocol to inlined 2635, with a separate developer-list exception. This is a second protocol check independent of the printable version."
+    }
+  ],
+  "extensionInventory": {
+    "harmonyModsDirectoryEntryCount": 0,
+    "visibleFrameworkAssemblies": ["0Harmony.dll", "Rust.Harmony.dll", "Oxide.Common.dll", "Oxide.Core.dll", "Oxide.CSharp.dll", "Oxide.Rust.dll", "Oxide.Unity.dll"],
+    "visiblePluginSourceFiles": ["Economics.cs", "ImageLibrary.cs", "Kits.cs", "LHXPayShop.cs", "Shop.cs", "ShopConverter.cs"],
+    "staticHookEvidence": "The current Assembly-CSharp contains Oxide.Core.Interface.CallHook calls in multiple ServerMgr methods. This identifies a patched disk assembly, not a runtime list of loaded plugins.",
+    "boundedPluginScan": "Only matched symbol names and line numbers were emitted while checking visible plugin sources for protocol, Harmony, RCON/console interception, A2S/player-count and EAC symbols. No OnServerCommand, OnRconCommand, HarmonyPatch, EACServer or authStatusEAC matches were found in those six files. Rust.Protocol and application-specific ServerInfo symbols occurred; these matches alone are not evidence of protocol patching.",
+    "limitation": "An empty HarmonyMods directory and this source inventory do not prove that no runtime patches or other extensions exist. No configuration, plugin data, secrets, startup script or process command line was inspected."
+  },
+  "runtimeVersionLimits": [
+    "At the initial snapshot all sampled DLL LastWriteTime timestamps predated the observed process start. Timestamps can be preserved when copying and are not proof of loaded-byte identity.",
+    "MVID alone cannot distinguish the original and patched Assembly-CSharp/Facepunch.Network modules in this installation because the patch preserved it.",
+    "The observed discrepancy is already explained by current disk constants. There is no need to conclude that the running process is using stale DLLs solely from Protocol=2634.289.1.",
+    "Static admission checks support trying an ordinary protocol-2635 client. They do not establish successful loading, schema compatibility or EAC authentication; those require the normal client's actual outcome. No client connection was created by this subtask.",
+    "This subtask did not update, restart or stop the server. The later disk changes and process disappearance were external to this subtask."
+  ],
+  "subsequentExternalChange": {
+    "observedAtUtc": "2026-10-23T20:05:05Z",
+    "matchingRustDedicatedProcessCount": 0,
+    "cause": "Not determined by this read-only subtask; the parent was immediately informed.",
+    "diskModules": [
+      {"module": "Assembly-CSharp.dll", "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601", "lastWriteTimeUtc": "2026-10-23T11:31:05.563628Z", "length": 10515792},
+      {"module": "Rust.Global.dll", "sha256": "84b661f33746deebd0345c0044cfe42bd04c0c80cc6a587e42d7c3dd5a1102bf", "lastWriteTimeUtc": "2026-10-23T20:03:46.0342393Z", "length": 129872},
+      {"module": "Facepunch.Network.dll", "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833", "lastWriteTimeUtc": "2026-10-23T20:03:49.7341682Z", "length": 124240},
+      {"module": "Rust.Harmony.dll", "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5", "lastWriteTimeUtc": "2026-10-23T20:03:46.0659947Z", "length": 28496}
+    ],
+    "staticFindings": [
+      "The later Rust.Global network constant and printable getter are both 2635.",
+      "The later original Assembly-CSharp admission checks still use inlined 2635; OnGiveUserInformation comparison offsets are IL_027C..IL_0286 and IL_0306..IL_0310 in the original method.",
+      "The earlier patched offsets must not be applied to the later original module merely because its MVID was preserved."
+    ],
+    "limitation": "No running managed build could be confirmed at this final observation because no matching process was present."
+  },
+  "aggregateReadOnlyPluginDesign": {
+    "status": "Suggested fields only; no plugin source was installed or executed by this subtask.",
+    "access": "One admin/RCON-only command, no timer, no client command forwarding and no mutation hooks. Return only booleans, integers, static build metadata and fixed category names.",
+    "publicMembersVerifiedOnCurrentDisk": [
+      "BasePlayer.activePlayerList",
+      "BasePlayer.sleepingPlayerList",
+      "BasePlayer.IsConnected",
+      "BasePlayer.IsSleeping()",
+      "BasePlayer.IsReceivingSnapshot",
+      "Network.Net.sv.connections",
+      "Network.Server.secure",
+      "Network.Server.encryption",
+      "Network.Connection.connected",
+      "Network.Connection.isAuthenticated",
+      "Network.Connection.encryptionLevel",
+      "Network.Connection.player",
+      "Network.Connection.authStatusSteam",
+      "Network.Connection.authStatusEAC",
+      "Network.Connection.authStatusNexus",
+      "Network.Connection.authStatusCentralizedBans",
+      "Network.Connection.authStatusPremiumServer",
+      "EACServer.ValidInterface",
+      "EACServer.CanSendAnalytics",
+      "EACServer.GetClient(connection)",
+      "EACServer.IsAuthenticated(connection)",
+      "ConVar.Server.eac_gameplay_data",
+      "ConVar.Admin.ServerInfo()"
+    ],
+    "suggestedCounts": [
+      "activeListTotal and valid entries",
+      "active entries with a connection and those with connection.connected=true",
+      "active sleeping and active ReceivingSnapshot counts, with separate intersections",
+      "active awake with snapshot complete",
+      "sleepingListTotal",
+      "network connection total, connected, with player and admission-isAuthenticated counts",
+      "Each admission auth string grouped only into empty, ok and other",
+      "nonzero EAC client-handle count and internal EAC status-2 count, explicitly labelled as internal state",
+      "connection encryption-level histogram with bounded integer keys"
+    ],
+    "suggestedContext": [
+      "effective Network.Net.sv.secure and encryption",
+      "configured ConVar.Server.encryption, eac_gameplay_data and strictauth_eac",
+      "EACServer.ValidInterface and CanSendAnalytics",
+      "ConVar.Admin.ServerInfo().Version and .Protocol obtained by runtime calls",
+      "loaded BasePlayer and Rust.Protocol module MVIDs as contextual metadata, with the preserved-MVID limitation"
+    ],
+    "implementationNotes": [
+      "The verified members above are public and avoid reflection into private EAC dictionaries. EACServer.CanEnableGameplayData is private; use the public configuration boolean instead.",
+      "Read on the server main thread and do not hold mutable player/connection objects after producing the aggregate result.",
+      "IsConnected means a connection object exists in this server implementation; count connection.connected separately.",
+      "Never emit player IDs, names, entity IDs, addresses, coordinates, tokens, client handles or raw auth/error strings.",
+      "Keep the effective secure/interface/client-mapping/authentication categories separate; internal authenticated count does not prove protected EAC sessions.",
+      "No Steam publication, A2S counters, player lists, admission strings, player flags or EAC state should be changed."
+    ]
+  },
+  "localEvidence": {
+    "ignoredInspectionScript": "work/native-peer/inspect-local-runtime-version.ps1",
+    "ignoredSelectedMethodsAfterChange": "work/native-peer/local-runtime-version-after-change.il.txt",
+    "ignoredReferencesAfterChange": "work/native-peer/local-runtime-version-after-change-refs.txt",
+    "initialEvidenceNote": "The first exporter read supplied the initial hash/method observations above. A later read of the same files revealed the external replacement and replaced its general export; the after-change export is retained under a distinct filename.",
+    "relatedTrackedEvidence": "rust-research/server-security-diagnostics-evidence-2026-10-24.json"
+  }
+}

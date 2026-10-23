@@ -1,0 +1,963 @@
+{
+  "date": "2026-10-24",
+  "scope": "One authorized 12-minute gameplay analytics toggle; no restart or player-session change by the experiment.",
+  "startedAt": "2026-10-23T19:49:29.647Z",
+  "enabledAt": "2026-10-23T19:49:32.939Z",
+  "restoredAt": "2026-10-23T20:01:36.244Z",
+  "originalValue": false,
+  "finalValue": false,
+  "rollbackConfirmed": true,
+  "independentReadback": {
+    "observedAt": "2026-10-23T20:01:50.783Z",
+    "gameplayAnalyticsConfirmedFalse": true,
+    "players": 8
+  },
+  "serverSamples": [
+    {
+      "observedAt": "2026-10-23T19:49:29.706Z",
+      "phase": "baseline",
+      "players": 8,
+      "stats": {
+        "Total Events": 605,
+        "Total Bytes": 99723,
+        "Uploaded Bytes": 98981,
+        "Queue Count": 0,
+        "Max Queue Count": 3
+      }
+    },
+    {
+      "observedAt": "2026-10-23T19:51:33.033Z",
+      "phase": 1,
+      "players": 8,
+      "stats": {
+        "Total Events": 2360,
+        "Total Bytes": 220080,
+        "Uploaded Bytes": 182474,
+        "Queue Count": 0,
+        "Max Queue Count": 117
+      }
+    },
+    {
+      "observedAt": "2026-10-23T19:53:35.022Z",
+      "phase": 2,
+      "players": 8,
+      "stats": {
+        "Total Events": 3656,
+        "Total Bytes": 302000,
+        "Uploaded Bytes": 182474,
+        "Queue Count": 0,
+        "Max Queue Count": 117
+      }
+    },
+    {
+      "observedAt": "2026-10-23T19:55:37.035Z",
+      "phase": 3,
+      "players": 8,
+      "stats": {
+        "Total Events": 4936,
+        "Total Bytes": 383920,
+        "Uploaded Bytes": 182474,
+        "Queue Count": 0,
+        "Max Queue Count": 117
+      }
+    },
+    {
+      "observedAt": "2026-10-23T19:57:39.021Z",
+      "phase": 4,
+      "players": 8,
+      "stats": {
+        "Total Events": 6246,
+        "Total Bytes": 475013,
+        "Uploaded Bytes": 396447,
+        "Queue Count": 0,
+        "Max Queue Count": 117
+      }
+    },
+    {
+      "observedAt": "2026-10-23T19:59:41.005Z",
+      "phase": 5,
+      "players": 8,
+      "stats": {
+        "Total Events": 10603,
+        "Total Bytes": 716677,
+        "Uploaded Bytes": 396447,
+        "Queue Count": 0,
+        "Max Queue Count": 134
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:01:33.001Z",
+      "phase": 6,
+      "players": 8,
+      "stats": {
+        "Total Events": 12495,
+        "Total Bytes": 896664,
+        "Uploaded Bytes": 859058,
+        "Queue Count": 1,
+        "Max Queue Count": 134
+      }
+    }
+  ],
+  "publicCountSamples": [
+    {
+      "sample": 1,
+      "observedAt": "2026-10-23T19:50:00.639Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:50:00.745Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:50:01.502Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:50:01 GMT",
+          "age": "285",
+          "last-modified": "Fri, 23 Oct 2026 19:45:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "observedAt": "2026-10-23T19:50:30.650Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:50:30.731Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:50:32.358Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:50:32 GMT",
+          "age": "15",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 3,
+      "observedAt": "2026-10-23T19:51:00.659Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:51:00.732Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:51:01.488Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:51:01 GMT",
+          "age": "44",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 4,
+      "observedAt": "2026-10-23T19:51:30.659Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:51:30.728Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:51:31.443Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:51:31 GMT",
+          "age": "74",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 5,
+      "observedAt": "2026-10-23T19:52:00.669Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:52:00.734Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:52:01.339Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:52:00 GMT",
+          "age": "104",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 6,
+      "observedAt": "2026-10-23T19:52:30.672Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:52:30.742Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:52:31.364Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:52:31 GMT",
+          "age": "134",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 7,
+      "observedAt": "2026-10-23T19:53:00.677Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:53:00.767Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:53:02.409Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:53:02 GMT",
+          "age": "165",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 8,
+      "observedAt": "2026-10-23T19:53:30.691Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:53:30.803Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:53:31.378Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:53:31 GMT",
+          "age": "194",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 9,
+      "observedAt": "2026-10-23T19:54:00.698Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:54:00.806Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:54:02.516Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:54:02 GMT",
+          "age": "225",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 10,
+      "observedAt": "2026-10-23T19:54:30.698Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:54:30.810Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:54:36.428Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:54:36 GMT",
+          "age": "259",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 11,
+      "observedAt": "2026-10-23T19:55:00.701Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:55:00.785Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:55:01.451Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:55:01 GMT",
+          "age": "284",
+          "last-modified": "Fri, 23 Oct 2026 19:50:16 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 12,
+      "observedAt": "2026-10-23T19:55:30.712Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:55:30.786Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:55:31.542Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:55:31 GMT",
+          "age": "13",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 13,
+      "observedAt": "2026-10-23T19:56:00.720Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:56:00.811Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:56:01.570Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:56:01 GMT",
+          "age": "43",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 14,
+      "observedAt": "2026-10-23T19:56:30.724Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:56:30.803Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:56:33.956Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:56:33 GMT",
+          "age": "76",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 15,
+      "observedAt": "2026-10-23T19:57:00.734Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:57:00.804Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:57:02.272Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:57:01 GMT",
+          "age": "104",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 16,
+      "observedAt": "2026-10-23T19:57:30.743Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:57:30.850Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:57:33.200Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:57:32 GMT",
+          "age": "135",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 17,
+      "observedAt": "2026-10-23T19:58:00.746Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:58:00.825Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:58:01.550Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:58:01 GMT",
+          "age": "163",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 18,
+      "observedAt": "2026-10-23T19:58:30.761Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:58:30.847Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:58:31.549Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:58:31 GMT",
+          "age": "193",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 19,
+      "observedAt": "2026-10-23T19:59:00.767Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:59:00.862Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:59:01.682Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:59:01 GMT",
+          "age": "223",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 20,
+      "observedAt": "2026-10-23T19:59:30.777Z",
+      "a2s": {
+        "observedAt": "2026-10-23T19:59:30.842Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T19:59:31.692Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 19:59:31 GMT",
+          "age": "253",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 21,
+      "observedAt": "2026-10-23T20:00:00.783Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:00:00.872Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:00:02.533Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:00:02 GMT",
+          "age": "284",
+          "last-modified": "Fri, 23 Oct 2026 19:55:18 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 22,
+      "observedAt": "2026-10-23T20:00:30.785Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:00:30.854Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:00:31.474Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:00:31 GMT",
+          "age": "12",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 23,
+      "observedAt": "2026-10-23T20:01:00.800Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:01:00.875Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:01:02.717Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:01:02 GMT",
+          "age": "43",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 24,
+      "observedAt": "2026-10-23T20:01:30.804Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:01:30.886Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:01:31.440Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:01:31 GMT",
+          "age": "72",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 25,
+      "observedAt": "2026-10-23T20:02:00.818Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:02:00.912Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:02:04.277Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:02:03 GMT",
+          "age": "105",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 26,
+      "observedAt": "2026-10-23T20:02:30.830Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:02:30.934Z",
+        "ok": true,
+        "players": 10,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:02:31.495Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:02:31 GMT",
+          "age": "132",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 27,
+      "observedAt": "2026-10-23T20:03:00.838Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:03:00.934Z",
+        "ok": true,
+        "players": 9,
+        "cp": 8,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:03:03.117Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:03:02 GMT",
+          "age": "163",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 28,
+      "observedAt": "2026-10-23T20:03:30.843Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:03:30.925Z",
+        "ok": true,
+        "players": 8,
+        "cp": 7,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:03:31.347Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:03:30 GMT",
+          "age": "192",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 29,
+      "observedAt": "2026-10-23T20:04:00.857Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:04:00.941Z",
+        "ok": true,
+        "players": 8,
+        "cp": 6,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:04:01.507Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:04:01 GMT",
+          "age": "222",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 30,
+      "observedAt": "2026-10-23T20:04:30.859Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:04:30.961Z",
+        "ok": true,
+        "players": 8,
+        "cp": 6,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:04:31.571Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:04:31 GMT",
+          "age": "252",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 31,
+      "observedAt": "2026-10-23T20:05:00.868Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:05:00.971Z",
+        "ok": true,
+        "players": 7,
+        "cp": 6,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:05:02.202Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:05:01 GMT",
+          "age": "283",
+          "last-modified": "Fri, 23 Oct 2026 20:00:20 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 32,
+      "observedAt": "2026-10-23T20:05:30.868Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:05:30.946Z",
+        "ok": true,
+        "players": 7,
+        "cp": 5,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:05:31.604Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:05:31 GMT",
+          "age": "11",
+          "last-modified": "Fri, 23 Oct 2026 20:05:28 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 33,
+      "observedAt": "2026-10-23T20:06:00.877Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:06:00.956Z",
+        "ok": true,
+        "players": 7,
+        "cp": 5,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:06:01.560Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:06:01 GMT",
+          "age": "41",
+          "last-modified": "Fri, 23 Oct 2026 20:05:28 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 34,
+      "observedAt": "2026-10-23T20:06:30.884Z",
+      "a2s": {
+        "observedAt": "2026-10-23T20:06:30.953Z",
+        "ok": true,
+        "players": 7,
+        "cp": 5,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-23T20:06:35.678Z",
+        "ok": true,
+        "players": 3,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:06:35 GMT",
+          "age": "75",
+          "last-modified": "Fri, 23 Oct 2026 20:05:28 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    }
+  ],
+  "batches": [
+    {
+      "firstObservedAt": "2026-10-23T19:50:00.639Z",
+      "lastModified": "Fri, 23 Oct 2026 19:45:16 GMT",
+      "players": 3
+    },
+    {
+      "firstObservedAt": "2026-10-23T19:50:30.650Z",
+      "lastModified": "Fri, 23 Oct 2026 19:50:16 GMT",
+      "players": 3
+    },
+    {
+      "firstObservedAt": "2026-10-23T19:55:30.712Z",
+      "lastModified": "Fri, 23 Oct 2026 19:55:18 GMT",
+      "players": 3
+    },
+    {
+      "firstObservedAt": "2026-10-23T20:00:30.785Z",
+      "lastModified": "Fri, 23 Oct 2026 20:00:20 GMT",
+      "players": 3
+    },
+    {
+      "firstObservedAt": "2026-10-23T20:05:30.868Z",
+      "lastModified": "Fri, 23 Oct 2026 20:05:28 GMT",
+      "players": 3
+    }
+  ],
+  "passiveConsoleObservation": {
+    "startedAt": "2026-10-23T19:53:08.337Z",
+    "completedAt": "2026-10-23T20:03:08.361Z",
+    "status": "complete",
+    "matchedMessages": 0,
+    "httpUploadErrorMessages": 0,
+    "unrelatedMessagesDiscarded": 63
+  },
+  "limitations": [
+    "UploadedBytes increased while DryRun was false. Static code checks HTTP success status before counting these bytes, but does not validate per-event acceptance or trusted-player inclusion.",
+    "No matched passive console message is evidence only about this WebRCON push stream and this time window. It does not prove that all uploads or backend processing succeeded.",
+    "The observation window and published file batches do not establish the private trusted-count algorithm or its maximum processing delay.",
+    "No account was proven to enter the Facepunch trusted count. No count override, authentication spoof or EAC state mutation was performed.",
+    "Other players naturally departed after the toggle was restored: cp decreased from 8 to 5. The post-restore totals are not a controlled constant-population comparison."
+  ],
+  "publicSamplingCompletedAt": "2026-10-23T20:06:35.678Z",
+  "publicSamplingComplete": true
+}

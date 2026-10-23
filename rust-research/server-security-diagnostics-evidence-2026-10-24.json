@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Stock security configuration getters, effective network state, and EAC diagnostic limits",
+  "scope": "Static inspection only. No RCON commands, network requests, client input, server restarts, EAC startup/shutdown calls or security setting changes were performed for this investigation. No credentials, account identifiers, tickets, private endpoints or live player data are included.",
+  "sources": [
+    {
+      "label": "original_steam_depot",
+      "module": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "protocol": 2635,
+      "use": "Original command registration, configuration wrappers, server startup and EAC lifecycle methods."
+    },
+    {
+      "label": "original_steam_depot",
+      "module": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480",
+      "use": "Network.Server constructor and Network.Connection.isAuthenticated."
+    },
+    {
+      "label": "oxide_patched_analysis_copy",
+      "module": "Facepunch.Console.dll",
+      "sha256": "b1f6bd2d2d40126b9bee3b8944463bad5869188084cbc8bf4aa3573ce9795bd9",
+      "mvid": "ce71f830-2146-4c35-bfba-d08d2617eb07",
+      "use": "Generic no-argument variable dispatch and an explicit example of plugin interception. This module is not represented as an original depot module or as the current remote server binary."
+    }
+  ],
+  "commandFindings": [
+    {
+      "command": "server.encryption",
+      "formInspected": "Exact command name with no arguments",
+      "registration": {
+        "method": "ConsoleGen..cctor",
+        "metadataToken": "0x06000203",
+        "il": ["IL_27B3B..IL_27BAE"],
+        "serverAdmin": true,
+        "variable": true,
+        "description": "Network encryption mode; 2 = enabled (recommended), 0 = disabled"
+      },
+      "getter": {
+        "method": "ConsoleGen/<>c.<.cctor>b__2_2426",
+        "metadataToken": "0x06000B80",
+        "il": ["IL_0000..IL_0022"],
+        "finding": "Returns the current ConVar.Server.encryption integer as text; it does not read Network.Net.sv.encryption or Network.Net.sv.secure."
+      },
+      "outputSensitivity": "A configuration integer; no player identities or secrets are read by this getter.",
+      "limitation": "The configured value can differ from the effective network value established at startup. Do not supply an argument: the same registered variable also has a setter."
+    },
+    {
+      "command": "server.eac_gameplay_data",
+      "formInspected": "Exact command name with no arguments",
+      "registration": {
+        "method": "ConsoleGen..cctor",
+        "metadataToken": "0x06000203",
+        "il": ["IL_27A53..IL_27AC6"],
+        "serverAdmin": true,
+        "variable": true,
+        "description": "Whether or not to send additional analytics to EAC"
+      },
+      "getter": {
+        "method": "ConsoleGen/<>c.<.cctor>b__2_2422",
+        "metadataToken": "0x06000B7C",
+        "il": ["IL_0000..IL_000A"],
+        "finding": "Reads only ConVar.Server.eac_gameplay_data and converts the boolean to text."
+      },
+      "outputSensitivity": "A configuration boolean; no player identities or secrets are read by this getter.",
+      "limitation": "True does not establish a valid EAC interface, successful BeginSession, a registered client, successful authentication or actual gameplay upload."
+    },
+    {
+      "command": "server.strictauth_eac",
+      "formInspected": "Exact command name with no arguments",
+      "registration": {
+        "method": "ConsoleGen..cctor",
+        "metadataToken": "0x06000203",
+        "il": ["IL_2D934..IL_2D9A7"],
+        "serverAdmin": true,
+        "variable": true
+      },
+      "getter": {
+        "method": "ConsoleGen/<>c.<.cctor>b__2_2803",
+        "metadataToken": "0x06000CF9",
+        "il": ["IL_0000..IL_000A"],
+        "finding": "Reads only ConVar.Server.strictauth_eac and converts the boolean to text."
+      },
+      "outputSensitivity": "A configuration boolean; no player identities or secrets are read by this getter.",
+      "limitation": "This changes which callback can fill an empty authStatusEAC string. It is not an observation of any particular client's protected session."
+    },
+    {
+      "command": "server.secure",
+      "finding": "No such full command name occurs in the 2426 entries extracted from the original ConsoleGen..cctor. No original getter was found. Network.Server.secure is a runtime field, not a verified command in this build.",
+      "limitation": "A remote extension or another build could register this name; this inspection does not establish its semantics on that server. No command was sent."
+    },
+    {
+      "command": "global.status",
+      "method": "ConVar.Admin.status",
+      "metadataToken": "0x06009E2A",
+      "il": ["IL_0061..IL_007F", "IL_010A..IL_0168"],
+      "finding": "The unfiltered non-JSON header appends the literal 'secure (secure mode enabled, connected to Steam3)' without reading the effective secure field. The player table contains id, name, ping, connected, addr, owner, violation, kicks and entityId; no EAC client authentication column is constructed.",
+      "outputSensitivity": "Can expose player names, identifiers, IP addresses and entity identifiers. Even an own-account substring filter is not an EAC status query.",
+      "limitation": "The secure header is not runtime security evidence. The ordinary violation and kicks columns are not an EAC session attestation."
+    },
+    {
+      "command": "global.serverinfo",
+      "registration": {
+        "method": "ConsoleGen..cctor",
+        "metadataToken": "0x06000203",
+        "il": ["IL_6219..IL_6276"],
+        "serverAdmin": true,
+        "variable": false
+      },
+      "method": "ConVar.Admin.ServerInfo",
+      "metadataToken": "0x06009E79",
+      "il": ["IL_0000..IL_0196"],
+      "finding": "Builds aggregate server information including active, queued and joining counts, performance and protocol. It does not construct secure, effective encryption, EAC interface or client authentication fields.",
+      "outputSensitivity": "Includes hostname, map, uptime, save timing and aggregate performance; the inspected output does not enumerate player identities."
+    }
+  ],
+  "runtimeFindings": [
+    {
+      "module": "Facepunch.Network.dll",
+      "method": "Network.Server..ctor",
+      "metadataToken": "0x06000193",
+      "il": ["IL_0016..IL_001F"],
+      "finding": "Initializes secure=true and encryption=2. These constructor defaults are not observations of a running target."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.OpenConnection",
+      "metadataToken": "0x06007AAB",
+      "il": ["IL_001E..IL_0028", "IL_0034..IL_007A", "IL_007B..IL_00E2"],
+      "finding": "Copies configured encryption to the network server. The -insecure startup branch sets secure=false and clamps the effective network encryption to 0..1. A secure server whose effective encryption is below Manifest.Features.MinimumSecureEncryption, default 2 when absent, is also marked nonsecure. The method does not rewrite the configured ConVar.Server.encryption value in these branches.",
+      "limitation": "The relationship is inspected as data only. No startup switches or security values were changed. An observed per-connection Approval.encryption value is a separate and more direct observation of that connection's negotiated application setting."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ConVar.Server..cctor",
+      "metadataToken": "0x0600A35A",
+      "il": ["IL_0080..IL_0081", "IL_00A0..IL_00A7"],
+      "finding": "Static defaults are encryption=2, eac_gameplay_data=true and strictauth_eac=false. Defaults do not establish current target settings."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.get_CanEnableGameplayData / get_CanSendAnalytics / get_ValidInterface",
+      "metadataTokens": ["0x060078DB", "0x060078DC", "0x060078DE"],
+      "il": ["CanEnableGameplayData IL_0000..IL_0005", "CanSendAnalytics IL_0000..IL_0014", "ValidInterface IL_0000..IL_000B"],
+      "finding": "CanEnableGameplayData returns the configuration boolean. CanSendAnalytics requires that boolean and a non-null EACServer.Interface. ValidInterface checks only that the interface handle compares non-null; none of these getters inspects a particular client's authentication."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.DoStartup",
+      "metadataToken": "0x060078EB",
+      "il": ["IL_0000..IL_0014", "IL_0068..IL_006F", "IL_00CD..IL_00D7", "IL_012A..IL_0136", "IL_0144..IL_0169"],
+      "finding": "The secure, non-editor branch obtains the EAC interface and calls BeginSession with EnableGameplayData from the boolean. The BeginSession Result is popped. Analytics buffers require CanSendAnalytics; client-handle buffers require ValidInterface.",
+      "limitation": "A non-null interface or true configuration value does not independently establish successful BeginSession, backend receipt or a valid protected client."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.GetClient",
+      "metadataToken": "0x060078E2",
+      "il": ["IL_0000..IL_0015"],
+      "finding": "Looks up the connection in connection2client and returns its handle, with zero if absent. The lookup does not validate an EOS session or authentication status."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.IsAuthenticated",
+      "metadataToken": "0x060078E4",
+      "il": ["IL_0000..IL_0012"],
+      "finding": "Looks up connection2status and returns whether the stored numeric enum equals 2. This value is also supplied by the configured nonsecure/editor path."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnJoinGame",
+      "metadataToken": "0x060078EF",
+      "il": ["IL_0000..IL_0014", "IL_0141..IL_018B", "IL_018D..IL_01A1"],
+      "finding": "The secure, non-editor interface path calls RegisterClient and discards its Result, then stores the handle mapping and initial status. The nonsecure/editor branch directly invokes OnAuthenticatedLocal and OnAuthenticatedRemote. Thus a status lookup equal to 2, an ok authStatusEAC string or reaching EnterGame alone is not evidence of a protected EAC client session."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnAuthenticatedLocal / OnAuthenticatedRemote",
+      "metadataTokens": ["0x060078E5", "0x060078E6"],
+      "il": ["IL_0000..IL_0030 in each method"],
+      "finding": "Local writes status 1 and may fill an empty authStatusEAC with ok when strictauth_eac=false. Remote writes status 2 and may fill that string when strictauth_eac=true. These functions are also used by the nonsecure/editor branch."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnClientAuthStatusChanged / OnVerifyIdToken",
+      "metadataTokens": ["0x060078E8", "0x060078E7"],
+      "il": ["OnClientAuthStatusChanged IL_0072..IL_00C5", "OnVerifyIdToken IL_0000..IL_0011", "OnVerifyIdToken IL_003F..IL_0146"],
+      "finding": "The remote callback updates status before calling VerifyIdToken. When token checks apply, verification failure or an account mismatch causes rejection. IsAuthenticated does not include a separate successful-token-verification bit.",
+      "outputSensitivity": "The underlying callback reads identity/token fields internally, and failure logging can contain account identities. No runtime token or identity values were inspected or saved in this investigation."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnFinishLoading",
+      "metadataToken": "0x060078F1",
+      "il": ["IL_0000..IL_0048"],
+      "finding": "Only when the interface and a nonzero client mapping exist does it call SetClientNetworkState(IsNetworkActive=true); the Result is popped. FinishLoading observation alone does not prove this SDK operation ran or succeeded."
+    },
+    {
+      "module": "Facepunch.Network.dll",
+      "method": "Network.Connection.get_isAuthenticated",
+      "metadataToken": "0x0600004E",
+      "il": ["IL_0000..IL_005A"],
+      "finding": "Checks whether five admission status strings, including authStatusEAC, equal ok. It does not check secure, a real client handle or the origin of the EAC status."
+    }
+  ],
+  "noArgumentDispatchAndExtensions": {
+    "sourceLabel": "oxide_patched_analysis_copy",
+    "methods": [
+      {"method": "ConsoleSystem/Command.DefaultCall", "metadataToken": "0x0600003B", "il": ["IL_0000..IL_0012"]},
+      {"method": "ConsoleSystem.Internal", "metadataToken": "0x0600000C", "il": ["IL_000A..IL_0028", "IL_00D9..IL_014D"]}
+    ],
+    "finding": "DefaultCall returns without setting the variable when there is no argument. Internal can print the getter for a registered variable. This patched copy first invokes IOnServerCommand, which can intercept execution; a live server's extensions may also log or replace a reply.",
+    "interpretation": "The three exact no-argument getters have no direct security-setting side effects in the inspected registration/wrapper code. That is not a guarantee about unknown target plugins or another build. No variable setters, generic command lists or configuration dumps were invoked."
+  },
+  "ownAccountReadOnlyDiagnostic": {
+    "stockCommandFound": false,
+    "searchScope": "All 2426 original ConsoleGen registration entries and original Assembly-CSharp/Facepunch.Network references to effective secure, EAC Interface, GetClient, IsAuthenticated, connection2client, connection2status and authStatusEAC.",
+    "finding": "No verified stock console command exposes those EAC interface/client/authentication fields for only a specified own account. The original EACServer getters are internal methods rather than registered RCON or ServerUser query commands.",
+    "limitations": [
+      "This is a bounded static search of the recorded build, not proof about all server plugins or future versions.",
+      "status, serverinfo and playerlist are not substitutes for EAC session telemetry.",
+      "A local normal-client comparison must retain configuration, effective interface state, client mapping and authentication provenance as separate observations.",
+      "These findings do not establish a cause for the public trusted-player count and do not constitute a player-count fix."
+    ]
+  },
+  "localEvidence": {
+    "ignoredInspectionScript": "work/native-peer/inspect-security-diagnostics.ps1",
+    "ignoredSelectedMethods": "work/native-peer/security-diagnostics.il.txt",
+    "ignoredRegistration": "work/native-peer/security-diagnostics-registration.il.txt",
+    "ignoredReferences": "work/native-peer/security-diagnostics-refs.txt",
+    "ignoredCommandInventory": "work/native-peer/security-diagnostics-command-names.txt",
+    "relatedTrackedEvidence": ["rust-research/player-admission-evidence-2026-10-24.json", "rust-research/self-player-state-command-evidence-2026-10-24.json"]
+  }
+}

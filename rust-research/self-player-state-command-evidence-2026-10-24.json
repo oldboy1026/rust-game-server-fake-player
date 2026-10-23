@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "subject": "Stock own-player status_sv command, console framing, and safe Sleeping/ReceivingSnapshot observation",
+  "evidenceKind": "Read-only metadata and IL inspection; no command was sent or executed",
+  "runtimeExperimentPerformed": false,
+  "workerOrSessionModifiedForThisFinding": false,
+  "sources": [
+    {
+      "id": "stock-game",
+      "assembly": "Assembly-CSharp.dll",
+      "source": "Original Steam dedicated-server depot files used by the existing protocol research",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811"
+    },
+    {
+      "id": "stock-network",
+      "assembly": "Facepunch.Network.dll",
+      "source": "Original Steam dedicated-server depot files used by the existing protocol research",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480"
+    },
+    {
+      "id": "stock-data",
+      "assembly": "Rust.Data.dll",
+      "source": "Original Steam dedicated-server depot files used by the existing protocol research",
+      "sha256": "1d62baef9b339f0416e6529618365c1ecad01791a833e77e76eb6c8464406104",
+      "mvid": "170a8d63-8502-4c7e-8c3e-1180a337e719"
+    },
+    {
+      "id": "analysis-console",
+      "assembly": "Facepunch.Console.dll",
+      "source": "User-provided local dedicated-server analysis copy; not the remote running server and not an original depot console assembly",
+      "sha256": "b1f6bd2d2d40126b9bee3b8944463bad5869188084cbc8bf4aa3573ce9795bd9",
+      "mvid": "ce71f830-2146-4c35-bfba-d08d2617eb07",
+      "qualification": "This copy has an Oxide IOnServerCommand hook in ConsoleSystem.Internal; its generic permission and reply plumbing are supporting evidence only. Stock command registration and stock game/network handlers were inspected separately."
+    }
+  ],
+  "findings": [
+    {
+      "source": "stock-game",
+      "method": "ConsoleGen..cctor",
+      "metadataToken": "06000203",
+      "il": "18175-181C7",
+      "finding": "Registers Name=status_sv, Parent=global, FullName=global.status_sv, ServerUser=true and Variable=false. This entry does not set ServerAdmin. It dispatches to the generated b__2_1502 wrapper."
+    },
+    {
+      "source": "stock-game",
+      "method": "ConsoleGen.<>c.<.cctor>b__2_1502",
+      "metadataToken": "060007E4",
+      "il": "0000-0006",
+      "finding": "Passes the same ConsoleSystem.Arg directly to ConVar.Global.status_sv."
+    },
+    {
+      "source": "stock-game",
+      "method": "ConVar.Global.status_sv",
+      "metadataToken": "0600A0D8",
+      "il": "0000-001C",
+      "finding": "Resolves ArgEx.Player(arg), returns if there is no caller player, and replies with that player's GetDebugStatus(). It does not parse a target argument or enumerate other players, and does not call StartSleeping, EndSleeping or a received-tick handler."
+    },
+    {
+      "source": "stock-game",
+      "method": "UnityEngine.ArgEx.Player",
+      "metadataToken": "06008B93",
+      "il": "0000-001D",
+      "finding": "Returns null for a null Arg or absent Arg.Connection. Otherwise returns Arg.Connection.player cast to BasePlayer. The selected player is bound to the authenticated game connection, not supplied as a SteamID argument. RCON alone supplies no such player through this helper."
+    },
+    {
+      "source": "stock-game",
+      "method": "BasePlayer.GetDebugStatus",
+      "metadataToken": "06001C17",
+      "il": "0000-00A8",
+      "finding": "Builds Entity, Name and SteamID lines, then enumerates every PlayerFlags value and appends one '<flag>: <Boolean>\\n' line using HasPlayerFlag. It does not read position, eye position, rotation, IP, inventory or authentication tickets. It returns the string without changing any player flag."
+    },
+    {
+      "source": "stock-game",
+      "method": "BasePlayer.ToString",
+      "metadataToken": "06001C16",
+      "il": "0000-004A",
+      "finding": "The server-side Entity line normally uses a cached display-name-and-user-ID string. It can initialize the formatting cache BaseEntity._name. The output therefore contains account identity even though no coordinates or credentials are read."
+    },
+    {
+      "source": "stock-game",
+      "type": "BasePlayer.PlayerFlags",
+      "metadataToken": "02000111",
+      "values": { "ReceivingSnapshot": 8, "Sleeping": 16 },
+      "finding": "These are BasePlayer flags, distinct from BaseEntity.flags and ModelState.flags."
+    },
+    {
+      "source": "stock-network",
+      "type": "Network.Message.Type",
+      "values": { "ConsoleMessage": 11, "ConsoleCommand": 12 },
+      "method": "Network.NetWrite.PacketID",
+      "metadataToken": "060000EA",
+      "il": "0000-0012",
+      "finding": "Adds 140 to the enum value for the application byte. A client console command is 0x98; a console reply is 0x97. These are application messages inside the established transport, not standalone UDP datagrams."
+    },
+    {
+      "source": "stock-game",
+      "method": "ServerMgr.OnNetworkMessage",
+      "metadataToken": "06007A98",
+      "il": "0263-02FD",
+      "finding": "The ConsoleCommand branch requires a connected connection, applies maxpacketspersecond_command, and invokes ConsoleNetwork.OnClientCommand. Handler exceptions follow the existing server kick path. No PlayerTick is needed by this branch."
+    },
+    {
+      "source": "stock-game",
+      "method": "ConsoleNetwork.OnClientCommand",
+      "metadataToken": "06004E11",
+      "il": "0000-0085, 00C3-00DC",
+      "finding": "Checks the unread command packet against maxpacketsize_command, reads StringRaw(maxpacketsize_command, false), verifies an existing connected connection, and runs ConsoleSystem with Option.Server.FromConnection(the same connection).Quiet(). Nonempty CommandResult.Output is passed to SendClientReply for that same connection. Quiet suppresses ordinary printed output; it does not discard the command reply."
+    },
+    {
+      "source": "stock-network",
+      "method": "Network.NetRead.StringRaw",
+      "metadataToken": "060000AA",
+      "il": "0000-0064",
+      "finding": "Raw means UTF-8 text without StringInternal's control-character replacement. It still reads a length prefix. With variableLength=false it reads UInt32, obtains that byte range, and decodes UTF-8; it does not consume an unprefixed remainder string."
+    },
+    {
+      "sources": ["stock-network", "stock-data"],
+      "methods": [
+        { "method": "Network.NetRead.UInt32", "metadataToken": "060000BE" },
+        { "method": "Network.NetWrite.WriteUInt32", "metadataToken": "060000F8" },
+        { "method": "Network.NetWrite.WriteUnmanaged<T>", "metadataToken": "06000108" },
+        { "method": "BufferStream.Read<T>", "metadataToken": "060000C7" },
+        { "method": "BufferStream.Write<T>", "metadataToken": "060000CA" }
+      ],
+      "finding": "The false length-prefix path uses an unmanaged UInt32, with BufferStream reading/writing the native four-byte value. This is little-endian on the inspected Windows x64 runtime. The protocol evidence here must not be generalized to an uninspected big-endian runtime."
+    },
+    {
+      "source": "analysis-console",
+      "methods": [
+        { "method": "ConsoleSystem.Arg.HasPermission", "metadataToken": "0600001A", "il": "00ED-0105" },
+        { "method": "ConsoleSystem.Arg.ReplyWith(string)", "metadataToken": "0600001C", "il": "0000-0007" },
+        { "method": "ConsoleSystem.RunWithResult", "metadataToken": "0600000B", "il": "0016-0036, 007D-008F" },
+        { "method": "ConsoleSystem.Option.FromConnection", "metadataToken": "06000079", "il": "0000-0014" },
+        { "method": "ConsoleSystem.Option.Quiet", "metadataToken": "06000076", "il": "0000-000D" }
+      ],
+      "finding": "Supporting console-library evidence: ServerUser with a non-null connection passes the ordinary permission branch; ReplyWith stores Arg.Reply and RunWithResult exposes it as CommandResult.Output. FromConnection sets the connection and clears FromRcon; Quiet only clears PrintOutput. This library copy also permits an Oxide command hook to intercept execution, so remote plugin behavior remains unverified."
+    },
+    {
+      "source": "stock-game",
+      "method": "ConsoleNetwork.SendClientReply",
+      "metadataToken": "06004E12",
+      "il": "000D-0032",
+      "finding": "Starts a network write, writes PacketID(ConsoleMessage=11), writes String(output, false), and sends using SendInfo(requestConnection). There is one ordinary string payload, no protobuf field number, command-name echo, entity ID or request-correlation ID in this reply framing."
+    },
+    {
+      "source": "stock-network",
+      "methods": [
+        { "method": "Network.NetWrite.String", "metadataToken": "060000F9", "il": "0071-00A7" },
+        { "method": "Network.NetWrite.BytesWithSize(ReadOnlySpan<byte>, bool)", "metadataToken": "06000107", "il": "0035-004A" },
+        { "method": "Network.SendInfo..ctor(Connection)", "metadataToken": "0600016F", "il": "0000-0023" }
+      ],
+      "finding": "String encodes UTF-8 and writes the byte count followed by those bytes. variableLength=false selects the fixed UInt32 prefix. The reply preserves the generated newlines in its UTF-8 bytes. SendInfo targets only the provided connection with default method=0, priority=1 and channel=0."
+    }
+  ],
+  "inspectedApplicationLayouts": {
+    "request": {
+      "direction": "Established game client to its server",
+      "fields": ["ConsoleCommand application byte 0x98", "UTF-8 command byte length as UInt32 little-endian", "exact command UTF-8 bytes"],
+      "fixedCommand": "global.status_sv",
+      "fixedCommandUtf8Bytes": 16,
+      "applicationBytesForFixedCommand": 21,
+      "arguments": [],
+      "terminator": "None",
+      "qualification": "Accepted layout established from server parsing and shared serializers; no live normal-client request for this command was captured or sent in this task."
+    },
+    "reply": {
+      "direction": "Server to the same requesting game connection",
+      "fields": ["ConsoleMessage application byte 0x97", "UTF-8 output byte length as UInt32 little-endian", "output UTF-8 bytes"],
+      "requestCorrelationField": null,
+      "protobufMessage": false
+    }
+  },
+  "proposedSafeObservationOnly": {
+    "implemented": false,
+    "preconditions": [
+      "Use only the already-established own game connection after own-entity and FinishLoading observation.",
+      "The only outbound text would be the fixed no-argument global.status_sv constant; do not expose arbitrary console forwarding or a target account parameter.",
+      "Allow one pending query with a bounded reply deadline; no PlayerTick, wake command, account reconnect or administrator RPC is involved."
+    ],
+    "replyValidation": [
+      "Accept only a ConsoleMessage from the existing connected server while that fixed query is pending.",
+      "Require a bounded payload, for example at most 65536 UTF-8 bytes, an exact UInt32 length-to-packet match, and strict UTF-8 decoding.",
+      "Validate the complete canonical PlayerFlags suffix from the end of the string, using the ordered names below and exact True/False values; require its final newline and reject missing, duplicate, reordered or extra suffix entries.",
+      "Require the exact own SteamID line immediately before that suffix, comparing it privately to the existing logged-in session identity. Never output that line or retain it as public metadata.",
+      "Display names can contain untrusted text and newlines. Do not select the first global regex match for Sleeping or ReceivingSnapshot; a forged line in the name/header could otherwise be mistaken for the actual flag tail.",
+      "After complete validation retain only the two requested booleans and safe observation count/age; discard the raw text, identity headers and all other flags.",
+      "Malformed, unrelated, timed-out or denied replies must keep the previous observation aging, or remain unknown before the first success; they must not become false flags."
+    ],
+    "expectedFlagSuffixOrder": [
+      "Unused1", "CombatZone", "IsAdmin", "ReceivingSnapshot", "Sleeping", "Spectating", "Wounded", "IsDeveloper", "Connected", "ThirdPersonViewmode", "EyesViewmode", "ChatMute", "NoSprint", "Aiming", "DisplaySash", "Relaxed", "SafeZone", "ServerFall", "Incapacitated", "Workbench1", "Workbench2", "Workbench3", "VoiceRangeBoost", "ModifyClan", "LoadingAfterTransfer", "NoRespawnZone", "IsInTutorial", "IsRestrained", "CreativeMode", "WaitingForGestureInteraction", "Ragdolling"
+    ],
+    "publicResultProposal": {
+      "source": "status_sv",
+      "fields": ["observed boolean", "sleeping boolean only after a valid reply", "receivingSnapshot boolean only after a valid reply", "reply count", "age at the current worker sample"]
+    },
+    "limits": [
+      "There is no request-correlation ID. One pending request, canonical output and own-identity matching reduce ambiguity but cannot cryptographically bind otherwise identical unsolicited console text to that request.",
+      "A different server build, plugin interception or altered output can invalidate the static format; fail unknown instead of guessing.",
+      "Reading these flags does not wake the player, prove an EAC session, or establish the reason for any published player-count value."
+    ]
+  },
+  "administratorAlternatives": [
+    {
+      "command": "global.status --json <complete-own-Steam64>",
+      "method": "ConVar.Admin.status",
+      "metadataToken": "06009E2A",
+      "finding": "Supports a substring filter against display name, user ID, owner ID and IP. Normal rows contain id/name/ping/connected/addr/owner/violation/kicks/entityId, with no Sleeping or ReceivingSnapshot. It is not a strict identity-only filter; error/no-connection branches may add rows before filtering. Keep any raw response private and select the exact own identity in memory."
+    },
+    {
+      "command": "global.sleepingusers",
+      "method": "ConVar.Admin.sleepingusers",
+      "metadataToken": "06009E58",
+      "finding": "Enumerates the entire sleepingPlayerList and prints all sleeping users' IDs and names, without a target filter. This can establish list membership but does not expose ReceivingSnapshot and is not the minimal private query."
+    },
+    {
+      "command": "player.wakeup",
+      "method": "ConVar.Player.wakeup",
+      "metadataToken": "0600A243",
+      "finding": "Registered ServerAdmin but the body first dereferences ArgEx.Player for admin/developer/cinematic checks, then reads argument zero using GetUInt (UInt32), converts it to a string and calls FindSleeping before EndSleeping. It is not a verified RCON-with-Steam64 exact-target command; a full Steam64 exceeds the argument type. Do not substitute a truncated numeric ID or assume the generated description proves otherwise."
+    },
+    {
+      "command": "relationshipmanager.sleeptoggle",
+      "method": "RelationshipManager.sleeptoggle",
+      "metadataToken": "060031AA",
+      "finding": "Registered ServerAdmin. Uses the calling in-game player's eye raycast within five metres, then toggles a non-NPC other player's sleep state. It can call normal EndSleeping for a sleeping looked-at target, but takes no target-account argument and cannot be used from bare RCON. It is a toggle and would instead sleep an already-awake target. No command was executed."
+    }
+  ],
+  "privateReproductionArtifacts": [
+    "work/native-peer/inspect-admin-player-state.ps1",
+    "work/native-peer/admin-player-state.il.txt",
+    "work/native-peer/admin-player-registration.il.txt",
+    "work/native-peer/admin-player-state-refs.txt",
+    "work/native-peer/inspect-self-state-command.ps1",
+    "work/native-peer/self-state-command.il.txt"
+  ]
+}

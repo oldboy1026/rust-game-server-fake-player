@@ -2,11 +2,33 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
+## 正在运行：单账号离服对照，必须恢复第三个账号
+
+20:18 UTC RCON名单与本机账号仅在内存匹配，确认3个研究账号、0个其他玩家。`work/count-exclusive-window.mjs` exec session61686 正运行；20:21:41.830 UTC已正常断开第3账号，`work/count-exclusive-window-state.json` 的 restoreRequired=true。计划离服600秒，约20:31:42 UTC自动恢复，再观察600秒。**接续先读此状态并确认最终restoreRequired=false及第三账号重新entered_game，不能遗忘恢复。** 通过创建ignored `work/count-exclusive-window-stop` 可请求提早结束并进入finally恢复；不要强杀脚本。
+
+20:20:42公共新批次已从3降为2，早于断开操作，不能归因于本次离服。20:20:43和20:21:14内部仍3个研究账号、无其他玩家，因此当前不存在“3个研究账号已全部可信收录”的证据。后续每30秒记录RCON匿名汇总和公共批次；本阶段不改服务器配置、不唤醒或重启会话。用户已答目前仅RCON权限，不能上传只读插件到目标服。
+
+## 当前接续：临时统计开关已恢复，本地正常客户端对照待做
+
+用户已提供目标RCON访问并明确同意：仅临时开启 `analytics.gameplay_analytics` 约12分钟，结束恢复False、不重启服务器。管理端点和密码仅保存在忽略的本机配置，不能写入提交或公开报告。
+
+实际RCON19:44:23 UTC确认Players8；Gameplay=False、Tick=False、Performance=True、DryRun=False、EAC gameplay=True，gameplay_events使用Enabled的FPApi(server)。用户核对8人中3个是研究连接、5个是真实玩家，而列表仅3。不能仅归因于headless睡眠。
+
+`work/rcon-gameplay-window.mjs` 已于19:49:32.939 UTC确认开启True，20:01:36.244 UTC恢复False，rollbackRequired=false；20:01:50 UTC另一次只读查询再次确认False。12分钟内Players始终8，Uploaded Bytes从98981增加到859058，但已观察公共新批次仍为3。DryRun=False且静态上传代码先检查HTTP成功才计字节；这仍不证明后台人数收录。被动WebRCON观察19:53–20:03未收到匹配上传诊断消息，不等于所有上传无错误。脱敏证据见 `gameplay-analytics-control-2026-10-24.json`。原始响应留work，不输出身份/管理端点/密码。
+
+用户现已启动本地测试服 `127.0.0.1:20090`，查询20091；本地管理凭据仅存ignored配置。它在D:\RustServer\rustds运行，不应再称为完全未启动的副本。首次观察磁盘混用Rust.Global printable2634与Assembly-CSharp内联准入2635；此为更新前快照，后续变化见下一段及 `local-server-version-evidence-2026-10-24.json`。
+
+后续更新：用户20:03–20:05 UTC更新并重启本地服，关键磁盘DLL恢复原版；新进程运行Protocol2635.289.1。正常客户端直连20:07:34观察Joining1→20:07:36 Players1，用户确认入世界，A2S/cp均1。随后只记录元数据的双socket本地UDP中转20093→20090已实际兼容本次正常客户端：20:10:35收到握手，20:11:04 Players1，用户确认进入世界，20:12:26离开并回直连。原版更新后的进程没有确认加载旧诊断插件，不得将旧进程0人基线当当前插件运行证据。CountDiagnostics0.1.1源码已准备、未实际编译执行。中转只记时间/方向/长度/首字节，不解码或保存认证载荷。
+
+补充：0.1.1后已用现有SDK10.0.201/Roslyn5.3及16个本地Mono/服务端引用离线编译通过，未加载运行；源码SHA在 `count-diagnostics-build-2026-10-24.json`。中转20:14:48正常到期，共7722数据报；20093监听已关闭，20:15:40正常客户端直连Players1。修正后的中转生命周期仅语法复核，未重跑网络观察。远端只读确认Oxide2.0.7839；用户仅有RCON，不能上传源码，勿尝试控制台注入/任意代码执行来部署。
+
+此前仅安装新的只读 `CountDiagnostics` Oxide源码，命令 `countdiag.snapshot`；0.1.0在旧进程编译/加载并取到0人/0连接基线，没有增加玩家或更改人数。现有pktmon在明确成功的3次loopback A2S查询中捕获0包，已停止且清空本次filter；不能拿空抓包推断客户端没发送。见 `local-test-server-observation-2026-10-24.json`。不要安装未知人数DLL或伪造上报。
+
 ## 最新：正常客户端对照完成，自身仍Sleeping
 
 19:13:29–19:36:15 UTC两段48份只读采样已完成。用户退出到主菜单后，约19:24:30 UTC确认重新进入世界。三个独立账号全程保持不变，最后约30分钟留服且票据验证。Facepunch 19:15/19:20批次为5，19:25及19:30为4，19:35为3；用户也确认刷新收藏显示4。A2S/cp末段10/8、GMS8。不要将总人数变化唯一归因于用户，也未证明任一独立账号计入可信人数。见 `normal-client-count-control-2026-10-24.json`。
 
-对照结束后已19:36:50正常关闭服务，19:37:02启动含ownPlayerState的新版本，并错开恢复三账号。19:37:55诊断三者Sleeping=true、ReceivingSnapshot=false，各4份自身快照，年龄14–24秒。当前管理服务exec session9053；下一步先GET会话状态，勿无故断开。没有发送PlayerTick。两帧纯输入候选有录制时ModelState为空及已醒竞态，继续核对真实状态字段后才能实施。用户说目标管理员/RCON权限明天可能拿到，目前仍未取得。只读命令准备见 `rcon-player-count-observation.md`，不安装DLL或改统计；上传UploadedSize增长还需排除DryRun。
+对照结束后已19:36:50正常关闭服务，19:37:02启动含ownPlayerState的新版本，并错开恢复三账号。19:37:55诊断三者Sleeping=true、ReceivingSnapshot=false，各4份自身快照，年龄14–24秒。当前管理服务exec session9053；下一步先GET会话状态，勿无故断开。没有发送PlayerTick。两帧纯输入候选有录制时ModelState为空及已醒竞态；尚未实现或执行。用户随后已提供RCON，见顶部的新观察。只读命令准备见 `rcon-player-count-observation.md`；不安装未知人数DLL或改统计。
 
 ## 最新接续：列表人数研究仍未完成
 

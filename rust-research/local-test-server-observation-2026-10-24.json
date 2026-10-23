@@ -1,0 +1,259 @@
+{
+  "date": "2026-10-24",
+  "scope": "User-operated local test server; read-only baseline. Management credentials and endpoints are excluded.",
+  "gameEndpoint": "127.0.0.1:20090",
+  "queryEndpoint": "127.0.0.1:20091",
+  "baseline": {
+    "observedAt": "2026-10-23T19:56:01.127Z",
+    "serverInfo": {
+      "players": 0,
+      "joining": 0,
+      "queued": 0,
+      "maxPlayers": 200,
+      "protocol": "2634.289.1"
+    },
+    "a2sInfo": {
+      "players": 0,
+      "cp": 0,
+      "bots": 0,
+      "steamQueryProtocol": 17,
+      "versionString": "2635"
+    },
+    "settings": {
+      "analytics.gameplay_analytics": false,
+      "analytics.gameplay_tick_analytics": false,
+      "analytics.performance_analytics": true,
+      "analytics.dryrun": false,
+      "server.eac_gameplay_data": true,
+      "server.encryption": 1,
+      "server.strictauth_eac": false
+    }
+  },
+  "interpretation": [
+    "The local dedicated process responds to normal public queries and read-only management observations.",
+    "The runtime protocol string and A2S version string disagree. A2S's protocol byte is a separate Steam query field; it must not be compared directly to the Rust gameplay protocol.",
+    "A configured encryption value does not prove the effective transport level or an authenticated EAC client session.",
+    "A local server without a public browser entry can validate gameplay state and reporting paths, but cannot establish whether Facepunch accepts a particular account into its public trusted count."
+  ],
+  "notPerformed": [
+    "No player connection was created during the baseline.",
+    "No query count, authentication state, telemetry payload, or server configuration was changed. A new read-only diagnostic plugin source was installed only on the local test server."
+  ],
+  "versionFollowup": {
+    "effectiveStaticAdmissionProtocol": 2635,
+    "detail": "See local-server-version-evidence-2026-10-24.json; the old printable constant does not establish an incompatible admission protocol."
+  },
+  "loopbackProbe": {
+    "startedAt": "2026-10-24T03:59:37.8815932+08:00",
+    "stoppedAt": "2026-10-24T03:59:48.6986398+08:00",
+    "scope": "Only IPv4 loopback UDP with source or destination port 20091",
+    "durationSeconds": 10,
+    "filter": "RustLoopbackQueryProbe",
+    "components": "all",
+    "fullPacketSnapshots": true,
+    "querySamples": [
+      {
+        "at": "2026-10-24T03:59:38.9265001+08:00",
+        "sentDatagrams": 1,
+        "receivedDatagrams": 1,
+        "challengeReceived": false,
+        "infoResponseReceived": true,
+        "errorCategory": null
+      },
+      {
+        "at": "2026-10-24T03:59:42.0160677+08:00",
+        "sentDatagrams": 1,
+        "receivedDatagrams": 1,
+        "challengeReceived": false,
+        "infoResponseReceived": true,
+        "errorCategory": null
+      },
+      {
+        "at": "2026-10-24T03:59:44.8962449+08:00",
+        "sentDatagrams": 1,
+        "receivedDatagrams": 1,
+        "challengeReceived": false,
+        "infoResponseReceived": true,
+        "errorCategory": null
+      }
+    ],
+    "stopConfirmed": true,
+    "filterRemoved": true,
+    "finalNotRunning": true,
+    "finalNoFilters": true,
+    "conversionSuccess": true,
+    "pcapPacketBlocks": 0,
+    "errorCategory": null,
+    "cleanupErrors": []
+  },
+  "readOnlyPlugin": {
+    "version": "0.1.0",
+    "compiledAndLoaded": true,
+    "baseline": {
+      "utc": "2026-10-23T20:01:21.1821757Z",
+      "activeListEntries": 0,
+      "activeNonNull": 0,
+      "activeSleeping": 0,
+      "activeAwake": 0,
+      "activeReceivingSnapshot": 0,
+      "activeConnected": 0,
+      "sleepingListEntries": 0,
+      "networkConnectionEntries": 0
+    },
+    "afterExternalUpdate": "The old 0.1.0 compile/load observation belongs to the previous process. No plugin load has been confirmed in the new vanilla process. Source 0.1.1 is prepared and statically checked, but has not been compiled or run."
+  },
+  "normalClientControl": {
+    "serverRestartedExternally": true,
+    "observedRuntimeProtocol": "2635.289.1",
+    "firstDirectAdmission": {
+      "joiningObservedAt": "2026-10-23T20:07:34.772Z",
+      "playersOneObservedAt": "2026-10-23T20:07:36.814Z",
+      "userConfirmedEnteredWorld": true
+    },
+    "directPublicQuery": {
+      "observedAt": "2026-10-23T20:08:21.722Z",
+      "players": 1,
+      "cp": 1,
+      "bots": 0,
+      "version": "2635"
+    },
+    "relayAdmission": {
+      "endpoint": "127.0.0.1:20093",
+      "forwardsUnmodifiedTo": "127.0.0.1:20090",
+      "firstDatagramAt": "2026-10-23T20:10:35.122Z",
+      "playersOneObservedAt": "2026-10-23T20:11:04.405Z",
+      "userConfirmedEnteredWorld": true,
+      "userSubsequentlyReturnedToDirectConnection": true
+    },
+    "stateChanges": [
+      {
+        "at": "2026-10-23T20:07:34.772Z",
+        "players": 0,
+        "joining": 1,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 148
+      },
+      {
+        "at": "2026-10-23T20:07:36.814Z",
+        "players": 1,
+        "joining": 0,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 150
+      },
+      {
+        "at": "2026-10-23T20:10:28.702Z",
+        "players": 0,
+        "joining": 0,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 322
+      },
+      {
+        "at": "2026-10-23T20:10:37.107Z",
+        "players": 0,
+        "joining": 1,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 330
+      },
+      {
+        "at": "2026-10-23T20:11:04.405Z",
+        "players": 1,
+        "joining": 0,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 358
+      },
+      {
+        "at": "2026-10-23T20:12:26.299Z",
+        "players": 0,
+        "joining": 0,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 439
+      },
+      {
+        "at": "2026-10-23T20:12:32.503Z",
+        "players": 0,
+        "joining": 1,
+        "queued": 0,
+        "protocol": "2635.289.1",
+        "uptime": 446
+      }
+    ],
+    "observationEnd": "2026-10-23T20:12:36.706Z",
+    "consoleMessageCategories": {
+      "connection_or_loading": 2,
+      "disconnect_or_kick": 2
+    },
+    "relayObservedToolSha256": "0665389d4bba1c97850df92f745d039c345a9e8f2f0fdce564946f38a6653b8e",
+    "relayObservation": {
+      "type": "summary",
+      "startedAt": "2026-10-23T20:09:48.496Z",
+      "stoppedAt": "2026-10-23T20:14:48.502Z",
+      "elapsedSeconds": 300.006,
+      "requestedSeconds": 300,
+      "stopReason": "timeout",
+      "frontend": "127.0.0.1:20093",
+      "server": "127.0.0.1:20090",
+      "separateEphemeralUpstream": true,
+      "clientObserved": true,
+      "totals": {
+        "client_to_server": {
+          "packets": 3845,
+          "bytes": 137194,
+          "forwardedPackets": 3845,
+          "forwardedBytes": 137194
+        },
+        "server_to_client": {
+          "packets": 3877,
+          "bytes": 1242331,
+          "forwardedPackets": 3877,
+          "forwardedBytes": 1242331
+        }
+      },
+      "rejected": {
+        "nonLoopback": 0,
+        "otherClient": 0,
+        "invalidPeer": 0,
+        "beforeReady": 0
+      },
+      "metadataBytes": 893153,
+      "metadataLimitBytes": 16777216,
+      "socketsClosed": true,
+      "metadataClosed": true,
+      "summaryWritten": true,
+      "firstDatagramAt": "2026-10-23T20:10:35.122Z",
+      "lastDatagramAt": "2026-10-23T20:12:25.456Z",
+      "datagrams": 7722,
+      "firstByteHistograms": {
+        "client_to_server": {
+          "5": 1,
+          "7": 1,
+          "132": 1383,
+          "140": 35,
+          "192": 97,
+          "224": 2328
+        },
+        "server_to_client": {
+          "6": 1,
+          "8": 1,
+          "132": 1577,
+          "140": 883,
+          "192": 1415
+        }
+      },
+      "frontendNotListeningAfterExit": true,
+      "interpretation": "An actual normal client completed this local admission through unmodified forwarding. Datagram metadata does not identify Rust PlayerTick contents, encryption keys, authentication messages or EAC acceptance."
+    },
+    "directReturnReadback": {
+      "observedAt": "2026-10-23T20:15:40.960Z",
+      "players": 1,
+      "joining": 0,
+      "queued": 0,
+      "protocol": "2635.289.1"
+    }
+  }
+}

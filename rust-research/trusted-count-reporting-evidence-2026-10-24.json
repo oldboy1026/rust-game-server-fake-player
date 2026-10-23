@@ -7,7 +7,7 @@
     "networkExperiment": "No network writes, session changes or RCON commands were performed for this report.",
     "privacy": "No credentials, tickets, account identifiers, player records or raw payloads were read or included.",
     "limitations": [
-      "Remote binaries, plugins, launch arguments and runtime settings are unknown.",
+      "Remote binaries, plugins, launch arguments and runtime settings cannot be inferred from this replica; runtime observations are maintained separately.",
       "This inventories identified managed reporting paths; it does not establish native Steam, EAC or Facepunch backend eligibility rules.",
       "The public trusted-count generation algorithm and its ingestion sources remain unknown."
     ]
@@ -116,6 +116,22 @@
       "limit": "No connection from this coordination path to the public trusted-count endpoint has been demonstrated."
     }
   ],
+  "gameplayAnalyticsSwitch": {
+    "localStartupDefault": false,
+    "defaultEvidence": "Analytics..cctor 0600922C explicitly sets ServerPerformanceConVar and GameplayRpcAnalyticsConVar true, but does not assign the static GameplayAnalyticsConVar backing bool. Its CLR default remains false until runtime/configuration assignment.",
+    "getter": "get_GameplayAnalyticsConVar 06009220 directly reads the backing bool; Azure.get_GameplayAnalytics 0600923C forwards it.",
+    "setter": "set_GameplayAnalyticsConVar 06009221 only stores the bool; it does not start a coroutine, restart a service or reset performance scheduling.",
+    "loopAlreadyExists": "ServerMgr.Initialize 06007AA8 IL_0137 calls StartForServer 06009226. Azure.Initialize 0600923D IL_0032 through IL_0037 starts AggregateLoop without checking the gameplay switch.",
+    "liveChangeBehavior": "AggregateLoop.MoveNext 060092F2 waits 60 seconds at IL_003E, reads the switch at IL_005E, and when false jumps to IL_013B then back to the wait at IL_003E while not quitting. It stays alive while disabled. On a normally initialized server, changing the bool takes effect on a later loop iteration without a restart.",
+    "stillGeneratedWhenFalse": [
+      "OnSteamAuth 06009288, OnPlayerConnected 06009272 and OnPlayerDisconnected 06009273 have no GameplayAnalytics gate and still submit lifecycle events to the shared server table when their callbacks occur.",
+      "PerformanceLogging.FlushMainThread 060093E2 still emits active-player count with active players and ServerPerformanceConVar=true, but GetFlushInterval 060093E3 selects the default one-hour PublicServerInterval.",
+      "Optional RuntimeProfiler.Update 0600943A is controlled independently by runtime_profiling and bulk-upload availability; the gameplay switch alone does not establish whether it runs.",
+      "Steam tag publication and EAC gameplay telemetry have their own existing gates. Facepunch tick telemetry is controlled by the separate gameplay_tick_analytics switch."
+    ],
+    "performanceRescheduleLimit": "OnFrame 060093E0 IL_0109 through IL_0117 waits for the existing nextFlushTime. Turning gameplay analytics on does not shorten that already scheduled time; FlushMainThread 060093E2 IL_000D through IL_0021 schedules its next interval when it actually runs.",
+    "interpretationLimit": "This establishes local switch mechanics, not that enabling gameplay analytics changes the public trusted-player-count feed. No setting was changed for this analysis."
+  },
   "sharedServerAnalyticsPipeline": {
     "queue": "EventRecord.Submit appends server records to GameplayEventsTableServer. Append queues each event without identity/IP deduplication.",
     "defaultBatchIntervalSeconds": 300,
@@ -129,6 +145,28 @@
     ],
     "networkCalls": ["FPUploader Upload.MoveNext 06009363 uses HttpClient.PostAsync and EnsureSuccessStatusCode", "AzureBulkUploader Upload.MoveNext 06009373 uses BlobContainerClient.UploadBlobAsync"],
     "dryRunCaveat": "FPUploader Upload.MoveNext 06009363 reads DryRun at IL_027B and branches at IL_0280 directly to IL_02F2, bypassing HTTP, then increments bytesUploaded through IL_0305. UploadedSize growth and Enabled=true alone therefore do not prove network transmission.",
+    "httpSuccessAndFailure": {
+      "scope": "FPUploaderImpl/<Upload>d__19.MoveNext 06009363 in the local replica; this does not establish AzureBulkUploader behavior or unknown remote code changes.",
+      "successOrder": [
+        "When DryRun=false, PostAsync is called at IL_028F.",
+        "The awaited HTTP operation returns through GetResult at IL_02E7, then EnsureSuccessStatusCode is called at IL_02EC.",
+        "Only after that success check does IL_02F2 through IL_0305 add stream.Length to bytesUploaded."
+      ],
+      "failureCounterBehavior": "A transport/HTTP exception before or at EnsureSuccessStatusCode skips this upload's bytesUploaded increment. With DryRun=false, growth attributed to this FPUploader path supports an HTTP 2xx response for an upload; aggregate UploadedSize alone may include other uploaders and is not a per-event or per-account acknowledgement.",
+      "applicationAcceptanceLimit": "No response-body or application-level acceptance check was identified in this path. HTTP 2xx and increasing uploaded bytes do not prove that the backend ingested every event, retained it, treated an account as eligible or included it in the public trusted-player count.",
+      "exceptionHandling": {
+        "httpRequestException": "The catch starts at IL_032D, checks HttpRequestException at IL_0331, and at IL_033C through IL_034D logs the static prefix HTTP Error when uploading analytics: followed by Exception.Message.",
+        "otherExceptions": "Other caught exceptions are passed to Debug.LogException at IL_0354 through IL_0356. Timeouts or cancellation may appear through this generic path depending on the exception actually raised; the runtime category was not observed here.",
+        "cleanupAndRetryLimit": "The stream is recycled at IL_035D through IL_0369 after the handled outcome. No retry loop was found in this upload method; this is not a claim about every caller or another uploader."
+      },
+      "passiveConsoleObservation": {
+        "source": "Use an already available passive server-console feed; no historical-log retrieval command was verified for this report.",
+        "retain": ["timestamp", "error category or exception type", "HTTP status if present"],
+        "redact": ["URLs and query strings", "headers", "payloads", "credentials and identifiers"],
+        "settings": "No analytics.log, DryRun, flush, reset or other setting change is needed to observe the existing error paths."
+      },
+      "evidenceFile": "work/steam-ticket-review/reporting-uploader.il.txt"
+    },
     "evidence": ["EventRecord.Submit 060093D6", "Azure.SubmitPoint 06009241", "AnalyticsManager..cctor 0600931B IL_0005 through IL_001A", "Analytics.StartForServer 06009226", "Azure.Initialize 0600923D", "AnalyticsManager..ctor 06009314", "AnalyticsManager.DoWork 06009318", "AnalyticsTable.Append 06009389", "AnalyticsTable.Accumulate 0600938B", "AnalyticsTable.get_WantsUpload 06009382", "AnalyticsTable.UpdateNextUploadTime 0600938C", "FallbackUploader.Resolve 0600937F", "FPUploader.get_Enabled 06009357", "AzureBulkUploader.get_Enabled 06009365", "AzureBulkUploader.CanCreateContainerClient 0600936E"],
     "limits": [
       "Five minutes is the local table's default batch interval, not a proven trusted-feed recomputation period or latency guarantee.",
@@ -157,7 +195,7 @@
     "Steam tags and several server analytics paths use active-player counts without requiring first PlayerTick, wakefulness, per-player EAC or IP-distinct filtering in the inspected count code.",
     "Team analytics has an awake-state online classification; tick and EAC telemetry have their own gates. These are separate paths and are not proven trusted-count eligibility rules.",
     "An IP field supplied to analytics or EAC is not evidence of an IP-deduplication policy. No backend policy can be inferred from absence of local grouping.",
-    "Remote configuration can suppress event generation, select a different uploader or discard queued events. Its current configuration has not been observed.",
+    "Runtime configuration can suppress event generation, select a different uploader or discard queued events. The local replica alone does not establish the remote values.",
     "These static findings do not yet explain the independent sessions' absence from the public trusted count. Backend account/IP/EAC eligibility, ingestion and expiry remain unresolved."
   ],
   "relatedEvidence": ["trusted-count-public-evidence-2026-10-24.json", "steam-auth-validation-evidence-2026-10-24.json", "wakeup-lifecycle-evidence-2026-10-24.json", "player-count-display-2026-10-24.json", "player-count-cache-followup-2026-10-24.json"]
