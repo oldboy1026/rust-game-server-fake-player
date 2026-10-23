@@ -1,0 +1,329 @@
+[
+  {
+    "id": "r2-search-rust-network",
+    "url": "https://api.github.com/search/repositories?q=%22Facepunch.Raknet%22+in%3Areadme&per_page=8",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-rust-bot",
+    "url": "https://api.github.com/search/repositories?q=%22rust%22+%22bot%22+%22raknet%22+in%3Areadme&per_page=8",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-raknet-js",
+    "url": "https://api.github.com/search/repositories?q=raknet+language%3AJavaScript&sort=updated&per_page=8",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-rust-client",
+    "url": "https://api.github.com/search/repositories?q=%22rust%22+%22headless+client%22+in%3Areadme&per_page=8",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-bing-protocol",
+    "url": "https://www.bing.com/search?q=Rust+Facepunch+RakNet+client+protocol+headless",
+    "fetchUrl": "https://r.jina.ai/https://www.bing.com/search?q=Rust%20Facepunch%20RakNet%20client%20protocol%20headless",
+    "pattern": "github|Rust|RakNet",
+    "maxMatches": 5
+  },
+  {
+    "id": "r2-facepunch-client-commands",
+    "url": "https://wiki.facepunch.com/rust/Client_commands",
+    "pattern": "connect|logfile|console|perf|net|client",
+    "maxMatches": 6
+  },
+  {
+    "id": "r2-pktmon-overview",
+    "url": "https://learn.microsoft.com/en-us/windows-server/networking/technologies/pktmon/pktmon",
+    "pattern": "packet|Windows|capture|component|PCAPNG",
+    "maxMatches": 5
+  },
+  {
+    "id": "r2-pktmon-start",
+    "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/pktmon-start",
+    "pattern": "--capture|--pkt-size|--comp|--file-name|--log-mode",
+    "maxMatches": 6
+  },
+  {
+    "id": "r2-dumpcap",
+    "url": "https://www.wireshark.org/docs/man-pages/dumpcap.html",
+    "pattern": "capture filter|ring buffer|permission|snaplen|autostop",
+    "maxMatches": 5
+  },
+  {
+    "id": "r2-unity-logfiles",
+    "url": "https://docs.unity3d.com/Manual/log-files.html",
+    "pattern": "Player.log|LocalLow|Windows|logFile",
+    "maxMatches": 3
+  },
+  {
+    "id": "r2-facepunch-raknet-repo",
+    "url": "https://api.github.com/repos/Facepunch/RakNet"
+  },
+  {
+    "id": "r2-prismarine-raknet-repo",
+    "url": "https://api.github.com/repos/PrismarineJS/node-raknet"
+  },
+  {
+    "id": "r2-search-game-headless",
+    "url": "https://api.github.com/search/repositories?q=%22facepunch%22+%22headless%22+in%3Areadme&per_page=10",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-game-protocol",
+    "url": "https://api.github.com/search/repositories?q=%22RustClient%22+%22RakNet%22+in%3Areadme&per_page=10",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-game-afk",
+    "url": "https://api.github.com/search/repositories?q=%22rust%22+%22afk%22+%22EAC%22+in%3Areadme&per_page=8",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-raknet-native",
+    "url": "https://api.github.com/search/repositories?q=raknet-native&per_page=6",
+    "jsonSummary": true
+  },
+  {
+    "id": "r2-search-game-clientless",
+    "url": "https://www.bing.com/search?q=%22Rust%22+%22clientless%22+%22server%22",
+    "fetchUrl": "https://r.jina.ai/https://www.bing.com/search?q=%22Rust%22%20%22clientless%22%20%22server%22",
+    "pattern": "No results|github.com|clientless",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-pktmon-filter",
+    "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/pktmon-filter-add",
+    "pattern": "--ip|--port|--transport|matching|filter",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-pktmon-convert",
+    "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/pktmon-etl2pcap",
+    "pattern": "Syntax|--out|drop|component",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-eac-lifecycle",
+    "url": "https://dev.epicgames.com/docs/game-services/anti-cheat/anti-cheat-interfaces",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/game-services/anti-cheat/anti-cheat-interfaces",
+    "pattern": "Peer-to-Peer|Client-Server|bootstrapper|protected|Dedicated",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-eac-network",
+    "url": "https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat",
+    "pattern": "MessageToServer|MessageToClient|ReceiveMessage|reliable|ordered",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-interceptor-meta",
+    "url": "https://api.github.com/repos/Asbra/RustInterceptor"
+  },
+  {
+    "id": "r2-interceptor-commit",
+    "url": "https://api.github.com/repos/Asbra/RustInterceptor/commits?per_page=1"
+  },
+  {
+    "id": "r2-native-commit",
+    "url": "https://api.github.com/repos/extremeheat/node-raknet-native/commits?per_page=1"
+  },
+  {
+    "id": "r2-bedrock-commit",
+    "url": "https://api.github.com/repos/PrismarineJS/bedrock-protocol/commits?per_page=1"
+  },
+  {
+    "id": "r2-rust-raknet-commit",
+    "url": "https://api.github.com/repos/b23r0/rust-raknet/commits?per_page=1"
+  },
+  {
+    "id": "r2-raknet-commit",
+    "url": "https://api.github.com/repos/facebookarchive/RakNet/commits?per_page=1"
+  },
+  {
+    "id": "r2-raknet-docs",
+    "url": "https://vp817.github.io/RakNetProtocolDoc/",
+    "pattern": "OpenConnection|Protocol|Reliability|sequence",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-eac-callback-api",
+    "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-add-notify-message-to-server",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-add-notify-message-to-server",
+    "pattern": "reliable|ordered|tick|message",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-eac-protect-api",
+    "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-protect-message",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-protect-message",
+    "pattern": "protect|buffer|integrity|result",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-eac-faq",
+    "url": "https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/anti-cheat-faq",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/anti-cheat-faq",
+    "pattern": "encrypt|packet|network|connect",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-tshark",
+    "url": "https://www.wireshark.org/docs/man-pages/tshark.html",
+    "pattern": "io,stat|udp.stream|-T fields",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-interceptor-readme",
+    "url": "https://raw.githubusercontent.com/Asbra/RustInterceptor/4bc4d8ac2879e268342c1c4185d5998ecb4b9303/README.md"
+  },
+  {
+    "id": "r2-interceptor-tree",
+    "url": "https://api.github.com/repos/Asbra/RustInterceptor/git/trees/4bc4d8ac2879e268342c1c4185d5998ecb4b9303?recursive=1"
+  },
+  {
+    "id": "r2-native-readme",
+    "url": "https://raw.githubusercontent.com/extremeheat/node-raknet-native/d66fe85a36a63633e6382fd089bf3f0d7a49e024/README.md"
+  },
+  {
+    "id": "r2-native-package",
+    "url": "https://raw.githubusercontent.com/extremeheat/node-raknet-native/d66fe85a36a63633e6382fd089bf3f0d7a49e024/package.json"
+  },
+  {
+    "id": "r2-native-submodules",
+    "url": "https://raw.githubusercontent.com/extremeheat/node-raknet-native/d66fe85a36a63633e6382fd089bf3f0d7a49e024/.gitmodules"
+  },
+  {
+    "id": "r2-native-tree",
+    "url": "https://api.github.com/repos/extremeheat/node-raknet-native/git/trees/d66fe85a36a63633e6382fd089bf3f0d7a49e024?recursive=1"
+  },
+  {
+    "id": "r2-bedrock-readme",
+    "url": "https://raw.githubusercontent.com/PrismarineJS/bedrock-protocol/c9e1fbf21dc6abde8d89920996575791b79e66cf/README.md"
+  },
+  {
+    "id": "r2-bedrock-api",
+    "url": "https://raw.githubusercontent.com/PrismarineJS/bedrock-protocol/c9e1fbf21dc6abde8d89920996575791b79e66cf/docs/API.md"
+  },
+  {
+    "id": "r2-rust-raknet-readme",
+    "url": "https://raw.githubusercontent.com/b23r0/rust-raknet/7599b2498c8cc1aa6f141ee00ca4aad3ba5f6e6c/README.md"
+  },
+  {
+    "id": "r2-rust-raknet-cargo",
+    "url": "https://raw.githubusercontent.com/b23r0/rust-raknet/7599b2498c8cc1aa6f141ee00ca4aad3ba5f6e6c/Cargo.toml"
+  },
+  {
+    "id": "r2-raknet-identifiers",
+    "url": "https://raw.githubusercontent.com/facebookarchive/RakNet/1a169895a900c9fc4841c556e16514182b75faf8/Source/MessageIdentifiers.h"
+  },
+  {
+    "id": "r2-raknet-version",
+    "url": "https://raw.githubusercontent.com/facebookarchive/RakNet/1a169895a900c9fc4841c556e16514182b75faf8/Source/RakNetVersion.h"
+  },
+  {
+    "id": "r2-raknet-peer",
+    "url": "https://raw.githubusercontent.com/facebookarchive/RakNet/1a169895a900c9fc4841c556e16514182b75faf8/Source/RakPeer.cpp"
+  },
+  {
+    "id": "r2-eac-callback-info",
+    "url": "https://dev.epicgames.com/docs/api-ref/structs/eos-anti-cheat-client-on-message-to-server-callback-info",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/structs/eos-anti-cheat-client-on-message-to-server-callback-info",
+    "pattern": "reliab|order|Data|message",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-unity-player-args",
+    "url": "https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html",
+    "pattern": "batchmode|nographics|logFile",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-native-client-cpp",
+    "url": "https://raw.githubusercontent.com/extremeheat/node-raknet-native/d66fe85a36a63633e6382fd089bf3f0d7a49e024/src/RakClient.cpp"
+  },
+  {
+    "id": "r2-native-util-cpp",
+    "url": "https://raw.githubusercontent.com/extremeheat/node-raknet-native/d66fe85a36a63633e6382fd089bf3f0d7a49e024/src/Util.cpp"
+  },
+  {
+    "id": "r2-interceptor-native",
+    "url": "https://raw.githubusercontent.com/Asbra/RustInterceptor/4bc4d8ac2879e268342c1c4185d5998ecb4b9303/RustInterceptor/Internal/RakNetNative.cs"
+  },
+  {
+    "id": "r2-interceptor-userinfo",
+    "url": "https://raw.githubusercontent.com/Asbra/RustInterceptor/4bc4d8ac2879e268342c1c4185d5998ecb4b9303/RustInterceptor/Data/GiveUserInformation.cs"
+  },
+  {
+    "id": "r2-interceptor-license",
+    "url": "https://raw.githubusercontent.com/Asbra/RustInterceptor/4bc4d8ac2879e268342c1c4185d5998ecb4b9303/LICENSE.md"
+  },
+  {
+    "id": "r2-wireshark-raknet",
+    "url": "https://www.wireshark.org/docs/dfref/r/raknet.html",
+    "pattern": "raknet",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-wireshark-raknet-source",
+    "url": "https://raw.githubusercontent.com/wireshark/wireshark/master/epan/dissectors/packet-raknet.c",
+    "pattern": "dissect_raknet|heur|udp.port|MAGIC|Unsupported",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-wireshark-capture-filter",
+    "url": "https://www.wireshark.org/docs/wsug_html_chunked/ChCapCaptureFilterSection.html",
+    "pattern": "udp|host|port|filter",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-facepunch-connect",
+    "url": "https://wiki.facepunch.com/rust/Connecting_to_a_server",
+    "pattern": "connect|client|F1",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-facepunch-console",
+    "url": "https://wiki.facepunch.com/rust/Console_Commands",
+    "pattern": "connect|client|find",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-native-js",
+    "url": "https://raw.githubusercontent.com/extremeheat/node-raknet-native/d66fe85a36a63633e6382fd089bf3f0d7a49e024/lib/RakNet.js"
+  },
+  {
+    "id": "r2-native-fork-version",
+    "url": "https://raw.githubusercontent.com/extremeheat/fb-raknet/424ae0fcb5902171c10b5aa4fcc48c45dc984633/Source/RakNetVersion.h"
+  },
+  {
+    "id": "r2-native-fork-interface",
+    "url": "https://raw.githubusercontent.com/extremeheat/fb-raknet/424ae0fcb5902171c10b5aa4fcc48c45dc984633/Source/RakPeerInterface.h"
+  },
+  {
+    "id": "r2-raknet-reliability",
+    "url": "https://raw.githubusercontent.com/facebookarchive/RakNet/1a169895a900c9fc4841c556e16514182b75faf8/Source/PacketPriority.h"
+  },
+  {
+    "id": "r2-wireshark-file-commit",
+    "url": "https://api.github.com/repos/wireshark/wireshark/commits?path=epan%2Fdissectors%2Fpacket-raknet.c&per_page=1"
+  },
+  {
+    "id": "r2-steam-game-tickets",
+    "url": "https://partner.steamgames.com/doc/api/ISteamUser",
+    "pattern": "GetAuthSessionTicket|GetEncryptedAppTicket|CancelAuthTicket|RequestEncryptedAppTicket",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-eac-client-session",
+    "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+    "fetchUrl": "https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+    "pattern": "Remarks|Invalid|ClientServer",
+    "maxMatches": 1
+  },
+  {
+    "id": "r2-wireshark-raknet-pinned",
+    "url": "https://raw.githubusercontent.com/wireshark/wireshark/fe168fe75ceda882ef00271041ee8e53d7ab5dad/epan/dissectors/packet-raknet.c"
+  }
+]

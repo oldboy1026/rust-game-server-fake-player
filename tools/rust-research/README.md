@@ -66,3 +66,18 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\sdk-enums.ps1
 `inspect-original.ps1` 通过 dnlib 读取程序集元数据和选定方法 IL，生成 `original-metadata.json` 和 `original-*.il.txt`。`sdk-enums.ps1` 读取相关 SDK 枚举。先与 `rust-research/evidence.json` 记录的模块 SHA-256、MVID、方法 token 核对。
 
 `export-evidence.mjs` 消费以上生成文件和 `sources/*.meta.json`，包含对研究版本的断言。运行 `node .\export-evidence.mjs` 会**重写**仓库 `rust-research/` 中的 `evidence.json`、`protocol-map.json` 和 `sources.json`，因此只应在有意生成新记录、并已核对输入时运行；提交前查看差异。该脚本是本轮研究版本的导出工具，不是任意 Rust 版本的自动协议分析器。
+
+## 第二轮资料与原生库
+
+`web-research-2026-10-23.json` 保存第二轮 65 个公开资源请求，可以按需要拆分清单交给 `collect.mjs` 重新获取。部分地址已确认缺失，检索结果也只用于发现候选；有效性判断、错误页排除和实际使用状态见 `../../rust-research/web-sources-2026-10-23.json`。不要把渲染器返回的 HTTP 200 自动视作有效文章。
+
+`server-native-filelist.txt` 只匹配本轮分析的原生 RakNet.dll。在本目录运行以下命令可按同一 manifest 获取它：
+
+```powershell
+.\depot-tool\DepotDownloader.exe -app 258550 -depot 258551 -manifest 93946663446561466 -os windows -filelist .\server-native-filelist.txt -dir .\steam-server-files
+node .\inspect-native.mjs .\steam-server-files\RustDedicated_Data\Plugins\x86_64\RakNet.dll
+```
+
+`inspect-native.mjs` 仅从字节读取 PE 头、导入库、命名导出和 SHA-256，不加载或执行 DLL。它可接受可选的第三个命令行参数作为 JSON 输出文件路径，建议放在被忽略的本地目录。证书表字段只反映表是否存在，没有验证 Authenticode 签名。
+
+第二轮 `native-transport-evidence.json` 另外将这些导出与 dnlib 读取的 `Facepunch.Raknet.dll` 的 `MethodDef.ImplMap` 逐项对照，并保存原生声明与可靠性映射证据。该比对仍属于静态分析，不能证明运行时 ABI、目标传输兼容性或 EAC 认证。

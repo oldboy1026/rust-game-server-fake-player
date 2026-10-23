@@ -25,6 +25,14 @@ Rust 部分已完成有证据依据的服务端静态研究和公开服务器查
 3. `rust-research/protocol-map.json`
 4. `steam-multi-account/README.md`
 
+2026-10-23 后续又完成了一轮公开资料与原生库研究，接着阅读 `rust-research/research-update-2026-10-23.md`、`rust-research/native-transport-evidence.json` 和 `rust-research/client-observation-plan.md`。新增 65 条来源记录保存在 `web-sources-2026-10-23.json`，原始第一轮证据保持独立。
+
+新增的主要线索：相同 Steam manifest 的 x64 `RakNet.dll` 静态导出 36 个函数，包含 NET_StartClient，托管封装的 29 个原生导入全部匹配。没有加载或执行它。后续可优先评估复用原生传输；另有 `extremeheat/node-raknet-native` 的通用 Node.js 绑定候选，仍需实际兼容性证据。RakNet 传输版本、Rust 应用协议 2635 和身份标记 228 是不同字段。
+
+观察准备已补充 Wireshark RakNet 解析器、完整包采集、阶段时间线和日志关联方案。pktmon 默认每包仅保存 128 字节，默认循环日志还可能覆盖开头。客户端未安装、未取得目录、未开始抓包的状态仍然成立。
+
+用户已明确要求：每批文件更新后提交并推送到 Gitee，并核对远端提交；此偏好已写入 AGENTS.md。
+
 ## 在新电脑上的下一步
 
 1. 获取用户提供的 Rust 安装目录，确认当前客户端版本、目录结构和普通客户端日志位置。静态读取程序集作为数据分析，区分托管程序集、原生网络组件和 EAC 组件。

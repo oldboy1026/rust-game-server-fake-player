@@ -1,0 +1,1 @@
+regex:(?i)^RustDedicated_Data[/\\]Plugins[/\\](x86_64[/\\])?RakNet\.dll$

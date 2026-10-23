@@ -1,0 +1,332 @@
+{
+  "observedAt": "2026-10-23T06:52:52.151Z",
+  "file": "RakNet.dll",
+  "bytes": 312656,
+  "sha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+  "inspection": "Static PE header/import/export reads only; DLL not loaded or executed.",
+  "machine": "0x8664",
+  "architecture": "x64",
+  "peFormat": "PE32+",
+  "hasCertificateTable": true,
+  "importedLibraries": [
+    "WS2_32.dll",
+    "KERNEL32.dll"
+  ],
+  "namedExports": [
+    "NETRCV_Address",
+    "NETRCV_GUID",
+    "NETRCV_LengthBits",
+    "NETRCV_Port",
+    "NETRCV_RawData",
+    "NETRCV_ReadBytes",
+    "NETRCV_SetReadPointer",
+    "NETRCV_UnreadBits",
+    "NETSND_Broadcast",
+    "NETSND_ReadCompressedFloat",
+    "NETSND_ReadCompressedInt32",
+    "NETSND_ReadCompressedInt64",
+    "NETSND_Send",
+    "NETSND_Size",
+    "NETSND_Start",
+    "NETSND_WriteBytes",
+    "NETSND_WriteCompressedFloat",
+    "NETSND_WriteCompressedInt32",
+    "NETSND_WriteCompressedInt64",
+    "NET_Close",
+    "NET_CloseConnection",
+    "NET_Create",
+    "NET_GetAddress",
+    "NET_GetAveragePing",
+    "NET_GetGUID",
+    "NET_GetLastPing",
+    "NET_GetLowestPing",
+    "NET_GetReceiveBufferSize",
+    "NET_GetStatistics",
+    "NET_GetStatisticsString",
+    "NET_LastStartupError",
+    "NET_LimitBandwidth",
+    "NET_Receive",
+    "NET_SendMessage",
+    "NET_StartClient",
+    "NET_StartServer"
+  ],
+  "provenance": {
+    "source": "Steam anonymous dedicated-server subscription",
+    "appId": 258550,
+    "depotId": 258551,
+    "manifestId": "93946663446561466",
+    "path": "RustDedicated_Data/Plugins/x86_64/RakNet.dll",
+    "downloadedCompressedBytes": 164576
+  },
+  "managedBinding": {
+    "file": "Facepunch.Raknet.dll",
+    "sha256": "95ea907d62c8cdbfd8f61246c3d7bf8a95c83aa567173d17a7da509150f9c2be",
+    "mvid": "44553f38-d673-4769-aa8d-c05b27885261",
+    "imports": [
+      {
+        "method": "System.IntPtr Facepunch.Network.Raknet.Native::NET_Create()",
+        "entryPoint": "NET_Create",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000003"
+      },
+      {
+        "method": "System.Void Facepunch.Network.Raknet.Native::NET_Close(System.IntPtr)",
+        "entryPoint": "NET_Close",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000004"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NET_StartClient(System.IntPtr,System.String,System.Int32,System.Int32,System.Int32,System.Int32)",
+        "entryPoint": "NET_StartClient",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000005"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NET_StartServer(System.IntPtr,System.String,System.Int32,System.Int32)",
+        "entryPoint": "NET_StartServer",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000006"
+      },
+      {
+        "method": "System.IntPtr Facepunch.Network.Raknet.Native::NET_LastStartupError(System.IntPtr)",
+        "entryPoint": "NET_LastStartupError",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000007"
+      },
+      {
+        "method": "System.UInt32 Facepunch.Network.Raknet.Native::NET_GetReceiveBufferSize(System.IntPtr)",
+        "entryPoint": "NET_GetReceiveBufferSize",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000008"
+      },
+      {
+        "method": "System.Boolean Facepunch.Network.Raknet.Native::NET_Receive(System.IntPtr)",
+        "entryPoint": "NET_Receive",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000009"
+      },
+      {
+        "method": "System.UInt64 Facepunch.Network.Raknet.Native::NETRCV_GUID(System.IntPtr)",
+        "entryPoint": "NETRCV_GUID",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600000a"
+      },
+      {
+        "method": "System.UInt32 Facepunch.Network.Raknet.Native::NETRCV_Address(System.IntPtr)",
+        "entryPoint": "NETRCV_Address",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600000b"
+      },
+      {
+        "method": "System.UInt32 Facepunch.Network.Raknet.Native::NETRCV_Port(System.IntPtr)",
+        "entryPoint": "NETRCV_Port",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600000c"
+      },
+      {
+        "method": "System.IntPtr Facepunch.Network.Raknet.Native::NETRCV_RawData(System.IntPtr)",
+        "entryPoint": "NETRCV_RawData",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600000d"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NETRCV_LengthBits(System.IntPtr)",
+        "entryPoint": "NETRCV_LengthBits",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600000e"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NETRCV_UnreadBits(System.IntPtr)",
+        "entryPoint": "NETRCV_UnreadBits",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600000f"
+      },
+      {
+        "method": "System.Boolean Facepunch.Network.Raknet.Native::NETRCV_ReadBytes(System.IntPtr,System.Byte*,System.Int32)",
+        "entryPoint": "NETRCV_ReadBytes",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000010"
+      },
+      {
+        "method": "System.Void Facepunch.Network.Raknet.Native::NETRCV_SetReadPointer(System.IntPtr,System.Int32)",
+        "entryPoint": "NETRCV_SetReadPointer",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000011"
+      },
+      {
+        "method": "System.Void Facepunch.Network.Raknet.Native::NETSND_Start(System.IntPtr)",
+        "entryPoint": "NETSND_Start",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000012"
+      },
+      {
+        "method": "System.Void Facepunch.Network.Raknet.Native::NETSND_WriteBytes(System.IntPtr,System.Byte*,System.Int32)",
+        "entryPoint": "NETSND_WriteBytes",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000013"
+      },
+      {
+        "method": "System.UInt32 Facepunch.Network.Raknet.Native::NETSND_Size(System.IntPtr)",
+        "entryPoint": "NETSND_Size",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000014"
+      },
+      {
+        "method": "System.UInt32 Facepunch.Network.Raknet.Native::NETSND_Broadcast(System.IntPtr,System.Int32,System.Int32,System.Int32)",
+        "entryPoint": "NETSND_Broadcast",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000015"
+      },
+      {
+        "method": "System.UInt32 Facepunch.Network.Raknet.Native::NETSND_Send(System.IntPtr,System.UInt64,System.Int32,System.Int32,System.Int32)",
+        "entryPoint": "NETSND_Send",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000016"
+      },
+      {
+        "method": "System.Void Facepunch.Network.Raknet.Native::NET_CloseConnection(System.IntPtr,System.UInt64)",
+        "entryPoint": "NET_CloseConnection",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000017"
+      },
+      {
+        "method": "System.IntPtr Facepunch.Network.Raknet.Native::NET_GetAddress(System.IntPtr,System.UInt64)",
+        "entryPoint": "NET_GetAddress",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000018"
+      },
+      {
+        "method": "System.IntPtr Facepunch.Network.Raknet.Native::NET_GetStatisticsString(System.IntPtr,System.UInt64)",
+        "entryPoint": "NET_GetStatisticsString",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x06000019"
+      },
+      {
+        "method": "System.Boolean Facepunch.Network.Raknet.Native::NET_GetStatistics(System.IntPtr,System.UInt64,Facepunch.Network.Raknet.Native/RaknetStats&,System.Int32)",
+        "entryPoint": "NET_GetStatistics",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600001a"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NET_GetAveragePing(System.IntPtr,System.UInt64)",
+        "entryPoint": "NET_GetAveragePing",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600001b"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NET_GetLastPing(System.IntPtr,System.UInt64)",
+        "entryPoint": "NET_GetLastPing",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600001c"
+      },
+      {
+        "method": "System.Int32 Facepunch.Network.Raknet.Native::NET_GetLowestPing(System.IntPtr,System.UInt64)",
+        "entryPoint": "NET_GetLowestPing",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600001d"
+      },
+      {
+        "method": "System.Void Facepunch.Network.Raknet.Native::NET_SendMessage(System.IntPtr,System.Byte*,System.Int32,System.UInt32,System.UInt16)",
+        "entryPoint": "NET_SendMessage",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600001e"
+      },
+      {
+        "method": "System.Single Facepunch.Network.Raknet.Native::NETSND_ReadCompressedFloat(System.IntPtr)",
+        "entryPoint": "NETSND_ReadCompressedFloat",
+        "module": "RakNet",
+        "attributes": "CharSetNotSpec, BestFitUseAssem, CallConvWinapi",
+        "metadataToken": "0x0600001f"
+      }
+    ]
+  },
+  "importedEntryPointsMatched": true,
+  "unmatchedImports": [],
+  "extraNamedExports": [
+    "NETSND_ReadCompressedInt32",
+    "NETSND_ReadCompressedInt64",
+    "NETSND_WriteCompressedFloat",
+    "NETSND_WriteCompressedInt32",
+    "NETSND_WriteCompressedInt64",
+    "NET_GetGUID",
+    "NET_LimitBandwidth"
+  ],
+  "limits": [
+    "Only original dedicated-server native library and managed declarations inspected.",
+    "No DLL loaded, no FFI call made, no runtime ABI/transport compatibility established.",
+    "Client build equality, RakNet handshake version and effective target encryption remain unverified.",
+    "Native transport exports do not generate or establish EAC authentication.",
+    "Certificate table presence is not signature validation or EAC attestation."
+  ],
+  "wrapperReliabilityMapping": {
+    "method": "System.Int32 Facepunch.Network.Raknet.Peer::ToRaknetPacketReliability(Network.SendMethod) TOKEN 100663390",
+    "metadataToken": "0x600005e",
+    "inspectedILTextSha256": "23e2eac3ab232ca842c45f4c42e15d69e4941fb824726e29b3a825a2c829af79",
+    "enumFields": [
+      {
+        "name": "Reliable",
+        "type": "Network.SendMethod",
+        "constant": 0
+      },
+      {
+        "name": "ReliableUnordered",
+        "type": "Network.SendMethod",
+        "constant": 1
+      },
+      {
+        "name": "Unreliable",
+        "type": "Network.SendMethod",
+        "constant": 2
+      }
+    ],
+    "mappings": [
+      {
+        "rustName": "Reliable",
+        "rustValue": 0,
+        "nativeValue": 3,
+        "raknetName": "RELIABLE_ORDERED"
+      },
+      {
+        "rustName": "ReliableUnordered",
+        "rustValue": 1,
+        "nativeValue": 2,
+        "raknetName": "RELIABLE"
+      },
+      {
+        "rustName": "Unreliable",
+        "rustValue": 2,
+        "nativeValue": 0,
+        "raknetName": "UNRELIABLE"
+      }
+    ],
+    "raknetNamesReference": "r2-raknet-reliability"
+  }
+}
