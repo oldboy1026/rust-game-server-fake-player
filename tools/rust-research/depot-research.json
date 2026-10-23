@@ -1,0 +1,4 @@
+[
+ {"id":"depotdownloader-release","url":"https://api.github.com/repos/SteamRE/DepotDownloader/releases/tags/DepotDownloader_3.4.0"},
+ {"id":"depotdownloader-readme","url":"https://raw.githubusercontent.com/SteamRE/DepotDownloader/DepotDownloader_3.4.0/README.md","pattern":"filelist|anonymous|proxy|manifest|usage","maxMatches":3}
+]

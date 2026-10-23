@@ -1,0 +1,10 @@
+[
+ {"id":"relay-readme","url":"https://api.github.com/repos/pedrocorreia/rust-relay-research/readme","headers":{"Accept":"application/vnd.github.raw+json"}},
+ {"id":"relay-tree","url":"https://api.github.com/repos/pedrocorreia/rust-relay-research/git/trees/HEAD?recursive=1"},
+ {"id":"oxide-readme","url":"https://api.github.com/repos/OxideMod/Oxide.Rust/readme","headers":{"Accept":"application/vnd.github.raw+json"}},
+ {"id":"oxide-tree","url":"https://api.github.com/repos/OxideMod/Oxide.Rust/git/trees/HEAD?recursive=1"},
+ {"id":"rustplus-readme","url":"https://api.github.com/repos/liamcottle/rustplus.js/readme","headers":{"Accept":"application/vnd.github.raw+json"},"pattern":"companion|WebSocket|protocol|pair|server","maxMatches":4},
+ {"id":"steam-server-query","url":"https://developer.valvesoftware.com/wiki/Server_queries","pattern":"A2S_INFO|challenge|VAC|Version|UDP","maxMatches":4},
+ {"id":"rust-server-official","url":"https://wiki.facepunch.com/rust/Creating-a-server","pattern":"4 ports|query|UDP|server.encryption|EAC|eac|client.connect","maxMatches":4},
+ {"id":"steamcmd-metadata","url":"https://api.steamcmd.net/v1/info/258550"}
+]

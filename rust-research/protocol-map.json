@@ -1,0 +1,480 @@
+{
+  "rustProtocol": 2635,
+  "provenance": "Current unmodified dedicated-server assemblies; details in evidence.json",
+  "evidenceLevel": "Static server-side analysis. Transport and successful player authentication have not been exercised.",
+  "connectionMarker": 228,
+  "applicationHeaderOffset": 140,
+  "messages": [
+    {
+      "name": "Welcome",
+      "enumValue": 1,
+      "applicationHeaderByte": 141,
+      "applicationHeaderHex": "0x8D"
+    },
+    {
+      "name": "Auth",
+      "enumValue": 2,
+      "applicationHeaderByte": 142,
+      "applicationHeaderHex": "0x8E"
+    },
+    {
+      "name": "Approved",
+      "enumValue": 3,
+      "applicationHeaderByte": 143,
+      "applicationHeaderHex": "0x8F"
+    },
+    {
+      "name": "Ready",
+      "enumValue": 4,
+      "applicationHeaderByte": 144,
+      "applicationHeaderHex": "0x90"
+    },
+    {
+      "name": "Entities",
+      "enumValue": 5,
+      "applicationHeaderByte": 145,
+      "applicationHeaderHex": "0x91"
+    },
+    {
+      "name": "EntityDestroy",
+      "enumValue": 6,
+      "applicationHeaderByte": 146,
+      "applicationHeaderHex": "0x92"
+    },
+    {
+      "name": "GroupChange",
+      "enumValue": 7,
+      "applicationHeaderByte": 147,
+      "applicationHeaderHex": "0x93"
+    },
+    {
+      "name": "GroupDestroy",
+      "enumValue": 8,
+      "applicationHeaderByte": 148,
+      "applicationHeaderHex": "0x94"
+    },
+    {
+      "name": "RPCMessage",
+      "enumValue": 9,
+      "applicationHeaderByte": 149,
+      "applicationHeaderHex": "0x95"
+    },
+    {
+      "name": "EntityPosition",
+      "enumValue": 10,
+      "applicationHeaderByte": 150,
+      "applicationHeaderHex": "0x96"
+    },
+    {
+      "name": "ConsoleMessage",
+      "enumValue": 11,
+      "applicationHeaderByte": 151,
+      "applicationHeaderHex": "0x97"
+    },
+    {
+      "name": "ConsoleCommand",
+      "enumValue": 12,
+      "applicationHeaderByte": 152,
+      "applicationHeaderHex": "0x98"
+    },
+    {
+      "name": "Effect",
+      "enumValue": 13,
+      "applicationHeaderByte": 153,
+      "applicationHeaderHex": "0x99"
+    },
+    {
+      "name": "DisconnectReason",
+      "enumValue": 14,
+      "applicationHeaderByte": 154,
+      "applicationHeaderHex": "0x9A"
+    },
+    {
+      "name": "Tick",
+      "enumValue": 15,
+      "applicationHeaderByte": 155,
+      "applicationHeaderHex": "0x9B"
+    },
+    {
+      "name": "Message",
+      "enumValue": 16,
+      "applicationHeaderByte": 156,
+      "applicationHeaderHex": "0x9C"
+    },
+    {
+      "name": "RequestUserInformation",
+      "enumValue": 17,
+      "applicationHeaderByte": 157,
+      "applicationHeaderHex": "0x9D"
+    },
+    {
+      "name": "GiveUserInformation",
+      "enumValue": 18,
+      "applicationHeaderByte": 158,
+      "applicationHeaderHex": "0x9E"
+    },
+    {
+      "name": "GroupEnter",
+      "enumValue": 19,
+      "applicationHeaderByte": 159,
+      "applicationHeaderHex": "0x9F"
+    },
+    {
+      "name": "GroupLeave",
+      "enumValue": 20,
+      "applicationHeaderByte": 160,
+      "applicationHeaderHex": "0xA0"
+    },
+    {
+      "name": "VoiceData",
+      "enumValue": 21,
+      "applicationHeaderByte": 161,
+      "applicationHeaderHex": "0xA1"
+    },
+    {
+      "name": "EAC",
+      "enumValue": 22,
+      "applicationHeaderByte": 162,
+      "applicationHeaderHex": "0xA2"
+    },
+    {
+      "name": "EntityFlags",
+      "enumValue": 23,
+      "applicationHeaderByte": 163,
+      "applicationHeaderHex": "0xA3"
+    },
+    {
+      "name": "World",
+      "enumValue": 24,
+      "applicationHeaderByte": 164,
+      "applicationHeaderHex": "0xA4"
+    },
+    {
+      "name": "ConsoleReplicatedVars",
+      "enumValue": 25,
+      "applicationHeaderByte": 165,
+      "applicationHeaderHex": "0xA5"
+    },
+    {
+      "name": "QueueUpdate",
+      "enumValue": 26,
+      "applicationHeaderByte": 166,
+      "applicationHeaderHex": "0xA6"
+    },
+    {
+      "name": "SyncVar",
+      "enumValue": 27,
+      "applicationHeaderByte": 167,
+      "applicationHeaderHex": "0xA7"
+    },
+    {
+      "name": "PackedSyncVar",
+      "enumValue": 28,
+      "applicationHeaderByte": 168,
+      "applicationHeaderHex": "0xA8"
+    }
+  ],
+  "connectionStates": [
+    {
+      "name": "Unconnected",
+      "value": 0
+    },
+    {
+      "name": "Connecting",
+      "value": 1
+    },
+    {
+      "name": "InQueue",
+      "value": 2
+    },
+    {
+      "name": "Welcoming",
+      "value": 3
+    },
+    {
+      "name": "Connected",
+      "value": 4
+    },
+    {
+      "name": "Disconnected",
+      "value": 5
+    }
+  ],
+  "schemas": {
+    "PlayerTick": [
+      {
+        "number": 1,
+        "name": "inputState",
+        "type": "InputMessage",
+        "wireType": 2,
+        "requiredByFullSerializer": true
+      },
+      {
+        "number": 2,
+        "name": "position",
+        "type": "UnityEngine.Vector3",
+        "wireType": 2
+      },
+      {
+        "number": 4,
+        "name": "modelState",
+        "type": "ModelState",
+        "wireType": 2,
+        "requiredByFullSerializer": true
+      },
+      {
+        "number": 5,
+        "name": "activeItem",
+        "type": "ItemId/uint64",
+        "wireType": 0
+      },
+      {
+        "number": 6,
+        "name": "eyePos",
+        "type": "UnityEngine.Vector3",
+        "wireType": 2
+      },
+      {
+        "number": 7,
+        "name": "parentID",
+        "type": "NetworkableId/uint64",
+        "wireType": 0
+      },
+      {
+        "number": 8,
+        "name": "deltaMs",
+        "type": "uint32",
+        "wireType": 0
+      }
+    ],
+    "InputMessage": [
+      {
+        "number": 1,
+        "name": "buttons",
+        "type": "int32",
+        "wireType": 0
+      },
+      {
+        "number": 2,
+        "name": "aimAngles",
+        "type": "UnityEngine.Vector3",
+        "wireType": 2
+      },
+      {
+        "number": 3,
+        "name": "mouseDelta",
+        "type": "UnityEngine.Vector3",
+        "wireType": 2
+      }
+    ],
+    "ProtoBuf.ClientReady": [
+      {
+        "number": 1,
+        "name": "clientInfo",
+        "type": "ProtoBuf.ClientReady/ClientInfo",
+        "wireType": 2,
+        "repeated": true
+      },
+      {
+        "number": 2,
+        "name": "globalNetworking",
+        "type": "bool",
+        "wireType": 0
+      },
+      {
+        "number": 3,
+        "name": "party",
+        "type": "ProtoBuf.PartyData",
+        "wireType": 2
+      }
+    ],
+    "ProtoBuf.ClientReady/ClientInfo": [
+      {
+        "number": 1,
+        "name": "name",
+        "type": "string",
+        "wireType": 2
+      },
+      {
+        "number": 2,
+        "name": "value",
+        "type": "string",
+        "wireType": 2
+      }
+    ]
+  },
+  "userInformationReadOrder": [
+    {
+      "name": "connectionMarker",
+      "type": "uint8",
+      "expected": 228
+    },
+    {
+      "name": "userid",
+      "type": "uint64"
+    },
+    {
+      "name": "protocol",
+      "type": "uint32",
+      "expected": 2635
+    },
+    {
+      "name": "os",
+      "type": "length-prefixed UTF-8 string",
+      "maxDecodedCharacters": 128
+    },
+    {
+      "name": "username",
+      "type": "length-prefixed UTF-8 string",
+      "maxDecodedCharacters": 256
+    },
+    {
+      "name": "branch",
+      "type": "length-prefixed UTF-8 string",
+      "maxDecodedCharacters": 128,
+      "condition": "Reader attempts this when at least four bytes remain at this point."
+    },
+    {
+      "name": "token",
+      "type": "length-prefixed bytes",
+      "maxBytes": 512,
+      "sensitive": true
+    },
+    {
+      "name": "anticheatId",
+      "type": "length-prefixed raw UTF-8 string",
+      "maxBytes": 128
+    },
+    {
+      "name": "anticheatToken",
+      "type": "length-prefixed raw UTF-8 string",
+      "maxBytes": 2048,
+      "sensitive": true
+    },
+    {
+      "name": "clientChangeset",
+      "type": "int32"
+    },
+    {
+      "name": "clientBuildTime",
+      "type": "int64"
+    },
+    {
+      "name": "language",
+      "type": "length-prefixed UTF-8 string",
+      "maxDecodedCharacters": 256
+    }
+  ],
+  "sdkEnums": [
+    {
+      "name": "Epic.OnlineServices.ExternalCredentialType",
+      "values": [
+        {
+          "name": "Epic",
+          "value": 0
+        },
+        {
+          "name": "SteamAppTicket",
+          "value": 1
+        },
+        {
+          "name": "PsnIdToken",
+          "value": 2
+        },
+        {
+          "name": "XblXstsToken",
+          "value": 3
+        },
+        {
+          "name": "DiscordAccessToken",
+          "value": 4
+        },
+        {
+          "name": "GogSessionTicket",
+          "value": 5
+        },
+        {
+          "name": "NintendoIdToken",
+          "value": 6
+        },
+        {
+          "name": "NintendoNsaIdToken",
+          "value": 7
+        },
+        {
+          "name": "UplayAccessToken",
+          "value": 8
+        },
+        {
+          "name": "OpenidAccessToken",
+          "value": 9
+        },
+        {
+          "name": "DeviceidAccessToken",
+          "value": 10
+        },
+        {
+          "name": "AppleIdToken",
+          "value": 11
+        },
+        {
+          "name": "GoogleIdToken",
+          "value": 12
+        },
+        {
+          "name": "OculusUseridNonce",
+          "value": 13
+        },
+        {
+          "name": "ItchioJwt",
+          "value": 14
+        },
+        {
+          "name": "ItchioKey",
+          "value": 15
+        },
+        {
+          "name": "EpicIdToken",
+          "value": 16
+        },
+        {
+          "name": "AmazonAccessToken",
+          "value": 17
+        },
+        {
+          "name": "SteamSessionTicket",
+          "value": 18
+        },
+        {
+          "name": "ViveportUserToken",
+          "value": 19
+        }
+      ]
+    },
+    {
+      "name": "Epic.OnlineServices.AntiCheatCommon.AntiCheatCommonClientAuthStatus",
+      "values": [
+        {
+          "name": "Invalid",
+          "value": 0
+        },
+        {
+          "name": "LocalAuthComplete",
+          "value": 1
+        },
+        {
+          "name": "RemoteAuthComplete",
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    "Full native RakNet transport compatibility",
+    "Complete outer packet framing and reliability behavior",
+    "Client-side EOS and EAC initialization for the Rust product",
+    "Client-side protected runtime and EAC opaque message generation",
+    "All entity/snapshot and delta-message schemas",
+    "Observed timing, reconnection and successful admission validation"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "observedAt": "2026-10-23T06:10:54.206Z",
+  "endpoint": {
+    "host": "202.189.21.138",
+    "queryPort": 28017
+  },
+  "eacVerification": "not established by A2S",
+  "playerLoginAttempted": false,
+  "info": {
+    "ok": true,
+    "result": {
+      "protocol": 17,
+      "name": "AY|Solo|Duo|萌新|双人|软核|周清|10/22/21:30",
+      "map": "Procedural Map",
+      "folder": "rust",
+      "game": "Rust",
+      "appId16": 0,
+      "players": 3,
+      "maxPlayers": 150,
+      "bots": 0,
+      "serverType": "d",
+      "environment": "w",
+      "passwordProtected": false,
+      "vacSecure": true,
+      "version": "2635",
+      "gamePort": 28015,
+      "serverSteamId": "90295576742458370",
+      "tags": "mp150,cp3,ptrak,qp0,$r?,v2635,^w,EA,born1792675560,gmsoftcore,cs168909,ts4,^o",
+      "gameId64": "252490"
+    }
+  },
+  "rules": {
+    "ok": true,
+    "result": {
+      "count": 36,
+      "relevant": [
+        {
+          "name": "build",
+          "value": "168909"
+        }
+      ],
+      "note": "Published rule strings are advisory; they do not prove the server enforces EAC."
+    }
+  }
+}

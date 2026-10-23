@@ -1,0 +1,6 @@
+[
+  {"id":"eac-overview","url":"https://dev.epicgames.com/docs/game-services/anti-cheat/anti-cheat-interfaces","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/game-services/anti-cheat/anti-cheat-interfaces","pattern":"Development Prerequisites|protected mode|BeginSession|Bootstrapper|Client Credentials","maxMatches":6},
+  {"id":"eac-using","url":"https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat","pattern":"integrity|BeginSession|OnMessageToServer|ReceiveMessageFromClient|Client Module|protect|timeout","maxMatches":10},
+  {"id":"steam-auth","url":"https://partner.steamgames.com/doc/features/auth","pattern":"AuthSessionTicket|BeginAuthSession|ValidateAuthTicketResponse|reused|cancel|session ticket","maxMatches":8},
+  {"id":"eac-checklist","url":"https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/anti-cheat-integration-check-list","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/anti-cheat-integration-check-list","pattern":"session|authenticat|timeout|disconnect|server|integrity","maxMatches":6}
+]

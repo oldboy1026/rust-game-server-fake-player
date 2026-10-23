@@ -1,0 +1,36 @@
+# Local dependencies and Steam account storage
+**/node_modules/
+**/data/
+**/work/
+.env
+.env.*
+!.env.example
+*.log
+*.lock.pid
+api-key.txt
+accounts.enc
+key.dpapi
+service.lock
+
+# Game binaries, downloaded packages, and generated research intermediates
+/tools/rust-research/packages/
+/tools/rust-research/managed/
+/tools/rust-research/depot-tool/
+/tools/rust-research/steam-server-files/
+/tools/rust-research/sources/
+/tools/rust-research/original-*
+/tools/rust-research/sdk-enums.json
+*.dll
+*.exe
+*.zip
+*.nupkg
+
+# Local traffic captures and machine-specific observations
+/captures/
+*.pcap
+*.pcapng
+*.etl
+*.dmp
+*.har
+.DS_Store
+Thumbs.db

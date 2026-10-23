@@ -1,0 +1,263 @@
+{
+  "generatedAt": "2026-10-23T06:16:31.320Z",
+  "scope": "Research of Rust protocol 2635 and official EAC/EOS session requirements. No authenticated Rust player connection has been established.",
+  "provenance": {
+    "source": "Steam anonymous dedicated-server subscription, app 258550, public branch, Windows",
+    "depots": [
+      {
+        "depotId": 258551,
+        "manifestId": "93946663446561466"
+      },
+      {
+        "depotId": 258554,
+        "manifestId": "2507054976021021832"
+      }
+    ],
+    "downloaderVersion": "SteamRE DepotDownloader 3.4.0",
+    "downloadedCompressedBytes": 4575232,
+    "modules": [
+      {
+        "assembly": "Assembly-CSharp-firstpass.dll",
+        "size": 1445200,
+        "sha256": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77",
+        "mvid": "57da5e47-80e4-4f72-8ce5-862327f1980d"
+      },
+      {
+        "assembly": "Assembly-CSharp.dll",
+        "size": 10515792,
+        "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+        "mvid": "ea5bea93-989c-4789-88b5-c1200be42811"
+      },
+      {
+        "assembly": "Facepunch.Network.dll",
+        "size": 124240,
+        "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+        "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480"
+      },
+      {
+        "assembly": "Facepunch.Raknet.dll",
+        "size": 35152,
+        "sha256": "95ea907d62c8cdbfd8f61246c3d7bf8a95c83aa567173d17a7da509150f9c2be",
+        "mvid": "44553f38-d673-4769-aa8d-c05b27885261"
+      },
+      {
+        "assembly": "Facepunch.SteamNetworking.dll",
+        "size": 33104,
+        "sha256": "d3c9a993f36ab39208158ddc2dac0be27903dc7f11b29d0e2abb6b35169939e2",
+        "mvid": "3bb81528-8e3d-4476-a2a7-8c9199552c0d"
+      },
+      {
+        "assembly": "Rust.Data.dll",
+        "size": 2050384,
+        "sha256": "1d62baef9b339f0416e6529618365c1ecad01791a833e77e76eb6c8464406104",
+        "mvid": "170a8d63-8502-4c7e-8c3e-1180a337e719"
+      },
+      {
+        "assembly": "Rust.Global.dll",
+        "size": 129872,
+        "sha256": "84b661f33746deebd0345c0044cfe42bd04c0c80cc6a587e42d7c3dd5a1102bf",
+        "mvid": "3c8e3414-61c0-4f6c-8c5c-c3c8a8061f6e"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "assembly": "Facepunch.Network.dll",
+      "method": "System.Void Network.Server::OnNewConnection(Network.Connection)",
+      "metadataToken": "0x600018f",
+      "inspectedILTextSha256": "c5d66eb6b6ee5e3b8921eef18525cc6add371adf1761e519b3591be8300557a9",
+      "finding": "After transport admission, the server sends RequestUserInformation.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Facepunch.Network.dll",
+      "method": "System.Void Network.NetWrite::PacketID(Network.Message/Type)",
+      "metadataToken": "0x60000ea",
+      "inspectedILTextSha256": "f0c4d9fb4b4419d12701290f3712adcef7a922027f7114327edc786231cd5098",
+      "finding": "The application message header is the enum value plus 140; it is not a raw UDP packet identifier.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void ServerMgr::OnGiveUserInformation(Network.Message)",
+      "metadataToken": "0x6007aa3",
+      "inspectedILTextSha256": "89392d2c0f55bcfdeb41a1afcc26c708c344f91565bd193a02c75d419072d9dc",
+      "finding": "The server validates the application connection marker and protocol, and reads Steam and anti-cheat identity data.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Boolean ConnectionAuth/<AuthorisationRoutine>d__6::MoveNext()",
+      "metadataToken": "0x60078bf",
+      "inspectedILTextSha256": "afb5a28d78d59ccdcce4e0d958cc5bd71e0d6ffda4fab402f7d32c2e94590648",
+      "finding": "The authentication coroutine runs Steam, EAC and additional server admission checks before queue admission.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Boolean Auth_Steam/<Run>d__1::MoveNext()",
+      "metadataToken": "0x60078af",
+      "inspectedILTextSha256": "2a83c58ac11133662a292a69a6aa95ca39aad69f1e81ada3f308d0e3008f5a76",
+      "finding": "The Steam platform session is started using the supplied Steam ID and token.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Boolean Auth_EAC/<Run>d__0::MoveNext()",
+      "metadataToken": "0x600788d",
+      "inspectedILTextSha256": "ff04507a446f58ed289b40151f98ac36efd72e63bbdca0172c6260b3db97fd36",
+      "finding": "EAC registration and authentication progress are separate from the Steam session.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void ServerMgr::JoinGame(Network.Connection)",
+      "metadataToken": "0x6007ac5",
+      "inspectedILTextSha256": "46004b8b1ed203865676b694f5092d08b3d2af74ca2687633675982dd8ab7cfa",
+      "finding": "Approval includes world data and the selected network encryption level.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void ServerMgr::ClientReady(Network.Message)",
+      "metadataToken": "0x6007a9d",
+      "inspectedILTextSha256": "0abe9935ed1f9f9148f1986938ed0656cb58cb980fde53d913a043f321d9bfd3",
+      "finding": "ClientReady is a Protobuf message and advances a welcoming connection into the connected state.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void BasePlayer::OnReceivedTick(Network.NetRead)",
+      "metadataToken": "0x6001b67",
+      "inspectedILTextSha256": "448d7b6bdcc470efae0f3d9d169e39fa0dda66aeffc0449456dee49619adbed5",
+      "finding": "PlayerTick is deserialized with ProtoDelta using the previous received tick.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Rust.Data.dll",
+      "method": "System.Void PlayerTick::Serialize(BufferStream,PlayerTick)",
+      "metadataToken": "0x60000a1",
+      "inspectedILTextSha256": "1c026b290b1226f930882936b9ba8e42fe547d9a7682906aeb2fa00028d95197",
+      "finding": "Full PlayerTick includes input, position, model state, identifiers and time delta.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Rust.Data.dll",
+      "method": "System.Void ProtoBuf.ClientReady::Serialize(BufferStream,ProtoBuf.ClientReady)",
+      "metadataToken": "0x6000bb9",
+      "inspectedILTextSha256": "88d3d4bc378eb48e3fceab5569277ea5170d4fd4f7a389023b86d0e7e4aefd74",
+      "finding": "ClientReady has clientInfo, globalNetworking and party fields.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp-firstpass.dll",
+      "method": "System.Void EOS::Login(System.String,Epic.OnlineServices.Connect.OnLoginCallback)",
+      "metadataToken": "0x6000004",
+      "inspectedILTextSha256": "d4c8ce6691c155181783dfd058801c241bd8649149236997482926d3dfc034f4",
+      "finding": "The common EOS login wrapper selects ExternalCredentialType.SteamAppTicket (1). This is not proof of a successful client login.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp-firstpass.dll",
+      "method": "Epic.OnlineServices.Result EOS::CopyIdToken(Epic.OnlineServices.ProductUserId,System.Nullable`1<Epic.OnlineServices.Connect.IdToken>&)",
+      "metadataToken": "0x6000009",
+      "inspectedILTextSha256": "15098850366d448e1c3f7172af6b06df4028911f0307107a6362731802f5c478",
+      "finding": "EOS identity token issuance uses the Connect interface and a ProductUserId.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::DoStartup()",
+      "metadataToken": "0x60078eb",
+      "inspectedILTextSha256": "973282adb4c4af7361fe2ad74a758a71874ffa9f13b71363ae726b56f9e9973e",
+      "finding": "The protected server initializes an EOS AntiCheatServer session and sets its registration timeout to 20 seconds.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::OnJoinGame(Network.Connection,EAC/SystemConfig)",
+      "metadataToken": "0x60078ef",
+      "inspectedILTextSha256": "b36188236cea0ca212c1765437c47417c4cbc5f1c2ffa23e01d1c6ed9f4bee96",
+      "finding": "The protected path registers a client handle and the claimed ProductUserId with the EOS AntiCheatServer interface.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::OnClientAuthStatusChanged(Epic.OnlineServices.AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo&)",
+      "metadataToken": "0x60078e8",
+      "inspectedILTextSha256": "c1c4df28113f01757efd826c56faa23c630b1bc295cc65a84016f20a7ac33ffd",
+      "finding": "Local and remote authentication callbacks are distinct; remote completion starts identity-token verification.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::OnVerifyIdToken(Epic.OnlineServices.Connect.VerifyIdTokenCallbackInfo&)",
+      "metadataToken": "0x60078e7",
+      "inspectedILTextSha256": "6adf00d88dc22957b0eb208afe267f82d824183cde916f6a6c404d4a44196d7e",
+      "finding": "When identity-token verification is enforced, failed verification or a mismatch between AccountId and the Steam user ID results in rejection.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Boolean EACServer::IsAuthenticated(Network.Connection)",
+      "metadataToken": "0x60078e4",
+      "inspectedILTextSha256": "30dc0c786e9405a92041ad2fe3be81bcac9bea065336a1ee49e66dba7b229132",
+      "finding": "This helper checks for RemoteAuthComplete (2). It is not the only admission gate; strict-auth configuration affects earlier progression.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::OnMessageReceived(Network.Message)",
+      "metadataToken": "0x60078f2",
+      "inspectedILTextSha256": "a8afb7fa154899b19132bd41d66075d3f01c87dd9418b9956e0783e42f5233bd",
+      "finding": "EAC payloads are passed to the official ReceiveMessageFromClient interface.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::Encrypt(Network.Connection,System.ArraySegment`1<System.Byte>,System.ArraySegment`1<System.Byte>&)",
+      "metadataToken": "0x60078e0",
+      "inspectedILTextSha256": "1bb301eea8a4286ef353fcf4a9adb28e33d742d8efe27c1819bad4a458ef19a6",
+      "finding": "A server network-protection path uses EOS ProtectMessage; actual target encryption configuration was not read.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::Decrypt(Network.Connection,System.ArraySegment`1<System.Byte>,System.ArraySegment`1<System.Byte>&)",
+      "metadataToken": "0x60078e1",
+      "inspectedILTextSha256": "b78bcf21a85e3c72afcdac50e9efc6219a446045fbd53b5fc4c0c848dbcfc70d",
+      "finding": "The corresponding network-protection path uses EOS UnprotectMessage.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::OnStartLoading(Network.Connection)",
+      "metadataToken": "0x60078f0",
+      "inspectedILTextSha256": "260e5558305252adbbb8e195b81b4d533e2efeac1d926beee820778f2a070e9f",
+      "finding": "The EAC network-active state is adjusted for loading.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "method": "System.Void EACServer::OnFinishLoading(Network.Connection)",
+      "metadataToken": "0x60078f1",
+      "inspectedILTextSha256": "b2efb8c76d146cf10923b1817d2fb213560dcbc541adffc98668e742bbc6eaf5",
+      "finding": "The EAC network-active state is adjusted when loading finishes.",
+      "evidenceKind": "static analysis, not successful player login"
+    },
+    {
+      "assembly": "Facepunch.Raknet.dll",
+      "method": "System.Boolean Facepunch.Network.Raknet.Client::Connect(System.String,System.Int32)",
+      "metadataToken": "0x6000022",
+      "inspectedILTextSha256": "5a3d6465c6a0e0cec81cb0cd6ac8b4611ba7d2bde6daa94208d1598db9df1da5",
+      "finding": "Rust includes a RakNet client wrapper that calls the native transport; the complete native handshake was not reconstructed.",
+      "evidenceKind": "static analysis, not successful player login"
+    }
+  ],
+  "excludedConclusions": [
+    "A2S secure/VAC flags do not establish the EAC enforcement settings.",
+    "Matching protocol 2635 does not establish identical client/server build IDs or byte-for-byte identity with the target.",
+    "SDK availability and valid EOS identity alone do not establish a valid protected EAC client session.",
+    "The listed message and schema facts are partial and do not constitute a complete playable Rust client."
+  ]
+}

@@ -1,0 +1,85 @@
+# 换电脑后的接续说明
+
+最后整理日期：2026-10-23，Asia/Shanghai。
+
+## 用户目标与当前进度
+
+用户希望在一个 Windows 用户会话内，通过 Node.js 接口同时保持多个 Steam 账号在线，查看账号和库存、领取免费游戏，并进一步研究不启动完整 Rust 客户端的玩家入服与持续连接。
+
+目前提供的 Steam 服务使用 `steam-user@5.3.0`，支持独立连接、Steam Guard、令牌加密存储、自动重连、账号详情、游戏库、库存、免费 AppID/SubID 许可申请，以及保存和恢复 `gamesPlayed()` 配置。账号在其他位置游戏时会暂停本服务的游戏活动设置。
+
+Rust 部分已完成有证据依据的服务端静态研究和公开服务器查询。**没有建立过经过认证的 Rust 玩家连接，也没有生成或验证有效的 Rust EAC 客户端会话。** 不能把 A2S 查询成功、Steam 显示“正在玩 Rust”或应用层字段分析当成玩家入服成功。
+
+已有服务测试曾在原电脑通过 15 项；此记录不代表在新电脑、当前提交或真实 Rust 客户端上重新验证。
+
+## 当前接续点
+
+原电脑没有安装 Rust，也无法启动游戏。用户计划晚上在另一台 Windows 电脑上继续，让 Codex 分析 Rust 安装目录，并由用户正常启动客户端、连接服务器，配合观察日志和网络活动。
+
+**尚未获得客户端安装目录；尚未检查抓包工具和实际权限；尚未开始抓包。** 此仓库没有可直接运行的 Rust 无客户端入服程序。
+
+建议先阅读：
+
+1. `rust-research/研究报告.md`
+2. `rust-research/evidence.json`
+3. `rust-research/protocol-map.json`
+4. `steam-multi-account/README.md`
+
+## 在新电脑上的下一步
+
+1. 获取用户提供的 Rust 安装目录，确认当前客户端版本、目录结构和普通客户端日志位置。静态读取程序集作为数据分析，区分托管程序集、原生网络组件和 EAC 组件。
+2. 盘点本机已有工具，例如 pktmon、netsh trace、Wireshark/dumpcap/tshark 和 Npcap，以及实际 Windows 权限。先确认工具是否存在，不能预先承诺能观察全部进程内部操作。
+3. 准备一次有阶段时间标记的正常客户端观察：启动 → 登录 → 连接目标 → 加载 → 进入世界 → 静止停留 → 断开。抓包开始前与用户协调启动时机。
+4. 对照客户端日志与包的端点、方向、大小和时间，区分 Steam/EOS 通信、Rust 游戏端口和 A2S 查询。加密流量只能直接看到密文，抓包不自动产生明文、可复用会话或有效 EAC 认证。
+5. 将新发现与现有服务端证据核对，记录可直接观察到的事实和仍缺少的部分。EAC 可能限制调试器、进程内存访问等观察手段。
+
+原始抓包、客户端日志与机器资料放在被忽略的 `captures/` 或本地 `work/` 中。不得把登录令牌、Cookie、实际认证票据或其他账号秘密写入提交和公开报告。
+
+## 目标服务器
+
+- 游戏地址：`202.189.21.138:28015`
+- 查询地址：`202.189.21.138:28017`
+- 用户说明：最新版本，开启 EAC；没有提供服务器管理权限。
+- 2026-10-23 14:10:54 的公开查询：protocol `2635`、build/changeset `168909`、标签 `ptrak`、3/150 人。
+- `ptrak` 支持 RakNet 传输判断。VAC secure 标记为 true，不能据此证明 EAC 的具体执行配置。
+- 完整查询记录见 `rust-research/target-query.json`。先重新查询，不能假定服务器一直保持同一版本。
+
+## 已核对的关键技术事实
+
+- 当前研究版本的连接标记为 `228 / 0xE4`，protocol 为 `2635`。
+- Rust 应用层消息头是消息枚举加 `140`；它位于传输/加密封装内部，不能直接当作完整 UDP 报文。
+- 服务端请求身份 → 客户端提交身份 → Steam/EAC 等准入 → 队列 → Approval → ClientReady → 玩家初始化。
+- 身份读取顺序包含 SteamID、协议、OS、用户名、分支、Steam token、anticheatId、anticheatToken、changeset、构建时间和语言。具体类型和长度检查见 `protocol-map.json`。
+- 玩家更新使用 `ProtoDelta<PlayerTick>` 和上一条状态作为基线，不能假定定时发送常量字节即可持续连接。
+- 当前原始服务端使用 Epic Online Services。Steam 游戏会话票据、EOS 身份和 EAC 受保护会话各有自己的作用。
+- EOS 共同登录封装使用 `ExternalCredentialType.SteamAppTicket=1`，官方文档指 Steam Encrypted App Ticket；这不等同于 Steam auth session ticket，也不证明真实 Rust 客户端已完成 EOS 登录。
+- EAC 代码有 RegisterClient、ReceiveMessageFromClient、ProtectMessage/UnprotectMessage 和异步认证状态处理；前期准入是否等待完整后端认证取决于配置。
+- 自己创建 EOS 产品、取得 Steam 票据或观察到反作弊消息，都不能据此断言获得 Rust 产品的有效 EAC 会话。
+- 原生 RakNet 兼容、完整序列化与增量封装、真实客户端发送节奏、Rust 产品下的受保护会话仍需实际证据。
+
+## 复核研究来源
+
+使用 SteamRE DepotDownloader 3.4.0，对 Steam 专用服务器 App `258550` 进行匿名下载，仅取得 7 个原始程序集：
+
+| Depot | Manifest |
+| --- | --- |
+| 258551 | 93946663446561466 |
+| 258554 | 2507054976021021832 |
+
+静态工具为 dnlib 4.5.0。`evidence.json` 保存 7 个模块的 SHA-256、MVID 和 24 条方法记录；`protocol-map.json` 保存 28 个应用消息和 4 组部分 schema。原始游戏程序集、反编译中间文件和下载的第三方二进制未随仓库提交，可按 `tools/rust-research/README.md` 在本机获取和复核。
+
+此前使用过 Oxide 2.0.7839 交叉核对，最终证据采用 Steam 原始文件。不要混淆 Steam build ID、游戏 changeset、网络 protocol。
+
+## Steam 服务与迁移
+
+- 需要 Node.js 22 或更新版本。`steam-multi-account/start.cmd` 在缺少依赖时执行 `npm ci`。
+- 默认 HTTP 地址：`http://127.0.0.1:3210/`。管理页面可直接打开，`/v1/` API 需要 `Authorization: Bearer <本机 data/api-key.txt 内容>`。
+- 使用 `open-dashboard.cmd` 可以自动带上本机密钥打开管理页面。不要把带密钥的 URL 粘贴到日志或聊天中。
+- `data/accounts.enc` 使用 AES-GCM 保存账号资料；Windows 密钥由 DPAPI CurrentUser 保护，绑定电脑和用户。新电脑需要重新登录并完成 Steam Guard。
+- 本仓库不包含账号数据、API 密钥、Cookie、刷新令牌、日志或 `node_modules`。原电脑运行中的服务也没有因本次上传而迁移或停止。
+- 服务器代码和静态资源在启动时加载，修改后需要正常重启服务。不要启动两个服务同时访问同一个数据目录。
+- 可复用 `steam-multi-account/src/network.js` 的 `createSteamNetwork()`。它支持环境变量和 Windows 静态代理检测；原电脑上普通 Node fetch 曾超时，代理配置属于各电脑本地设置。
+
+## 给下一次 Codex 的提示词
+
+> 请先阅读 HANDOFF.md 和 rust-research/研究报告.md，接着核实本机环境。我现在有安装 Rust 的电脑，会提供游戏目录并手动启动游戏。请先分析版本、文件和日志，再准备正常客户端连接过程的网络观察，结合时间线与现有证据更新研究。请准确区分观察事实、推断和未完成部分，保护所有账号凭据。

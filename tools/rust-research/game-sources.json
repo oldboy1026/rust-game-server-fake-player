@@ -1,0 +1,9 @@
+[
+ {"id":"oxide-csproj","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/src/Oxide.Rust.csproj","pattern":"Reference|PackageReference","maxMatches":2},
+ {"id":"oxide-targets","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/Game.targets"},
+ {"id":"oxide-hooks","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/src/RustHooks.cs","pattern":"EAC|ClientAuth|PlayerTick|OnPlayerConnected|OnPlayerDisconnected|OnUserApprove|ClientReady","maxMatches":5},
+ {"id":"oxide-patches","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/resources/Rust.opj","pattern":"EAC|Auth_Steam|ClientReady|ClientInfo|ClientTick|OnPacket|OnClientAuth|OnUserApprove","maxMatches":5},
+ {"id":"oxide-latest-release","url":"https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest"},
+ {"id":"relay-entity-schema","url":"https://raw.githubusercontent.com/pedrocorreia/rust-relay-research/b21c6f320fe33b706cd2bbe8cf6afc79c7c1058f/protocol/06-entity-protobuf.md","pattern":"schema|BasePlayer|position|Rust.Data","maxMatches":3},
+ {"id":"steam-server-query-readable","url":"https://developer.valvesoftware.com/wiki/Server_queries","fetchUrl":"https://r.jina.ai/https://developer.valvesoftware.com/wiki/Server_queries","pattern":"A2S_INFO|VAC|challenge","maxMatches":3}
+]

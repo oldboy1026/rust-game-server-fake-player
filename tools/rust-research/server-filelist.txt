@@ -1,0 +1,1 @@
+regex:^RustDedicated_Data[/\\]Managed[/\\](Assembly-CSharp|Assembly-CSharp-firstpass|Rust.Data|Rust.Global|Facepunch.Network|Facepunch.Raknet|Facepunch.SteamNetworking)\.dll$

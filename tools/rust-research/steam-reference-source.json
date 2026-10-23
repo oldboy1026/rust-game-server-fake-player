@@ -1,0 +1,5 @@
+[
+ {"id":"oxide-steam-download","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/Steam.ps1","pattern":"https|reference|download","maxMatches":4},
+ {"id":"oxide-nuget-config","url":"https://raw.githubusercontent.com/OxideMod/Oxide.Rust/aa85087dbf8ae6129d0c28da7680915f3ff56895/nuget.config"},
+ {"id":"eac-protect-api","url":"https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-protect-message","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-protect-message","pattern":"encrypt|protect|Message|session|success","maxMatches":2}
+]

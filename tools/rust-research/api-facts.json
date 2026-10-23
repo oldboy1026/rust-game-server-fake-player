@@ -1,0 +1,6 @@
+[
+ {"id":"eac-auth-status-enum","url":"https://dev.epicgames.com/docs/api-ref/enums/eos-e-anti-cheat-common-client-auth-status","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/enums/eos-e-anti-cheat-common-client-auth-status","pattern":"EOS_ACCCAS_RemoteAuthComplete|EOS_ACCCAS_LocalAuthComplete","maxMatches":1},
+ {"id":"eos-credential-enum","url":"https://dev.epicgames.com/docs/api-ref/enums/eos-e-external-credential-type","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/api-ref/enums/eos-e-external-credential-type","pattern":"EOS_ECT_STEAM_APP_TICKET|EOS_ECT_STEAM_SESSION_TICKET","maxMatches":1},
+ {"id":"eac-web-api","url":"https://dev.epicgames.com/docs/web-api-ref/anti-cheat-web-apis","fetchUrl":"https://r.jina.ai/https://dev.epicgames.com/docs/web-api-ref/anti-cheat-web-apis","pattern":"##|endpoint|client|gameplay","maxMatches":1},
+ {"id":"raknet-public-readme","url":"https://raw.githubusercontent.com/facebookarchive/RakNet/master/README.md"}
+]
