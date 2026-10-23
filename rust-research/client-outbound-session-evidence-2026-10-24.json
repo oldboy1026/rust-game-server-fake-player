@@ -1,0 +1,425 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-23T20:41:17.462Z",
+  "purpose": "Bounded static research of actual IL2CPP client session/heartbeat reporting, separate from the established public playerCounts consumer.",
+  "result": "This pass did not establish a client-to-Facepunch server-presence reporting chain or a backend rule for trusted player counts.",
+  "inspection": {
+    "metadataVersion": 39,
+    "metadataSha256": "1aa177b0ddfea713a2050a40d03533f45d62e6f3c92fa75201afde3dd64b94d1",
+    "gameAssemblySha256": "e7156192c3773f1f07cd58f0a7817b35705683bab4f40cd4b14599bc0a4f954f",
+    "method": "Read metadata v39 and static x64 PE bytes; use recovered codegen-module method pointers and Capstone disassembly. No game DLL was loaded or executed.",
+    "privacy": "Only fixed schema names and method/type identifiers are exported. No credentials, tickets, player identities, packet bodies, or private configuration are included."
+  },
+  "findings": [
+    {
+      "id": "crash-context-is-not-presence-proof",
+      "status": "established-static-classification",
+      "summary": "The selected serverAddress and session_length_seconds references belong to minidump/exception-report construction. Their existence is not evidence of a periodic online-player heartbeat.",
+      "literals": [
+        {
+          "index": 23318,
+          "value": "crash_session_length_seconds"
+        },
+        {
+          "index": 26981,
+          "value": "serverAddress"
+        },
+        {
+          "index": 26993,
+          "value": "session_length_seconds"
+        }
+      ],
+      "usageGlobals": [
+        "0x112a4b98",
+        "0x112a4b08",
+        "0x112a8cc0"
+      ],
+      "methods": [
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000453",
+          "rva": "0x07b4a0b0",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%e6f625e48ed67ac20d667fd0cdd7e9fcf55b5c9d"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600045c",
+          "rva": "0x07b4bb40",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%eec0b52fb95343eeb5a613b30ebac26e8458e9c6"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000461",
+          "rva": "0x07b4c810",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%744efabc634e4a120f6eb069719024d9aad2ae89"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000463",
+          "rva": "0x07b4d400",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%dd25782c110379dad1c4e358ceac4173d66caab8"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000465",
+          "rva": "0x07b4dd80",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%0cdf203139efd2f277d2d92d8a680f8832bed9b4"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000469",
+          "rva": "0x07b4ed30",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%1e33a63f88dc9c41900ffdda2d6de1acb586e057"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000470",
+          "rva": "0x07b50bd0",
+          "declaringTypeIndex": 24682,
+          "typeName": "%b4d8985eb45d47818c031c15d8abc631a8313f21",
+          "name": "%811545e235c77abfeade1a44099ac30587250c24"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600051b",
+          "rva": "0x07b60e00",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%fa7f64942de278122c98e5de8c348d0da156b5c3"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000520",
+          "rva": "0x07b61890",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%bb2f095fe3fdda1c37558c5f7e9e323009f7636f"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600052e",
+          "rva": "0x07b627a0",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%27b2d86228a29bc32fce0651c0d0f58398fb5eae"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600053e",
+          "rva": "0x07b63580",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%b62cc6bf3ba7d6a567a3eb1e4a0391a98502d17b"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000552",
+          "rva": "0x07b64e70",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%f674ee3b68e0265778e1a806e28355a529cd9371"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600055d",
+          "rva": "0x07b66150",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%0eb82e0176c6e748232075ba08a0ba32e2429b46"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600055f",
+          "rva": "0x07b66e70",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%4eaacfa7ab8b95e72fd651cacf2445cfa6a27187"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000566",
+          "rva": "0x07b67b60",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%1dc0ac84cd597405b9f2243da1f056f60bcb4de5"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x6000594",
+          "rva": "0x07b69ad0",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%fe52a3626e6efdc59823b95ccdf1339442a60ab4"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x60005d8",
+          "rva": "0x07b6d5d0",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%5ef6dc640557b3e1af85e58d0c8789c2c41dcba5"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x60005e0",
+          "rva": "0x07b6e410",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%c0a9ea31e3ae607d86fb562b06abd17365b2f690"
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x600060a",
+          "rva": "0x07b71150",
+          "declaringTypeIndex": 24696,
+          "typeName": "ExceptionReporter",
+          "name": "%9f6bbac404a1545da30c991fae52b6823ab71684"
+        }
+      ],
+      "supportingTypes": [
+        "System.DateTime",
+        "Facepunch.MinidumpUploadDTO",
+        "MinidumpUser",
+        "System.TimeSpan",
+        "System.Number",
+        "UnityEngine.BatteryStatus",
+        "UnityEngine.SceneManagement.SceneManager",
+        "Newtonsoft.Json.JsonConvert",
+        "UnityEngine.LogType",
+        "Facepunch.Report",
+        "StackTrace"
+      ],
+      "supportingSchemaNames": [
+        "crash_session_length_seconds",
+        "session_length_seconds",
+        "seconds_since_last_server",
+        "in_main_menu",
+        "serverAddress",
+        "quitting",
+        "realm",
+        "level",
+        "scene"
+      ],
+      "examples": [
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x06000453",
+          "rva": "0x07b4a0b0",
+          "evidence": "References serverAddress and crash_session_length_seconds alongside MinidumpUploadDTO and MinidumpUser."
+        },
+        {
+          "module": "Facepunch.Unity.dll",
+          "token": "0x06000520",
+          "rva": "0x07b61890",
+          "evidence": "ExceptionReporter method references session_length_seconds alongside Report, JsonConvert, LogType and StackTrace."
+        }
+      ],
+      "limitation": "No conclusion is drawn about upload occurrence, diagnostic retention, backend use, or whether diagnostics have any secondary relation to counts."
+    },
+    {
+      "id": "appinfo-server-address-is-a-provider",
+      "status": "established-static-shape",
+      "method": {
+        "module": "Facepunch.Unity.dll",
+        "token": "0x60006bc",
+        "rva": "0x07b79740",
+        "declaringTypeIndex": 24699,
+        "typeName": "AppInfo",
+        "name": "get_ServerAddress"
+      },
+      "evidence": "Getter loads a configured object from static storage and tail-calls its virtual member. It does not directly perform an HTTP request.",
+      "limitation": "The concrete provider and returned runtime address were not resolved in this pass."
+    },
+    {
+      "id": "game-heartbeat-is-rgb",
+      "status": "established-static-classification",
+      "literal": {
+        "index": 24568,
+        "value": "game_heartbeat"
+      },
+      "methods": [
+        {
+          "module": "Rust.RGB.dll",
+          "token": "0x60001f9",
+          "rva": "0x0ccfb470",
+          "declaringTypeIndex": 28554,
+          "typeName": "<Initialize>d__10",
+          "name": "MoveNext"
+        }
+      ],
+      "evidence": "The two static references are in Rust.RGB.dll <Initialize>d__10.MoveNext, rather than the selected game Client connection lifecycle.",
+      "limitation": "No external peripheral action or network observation was performed."
+    },
+    {
+      "id": "server-dot-address-port-is-azure-diagnostics",
+      "status": "established-static-classification",
+      "methods": [
+        {
+          "module": "Azure.Core.dll",
+          "token": "0x60002f4",
+          "rva": "0x074f8550",
+          "declaringTypeIndex": 28157,
+          "typeName": "<ProcessAsync>d__11",
+          "name": "MoveNext"
+        }
+      ],
+      "evidence": "Selected server.address / server.port schema references map to Azure.Core HTTP pipeline ProcessAsync.MoveNext. These are generic SDK diagnostic attributes.",
+      "limitation": "These keys alone do not identify a game-presence report."
+    },
+    {
+      "id": "flush-telemetry-loop-unresolved-callback",
+      "status": "partial-static-trace",
+      "method": {
+        "module": "Assembly-CSharp.dll",
+        "token": "0x602c4a5",
+        "rva": "0x049e1e60",
+        "declaringTypeIndex": 6502,
+        "typeName": "<FlushTelemetryLoop>d__63",
+        "name": "MoveNext"
+      },
+      "enclosingType": {
+        "index": 6504,
+        "name": "InputRedirector"
+      },
+      "evidence": [
+        "Metadata nested-type relation ties the coroutine to InputRedirector.",
+        "Native code initializes a WaitForSecondsRealtime with float constant 60.0, checks a stored callback, swaps a nonempty collection under a monitor, invokes the stored callback and clears the collection."
+      ],
+      "limitation": "The callback target, the collected element schema, and any transport or destination were not resolved. Do not call it a Facepunch player-count heartbeat."
+    },
+    {
+      "id": "client-lifecycle-direct-calls",
+      "status": "bounded-negative-result",
+      "methods": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "token": "0x602f8dc",
+          "rva": "0x05000a10",
+          "declaringTypeIndex": 6989,
+          "typeName": "<Connect>d__53",
+          "name": "MoveNext"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "token": "0x602f8de",
+          "rva": "0x05003350",
+          "declaringTypeIndex": 6990,
+          "typeName": "<DoClientConnected>d__55",
+          "name": "MoveNext"
+        }
+      ],
+      "inspectedMethodRecords": 704,
+      "distinctNativeAddresses": 663,
+      "distinctDirectCallTargetsMapped": 917,
+      "knownApiWrapperMethodCount": 54,
+      "directCallsToKnownApiType": [],
+      "knownApiType": {
+        "module": "Facepunch.Unity.dll",
+        "typeIndex": 24676,
+        "name": "%1fc98786630e4eb39199cbdc2e7a7912c2baf5e5"
+      },
+      "evidence": "No direct call from the 704 selected Client/Connect/DoClientConnected method records targets the 54 already mapped methods of the known public Facepunch API wrapper type.",
+      "unresolvedFacepunchUnityWrappers": [
+        {
+          "token": "0x06000203",
+          "rva": "0x0796c710"
+        },
+        {
+          "token": "0x06000774",
+          "rva": "0x07b89c90"
+        }
+      ],
+      "limitation": "This is not a complete transitive graph. Indirect platform calls, delegates, native imports, other game classes, and obfuscated wrappers remain. Several native addresses are shared by unrelated trivial methods, so an address can have multiple metadata names."
+    },
+    {
+      "id": "retained-name-search-limit",
+      "status": "bounded-negative-result",
+      "termsWithNoExactTextMatchInBothStaticFiles": [
+        "AdvertiseGame",
+        "InitiateGameConnection",
+        "TerminateGameConnection",
+        "GameConnection"
+      ],
+      "namedAnalyticsMatches": [
+        {
+          "module": "UnityEngine.CoreModule.dll",
+          "namespace": "UnityEngine",
+          "typeName": "Application",
+          "name": "get_submitAnalytics",
+          "token": "0x60002a7"
+        },
+        {
+          "module": "UnityEngine.SubsystemsModule.dll",
+          "namespace": "UnityEngine.SubsystemsImplementation",
+          "typeName": "SubsystemDescriptorStore",
+          "name": "ReportSingleSubsystemAnalytics",
+          "token": "0x600001b"
+        },
+        {
+          "module": "UnityEngine.SubsystemsModule.dll",
+          "namespace": "UnityEngine.SubsystemsImplementation",
+          "typeName": "SubsystemDescriptorStore",
+          "name": "ReportSingleSubsystemAnalytics_Injected",
+          "token": "0x6000022"
+        },
+        {
+          "module": "UnityEngine.UnityAnalyticsCommonModule.dll",
+          "namespace": "UnityEditor.Analytics",
+          "typeName": "VCProviderAnalytics",
+          "name": "CreateVCProviderAnalytics",
+          "token": "0x6000041"
+        }
+      ],
+      "evidence": "Full metadata method-name scan also finds public Steam auth-ticket and rich-presence wrappers, but no retained explicit client-presence reporting method name.",
+      "limitation": "Game methods are extensively renamed, so missing names or strings do not establish missing functionality. Native SDK internals were not exhaustively inspected."
+    }
+  ],
+  "interpretation": {
+    "trustedCount": "No observed static path is causally linked to the public trusted count. Backend logic was not inspected.",
+    "eac": "No result in this file establishes EAC as the cause of excluded connections.",
+    "nextUsefulEvidence": "Resolve concrete callbacks/platform connection-status implementations or observe only endpoint/timing metadata from a normal client under stable conditions; do not invent telemetry requests."
+  },
+  "reproduction": {
+    "ignoredDirectory": "work/client-outbound/",
+    "files": [
+      "metadata.mjs",
+      "metadata.json",
+      "literal-xrefs.py",
+      "literal-xrefs.json",
+      "literal-methods.asm.txt",
+      "literal-methods-native.json",
+      "literal-methods-usages.json",
+      "heartbeat-xrefs.json",
+      "input-native.json",
+      "input-usages.json",
+      "client-lifecycle-native.json",
+      "client-all-calls.json",
+      "connect-facepunch-native.json",
+      "appinfo-native.json",
+      "safe-usages.py",
+      "method-map.py",
+      "call-map.py"
+    ],
+    "sharedToolsDirectory": "work/local-server-count/",
+    "limitation": "Raw local static outputs are ignored and are not required to contain account or server-session information."
+  },
+  "operations": {
+    "networkRequests": 0,
+    "accountOperations": 0,
+    "gameClientOperations": 0,
+    "eacOperations": 0,
+    "testsAddedOrRun": 0
+  }
+}

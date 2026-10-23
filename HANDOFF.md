@@ -2,13 +2,17 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
-## 正在运行：第二次单账号离服对照，必须恢复第三个账号
+## 已暂停：用户关机休息，明天继续
 
-第一轮已结束且restoreRequired=false。用户确认20:23的提前重连由其手动操作，并授权重做；该轮不能作为连续10分钟离服证据。脱敏记录在 `rust-research/interrupted-count-control-2026-10-24.json`。
+**首先阅读 `rust-research/RESUME-2026-10-24.md`。** 它汇总已验证、未验证、待验证事项、环境恢复步骤、优先级及验收目标。以下历史段落的在线状态和“正在运行”表述均不是当前状态。
 
-第二轮 `work/count-exclusive-repeat-window.mjs` exec session85771 于20:29:51 UTC开始，20:31:21.276 UTC正常断开第3账号，计划离服600秒至约20:41:21 UTC，然后自动恢复并继续观察600秒。状态在 `work/count-exclusive-repeat-window-state.json`。**接续先检查当前时间、phase、restoreRequired及最新样本；必须确认最终restoreRequired=false并重新entered_game。** 如需提早结束，创建ignored文件 `work/count-exclusive-repeat-window-stop`，让finally恢复；不要强杀脚本。第二轮身份匹配只允许已保存的三个研究账号，并检查唯一17位字符串；检测到提前重连会标记窗口中断。
+用户明确要求保存推送后暂停，未安排夜间实验。第一轮因用户提前手动恢复而中断；第二轮20:31:21.276 UTC断开、20:41:25.305自动恢复、20:46:07.039正常停止，`restoreRequired=false`，没有未恢复的账号。第二轮31份样本均无其他玩家，RCON3→2→3，公共可信批次20:25/20:30/20:35/20:40/20:45均为0；恢复后观察因关机缩短至281.734秒。脱敏证据为 `repeat-count-control-2026-10-24.json`，不是已修复结论。
 
-20:25:21与20:30:25两个新公共批次均为trusted0；基线RCON仍3个研究账号、0个其他玩家。断开后RCON2/cp2，20:32:44只读Steam CM authPlayers也为2，trusted仍0。因此此前trusted3与内部3相等不能当作已解决。后台算法未知。只读旁路采样session35646还在运行，预计20:37左右结束。本阶段不改服务器配置、不唤醒或重启会话。用户已明确目前仅RCON权限，不能上传诊断源码，不要重复询问。
+20:47:20 UTC再次只读确认gameplay_analytics=False，无开关回滚义务；旁路采样已20:37:46结束。20:46:05最后快照三账号都已入世界并验证票据，但睡眠标志不是始终true：账号2近期为false，账号3较旧样本为false，程序未发送Tick，原因待查。20:47:31已请求正常关闭管理服务，明天先启动服务和核对新状态再恢复连接。用户只有远端RCON，不能上传插件；已备妥的CountDiagnostics当前0.1.2离线编译通过、未运行。所有私有配置、身份、票据和原始记录仍在ignored目录。
+
+20:50:19 UTC进一步确认管理端口无监听、研究Rust worker进程0、20093中转端点0；关机收尾摘要见 `rust-research/shutdown-state-2026-10-24.json`。
+
+## 以下为历史研究过程，当前状态以上述接续文件为准
 
 ## 当前接续：临时统计开关已恢复，本地正常客户端对照待做
 

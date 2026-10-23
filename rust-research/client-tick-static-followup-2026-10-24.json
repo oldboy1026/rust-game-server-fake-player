@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-24",
+  "scope": "Read-only static inspection of installed IL2CPP metadata and GameAssembly.dll bytes. No game DLL was loaded or executed, no game process memory was read, and no new network observation or PlayerTick transmission was performed for this follow-up.",
+  "status": "Partial static tracing saved for continuation. PlayerTick sending, wake behavior and transport reliability have not been implemented or validated by this follow-up.",
+  "source": {
+    "clientProtocolFromExistingObservation": "2635.289.1",
+    "metadataFormatVersion": 39,
+    "gameAssemblyBytes": 304039424,
+    "gameAssemblySha256": "e7156192c3773f1f07cd58f0a7817b35705683bab4f40cd4b14599bc0a4f954f",
+    "metadataBytes": 68271512,
+    "metadataSha256": "1aa177b0ddfea713a2050a40d03533f45d62e6f3c92fa75201afde3dd64b94d1",
+    "imageBase": "0x180000000",
+    "addressConvention": "All code addresses below are RVAs relative to the PE image base.",
+    "sourceFiles": [
+      "GameAssembly.dll",
+      "RustClient_Data/il2cpp_data/Metadata/global-metadata.dat"
+    ],
+    "limitations": [
+      "Most client method and field names are obfuscated; semantic names below are deductions from call sites, literal strings and native instructions, unless explicitly preserved.",
+      "Method parameter counts from the preliminary parser are not reliable and were not used as proof of a method signature.",
+      "An installed binary's static path does not establish that a particular live session executed that path."
+    ]
+  },
+  "verifiedStaticObservations": [
+    {
+      "topic": "PlayerTick send path candidate",
+      "module": "Assembly-CSharp.dll",
+      "declaringType": "BasePlayer",
+      "token": "0x06025CB8",
+      "rva": "0x3e3f280",
+      "observations": [
+        "Builds a pooled object corresponding to the obfuscated PlayerTick type identified through preserved serializer literals.",
+        "Writes application byte 0x9B at RVA 0x3e40636. Existing managed evidence maps Tick=15 and application message offset=140, which yields 0x9B.",
+        "At RVA 0x3e40681 calls RVA 0x1342a0 with the network writer, the current tick object and BasePlayer field +0x358 as the third argument. This matches a delta writer call pattern; that generic writer was not independently decoded in this follow-up.",
+        "At RVA 0x3e407ac calls Facepunch.Network.dll token 0x06001360, RVA 0x77af7e0, passing the network writer and a SendInfo-shaped value.",
+        "After the send call, allocates BasePlayer +0x358 if absent and calls Rust.Data.dll token 0x06006147, RVA 0xc28f240, with the current tick and that retained object, then disposes the current object. Complete CopyTo semantics remain to be independently confirmed."
+      ],
+      "otherCandidatesWithSameTickUpdateCall": [
+        {"token": "0x06025EF2", "rva": "0x3e92d70"},
+        {"token": "0x06026297", "rva": "0x3f0ed30"},
+        {"token": "0x0602646E", "rva": "0x3f574e0"},
+        {"token": "0x0602671A", "rva": "0x3fd07c0"},
+        {"token": "0x06026722", "rva": "0x3fd3880"}
+      ],
+      "limitation": "The six candidates were not traced back to a live caller or their cadence/gates. Shared behavior does not prove which clone is used in the active client."
+    },
+    {
+      "topic": "Tick position comes from localPosition",
+      "callRva": "0x3e3f8f9",
+      "nativeResolverCStringRva": "0xedfcde0",
+      "nativeResolverCString": "UnityEngine.Transform::get_localPosition_Injected(System.IntPtr,UnityEngine.Vector3&)",
+      "destination": "Current tick object +0x20, +0x24 and +0x28",
+      "writeRvas": ["0x3e3f90e", "0x3e3f914"],
+      "observation": "The send path obtains the BasePlayer transform, resolves this localPosition getter, and copies its returned three components into the tick. Parent-relative position semantics must therefore be retained; world position cannot be substituted unconditionally."
+    },
+    {
+      "topic": "Eye position generation uses camera or PlayerEyes",
+      "sendPathRvas": ["0x3e3f922", "0x3e3f932", "0x3e3f955", "0x3e3f96a", "0x3e3f970"],
+      "destination": "Current tick object +0x2c, +0x30 and +0x34",
+      "selection": {
+        "conditionCall": {"declaringType": "MainCamera", "token": "0x06042F45", "rva": "0x6ddc3a0"},
+        "trueBranch": {"declaringType": "MainCamera", "token": "0x06042FF2", "rva": "0x6de8840"},
+        "falseBranch": {"declaringType": "PlayerEyes", "token": "0x0603F36F", "rva": "0x687d6e0"}
+      },
+      "cameraBranch": {
+        "nativeResolverCStringRva": "0xedfcd20",
+        "nativeResolverCString": "UnityEngine.Transform::get_position_Injected(System.IntPtr,UnityEngine.Vector3&)",
+        "observation": "MainCamera RVA 0x6de8840 returns this native world-position getter's three components. The tick copies that vector directly."
+      },
+      "playerEyesBranch": {
+        "helper": {"token": "0x0603F3B3", "rva": "0x6886fc0"},
+        "observations": [
+          "PlayerEyes RVA 0x687d6e0 has a mounted-player branch that may return a mount-provided vector, plus a fallback calculation using a transform position and quaternion.",
+          "Helper RVA 0x6886fc0 uses quaternion/vector arithmetic, a stored view value and another PlayerEyes helper, then adds offsets to the supplied position.",
+          "The full field identities, constants, mount behavior and input dependencies of that calculation have not been resolved."
+        ]
+      },
+      "conclusion": "The inspected path generates a real camera/eyes vector. A constant zero eyePos has no support from this client path.",
+      "limitation": "The exact PlayerTick wire field mapping must still be cross-checked against an independently decoded full serializer. The +0x2c destination is identified here by the client generation path, not by field-name metadata."
+    },
+    {
+      "topic": "SendInfo-shaped value construction and dispatch",
+      "callerRva": "0x3e3f280",
+      "callee": {"module": "Facepunch.Network.dll", "token": "0x06001360", "rva": "0x77af7e0"},
+      "callerObservations": [
+        "At 0x3e406cc and 0x3e406d4 zeroes a 32-byte value on the stack.",
+        "At 0x3e406dc sets the dword at relative offset +8 to 1 and at 0x3e406e7 sets the pointer at relative offset +24 to the connection.",
+        "Copies the value to another stack location, then at 0x3e4077d replaces the dword at relative offset +8 with r12d. The last observed assignment to r12d in this method is xor r12d,r12d at 0x3e3fad7; no later write before the send was found in the saved body.",
+        "The value passed at 0x3e407ac consequently has scalar fields at relative offsets +0, +4 and +8 equal to zero in the inspected path."
+      ],
+      "calleeObservations": [
+        "At 0x77af833 reads the dword at SendInfo relative offset +0 and stores it at writer +0x64.",
+        "At 0x77af83c reads the byte at relative offset +4 and stores it at writer +0x40.",
+        "At 0x77af843 reads the dword at relative offset +8 and stores it at writer +0x68.",
+        "Handles recipients at relative offsets +16 and +24, then dispatches to the transport, including a virtual path."
+      ],
+      "unresolved": "Client field identities and the final RakNet reliability/priority mapping have not been traced through the transport. This is insufficient to label the tick ReliableOrdered, ReliableUnordered or Unreliable, or to choose a native priority/channel merely from the zero values.",
+      "existingWorkerDifference": "The current independent worker's generic send helper uses the previously verified default identity-message send settings. This static follow-up does not prove that those settings match PlayerTick."
+    },
+    {
+      "topic": "Serializer entry address correction",
+      "module": "Rust.Data.dll",
+      "token": "0x060060C4",
+      "correctEntryRva": "0xc2737d0",
+      "observation": "This entry includes preserved error literals for position, eyePos, modelState and required input/model fields. A prior local excerpt started at 0xc2739d0, which is inside this body and must not be cited as its method entry.",
+      "limitation": "The inspected obfuscated serializer's control flow and tag helpers were not fully resolved. Do not infer a final wire schema from this body alone."
+    }
+  ],
+  "ignoredLocalEvidence": {
+    "scripts": [
+      "work/transport-tick/inventory.py",
+      "work/transport-tick/literal_xrefs.py",
+      "work/transport-tick/trace.py",
+      "work/transport-tick/metadata_details.py",
+      "work/transport-tick/query.py"
+    ],
+    "outputs": [
+      "work/transport-tick/inventory.json",
+      "work/transport-tick/literal-xrefs.json",
+      "work/transport-tick/baseplayer-tick-candidates.json",
+      "work/transport-tick/baseplayer-tick-candidates.asm.txt",
+      "work/transport-tick/selected-c28f240-c2739d0-687d6e0-6888b70-685f330.json",
+      "work/transport-tick/selected-c28f240-c2739d0-687d6e0-6888b70-685f330.asm.txt",
+      "work/transport-tick/selected-c2737d0-77af7e0-6886fc0-6de8840.json",
+      "work/transport-tick/selected-c2737d0-77af7e0-6886fc0-6de8840.asm.txt",
+      "work/transport-tick/metadata-details.json"
+    ],
+    "prerequisites": [
+      "work/local-server-count/client-metadata.json",
+      "work/local-server-count/client-all-modules.json"
+    ],
+    "handling": "Scripts and disassembly stay ignored. The report contains no credentials, account/player/entity identifiers, authentication tickets or raw traffic."
+  },
+  "nextWork": [
+    "Trace writer +0x64/+0x68 through the actual client Peer.SendTo and native send conversion, then identify SendInfo method, priority and channel offsets with independent evidence.",
+    "Resolve PlayerTick field offsets and delta/full serializer semantics, including explicit zero overrides and the retained previous-tick baseline.",
+    "Resolve the PlayerEyes view offsets and supporting snapshot/model inputs. Restrict any initial implementation to states whose semantics are actually known.",
+    "Trace the active send caller, normal cadence and loading/sleeping gates. FinishLoading dispatch is not resolved by this follow-up.",
+    "Do not claim that generating Tick fixes public trusted player counts. No causal evidence was obtained here.",
+    "Any later runtime trial remains a separate step; this report documents static evidence only."
+  ],
+  "stopState": "Research stopped on the parent's instruction because the user is shutting down the computer and continuing tomorrow. No experimental session was started by this subtask, and it has no runtime cleanup obligation."
+}

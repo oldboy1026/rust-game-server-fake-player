@@ -1,0 +1,87 @@
+{
+  "version": "0.1.2",
+  "success": true,
+  "startedUtc": "2026-10-23T20:37:43.7373691Z",
+  "finishedUtc": "2026-10-23T20:37:44.3363486Z",
+  "sourceSha256": "5e6df0256bc933e615cae9a621770e2423e2461fff4b7fcb38d9cc1c93a51f3a",
+  "compilerSdk": "10.0.201",
+  "compilerVersion": "5.3.0-2.26153.122 (4d3023de605a78ba3e59e50c657eed70f125c68a)",
+  "references": [
+    {
+      "file": "mscorlib.dll",
+      "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df"
+    },
+    {
+      "file": "netstandard.dll",
+      "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3"
+    },
+    {
+      "file": "System.dll",
+      "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc"
+    },
+    {
+      "file": "System.Core.dll",
+      "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de"
+    },
+    {
+      "file": "System.Runtime.dll",
+      "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427"
+    },
+    {
+      "file": "UnityEngine.CoreModule.dll",
+      "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9"
+    },
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601"
+    },
+    {
+      "file": "Assembly-CSharp-firstpass.dll",
+      "sha256": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77"
+    },
+    {
+      "file": "Facepunch.System.dll",
+      "sha256": "e697f08a2e081a90c3287733b85ae2a6d2c5e9a2955b9df988d7098975b7801e"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72"
+    },
+    {
+      "file": "Facepunch.UnityEngine.dll",
+      "sha256": "b460f7dc8d48be7db72fd2fe5d5d7178ae5b0be63f903e1550d4cae641b79a43"
+    },
+    {
+      "file": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833"
+    },
+    {
+      "file": "Facepunch.Console.dll",
+      "sha256": "506fd361956ffe128d3fd40eb608f9d7c5e6cb57c73c33879faa6d55d0ddc340"
+    },
+    {
+      "file": "Oxide.Core.dll",
+      "sha256": "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05"
+    },
+    {
+      "file": "Oxide.CSharp.dll",
+      "sha256": "b64977609a31fbe0c462626d966bc7c6818a06725d085f7cc2d2951fbc2b9094"
+    },
+    {
+      "file": "Oxide.Rust.dll",
+      "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423"
+    },
+    {
+      "file": "Oxide.Unity.dll",
+      "sha256": "3a86e95fa770759459d05efccbd8c1977191babeb8fd47615fbf125aa0d5d1d8"
+    }
+  ],
+  "inputsUnchangedDuringCompile": true,
+  "gameCodeExecuted": false,
+  "oxideRuntimeTested": false,
+  "additions": [
+    "steamInterfaceValid",
+    "steamLoggedOn"
+  ],
+  "limit": "Compilation verifies syntax and accessible member signatures against local metadata. No plugin deployment, Steam login operation or runtime behavior was validated."
+}

@@ -1,0 +1,1155 @@
+{
+  "schemaVersion": 1,
+  "subject": "Repeat single-account count control; paused for user shutdown",
+  "startedAt": "2026-10-23T20:29:51.248Z",
+  "disconnectedAt": "2026-10-23T20:31:21.276Z",
+  "restoredAt": "2026-10-23T20:41:25.305Z",
+  "completedAt": "2026-10-23T20:46:07.039Z",
+  "stopReason": "User explicitly requested saving all findings and pausing research before shutting down the computer.",
+  "status": "stopped",
+  "restoreRequired": false,
+  "offWindowInterrupted": false,
+  "elapsedOffSeconds": 604.029,
+  "elapsedReturnObservationSeconds": 281.734,
+  "plannedReturnObservationSeconds": 600,
+  "matching": "Only the three saved research-session account IDs were used to select Steam identities. Status IDs had to be unique 17-digit strings. Identity matching was performed locally and identities are not exported.",
+  "observations": [
+    {
+      "observedAt": "2026-10-23T20:29:51.323Z",
+      "phase": "baseline",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:29:51.911Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:29:52.570Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:29:52 GMT",
+          "age": "270",
+          "last-modified": "Fri, 23 Oct 2026 20:25:21 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:30:22.653Z",
+      "phase": "baseline",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:30:23.225Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:30:26.548Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:30:26 GMT",
+          "age": "1",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:30:56.634Z",
+      "phase": "baseline",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:30:57.210Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:30:57.898Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:30:57 GMT",
+          "age": "32",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:31:21.330Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:31:21.894Z",
+        "ok": true,
+        "players": 4,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:31:22.541Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:31:22 GMT",
+          "age": "57",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:31:52.619Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:31:53.211Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:31:54.583Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:31:54 GMT",
+          "age": "89",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:32:24.667Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:32:25.252Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:32:30.167Z",
+        "ok": false,
+        "error": "network_error"
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:33:00.250Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:33:00.841Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:33:01.470Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:33:01 GMT",
+          "age": "156",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:33:31.544Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:33:32.164Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:33:35.179Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:33:34 GMT",
+          "age": "189",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:34:05.261Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:34:05.858Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:34:06.938Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:34:06 GMT",
+          "age": "221",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:34:37.006Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:34:37.587Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:34:40.335Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:34:39 GMT",
+          "age": "254",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:35:10.414Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:35:11.021Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:35:11.749Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:35:11 GMT",
+          "age": "286",
+          "last-modified": "Fri, 23 Oct 2026 20:30:25 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:35:41.824Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:35:42.424Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:35:43.209Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:35:42 GMT",
+          "age": "16",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:36:13.286Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:36:13.905Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:36:14.517Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:36:14 GMT",
+          "age": "47",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:36:44.610Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:36:45.290Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:36:45.993Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:36:45 GMT",
+          "age": "79",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:37:16.076Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:37:16.674Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:37:20.496Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:37:20 GMT",
+          "age": "113",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:37:50.570Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:37:51.165Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:37:55.425Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:37:55 GMT",
+          "age": "148",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:38:25.507Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:38:26.082Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:38:27.521Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:38:27 GMT",
+          "age": "180",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:38:57.601Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:38:58.214Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:38:58.878Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:38:58 GMT",
+          "age": "212",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:39:28.953Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:39:29.576Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:39:30.193Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:39:29 GMT",
+          "age": "243",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:40:00.271Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:40:00.893Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:40:01.504Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:40:01 GMT",
+          "age": "274",
+          "last-modified": "Fri, 23 Oct 2026 20:35:30 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:40:31.609Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:40:32.184Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:40:36.527Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:40:36 GMT",
+          "age": "9",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:41:06.604Z",
+      "phase": "one_disconnected",
+      "serverPlayers": 2,
+      "joining": 0,
+      "serverStatusRows": 2,
+      "researchAccounts": 2,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "closed"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:41:07.175Z",
+        "ok": true,
+        "players": 4,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:41:07.879Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:41:07 GMT",
+          "age": "41",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:41:25.358Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:41:25.955Z",
+        "ok": true,
+        "players": 5,
+        "cp": 2,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:41:30.918Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:41:30 GMT",
+          "age": "64",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:42:00.993Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:42:01.575Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:42:02.295Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:42:01 GMT",
+          "age": "95",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:42:32.373Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:42:32.971Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:42:33.672Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:42:33 GMT",
+          "age": "126",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:43:03.763Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:43:04.397Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:43:04.790Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:43:04 GMT",
+          "age": "158",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:43:35.095Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:43:35.673Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:43:40.116Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:43:39 GMT",
+          "age": "193",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:44:10.191Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:44:10.815Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:44:11.567Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:44:11 GMT",
+          "age": "224",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:44:41.649Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:44:42.263Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:44:47.989Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:44:47 GMT",
+          "age": "261",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:45:18.068Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:45:18.667Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:45:19.397Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:45:19 GMT",
+          "age": "292",
+          "last-modified": "Fri, 23 Oct 2026 20:40:34 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "observedAt": "2026-10-23T20:45:49.477Z",
+      "phase": "all_restored",
+      "serverPlayers": 3,
+      "joining": 0,
+      "serverStatusRows": 3,
+      "researchAccounts": 3,
+      "otherAccounts": 0,
+      "sessionStates": [
+        "entered_game",
+        "entered_game",
+        "entered_game"
+      ],
+      "a2s": {
+        "observedAt": "2026-10-23T20:45:50.076Z",
+        "ok": true,
+        "players": 5,
+        "cp": 3,
+        "bots": 0
+      },
+      "publicTrusted": {
+        "observedAt": "2026-10-23T20:45:50.860Z",
+        "ok": true,
+        "players": 0,
+        "status": 200,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 20:45:50 GMT",
+          "age": "23",
+          "last-modified": "Fri, 23 Oct 2026 20:45:40 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    }
+  ],
+  "batches": [
+    {
+      "lastModified": "Fri, 23 Oct 2026 20:25:21 GMT",
+      "trustedPlayers": 0
+    },
+    {
+      "lastModified": "Fri, 23 Oct 2026 20:30:25 GMT",
+      "trustedPlayers": 0
+    },
+    {
+      "lastModified": "Fri, 23 Oct 2026 20:35:30 GMT",
+      "trustedPlayers": 0
+    },
+    {
+      "lastModified": "Fri, 23 Oct 2026 20:40:34 GMT",
+      "trustedPlayers": 0
+    },
+    {
+      "lastModified": "Fri, 23 Oct 2026 20:45:40 GMT",
+      "trustedPlayers": 0
+    }
+  ],
+  "conclusions": [
+    "All retained RCON samples reported zero other players. Server research counts followed 3 -> 2 -> 3.",
+    "The second offline interval was not interrupted by an early reconnect.",
+    "All public trusted samples remained zero, including the 20:35:30 and 20:40:34 batches during the offline interval and the 20:45:40 batch after restoration.",
+    "The account restored normally. The planned ten-minute return observation was shortened to less than five minutes at the user's shutdown request; the later planned public batch was not observed.",
+    "This did not demonstrate contribution to trusted player counts or repair the game browser.",
+    "The same-time Steam CM authenticated count was two at 20:32:44 UTC; this remains a separate data source from the public trusted count."
+  ],
+  "beforeServiceShutdown": {
+    "observedAt": "2026-10-23T20:46:05.542Z",
+    "sessions": [
+      {
+        "account": 1,
+        "state": "entered_game",
+        "selfEntityObserved": true,
+        "finishLoadingObserved": true,
+        "steamAuthentication": {
+          "available": true,
+          "active": true,
+          "serverValidationObserved": true
+        },
+        "ownPlayerState": {
+          "observed": true,
+          "sleeping": true,
+          "receivingSnapshot": false,
+          "snapshots": 209,
+          "ageSeconds": 1.985
+        }
+      },
+      {
+        "account": 2,
+        "state": "entered_game",
+        "selfEntityObserved": true,
+        "finishLoadingObserved": true,
+        "steamAuthentication": {
+          "available": true,
+          "active": true,
+          "serverValidationObserved": true
+        },
+        "ownPlayerState": {
+          "observed": true,
+          "sleeping": false,
+          "receivingSnapshot": false,
+          "snapshots": 951,
+          "ageSeconds": 0.375
+        }
+      },
+      {
+        "account": 3,
+        "state": "entered_game",
+        "selfEntityObserved": true,
+        "finishLoadingObserved": true,
+        "steamAuthentication": {
+          "available": true,
+          "active": true,
+          "serverValidationObserved": true
+        },
+        "ownPlayerState": {
+          "observed": true,
+          "sleeping": false,
+          "receivingSnapshot": false,
+          "snapshots": 65,
+          "ageSeconds": 152.688
+        }
+      }
+    ]
+  },
+  "stateCaution": "The final own-entity snapshot for account 2 reported Sleeping=false, and account 3 also retained Sleeping=false with an older sample. No PlayerTick was sent by the current implementation. The cause of these flags is unverified; do not claim all sessions remained sleeping or that a normal wake-up was implemented.",
+  "privacy": "No account identities, credentials, administrative endpoints, coordinates, tickets or raw RCON responses are included."
+}

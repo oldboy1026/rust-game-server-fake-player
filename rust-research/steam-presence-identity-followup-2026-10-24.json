@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "observedDate": "2026-10-24 Asia/Shanghai",
+  "subject": "Optional Steam game-server identity in independent game activity",
+  "scope": "Read-only local source, cached official documentation and existing original-server IL. Research stopped for the user's shutdown request; no new connection, query, presence update or experiment was performed.",
+  "conclusion": "The independent activity payload omits an optional server-identity field which steam-user can transport. Its relevance to Facepunch trusted counts is an unverified hypothesis, not a diagnosed cause or a verified fix.",
+  "established": [
+    {
+      "id": "current-independent-presence",
+      "sources": [
+        "steam-multi-account/src/rust-session.js:59",
+        "steam-multi-account/src/rust-session.js:123",
+        "steam-multi-account/src/features.js:257"
+      ],
+      "facts": [
+        "RustSession.steamGameActivity returns game_id 252490 while the run owns its transport/ticket lifecycle.",
+        "Once transportConnected is true, it adds the actual configured IPv4 address and game port.",
+        "It does not set steam_id_gs, is_secure, token, process_id or process_id_list.",
+        "applyIdle passes the activity object to client.gamesPlayed and retains the normal lifecycle cleanup behavior."
+      ],
+      "limit": "Transport connection alone is not server authentication, game admission, EAC attestation, or trusted-count inclusion."
+    },
+    {
+      "id": "steam-protobuf-optional-field",
+      "source": "steam-multi-account/node_modules/steam-user/protobufs/steammessages_clientserver.proto:96",
+      "message": "CMsgClientGamesPlayed.GamePlayed",
+      "field": { "name": "steam_id_gs", "number": 1, "type": "uint64", "optional": true },
+      "facts": [
+        "The same message separately defines game_id, game_port, game_ip_address, is_secure and process-related fields.",
+        "Field presence in a protobuf schema does not establish when a game must set it or how a backend uses it.",
+        "Any future real server ID must remain an exact decimal string or equivalent uint64 representation, rather than being rounded through a JavaScript Number."
+      ]
+    },
+    {
+      "id": "steam-user-passes-activity-object",
+      "source": "steam-multi-account/node_modules/steam-user/components/apps.js:51",
+      "version": "5.3.0",
+      "facts": [
+        "gamesPlayed normalizes numeric/string app entries, normalizes numeric game_ip_address to an IPv4 object, and passes existing object properties to ClientGamesPlayedWithDataBlob.",
+        "This function does not derive steam_id_gs from the current game IP/port or from ticket-validation events."
+      ],
+      "limit": "This is an implementation capability, not evidence that supplying the field affects trusted counts."
+    },
+    {
+      "id": "approval-schema-versus-producer",
+      "sources": [
+        "work/native-peer/wrapper.il.txt",
+        "tools/rust-research/rust-peer.py:276"
+      ],
+      "originalAssemblySha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "schema": {
+        "module": "Rust.Data.dll",
+        "class": "ProtoBuf.Approval",
+        "field": "steamid",
+        "fieldNumber": 6,
+        "wireType": 0,
+        "protobufTagHex": "0x30",
+        "serializerToken": "0x06000541",
+        "serializerEvidence": "IL_0081 reads steamid; IL_0086 skips zero; IL_0089 writes tag 48; IL_0097 calls WriteUInt64."
+      },
+      "producer": {
+        "module": "Assembly-CSharp.dll",
+        "method": "ServerMgr.JoinGame(Network.Connection)",
+        "token": "0x06007AC5",
+        "facts": [
+          "The inspected original producer obtains a pooled Approval and assigns world, hostname, official, encryption, version, nexus and DNS-endpoint fields before serialization.",
+          "It does not assign Approval.steamid, Approval.ipaddress or Approval.port.",
+          "A bounded full scan of this original Assembly-CSharp found no operand referring to Approval.steamid."
+        ]
+      },
+      "worker": "approval_encryption currently reads only field 12 and skips other protobuf fields.",
+      "limit": "A legacy schema field is not proof that the current target sends a nonzero server ID. No approval packet was newly decoded in this follow-up, and the remote server binary/configuration is not established by the local original assembly."
+    },
+    {
+      "id": "public-a2s-identity-source",
+      "source": "rust-research/query-server.mjs:34",
+      "facts": [
+        "A2S_INFO extra-data flag 0x10 carries a little-endian uint64 server SteamID.",
+        "The existing parser preserves that value as a decimal string under serverSteamId.",
+        "The published game-port field and the exact queried endpoint must be checked alongside the identity; an identity from a different server or an old restart must not be reused."
+      ],
+      "limit": "No fresh A2S request was made. A public query reply alone does not establish the remote identity cryptographically or prove a particular account has authenticated to it."
+    },
+    {
+      "id": "ticket-validation-recipient-source",
+      "sources": [
+        "steam-multi-account/node_modules/steam-user/components/appauth.js:372",
+        "steam-multi-account/src/game-auth.js:41",
+        "rust-research/steam-auth-validation-evidence-2026-10-24.json"
+      ],
+      "facts": [
+        "ClientTicketAuthComplete is matched to a cached ticket by its CRC; the implementation updates the cached estate and emits authTicketStatus for an own ticket.",
+        "The event exposes the reported validator SteamID. The installed source comment identifies this as the entity that validated an own ticket; the independent SteamKit evidence previously saved identifies the corresponding callback SteamID as the game server's SteamID.",
+        "The examined completion handler does not itself call gamesPlayed or fill its steam_id_gs field.",
+        "Current application diagnostics retain only active/validation booleans, so they do not establish a stored exact validator-to-current-run association."
+      ],
+      "limit": "Any later use must bind a successful completion to the unique current lease, app, generation and destination, and reject cancellation/error/stale callbacks. A generic validated boolean is insufficient."
+    },
+    {
+      "id": "official-advertisegame-boundary",
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser#AdvertiseGame",
+      "cachedSource": "work/native-peer/ISteamUser-official.html",
+      "facts": [
+        "The cached official page describes AdvertiseGame as rich presence for an unsecured game server.",
+        "For its steamIDGameServer parameter, that page specifies k_steamIDNonSteamGS when setting IP/port and k_steamIDNil when clearing it.",
+        "It states: When you are using Steam authentication system this call is never required, the auth system automatically sets the appropriate rich presence."
+      ],
+      "limit": "This native SDK statement neither documents the internal CM mapping nor proves that a custom steam-user client reproduces every native association. It also does not require manually putting a real game-server ID into GamePlayed.steam_id_gs."
+    }
+  ],
+  "unverifiedHypothesis": {
+    "statement": "An independent custom Steam session might authenticate its ticket successfully while its explicit ClientGamesPlayed activity lacks the same current server association that the native Steam client maintains.",
+    "support": "The optional wire field exists, the application omits it, and the examined custom library paths do not populate it from authentication completion.",
+    "missingEvidence": [
+      "A normal Rust client's actual CM activity field presence and server identity for the same target and version.",
+      "A normative requirement tying this field to authenticated server presence or Facepunch trusted counts.",
+      "A current exact server identity tied to the current independent ticket/run, rather than just an old public listing.",
+      "A controlled single-account result demonstrating changed trusted-count contribution independently of other sessions and batch timing."
+    ],
+    "notEstablished": [
+      "That current independent authentication is missing or invalid.",
+      "That omitting steam_id_gs causes the observed count exclusion.",
+      "That adding the field would produce a protected EAC session or repair the server browser count."
+    ]
+  },
+  "nextSession": [
+    "Confirm all temporary experiments and sessions were restored/stopped according to the main handoff before starting further work.",
+    "First obtain read-only evidence of a real validator/server identity tied to the current run and compare it privately with an exact-target current A2S identity; keep actual values out of reports.",
+    "Resolve or observe the normal client association path before deciding whether an implementation change is justified.",
+    "Any later experiment may report only the actual connected server's verified published identity and real address. Do not fabricate IDs, security flags, process identity or backend telemetry.",
+    "Treat any prospective field change as an unverified experiment with lifecycle clearing, uint64 preservation and stable count controls; do not call it a repair without evidence."
+  ],
+  "operations": {
+    "networkRequests": 0,
+    "accountOperations": 0,
+    "gameClientOperations": 0,
+    "presenceUpdates": 0,
+    "testsAddedOrRun": 0,
+    "implementationChanges": 0
+  },
+  "privacy": "No actual server/player identity values, credentials, tickets, callback CRCs, private endpoints or packet payloads are included."
+}

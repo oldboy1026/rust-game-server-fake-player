@@ -1,0 +1,24 @@
+{
+  "pauseReason": "User requested pausing research and shutting down the computer until tomorrow.",
+  "verification": {
+    "observedAt": "2026-10-23T20:50:19.0309872Z",
+    "managementListeners": 0,
+    "rustPeerProcesses": 0,
+    "relayEndpoints": 0
+  },
+  "remoteTemporarySetting": {
+    "observedAt": "2026-10-23T20:47:20.236Z",
+    "gameplayAnalytics": false,
+    "rollbackRequired": false
+  },
+  "repeatControl": {
+    "status": "stopped",
+    "completedAt": "2026-10-23T20:46:07.039Z",
+    "restoreRequired": false
+  },
+  "remainingObligations": [],
+  "limitations": [
+    "The local test server and user game clients were not stopped by this cleanup.",
+    "No overnight research or automatic reconnect was scheduled."
+  ]
+}

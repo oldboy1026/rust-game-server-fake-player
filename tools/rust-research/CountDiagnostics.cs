@@ -1,6 +1,6 @@
 namespace Oxide.Plugins
 {
-    [Info("CountDiagnostics", "Local Research", "0.1.1")]
+    [Info("CountDiagnostics", "Local Research", "0.1.2")]
     [Description("Returns one aggregate snapshot of local player and connection lists.")]
     public sealed class CountDiagnostics : RustPlugin
     {
@@ -67,6 +67,8 @@ namespace Oxide.Plugins
                 }
             }
 
+            bool steamInterfaceValid = Steamworks.SteamServer.IsValid;
+
             // ReplyWith(object) serializes only this explicitly selected aggregate.
             arg.ReplyWith(new
             {
@@ -83,6 +85,8 @@ namespace Oxide.Plugins
                 networkAuthenticatedConnections = connections == null ? (int?)null : networkAuthenticated,
                 serverSecure = server == null ? (bool?)null : server.secure,
                 serverEncryption = server == null ? (int?)null : server.encryption,
+                steamInterfaceValid = steamInterfaceValid,
+                steamLoggedOn = steamInterfaceValid ? (bool?)Steamworks.SteamServer.LoggedOn : null,
                 interfaceAvailable = EACServer.ValidInterface,
                 eacAuthenticatedConnections = connections == null ? (int?)null : eacAuthenticated
             });

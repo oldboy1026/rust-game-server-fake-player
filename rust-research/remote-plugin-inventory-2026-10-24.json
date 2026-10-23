@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "subject": "Remote plugin inventory scope and one vendor extension",
+  "observations": {
+    "pluginListAt": "2026-10-23T20:38:43.792Z",
+    "command": "oxide.plugins",
+    "parsedPluginRows": 24,
+    "downloaderListed": true,
+    "countRelatedNamesMatched": 0,
+    "extensionVersionAt": "2026-10-23T20:43:47.256Z",
+    "extensionVersionCommand": "rustsb.version",
+    "extensionVersion": "1.1.5",
+    "extensionCommandUnrecognized": false,
+    "pluginResponseSha256": "c27d3e50121707041bf63b25c68d5df627e0b05a342cf34c4376d4dbfa91036c"
+  },
+  "publicDocumentation": {
+    "url": "https://rustsb.com/extensions/",
+    "htmlSha256": "f04969cf7d8e86f13948f89ddbaf92e5234ffef84e4fe9ae660c6b6e0ca2a7f4",
+    "findings": [
+      "The vendor documents UI, item, inventory and permission extensions, plus a paid-plugin license authorization system.",
+      "RustSBAuth in this documentation verifies entitlement to vendor plugins; it is not evidence of Steam or EAC player authentication.",
+      "The documented rustsb.version command returns the installed extension version. No update or install command was sent."
+    ]
+  },
+  "limitations": [
+    "Plugin names alone do not establish implementation behavior.",
+    "oxide.plugins does not enumerate all loaded extensions. This is not a complete binary inventory.",
+    "The local replica plugin sources differ from the remotely listed plugins and cannot rule out remote count hooks.",
+    "The extension version response is 1.1.5, while the current vendor page documents 1.1.7; that page does not establish the exact remote binary implementation.",
+    "No evidence links this vendor extension to the lower public trusted count or supplies a count repair."
+  ],
+  "privacy": "Administrative endpoints, credentials, raw replies and the full remote plugin list remain in ignored local files."
+}

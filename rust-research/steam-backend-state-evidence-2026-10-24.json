@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-24",
+  "subject": "Managed Steam game-server backend-state evidence",
+  "method": "Read-only dnlib metadata and IL inspection; game assemblies were not loaded or executed.",
+  "scopeLimit": "These are local original assembly snapshots. They do not establish the remote server's exact binaries, loaded extensions, or current Steam backend state.",
+  "assemblies": [
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601"
+    },
+    {
+      "file": "Rust.Platform.Steam.dll",
+      "sha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72"
+    },
+    {
+      "file": "Facepunch.SteamNetworking.dll",
+      "sha256": "d3c9a993f36ab39208158ddc2dac0be27903dc7f11b29d0e2abb6b35169939e2"
+    }
+  ],
+  "stateGetters": {
+    "interfaceValid": {
+      "entry": "SteamServer.get_IsValid, token 06000984",
+      "implementation": "SteamInterface.get_IsValid, token 06000B29, IL0000-0010 compares native Self with IntPtr.Zero.",
+      "meaning": "A nonzero native interface pointer; not evidence of current Steam backend login."
+    },
+    "backendLoggedOn": {
+      "entry": "SteamServer.get_LoggedOn, token 060009AC, IL0005 calls ISteamGameServer.BLoggedOn.",
+      "nativeImport": "SteamAPI_ISteamGameServer_BLoggedOn, wrapper token 060001DE, import token 060001DD",
+      "runtimeValue": "Not observed. A future diagnostic must guard interface availability before reading this getter."
+    },
+    "countReporting": {
+      "entry": "ServerMgr.UpdateServerInformation, token 06007AC0",
+      "implementation": "Gates on SteamServer.IsValid, reads activePlayerList.Count at IL01A1-01A6, emits cp and sets GameTags at IL022A; no LoggedOn gate identified.",
+      "limit": "Changing cp, query counts, or local player rows does not directly measure current Steam backend login or Facepunch per-account inclusion."
+    }
+  },
+  "builtInDiagnosticScan": {
+    "scope": "ConsoleGen command registrations and direct SteamServer getter references in Assembly-CSharp.dll; steamstatus implementation in Facepunch.SteamNetworking.dll.",
+    "result": "No built-in command exposing SteamServer.LoggedOn was identified in this snapshot.",
+    "steamstatus": {
+      "command": "global.steamstatus",
+      "binding": "ConsoleGen lambda token 06000EF5 calls Facepunch.Network.SteamNetworking.steamstatus, token 06000009.",
+      "reads": [
+        "SteamNetworkingSockets.Identity at IL000C",
+        "SteamNetworkingSockets.GetFakeIP(0) at IL002D",
+        "SteamNetworkingUtils.Status at IL007E"
+      ],
+      "limit": "Reports networking identity, fake-address result, and Datagram Relay availability; does not read SteamServer.IsValid or LoggedOn. Raw output may contain identity and address data."
+    }
+  },
+  "startupAndReconnect": {
+    "startup": "SteamPlatform.StartSteamServer, token 06000046: Init at IL00A8, callback registration at IL00D7-0105, LogOnAnonymous at IL0120.",
+    "advertising": "SteamServer.Init, token 06000990, enables advertising at IL0163-0164. AdvertiseServer and AutomaticHeartbeats setters both call native SetAdvertiseServerActive; no advertising-state getter was identified.",
+    "connectedHandler": "SteamPlatform.OnSteamConnected, token 06000048: constant message, Debug.Log, return.",
+    "disconnectedHandler": "SteamPlatform.OnSteamServersDisconnected, token 06000047: format result, Debug.LogWarning, return.",
+    "managedReplay": "No replay of active UpdatePlayerSession calls was identified in these managed reconnect handlers.",
+    "nativeReconnectBehavior": "Unknown. Log-only managed handlers do not prove that native Steam loses or restores active users.",
+    "forceHeartbeat": "SteamServer.ForceHeartbeat, token 060009B0, contains only ret in this snapshot."
+  },
+  "playerReporting": {
+    "path": "Auth_Steam success -> SteamPlatform.UpdatePlayerSession -> SteamServer.UpdatePlayer -> native BUpdateUserData.",
+    "nativeResult": "SteamServer.UpdatePlayer, token 060009B1, calls BUpdateUserData at IL0008 and discards its Boolean result at IL000D.",
+    "resultLimit": "No actual native result was observed. It cannot be queried retrospectively through this wrapper; calling BUpdateUserData again would change state.",
+    "gates": "No sleeping-state, first-PlayerTick, or per-player EAC gate was identified inside this managed Steam reporting path. EAC admission is a separate stage.",
+    "eligibilityLimit": "Successful Steam ticket authentication and matched Steam authentication counts do not establish Facepunch account eligibility or a valid protected EAC session."
+  },
+  "remainingEvidence": [
+    "Read interface-valid and guarded backend-logged-on values through an explicitly deployed diagnostic when deployment is available.",
+    "Passively observe existing connected/disconnected event categories without publishing identifiers.",
+    "Observe the original BUpdateUserData result during a future authorized authentication; do not issue extra update calls as a query.",
+    "Keep backend login, Steam user reporting, Facepunch account inclusion, and EAC state as separate observations."
+  ],
+  "actionsPerformed": "Static local inspection and this sanitized report only; no network requests, session changes, configuration changes, or diagnostic deployment."
+}
