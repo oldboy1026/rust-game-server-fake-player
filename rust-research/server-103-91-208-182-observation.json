@@ -1,0 +1,270 @@
+{
+  "generatedAt": "2026-10-23T07:42:32.588Z",
+  "displayTimeZone": "Asia/Shanghai",
+  "endpoint": {
+    "host": "103.91.208.182",
+    "gamePort": 16666,
+    "queryPort": 16668
+  },
+  "userReported": {
+    "largeNumberOfRealSteamAccounts": true,
+    "noGameClientStarted": true,
+    "sessionsControlledFromOneComputer": true,
+    "differentIpAndPortPerAccount": true,
+    "endpointObservationSource": "Server administrator plugin or logs, as clarified by the user.",
+    "persistentConnections": true,
+    "rustPlayerListContinuesUpdating": true,
+    "independentVerification": "These account/session claims have not been independently verified. The plugin code, log fields and packet capture were not supplied."
+  },
+  "initialQuery": {
+    "observedAt": "2026-10-23T07:36:46.703Z",
+    "endpoint": {
+      "host": "103.91.208.182",
+      "queryPort": 16668
+    },
+    "eacVerification": "not established by A2S",
+    "playerLoginAttempted": false,
+    "info": {
+      "ok": false,
+      "error": "A2S query timed out"
+    },
+    "rules": {
+      "ok": false,
+      "error": "A2S query timed out"
+    }
+  },
+  "followupQueries": [
+    {
+      "startedAt": "2026-10-23T07:38:02.782Z",
+      "host": "103.91.208.182",
+      "port": 16668,
+      "label": "new-server-retry",
+      "kind": "A2S_INFO",
+      "playerLoginAttempted": false,
+      "ok": false,
+      "error": "A2S query timed out",
+      "finishedAt": "2026-10-23T07:38:12.823Z"
+    },
+    {
+      "startedAt": "2026-10-23T07:38:02.812Z",
+      "host": "202.189.21.138",
+      "port": 28017,
+      "label": "previous-server-reference",
+      "kind": "A2S_INFO",
+      "playerLoginAttempted": false,
+      "result": {
+        "protocol": 17,
+        "name": "AY|Solo|Duo|萌新|双人|软核|周清|10/22/21:30",
+        "map": "Procedural Map",
+        "folder": "rust",
+        "game": "Rust",
+        "appId16": 0,
+        "players": 1,
+        "maxPlayers": 150,
+        "bots": 0,
+        "serverType": "d",
+        "environment": "w",
+        "passwordProtected": false,
+        "vacSecure": true,
+        "version": "2635",
+        "gamePort": 28015,
+        "serverSteamId": "90295576742458370",
+        "tags": "mp150,cp1,ptrak,qp0,$r?,v2635,^w,EA,born1792675560,gmsoftcore,cs168909,ts4,^o",
+        "gameId64": "252490"
+      },
+      "ok": true,
+      "finishedAt": "2026-10-23T07:38:02.920Z"
+    }
+  ],
+  "steamAddressObservation": {
+    "sourceId": "new-server-steam-address",
+    "response": {
+      "response": {
+        "success": true,
+        "servers": [
+          {
+            "addr": "103.91.208.182:16668",
+            "steamid": "90295591918737438",
+            "appid": 252490,
+            "gamedir": "rust",
+            "region": -1,
+            "secure": true,
+            "lan": false,
+            "gameport": 16666,
+            "specport": 0
+          },
+          {
+            "addr": "103.91.208.182:17779",
+            "steamid": "90295584995049502",
+            "appid": 252490,
+            "gamedir": "rust",
+            "region": -1,
+            "secure": true,
+            "lan": false,
+            "gameport": 17777,
+            "specport": 0
+          },
+          {
+            "addr": "103.91.208.182:28017",
+            "steamid": "90295584780289054",
+            "appid": 252490,
+            "gamedir": "rust",
+            "region": -1,
+            "secure": true,
+            "lan": false,
+            "gameport": 28015,
+            "specport": 0
+          }
+        ]
+      }
+    },
+    "selectedServer": {
+      "addr": "103.91.208.182:16668",
+      "steamid": "90295591918737438",
+      "appid": 252490,
+      "gamedir": "rust",
+      "region": -1,
+      "secure": true,
+      "lan": false,
+      "gameport": 16666,
+      "specport": 0
+    },
+    "limitation": "Registration and secure=true do not establish current player count, Rust EAC enforcement, or the client implementation."
+  },
+  "networkAddressEvidence": {
+    "provenance": [
+      {
+        "depotId": 258551,
+        "manifestId": "93946663446561466"
+      },
+      {
+        "depotId": 258554,
+        "manifestId": "2507054976021021832"
+      }
+    ],
+    "modules": [
+      {
+        "assembly": "Facepunch.Network.dll",
+        "size": 124240,
+        "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+        "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480"
+      },
+      {
+        "assembly": "Facepunch.Raknet.dll",
+        "size": 35152,
+        "sha256": "95ea907d62c8cdbfd8f61246c3d7bf8a95c83aa567173d17a7da509150f9c2be",
+        "mvid": "44553f38-d673-4769-aa8d-c05b27885261"
+      }
+    ],
+    "methods": [
+      {
+        "assembly": "Facepunch.Network.dll",
+        "method": "System.Void Network.Server::OnNewConnection(System.UInt64,System.String)",
+        "metadataToken": "0x0600018e",
+        "inspectedILTextSha256": "d27a52c4ff524d59863de7b80931f519f60f8be316177e966c4e6ddd35a33051",
+        "selectedReferences": [
+          "IL_0025: callvirt System.Void Network.Connection::set_ipaddress(System.String)"
+        ]
+      },
+      {
+        "assembly": "Facepunch.Raknet.dll",
+        "method": "System.Boolean Facepunch.Network.Raknet.Server::HandleRaknetPacket(System.Byte,Network.NetRead)",
+        "metadataToken": "0x06000033",
+        "inspectedILTextSha256": "b3695124e03516fce066d0f634459b1f1bc0bb678c7a1884eac88e4251e92290",
+        "selectedReferences": [
+          "IL_003D: ldfld System.String Network.NetRead::ipaddress",
+          "IL_0042: call System.Void Network.Server::OnNewConnection(System.UInt64,System.String)"
+        ]
+      },
+      {
+        "assembly": "Facepunch.Raknet.dll",
+        "method": "System.String Facepunch.Network.Raknet.Peer::get_incomingAddress()",
+        "metadataToken": "0x06000047",
+        "inspectedILTextSha256": "6980ee461c6e94357531baf04e978a1bd4b07a055fd21d2103a9f825b6c8c648",
+        "selectedReferences": [
+          "IL_0007: call System.String Facepunch.Network.Raknet.Peer::GetAddress(System.UInt64)"
+        ]
+      },
+      {
+        "assembly": "Facepunch.Raknet.dll",
+        "method": "System.String Facepunch.Network.Raknet.Peer::GetAddress(System.UInt64)",
+        "metadataToken": "0x0600005b",
+        "inspectedILTextSha256": "1b3ba95d97cfc12c3e214e39f299db65c3e5119e8634cbac4dcd1e847ed92be3",
+        "selectedReferences": [
+          "IL_000D: call System.IntPtr Facepunch.Network.Raknet.Native::NET_GetAddress(System.IntPtr,System.UInt64)"
+        ]
+      }
+    ],
+    "limitation": "Static evidence from the research build only. The target transport, plugin field and absence of server-side modifications are unverified."
+  },
+  "findings": [
+    "One host can manage many independent sockets and source ports.",
+    "Different server-observed public source IPs can be supplied by routable multiple addresses, NAT address pools, UDP relays or tunnels. No specific mechanism was identified for this server.",
+    "An ordinary client cannot create a bidirectional session merely by choosing an arbitrary source IP in a packet header without a return path.",
+    "A2S timeout is an observation from this machine, not proof that the server is offline or that the user report is false.",
+    "Steam registration was observed, but player counts, individual sessions and EAC status on this new target remain unverified."
+  ],
+  "sources": [
+    {
+      "id": "new-server-steam-address",
+      "url": "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v1/?addr=103.91.208.182",
+      "retrievalUrl": "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v1/?addr=103.91.208.182",
+      "status": 200,
+      "fetchedAt": "2026-10-23T07:38:06.533Z",
+      "sha256": "c32b3db8069fdd4164efe500717362ec84e32afa05d021d06eab04effa2e6490",
+      "filename": "new-server-steam-address.txt",
+      "bytes": 527,
+      "used": true,
+      "assessment": "Used: source body inspected."
+    },
+    {
+      "id": "new-server-battlemetrics",
+      "url": "https://api.battlemetrics.com/servers?filter%5Bgame%5D=rust&filter%5Bsearch%5D=103.91.208.182%3A16666&page%5Bsize%5D=5",
+      "retrievalUrl": "https://api.battlemetrics.com/servers?filter%5Bgame%5D=rust&filter%5Bsearch%5D=103.91.208.182%3A16666&page%5Bsize%5D=5",
+      "status": 403,
+      "fetchedAt": "2026-10-23T07:38:05.969Z",
+      "sha256": "4abad797231e5259fd1fb353193c0060476e9cd7306d2e8df5d22f00a54657cb",
+      "filename": "new-server-battlemetrics.txt",
+      "bytes": 118,
+      "used": false,
+      "assessment": "Excluded: HTTP 403; subscription required."
+    },
+    {
+      "id": "new-server-battlemetrics-web",
+      "url": "https://www.battlemetrics.com/servers/rust?q=103.91.208.182%3A16666&sort=score",
+      "retrievalUrl": "https://www.battlemetrics.com/servers/rust?q=103.91.208.182%3A16666&sort=score",
+      "status": 403,
+      "fetchedAt": "2026-10-23T07:39:50.609Z",
+      "sha256": "9eafa7b5899275638a21872a158815aa134034c346de11c93f52a3fd2782fcc4",
+      "filename": "new-server-battlemetrics-web.txt",
+      "bytes": 5702,
+      "used": false,
+      "assessment": "Excluded: HTTP 403; browser challenge page."
+    },
+    {
+      "id": "socks5-rfc1928",
+      "url": "https://www.rfc-editor.org/rfc/rfc1928.txt",
+      "retrievalUrl": "https://www.rfc-editor.org/rfc/rfc1928.txt",
+      "status": 200,
+      "fetchedAt": "2026-10-23T07:38:05.817Z",
+      "sha256": "ddc2916419a52bedae0fc7d0c051ea513e88c2b930dda27128982fb0c1d6fe2a",
+      "filename": "socks5-rfc1928.txt",
+      "bytes": 19741,
+      "used": true,
+      "assessment": "Used: source body inspected."
+    },
+    {
+      "id": "nat-rfc4787",
+      "url": "https://www.rfc-editor.org/rfc/rfc4787.txt",
+      "retrievalUrl": "https://www.rfc-editor.org/rfc/rfc4787.txt",
+      "status": 200,
+      "fetchedAt": "2026-10-23T07:38:05.846Z",
+      "sha256": "5db82ec5f0d6b9b0fc0a37ce7d5b40592e4e6f41562ba8fbc55f1daa52648405",
+      "filename": "nat-rfc4787.txt",
+      "bytes": 68693,
+      "used": true,
+      "assessment": "Used: source body inspected."
+    }
+  ],
+  "playerLoginAttempted": false
+}

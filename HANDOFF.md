@@ -35,6 +35,8 @@ Rust 部分已完成有证据依据的服务端静态研究和公开服务器查
 
 新增人数问题：用户确认 Welcome.cs 使用 `OnPlayerConnected`，账号能持续留服，但 Rust 游戏内服务器列表人数不增加。详见 `rust-research/player-count-diagnosis.md`、`player-count-evidence.json` 和 `player-count-sources.json`。标准 Oxide 钩子位于 PlayerInit 的活跃列表添加之后；原版服务端每 30 秒将 `activePlayerList.Count` 写入 `cp` 标签。不能再简单归因于只到初始认证或短暂连接，也不能未经核对就把 cp 当成 A2S_INFO players 或 Rust 浏览器最终显示值。Steam 玩家资料另经 UpdatePlayerSession → BUpdateUserData 更新；本轮没有观察到实际调用失败或确认其对 A2S 人数字段的影响。下一步需要同一时刻的内部活跃列表、cp、A2S_INFO players 和手动刷新后的浏览器人数。目标服务端状态、完整 Welcome.cs 和控制程序均未取得；原因尚未定位。本轮没有新建玩家连接。
 
+用户随后新增研究对象 `103.91.208.182:16666`（查询 16668），称一台电脑控制大量真实账号，不启动游戏客户端，每账号不同 IP/端口，持续留服且 Rust 玩家列表更新；地址来自服务器管理员插件或日志。详见 `rust-research/server-103-91-208-182.md` 与对应 observation.json。2026-10-23 15:38（北京时间）Steam GetServersAtAddress 证实登记的游戏/查询端口相符，但本机 A2S 初次及重试均超时；同时旧目标查询成功，1/150、cp1。未取得新目标人数或 EAC 配置。多 socket、多可路由地址/UDP 出口结构能解释网络现象，不能据此确认具体客户端和认证机制。地址字段的静态调用链已记录，但尚未取得管理员插件具体字段；没有建立玩家连接。两个目标的查询与用户观察需要分别保存。
+
 ## 在新电脑上的下一步
 
 1. 获取用户提供的 Rust 安装目录，确认当前客户端版本、目录结构和普通客户端日志位置。静态读取程序集作为数据分析，区分托管程序集、原生网络组件和 EAC 组件。

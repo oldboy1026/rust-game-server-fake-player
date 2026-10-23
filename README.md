@@ -37,6 +37,7 @@ cd steam-multi-account
 | [rust-research/research-update-2026-10-23.md](./rust-research/research-update-2026-10-23.md) | 第二轮公开资料、原生传输库证据和候选项目核对 |
 | [rust-research/client-observation-plan.md](./rust-research/client-observation-plan.md) | 在有游戏的电脑上进行正常连接观察的准备与命令模板 |
 | [rust-research/player-count-diagnosis.md](./rust-research/player-count-diagnosis.md) | OnPlayerConnected、内部活跃列表与外部人数差异的证据和排查方法 |
+| [rust-research/server-103-91-208-182.md](./rust-research/server-103-91-208-182.md) | 新服务器的公开登记核对、查询记录与多出口会话分析 |
 | [rust-research/query-server.mjs](./rust-research/query-server.mjs) | 不依赖第三方库的 A2S 查询工具 |
 | [tools/rust-research/](./tools/rust-research/) | 公开资料获取和程序集静态复核脚本 |
 | [HANDOFF.md](./HANDOFF.md) | 换电脑后继续工作的上下文与下一步 |

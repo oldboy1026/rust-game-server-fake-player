@@ -94,3 +94,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\inspect-player-count.ps1 -
 ```
 
 输出附带的 manifest 是本次研究来源，若分析其他版本需同步修订来源说明；工具不会自动判定文件属于该 manifest。先比较模块哈希，再解释方法上下文。默认建议输出到被忽略的 `work/`，不会重写已提交的证据。
+
+## 新服务器与网络出口资料
+
+`server-103-91-208-182-sources.json` 可交给 `collect.mjs`，包含 Steam 的公开地址登记查询、SOCKS5 UDP 与 NAT 地址池的 RFC。两个 BattleMetrics 请求本次返回拒绝访问或挑战页，保留请求记录以说明获取边界，不能作为在线人数证据。服务器侧地址调用链可用已有 `inspect-original.ps1` 生成的网络程序集 IL 复核；对应方法 token、哈希与公开查询结果保存在 `../../rust-research/server-103-91-208-182-observation.json`。

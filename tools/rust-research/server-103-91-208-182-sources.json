@@ -1,0 +1,32 @@
+[
+  {
+    "id": "new-server-steam-address",
+    "url": "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v1/?addr=103.91.208.182",
+    "pattern": "servers|addr|error",
+    "maxMatches": 3
+  },
+  {
+    "id": "new-server-battlemetrics",
+    "url": "https://api.battlemetrics.com/servers?filter%5Bgame%5D=rust&filter%5Bsearch%5D=103.91.208.182%3A16666&page%5Bsize%5D=5",
+    "pattern": "players|103.91.208.182|error",
+    "maxMatches": 3
+  },
+  {
+    "id": "socks5-rfc1928",
+    "url": "https://www.rfc-editor.org/rfc/rfc1928.txt",
+    "pattern": "UDP ASSOCIATE|relays UDP datagrams|send them",
+    "maxMatches": 4
+  },
+  {
+    "id": "nat-rfc4787",
+    "url": "https://www.rfc-editor.org/rfc/rfc4787.txt",
+    "pattern": "external IP address|IP address and port|mapping",
+    "maxMatches": 4
+  },
+  {
+    "id": "new-server-battlemetrics-web",
+    "url": "https://www.battlemetrics.com/servers/rust?q=103.91.208.182%3A16666&sort=score",
+    "pattern": "103\\.91\\.208\\.182|captcha|challenge|No servers|players",
+    "maxMatches": 4
+  }
+]
