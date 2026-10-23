@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "scope": "Read-only static follow-up of the installed Rust client trusted player-count request, cache retention, and Nexus exemption. No game process or memory access, client edits, account/session operations, backend writes, service startup, or tests were performed.",
+  "companionEvidence": "player-count-display-2026-10-24.json",
+  "addressConvention": "All native addresses are GameAssembly.dll RVAs; image base 0x180000000.",
+  "artifacts": [
+    {
+      "file": "GameAssembly.dll",
+      "bytes": 304039424,
+      "sha256": "e7156192c3773f1f07cd58f0a7817b35705683bab4f40cd4b14599bc0a4f954f"
+    },
+    {
+      "file": "RustClient_Data/il2cpp_data/Metadata/global-metadata.dat",
+      "bytes": 68271512,
+      "metadataVersion": 39,
+      "sha256": "1aa177b0ddfea713a2050a40d03533f45d62e6f3c92fa75201afde3dd64b94d1"
+    }
+  ],
+  "requestPath": {
+    "relativeEndpoint": "public/steamServers/playerCounts/rust",
+    "construction": {
+      "module": "Facepunch.Unity.dll",
+      "token": "0x06000377",
+      "rva": "0x7b45cf0",
+      "finding": "Concatenates the platform API base and relative endpoint, then passes URL and callback to a shared download wrapper. The live configured base was not read."
+    },
+    "httpWrapper": {
+      "token": "0x0600027d",
+      "rva": "0x7977bd0",
+      "getCallRva": "0x7977d29",
+      "getCallee": {
+        "module": "UnityEngine.UnityWebRequestModule.dll",
+        "type": "UnityWebRequest",
+        "method": "Get",
+        "token": "0x06000089",
+        "rva": "0xe9e28f0"
+      },
+      "coroutineBuilderCallRva": "0x7977d59",
+      "coroutineBuilderRva": "0x79795c0",
+      "finding": "Creates a UnityWebRequest.Get for the URL, creates DownloadStringCoroutine(request, callback), and starts the coroutine. A localhost HTTPS-to-HTTP rewrite exists; this is not evidence of production redirection."
+    },
+    "downloadCoroutine": {
+      "type": "<DownloadStringCoroutine>d__5",
+      "method": "MoveNext",
+      "token": "0x060002a6",
+      "rva": "0x7b34880",
+      "sendCallRva": "0x7b34910",
+      "sendCallee": {
+        "method": "UnityWebRequest.SendWebRequest",
+        "token": "0x0600005e",
+        "rva": "0xe9dfcf0"
+      },
+      "nativeResultCallRva": "0x7b349ca",
+      "nativeResultInternalCall": "UnityEngine.Networking.UnityWebRequest::get_result_Injected(System.IntPtr)",
+      "nativeResultNameLiteralRva": "0xee26370",
+      "resultComparisonRva": "0x7b349cc",
+      "callbackCallRva": "0x7b34ad5",
+      "disposeCallRva": "0x7b34ae3",
+      "finding": "Yields the send operation, checks result against integer 2 for logging, then reads download-handler text and invokes the callback; the request is disposed afterward. The error logging branch does not itself skip the callback."
+    },
+    "credentialsObservation": "No SteamID, game-session ticket, account identifier, custom authentication header, or cache-busting parameter was found on this recovered URL-plus-callback request path. This does not characterize all Unity/native HTTP behavior."
+  },
+  "requestThrottleAndMapRetention": {
+    "helper": {
+      "module": "Facepunch.Unity.dll",
+      "token": "0x06000360",
+      "rva": "0x7b42240"
+    },
+    "oneMinuteThreshold": {
+      "subtractCallRva": "0x7b423f1",
+      "ticksToMinutesMultiplyRva": "0x7b4241b",
+      "multiplier": 1.6666666666666667e-09,
+      "compareRva": "0x7b42423",
+      "thresholdMinutes": 1,
+      "finding": "The ordinary browser path passes false and returns before initiating another update if the elapsed interval is less than one minute. This is a minimum request interval, not an automatic one-minute refresh timer or a map TTL."
+    },
+    "attemptTimestamp": {
+      "requestCallRva": "0x7b424a9",
+      "timestampStoreRva": "0x7b424dd",
+      "staticFieldOffset": "0x20",
+      "finding": "The timestamp is stored directly after starting the asynchronous request, before the response callback. Empty or malformed responses can therefore still consume the one-minute request interval."
+    },
+    "emptyResponse": {
+      "callbackMethod": "<UpdateMetadata>b__5_0",
+      "token": "0x0600038d",
+      "rva": "0x7b48f80",
+      "nonemptyTailJumpRva": "0x7b48fd0",
+      "parserRva": "0x7b44840",
+      "finding": "Null or empty response text does not enter the parser and does not clear the existing shared map."
+    },
+    "replacementMap": {
+      "token": "0x0600036f",
+      "rva": "0x7b44840",
+      "deserializeCallRva": "0x7b449a1",
+      "newMapAllocationRva": "0x7b449b0",
+      "newMapConstructorCallRva": "0x7b449c2",
+      "keyParseCallRva": "0x7b44ad2",
+      "entryInsertCallRva": "0x7b44b13",
+      "publishStoreRva": "0x7b44bbd",
+      "sharedStaticFieldOffset": "0xa8",
+      "exceptionLoggingBranchRva": "0x7b44c4b",
+      "finding": "Builds a replacement endpoint-to-integer map and publishes it after iteration. JSON deserialization or pre-publication exceptions can retain the previous map. Individually unparseable endpoint keys are skipped rather than necessarily failing the entire response."
+    },
+    "expirationLimit": "No independent age-based invalidation of the map was established on the recovered request/callback/apply path. This is not a claim that every caller or native HTTP cache was inspected."
+  },
+  "mapApplication": {
+    "token": "0x060454e2",
+    "rva": "0x70ecd80",
+    "nullOrEmptyMap": "Skips applying the trusted-count map.",
+    "nonemptyMapMissingTarget": {
+      "zeroValueRva": "0x70ecf6c",
+      "finding": "Uses zero for the finite cap when the map is nonempty but the target IP plus ConnectionPort has no entry."
+    },
+    "mapHit": "Passes the map integer to a cloned server model. The constructor parses tags, then stores max(0, min(PlayersAfterTags, mapCount)).",
+    "fixedFiveFinding": "No fixed cap of five was recovered in this relevant request-to-model chain. A fresh map value of five is sufficient to limit an otherwise higher model count to five."
+  },
+  "nexusExemption": {
+    "finding": "The skip condition in the browser trusted-count apply loop is the Nexus identity condition: a nonnull NexusEndpoint and a positive unsigned NexusId. It is not a special case for five players.",
+    "browserChecks": [
+      {
+        "rva": "0x70ecef0",
+        "operation": "Check model pointer at +0x78 against null"
+      },
+      {
+        "rva": "0x70ecef7",
+        "operation": "Check model integer at +0xd8 against zero"
+      },
+      {
+        "rva": "0x70ecefe",
+        "operation": "Unsigned-above branch skips applying trusted-count clone"
+      }
+    ],
+    "installedClientConstructor": {
+      "module": "Rust.Platform.Common.dll",
+      "token": "0x060003b4",
+      "metadataMethodIndex": 683888,
+      "parameterCount": 13,
+      "rva": "0xca91270",
+      "endpointArgument": "Third managed constructor argument in R9, retained in RSI. Validates nonnull/non-whitespace, then stores at +0x78 at RVA 0xca91421.",
+      "nexusIdArgument": "Fourth managed constructor argument, loaded from frame+0x50 at RVA 0xca913ae; rejects <=0 at 0xca913b5 and stores at +0xd8 at 0xca91489.",
+      "selectedExceptionLiteralEvidence": [
+        {
+          "instructionRva": "0xca918ab",
+          "literal": "nexusEndpoint",
+          "literalIndex": 25930
+        },
+        {
+          "instructionRva": "0xca9190c",
+          "literal": "Nexus ID must be greater than 0",
+          "literalIndex": 12056
+        },
+        {
+          "instructionRva": "0xca9191b",
+          "literal": "nexusId",
+          "literalIndex": 25931
+        }
+      ]
+    },
+    "tagCrossCheck": {
+      "token": "0x06000466",
+      "rva": "0xca934e0",
+      "nexuszoneLiteralLoadRva": "0xca93d3b",
+      "conditionRvas": [
+        "0xca93d54",
+        "0xca93d6a"
+      ],
+      "zoneFlagStoreOffset": "0xd5",
+      "finding": "The nexuszone tag sets the zone flag to the negation of the same endpoint-plus-id condition, matching the readable local server-copy IsNexus/IsNexusZone semantics."
+    },
+    "localReadableCrossCheck": {
+      "module": "Rust.Platform.Common.dll",
+      "constructorToken": "0x06000099",
+      "endpointStoreIL": "IL_003D..IL_003E",
+      "nexusIdStoreIL": "IL_0044..IL_0046",
+      "nexuszoneIL": "IL_01D0..IL_01DA",
+      "limitation": "The local server copy supplies readable semantic cross-checks; the installed client native stores and preserved exception strings provide the direct field identification. The local copy is not the running remote server."
+    },
+    "targetClassificationLimit": "This static result does not establish whether the current remote target is Nexus. Its current server model/tags were not sampled by this follow-up."
+  },
+  "normalClientDisconnectComparison": {
+    "purpose": "Compare ordinary-client admission with backend count publication while independent research sessions stay unchanged; separate an externally published value from a possible retained local map.",
+    "suggestedSequence": [
+      "Record a synchronized baseline: target public-feed count and batch marker, A2S players/cp, exact-target Steam count, independently connected session state, and normal-client browser display.",
+      "Have the user normally disconnect only the already-running ordinary Rust client. Do not stop independent research sessions or change server configuration.",
+      "Observe at least two distinct new public-feed batch markers. Six elapsed minutes may capture only one new batch, depending on start alignment; backend accounting delay remains unknown.",
+      "Record a normal reconnect, repeat the same synchronized observations through at least two new backend batches, and compare both directions.",
+      "If server administration is available, record authoritative active/awake/sleeping counts and join/leave times to account for unrelated player activity."
+    ],
+    "canSupport": [
+      "A repeatable decrement after normal disconnection and increment after normal reconnection, with other players controlled, supports that this client contributes to that published statistic.",
+      "The actual ordinary-client HTTP response or a suitably scoped existing client log is needed to identify which map the browser consumed; a separately fetched public response alone does not prove the UI used that batch."
+    ],
+    "cannotEstablish": [
+      "An unchanged count alone does not prove research accounts were excluded, blacklisted, banned, or rejected by EAC, nor identify the backend algorithm.",
+      "Six minutes alone does not establish a definitive maximum publication delay.",
+      "Other player changes and unknown aggregation or publication delays can confound a single disconnect comparison."
+    ],
+    "performedByThisFollowup": false
+  },
+  "privacy": "No credentials, tokens, tickets, account/player/entity IDs, coordinates, full symbol/string tables, or raw network payloads are included."
+}

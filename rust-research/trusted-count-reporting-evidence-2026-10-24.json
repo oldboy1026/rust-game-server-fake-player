@@ -1,0 +1,164 @@
+{
+  "subject": "Managed server player reporting paths and limits of trusted-count inference",
+  "observedDate": "2026-10-24 Asia/Shanghai",
+  "method": "Read-only dnlib inspection of local replica assemblies; inspected game assemblies were not executed.",
+  "scope": {
+    "replica": "User-provided Rust dedicated-server analysis copy, not the remote running server directory",
+    "networkExperiment": "No network writes, session changes or RCON commands were performed for this report.",
+    "privacy": "No credentials, tickets, account identifiers, player records or raw payloads were read or included.",
+    "limitations": [
+      "Remote binaries, plugins, launch arguments and runtime settings are unknown.",
+      "This inventories identified managed reporting paths; it does not establish native Steam, EAC or Facepunch backend eligibility rules.",
+      "The public trusted-count generation algorithm and its ingestion sources remain unknown."
+    ]
+  },
+  "assemblies": [
+    {"file": "Assembly-CSharp.dll", "sha256": "04fb89520f18a1920c1b1a350b82dd24a4258f31d97b82496971a9cc7a49dcb7"},
+    {"file": "Rust.Platform.Steam.dll", "sha256": "c64b52033cd299a465644490a710a2d37e6eb86a0a1d1dac1a0fe25e9614ca03"},
+    {"file": "Facepunch.Steamworks.Win64.dll", "sha256": "85aa01317bcbe7b001a27c007fc65b2d437a1f537d1fae4e38faad1cb3254893"},
+    {"file": "Rust.Data.dll", "sha256": "b56e90e0586ae721e33cba1da5b69a3e2a226a3cfe215868b5685696e5372925"},
+    {"file": "Facepunch.Network.dll", "sha256": "9be357106b3de79e48f54568f8acc962a2b2f5d8186655a82a013953c2b94c2e"},
+    {"file": "Facepunch.Console.dll", "sha256": "b1f6bd2d2d40126b9bee3b8944463bad5869188084cbc8bf4aa3573ce9795bd9", "note": "This replica console dispatcher includes an Oxide hook; arbitrary remote plugin behavior is not established."}
+  ],
+  "paths": [
+    {
+      "id": "steam-tags",
+      "destination": "Steam game-server publication",
+      "source": "BasePlayer.activePlayerList.Count becomes the cp tag in SteamServer.GameTags.",
+      "period": "ServerMgr.StartSteamServer schedules UpdateServerInformation after 2 seconds, repeating every 30 seconds.",
+      "filters": "Requires a valid SteamServer. The count itself has no first-PlayerTick, awake-state, per-player EAC or IP-distinct filter.",
+      "evidence": ["ServerMgr.StartSteamServer 06007AB2", "ServerMgr.UpdateServerInformation 06007AC0 IL_01A1 through IL_022A", "SteamServer.set_GameTags 060009A8"],
+      "limit": "The native Steam SDK produces query/session behavior; this is not proof of its A2S player-count formula or the Facepunch trusted count."
+    },
+    {
+      "id": "steam-authenticated-session",
+      "destination": "Steam game-server authentication and user data",
+      "source": "Auth_Steam begins a player session, then calls UpdatePlayerSession after successful authentication; failures/cancellation end the session.",
+      "period": "Authentication lifecycle, not periodic PlayerTick publication.",
+      "filters": "Authentication success gates UpdatePlayerSession. censorplayerlist changes the chosen name, not whether the update is called.",
+      "evidence": ["Auth_Steam state machine 060078AF IL_0063 and IL_02D0", "SteamPlatform.BeginPlayerSession 0600004A", "SteamPlatform.UpdatePlayerSession 0600004B", "SteamPlatform.EndPlayerSession 0600004C", "SteamServer.UpdatePlayer 060009B1 -> native BUpdateUserData"],
+      "limit": "The BUpdateUserData bool result is discarded in this wrapper. No new UpdatePlayerSession call was identified in EndSleeping or the received-tick handlers."
+    },
+    {
+      "id": "steam-validation-analytics",
+      "destination": "Shared server analytics event table",
+      "source": "The Steam validation callback invokes RustPlatformHooks.AuthSessionValidated, which first calls Azure.OnSteamAuth and then ServerMgr.OnValidateAuthTicketResponse.",
+      "period": "Each received authentication validation callback.",
+      "fields": ["user and owner identifiers", "raw authentication response", "server port and protocol", "activePlayerList.Count", "maxplayers", "hostname", "secure"],
+      "filters": "No success-only guard occurs before OnSteamAuth in this callback. The active count has no sleep, PlayerTick, per-player EAC or IP-distinct filter here.",
+      "evidence": ["SteamPlatform.StartSteamServer 06000046 IL_0131", "SteamPlatform.<StartSteamServer>b__10_0 0600005D IL_0025", "RustPlatformHooks.AuthSessionValidated 0600783E IL_0004 and IL_0011", "Azure.OnSteamAuth 06009288 IL_0054 through IL_0063, submit IL_009A"],
+      "limit": "This event can precede admission of the connecting player. Event creation and queueing do not prove upload, ingestion or use by the public trusted-count service."
+    },
+    {
+      "id": "connection-events",
+      "destination": "Shared server analytics event table",
+      "source": "ClientReady emits OnPlayerConnected after Connected/JoinedGame and before player spawning. OnDisconnected emits OnPlayerDisconnected.",
+      "period": "Connection/disconnection lifecycle.",
+      "fields": "Connection event includes wipe/user/name/IP metadata; no actual values were inspected for this report.",
+      "filters": "No first-PlayerTick, awake-state or per-player EAC gate in these event methods.",
+      "evidence": ["ServerMgr.ClientReady 06007A9D IL_00DF", "Azure.OnPlayerConnected 06009272", "ServerMgr.OnDisconnected 06007AC1 IL_0002", "Azure.OnPlayerDisconnected 06009273"],
+      "limit": "A connect event is not a protected EAC-session result or trusted-count admission acknowledgement."
+    },
+    {
+      "id": "aggregate-players-and-teams",
+      "destination": "Shared server analytics event table",
+      "source": "AggregateLoop requests player position aggregation each enabled iteration and additional server/entity/item/player/team aggregates every 60 iterations.",
+      "period": "Loop waits 60 seconds. The every-60-iteration subset is nominally hourly and can execute on the first enabled iteration because its counter starts at zero.",
+      "filters": [
+        "GameplayAnalytics globally gates the aggregate loop.",
+        "AggregatePlayers enumerates activePlayerList and skips null/destroyed objects; its count comes from the collected player list.",
+        "The inspected player count has no sleeping, first-tick, per-player EAC or IP-distinct filter.",
+        "AggregateTeams classifies a member as online only when the player exists, is not destroyed, IsConnected and is not IsSleeping."
+      ],
+      "evidence": ["AggregateLoop.MoveNext 060092F2", "AggregatePlayers.MoveNext 060092F8 IL_02F4 through IL_0309", "AggregateTeams.MoveNext 060092FF IL_01A6 through IL_01CC", "Azure.PushServerInfo 0600923E"],
+      "limit": "The team online classification is a real sleeping-dependent analytics path. No evidence links it to the public trusted-count formula. PushServerInfo did not contain a dynamic active-player-count field in the inspected body."
+    },
+    {
+      "id": "performance-analytics",
+      "destination": "Shared server analytics event table",
+      "source": "ServerMgr.Update calls PerformanceLogging.OnFrame. FlushMainThread records activePlayerList.Count as player_count.",
+      "period": "Default server event interval is 1 minute with gameplay analytics enabled, or 1 hour when disabled. Events then share the server table's separate batch interval.",
+      "filters": "Server path resets/returns if active count is zero or ServerPerformanceConVar is false. Its player count has no per-player sleep, tick, EAC or IP-distinct filter.",
+      "evidence": ["ServerMgr.Update 06007AB6 IL_003B", "PerformanceLogging.OnFrame 060093E0", "PerformanceLogging.FlushMainThread 060093E2 IL_0026 through IL_0047 and IL_0285 through IL_0294", "PerformanceLogging.GetFlushInterval 060093E3", "PerformanceLogging..ctor 060093DE"],
+      "limit": "A short quiet interval can be consistent with disabled gameplay analytics and hourly performance events; it is not proof of broken upload."
+    },
+    {
+      "id": "tick-analytics-and-eac",
+      "destination": "Facepunch/Azure tick table and separate EAC SDK calls",
+      "source": "FinalizeTickParallel has separate EAC analytics and Facepunch tick-analytics branches. Azure.OnPlayerTick writes detailed tick data, not an active-player count.",
+      "period": "Tick-driven event creation; TickLogging defaults to a 60-second table interval.",
+      "filters": [
+        "EACServer.CanSendAnalytics requires server.eac_gameplay_data and a non-null EAC interface.",
+        "Facepunch tick analytics uses GameplayTickAnalyticsConVar.",
+        "TickLogging registers directly with AzureBulkUploader, without the server Facepunch fallback.",
+        "EAC OnJoinGame registers a client with user/IP/platform metadata on its secure path; no IP-distinct operation appears in that method.",
+        "EAC OnFinishLoading activates networking only for an available interface and registered client handle."
+      ],
+      "evidence": ["BasePlayer.FinalizeTickParallel 06001B83", "Azure.OnPlayerTick 06009292", "TickLogging.RegisterForAnalytics 060093F4", "TickLogging..cctor 060093F6", "TickLogging.get_tick_uploader_lifetime 060093F1", "EACServer.CanSendAnalytics 060078DC", "EACServer.OnJoinGame 060078EF IL_007D through IL_0087 and IL_0148", "EACServer.OnFinishLoading 060078F1"],
+      "limit": "A gameplay-data switch, registered handle, FinishLoading or tick event does not prove a valid protected EAC session. The SDK/backend may apply rules outside the inspected managed methods."
+    },
+    {
+      "id": "optional-runtime-profiler",
+      "destination": "Azure bulk profiling tables",
+      "source": "RuntimeProfiler.SerializeCommon separately records active-player, sleeping-player and network-connection counts.",
+      "period": "Frame statistics are collected while enabled; profiling table upload interval defaults to 60 seconds.",
+      "filters": "Runtime profiling must be enabled and bulk-upload configuration available. These count fields are direct list counts, without IP grouping.",
+      "evidence": ["RuntimeProfiler.Start 06009438", "RuntimeProfiler.Update 0600943A", "RuntimeProfiler.CollectLastFrameStats 0600943B", "RuntimeProfiler.WriteFrameData 0600943C", "RuntimeProfiler.SerializeCommon 0600943E", "RuntimeProfiler..cctor 06009446 IL_0045 through IL_007D"],
+      "limit": "This optional subsystem is not established as an input to the trusted-count service."
+    },
+    {
+      "id": "nexus-coordination",
+      "destination": "Nexus zone/player coordination",
+      "source": "Started Nexus instances periodically broadcast a player manifest. ServerPlayers rebuilds an online HashSet from activePlayerList user IDs once per frame. Local zone status uses activePlayerList.Count.",
+      "period": "Manifest interval is controlled by ConVar.Nexus.playerManifestInterval; the remote value was not read.",
+      "filters": "The manifest deduplicates user IDs, not IP addresses. No sleeping or per-player EAC filter occurs in the inspected rebuilding method.",
+      "evidence": ["NexusServer.Update 06007A17", "NexusServer.UpdatePlayerManifest 060079F0", "BroadcastPlayerManifest.MoveNext 06007A39", "ServerPlayers.RebuildIfNecessary 06007AF4", "NexusServer.TryGetZoneStatus 060079FE"],
+      "limit": "No connection from this coordination path to the public trusted-count endpoint has been demonstrated."
+    }
+  ],
+  "sharedServerAnalyticsPipeline": {
+    "queue": "EventRecord.Submit appends server records to GameplayEventsTableServer. Append queues each event without identity/IP deduplication.",
+    "defaultBatchIntervalSeconds": 300,
+    "registration": "Analytics.StartForServer starts the manager; Azure.Initialize registers the shared server table with ServerUploader and starts aggregation.",
+    "selection": "ServerUploader is FallbackUploader(AzureBulkUploader, ServerFPUploader). Resolve selects the primary when Enabled, otherwise the fallback.",
+    "availability": [
+      "AzureBulkUploader is enabled by DryRun or sufficient bulk-container connection/authentication configuration.",
+      "ServerFPUploader is enabled by DryRun or the application manifest's ServerAnalytics feature.",
+      "The manager checks tables approximately every 100 ms; it accumulates enabled tables and uploads when a pending batch is due.",
+      "For a disabled uploader the manager clears both queued table events and its accumulator."
+    ],
+    "networkCalls": ["FPUploader Upload.MoveNext 06009363 uses HttpClient.PostAsync and EnsureSuccessStatusCode", "AzureBulkUploader Upload.MoveNext 06009373 uses BlobContainerClient.UploadBlobAsync"],
+    "dryRunCaveat": "FPUploader Upload.MoveNext 06009363 reads DryRun at IL_027B and branches at IL_0280 directly to IL_02F2, bypassing HTTP, then increments bytesUploaded through IL_0305. UploadedSize growth and Enabled=true alone therefore do not prove network transmission.",
+    "evidence": ["EventRecord.Submit 060093D6", "Azure.SubmitPoint 06009241", "AnalyticsManager..cctor 0600931B IL_0005 through IL_001A", "Analytics.StartForServer 06009226", "Azure.Initialize 0600923D", "AnalyticsManager..ctor 06009314", "AnalyticsManager.DoWork 06009318", "AnalyticsTable.Append 06009389", "AnalyticsTable.Accumulate 0600938B", "AnalyticsTable.get_WantsUpload 06009382", "AnalyticsTable.UpdateNextUploadTime 0600938C", "FallbackUploader.Resolve 0600937F", "FPUploader.get_Enabled 06009357", "AzureBulkUploader.get_Enabled 06009365", "AzureBulkUploader.CanCreateContainerClient 0600936E"],
+    "limits": [
+      "Five minutes is the local table's default batch interval, not a proven trusted-feed recomputation period or latency guarantee.",
+      "A successfully uploaded event does not demonstrate backend retention, count eligibility or trusted-feed inclusion.",
+      "No configuration values, uploader URLs or authentication material were read."
+    ]
+  },
+  "readOnlyObservation": {
+    "document": "rcon-player-count-observation.md",
+    "registration": "ConsoleGen..cctor 06000203 in the local replica",
+    "commands": [
+      {"name": "global.serverinfo", "registrationIL": "IL_623C", "method": "Admin.ServerInfo 06009E79", "meaning": "Players is activePlayerList.Count; output has aggregate server fields, not per-player records."},
+      {"name": "analytics.stats", "registrationIL": "IL_3706D", "method": "Analytics.Stats 06009228 -> GatherStats 0600931A", "meaning": "Aggregate serialized/uploaded/queued metrics; not a per-account inclusion result."},
+      {"name": "analytics.tablestats", "registrationIL": "IL_370C7", "method": "Analytics.TableStats 06009229", "meaning": "Tables, selected uploader, compression, intervals and serialized metrics. May initialize a diagnostic accumulator, but does not force an upload."},
+      {"name": "analytics.uploaderstats", "registrationIL": "IL_37121", "method": "Analytics.UploaderStats 0600922A", "meaning": "Uploader Enabled and serialized metrics; does not itself display per-uploader successful-upload bytes."},
+      {"name": "analytics.gameplay_analytics", "registrationIL": "IL_36D2B", "use": "Getter only: no value or argument; registered RconOnly."},
+      {"name": "analytics.gameplay_tick_analytics", "registrationIL": "IL_36E2F", "use": "Getter only: no value or argument."},
+      {"name": "analytics.performance_analytics", "registrationIL": "IL_36FEB", "use": "Getter only: no value or argument."},
+      {"name": "analytics.dryrun", "registrationIL": "IL_36CB0", "use": "Getter only: no value or argument; essential for interpreting upload counters."},
+      {"name": "server.eac_gameplay_data", "registrationIL": "IL_27A76", "use": "Getter only: no value or argument; not a protected-session result."}
+    ],
+    "getterEvidence": "Facepunch.Console.dll Command.DefaultCall 0600003B returns at IL_0012 when HasArgs(1) is false. Internal 0600000C then reads GetOveride/get_String for variable output. The replica dispatcher also offers a pre-command Oxide hook, so unknown remote plugins remain outside this guarantee.",
+    "excluded": ["global.status includes individual identifiers/IPs", "analytics credential/container/URL getters", "wildcard configuration dumps", "flush or reset commands", "setting any values", "plugin or DLL installation"]
+  },
+  "conclusions": [
+    "Steam tags and several server analytics paths use active-player counts without requiring first PlayerTick, wakefulness, per-player EAC or IP-distinct filtering in the inspected count code.",
+    "Team analytics has an awake-state online classification; tick and EAC telemetry have their own gates. These are separate paths and are not proven trusted-count eligibility rules.",
+    "An IP field supplied to analytics or EAC is not evidence of an IP-deduplication policy. No backend policy can be inferred from absence of local grouping.",
+    "Remote configuration can suppress event generation, select a different uploader or discard queued events. Its current configuration has not been observed.",
+    "These static findings do not yet explain the independent sessions' absence from the public trusted count. Backend account/IP/EAC eligibility, ingestion and expiry remain unresolved."
+  ],
+  "relatedEvidence": ["trusted-count-public-evidence-2026-10-24.json", "steam-auth-validation-evidence-2026-10-24.json", "wakeup-lifecycle-evidence-2026-10-24.json", "player-count-display-2026-10-24.json", "player-count-cache-followup-2026-10-24.json"]
+}

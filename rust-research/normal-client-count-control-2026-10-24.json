@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-23T19:36:43.002Z",
+  "target": "61.147.247.35:28015",
+  "queryPort": 28016,
+  "purpose": "Normal user-operated client disconnect/reconnect control with three independently authenticated sessions held unchanged",
+  "events": [
+    {
+      "event": "observation_started",
+      "at": "2026-10-23T19:13:29.669Z"
+    },
+    {
+      "event": "user_confirmed_normal_client_at_main_menu",
+      "approximateAt": "2026-10-23T19:14:00Z",
+      "timingPrecision": "approximate minute from conversation handoff; exact disconnect time unobserved",
+      "independentSessionsUnchanged": 3
+    },
+    {
+      "event": "normal_rejoin_prompt_sent",
+      "at": "2026-10-23T19:20:55Z",
+      "latestTrustedBatch": "2026-10-23T19:20:13Z",
+      "trustedCount": 5
+    },
+    {
+      "event": "user_confirmed_normal_client_in_world",
+      "confirmedAtApproximate": "2026-10-23T19:24:30Z",
+      "timingPrecision": "confirmation receipt rounded to ten seconds; exact world-entry time unobserved",
+      "independentSessionsUnchanged": 3
+    },
+    {
+      "event": "user_confirmed_favorites_display",
+      "confirmationReceivedBetween": [
+        "2026-10-23T19:29:16Z",
+        "2026-10-23T19:34:39Z"
+      ],
+      "timingPrecision": "bounds from adjacent clock observations; no precise receipt timestamp",
+      "displayedPlayers": 4
+    }
+  ],
+  "observationWindows": [
+    {
+      "startedAt": "2026-10-23T19:13:29.084Z",
+      "completedAt": "2026-10-23T19:29:00.135Z",
+      "requestedSamples": 32,
+      "samples": 32
+    },
+    {
+      "startedAt": "2026-10-23T19:28:44.579Z",
+      "completedAt": "2026-10-23T19:36:15.590Z",
+      "requestedSamples": 16,
+      "samples": 16
+    }
+  ],
+  "trustedBatches": [
+    {
+      "batch": "Fri, 23 Oct 2026 19:10:11 GMT",
+      "firstObservedAt": "2026-10-23T19:13:29.862Z",
+      "firstCount": 5,
+      "lastCount": 5,
+      "observations": 4,
+      "lastObservedAt": "2026-10-23T19:14:59.832Z"
+    },
+    {
+      "batch": "Fri, 23 Oct 2026 19:15:12 GMT",
+      "firstObservedAt": "2026-10-23T19:15:29.843Z",
+      "firstCount": 5,
+      "lastCount": 5,
+      "observations": 10,
+      "lastObservedAt": "2026-10-23T19:19:59.923Z"
+    },
+    {
+      "batch": "Fri, 23 Oct 2026 19:20:13 GMT",
+      "firstObservedAt": "2026-10-23T19:20:29.945Z",
+      "firstCount": 5,
+      "lastCount": 5,
+      "observations": 10,
+      "lastObservedAt": "2026-10-23T19:25:00.010Z"
+    },
+    {
+      "batch": "Fri, 23 Oct 2026 19:25:14 GMT",
+      "firstObservedAt": "2026-10-23T19:25:30.018Z",
+      "firstCount": 4,
+      "lastCount": 4,
+      "observations": 11,
+      "lastObservedAt": "2026-10-23T19:29:45.495Z"
+    },
+    {
+      "batch": "Fri, 23 Oct 2026 19:30:15 GMT",
+      "firstObservedAt": "2026-10-23T19:30:15.506Z",
+      "firstCount": 4,
+      "lastCount": 4,
+      "observations": 10,
+      "lastObservedAt": "2026-10-23T19:34:45.562Z"
+    },
+    {
+      "batch": "Fri, 23 Oct 2026 19:35:15 GMT",
+      "firstObservedAt": "2026-10-23T19:35:15.747Z",
+      "firstCount": 3,
+      "lastCount": 3,
+      "observations": 3,
+      "lastObservedAt": "2026-10-23T19:36:15.589Z"
+    }
+  ],
+  "samples": [
+    {
+      "observedAt": "2026-10-23T19:13:29.669Z",
+      "a2sPlayers": 12,
+      "cp": 10,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:10:11 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:13:59.678Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:10:11 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:14:29.679Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:10:11 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:14:59.682Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:10:11 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:15:29.693Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:15:59.696Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:16:29.708Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:16:59.709Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:17:29.713Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:17:59.723Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:18:29.730Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:18:59.744Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:19:29.759Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:19:59.769Z",
+      "a2sPlayers": 11,
+      "cp": 9,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:15:12 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:20:29.783Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:20:59.793Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:21:29.804Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:21:59.807Z",
+      "a2sPlayers": 10,
+      "cp": 7,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:22:29.816Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:22:59.820Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:23:29.822Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:23:59.837Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:24:29.847Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:24:59.860Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 5,
+      "trustedBatch": "Fri, 23 Oct 2026 19:20:13 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:25:29.863Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:25:59.876Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:26:29.880Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:26:59.883Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:27:29.890Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:27:59.892Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:28:29.908Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:28:45.325Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:28:59.912Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:29:15.337Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:29:45.339Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:25:14 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:30:15.345Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:30:45.355Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:31:15.359Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:31:45.373Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:32:15.376Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:32:45.378Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:33:15.384Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:33:45.395Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:34:15.409Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:34:45.410Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 4,
+      "trustedBatch": "Fri, 23 Oct 2026 19:30:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:35:15.421Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 3,
+      "trustedBatch": "Fri, 23 Oct 2026 19:35:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:35:45.433Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 3,
+      "trustedBatch": "Fri, 23 Oct 2026 19:35:15 GMT"
+    },
+    {
+      "observedAt": "2026-10-23T19:36:15.436Z",
+      "a2sPlayers": 10,
+      "cp": 8,
+      "trustedPlayers": 3,
+      "trustedBatch": "Fri, 23 Oct 2026 19:35:15 GMT"
+    }
+  ],
+  "independentSessionObservations": [
+    {
+      "observedAt": "2026-10-23T19:14:22.682Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 521.797,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 516.687,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 511.938,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-23T19:21:09.568Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 926.797,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 926.687,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 916.938,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-23T19:27:35.042Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 1316.797,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 1311.687,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 1301.938,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-23T19:35:52.462Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 1811.797,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 1806.687,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 1801.938,
+          "ticketActive": true,
+          "serverValidationObserved": true
+        }
+      ]
+    }
+  ],
+  "steamCounts": [
+    {
+      "observedAt": "2026-10-23T19:17:55.971Z",
+      "status": "ok",
+      "authPlayers": 9
+    },
+    {
+      "observedAt": "2026-10-23T19:21:10.047Z",
+      "status": "ok",
+      "authPlayers": 9
+    },
+    {
+      "observedAt": "2026-10-23T19:25:22.547Z",
+      "status": "ok",
+      "authPlayers": 8
+    },
+    {
+      "observedAt": "2026-10-23T19:35:52.948Z",
+      "status": "ok",
+      "authPlayers": 8
+    }
+  ],
+  "publicPlayerQuery": {
+    "observedAt": "2026-10-23T19:26:47.675Z",
+    "ok": true,
+    "entries": 10
+  },
+  "limitations": [
+    "User acknowledgements bracket actions; the exact disconnect and world-entry times were not directly instrumented.",
+    "Unrelated players can join and leave; total count changes do not uniquely identify the user or an independent account.",
+    "Last-Modified identifies observed public-file batches, not a documented backend ingestion time.",
+    "This control does not identify the trusted-count source, establish per-account inclusion or demonstrate a fix.",
+    "No headless sessions, game inputs or remote server settings were changed during this control window."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-23T19:37:55.034Z",
+  "target": "61.147.247.35:28015",
+  "method": "Self snapshot flags after completed control, normal service restart and staggered reconnect",
+  "sessions": [
+    {
+      "account": 1,
+      "state": "entered_game",
+      "selfEntityObserved": true,
+      "finishLoadingObserved": true,
+      "steamAuthentication": {
+        "available": true,
+        "active": true,
+        "serverValidationObserved": true
+      },
+      "ownPlayerState": {
+        "observed": true,
+        "sleeping": true,
+        "receivingSnapshot": false,
+        "snapshots": 4,
+        "ageSeconds": 23.968
+      }
+    },
+    {
+      "account": 2,
+      "state": "entered_game",
+      "selfEntityObserved": true,
+      "finishLoadingObserved": true,
+      "steamAuthentication": {
+        "available": true,
+        "active": true,
+        "serverValidationObserved": true
+      },
+      "ownPlayerState": {
+        "observed": true,
+        "sleeping": true,
+        "receivingSnapshot": false,
+        "snapshots": 4,
+        "ageSeconds": 18.953
+      }
+    },
+    {
+      "account": 3,
+      "state": "entered_game",
+      "selfEntityObserved": true,
+      "finishLoadingObserved": true,
+      "steamAuthentication": {
+        "available": true,
+        "active": true,
+        "serverValidationObserved": true
+      },
+      "ownPlayerState": {
+        "observed": true,
+        "sleeping": true,
+        "receivingSnapshot": false,
+        "snapshots": 4,
+        "ageSeconds": 13.875
+      }
+    }
+  ],
+  "limitations": [
+    "State refers to the last identified own full snapshot and its reported age.",
+    "No PlayerTick or wake-up input was sent.",
+    "Sleeping is an observed missing lifecycle step, not a proven cause of the public trusted count."
+  ]
+}

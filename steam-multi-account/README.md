@@ -218,6 +218,8 @@ await api.stopIdling('account1');
 
 `GET /v1/accounts/{id}/rust-session` 的 `steamAuthentication` 返回本账号 Rust 票据活动及验证观察状态，不返回票据或身份字段。`GET /v1/accounts/{id}/rust-steam-count` 通过当前 Steam 连接只读查询最近所选游戏地址的 GMS 认证人数，另在 `serverList` 保留 `GameServers.GetServerList` 的状态和人数；该 `players` 字段不保证等同于认证人数。缺失或失败保持未知值。它们与服务器 A2S、`cp` 和 Facepunch 可信人数是不同来源，不能用单个数值证明某账号已计入 Rust 列表。
 
+`metadata.ownPlayerState` 仅观察本账号完整实体快照中的睡眠和接收快照标志。`observed=false` 表示未知；观察成功后提供 `sleeping`、`receivingSnapshot`、`snapshots` 与 `ageSeconds`。年龄以最近一次 worker 报告时刻计算，快照解析失败时保留旧状态并继续增加年龄；不能把旧快照当作当前服务器状态。此诊断不输出玩家 ID、坐标或原始标志，也不发送唤醒或移动输入。
+
 已在当前目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；未实现或发送 PlayerTick，也没有有效 EAC 受保护会话，不能保证其他服务器兼容或无限期留服。实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
 
 ## 检查

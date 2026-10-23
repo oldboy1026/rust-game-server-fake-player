@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "subject": "Normal wake-up after FinishLoading and its relationship to player connection analytics",
+  "evidenceKind": "Read-only static metadata and IL inspection; no runtime wake-up experiment",
+  "sources": [
+    {
+      "assembly": "Assembly-CSharp.dll",
+      "source": "Installed local dedicated server replica",
+      "sha256": "04fb89520f18a1920c1b1a350b82dd24a4258f31d97b82496971a9cc7a49dcb7"
+    },
+    {
+      "assembly": "Rust.Data.dll",
+      "source": "Installed local dedicated server replica",
+      "sha256": "b56e90e0586ae721e33cba1da5b69a3e2a226a3cfe215868b5685696e5372925"
+    },
+    {
+      "assembly": "Facepunch.Network.dll",
+      "source": "Installed local dedicated server replica",
+      "sha256": "9be357106b3de79e48f54568f8acc962a2b2f5d8186655a82a013953c2b94c2e"
+    }
+  ],
+  "findings": [
+    {
+      "method": "BasePlayer.EnterGame",
+      "metadataToken": "06001A9C",
+      "il": "000A-0025, 002F-003B",
+      "finding": "EnterGame clears ReceivingSnapshot and sends the player-targeted FinishLoading RPC. Its direct EndSleeping call is conditional on IsLoadingAfterTransfer. Receiving FinishLoading does not itself establish that an ordinary player is awake."
+    },
+    {
+      "method": "BasePlayer.OnReceiveTick",
+      "metadataToken": "06001B6D",
+      "il": "0000-0014, 006C-0113",
+      "finding": "InputState is advanced when the received tick contains inputState. After plugin hooks, processing returns while ReceivingSnapshot or transfer protection is active; spectators and dead players take separate early returns. A sleeping player wakes only on WasJustPressed for FIRE_PRIMARY, FIRE_SECONDARY, JUMP or DUCK. The sleeping branch calls EndSleeping, sends an immediate network update, clears active item and returns before normal position processing. A tick with all buttons zero does not satisfy this wake condition."
+    },
+    {
+      "type": "BUTTON",
+      "metadataToken": "02000D67",
+      "values": {
+        "JUMP": 32,
+        "DUCK": 64,
+        "FIRE_PRIMARY": 1024,
+        "FIRE_SECONDARY": 2048
+      }
+    },
+    {
+      "methods": [
+        {"method": "InputState.WasJustPressed", "metadataToken": "060069CB"},
+        {"method": "InputState.Flip", "metadataToken": "060069D0"},
+        {"method": "InputState..ctor", "metadataToken": "060069D3"}
+      ],
+      "finding": "WasJustPressed is IsDown(button) && !WasDown(button). Flip copies old current input into previous and then copies the incoming input into current. Both input messages initially have zero buttons."
+    },
+    {
+      "method": "BasePlayer.EndSleeping",
+      "metadataToken": "06001AB3",
+      "il": "0000-0249",
+      "finding": "Returns if already awake or if the OnPlayerSleepEnd hook vetoes the transition. Otherwise clears Sleeping flag 16, removes the player from sleeping lists, restores inventory timers and physical state, runs the OnPlayerSleepEnded hook and calls EACServer.LogPlayerSpawn. It contains no Steam UpdatePlayerSession or Facepunch OnPlayerConnected call."
+    },
+    {
+      "method": "ConVar.Player.wakeup",
+      "metadataToken": "0600A243",
+      "il": "0000-0044",
+      "finding": "This console command is gated by admin, developer or cinematic permission. It is not the normal unprivileged input wake-up path. No ordinary wake-up RPC was found among callers of EndSleeping in the inspected server assembly."
+    },
+    {
+      "methods": [
+        {"method": "ServerMgr.OnNetworkMessage", "metadataToken": "06007A98", "il": "03A6-0460"},
+        {"method": "ServerMgr.OnPlayerTick", "metadataToken": "06007AA0"},
+        {"method": "BasePlayer.OnReceivedTick", "metadataToken": "06001B67"},
+        {"method": "Network.NetRead.ProtoDelta", "metadataToken": "060000D3"},
+        {"method": "Network.NetWrite.PacketID", "metadataToken": "060000F2"}
+      ],
+      "finding": "Tick is Network.Message.Type value 15. PacketID writes the enum value plus 140. Dispatch requires a connected connection, enforces the server tick packet-rate limit and reads with protobuf operation limits. OnReceivedTick copies the previous tick and applies protobuf fields as a delta before invoking OnReceiveTick. It updates lastTickTime and the raw tick counter afterward."
+    },
+    {
+      "methods": [
+        {"assembly": "Rust.Data.dll", "method": "PlayerTick.Serialize", "metadataToken": "060000A1"},
+        {"assembly": "Rust.Data.dll", "method": "InputMessage.Serialize", "metadataToken": "06000089"},
+        {"assembly": "Rust.Data.dll", "method": "PlayerTick.Deserialize", "metadataToken": "0600009D"}
+      ],
+      "finding": "PlayerTick field 1 is a length-delimited InputMessage, whose field 1 is varint buttons. PlayerTick modelState is field 4. The full serializer requires non-null inputState and modelState; other fields include position, active item, eye position, parent and deltaMs. Omitting delta fields preserves prior values, so absence is not a general button-release operation. This evidence identifies the normal protocol fields; it is not a validated standalone packet implementation."
+    },
+    {
+      "method": "ServerMgr.ClientReady",
+      "metadataToken": "06007A9D",
+      "il": "0043-008D, 00BC-00DF, 0110-014A",
+      "finding": "ClientInfo name/value entries are consumed inside ClientReady. The connection is marked Connected, the queue is updated and Azure.OnPlayerConnected is called before sleeping/new player spawning. No separate ClientInfo message type appears in the inspected Network.Message.Type enum."
+    },
+    {
+      "methods": [
+        {"method": "Facepunch.Rust.Analytics.Azure.OnPlayerConnected", "metadataToken": "06009272"},
+        {"method": "Facepunch.Rust.Analytics.Azure.SubmitPoint", "metadataToken": "06009241"},
+        {"method": "Facepunch.Rust.EventRecord.Submit", "metadataToken": "060093D6"}
+      ],
+      "finding": "The connection event constructs a server EventRecord from connection metadata and submits it to GameplayEventsTableServer.Append. These inspected methods have no sleeping, first-tick or per-player EAC condition. This proves the local call path, not successful backend ingestion or any trusted-count formula."
+    },
+    {
+      "methods": [
+        {"method": "Facepunch.Rust.Analytics.Azure.AggregatePlayers state machine", "metadataToken": "060092F8", "il": "0056-0096, 00F4-0223"},
+        {"method": "Facepunch.Rust.Analytics.Azure.AggregateLoop state machine", "metadataToken": "060092F2", "il": "003E-0070"}
+      ],
+      "finding": "AggregatePlayers enumerates activePlayerList, skipping null/destroyed players, without a sleeping, first-tick or EAC filter. AggregateLoop waits 60 seconds per iteration and is controlled by the GameplayAnalyticsConVar global switch before requesting the position aggregate. No linkage from these events to the public trusted-count endpoint was established."
+    },
+    {
+      "methods": [
+        {"method": "EACServer.LogPlayerSpawn", "metadataToken": "060078F4"},
+        {"method": "EACServer.get_CanSendAnalytics", "metadataToken": "060078DC"},
+        {"method": "EACServer.get_CanEnableGameplayData", "metadataToken": "060078DB"},
+        {"method": "EACServer.OnFinishLoading", "metadataToken": "060078F1"}
+      ],
+      "finding": "LogPlayerSpawn is normal server telemetry called by EndSleeping, gated by server eac_gameplay_data, a non-null EAC interface and a connection. OnFinishLoading sets the registered EAC client's network-active state when both interface and client handle exist. Neither action creates or proves a protected EAC session."
+    },
+    {
+      "methods": [
+        {"method": "BasePlayer..ctor", "metadataToken": "06001C2C", "il": "0137-014F"},
+        {"method": "BasePlayer.PlayerInit", "metadataToken": "06001AA1"},
+        {"method": "BasePlayer.ResetState", "metadataToken": "06001BD6"}
+      ],
+      "finding": "The constructor creates InputState and a new PlayerTick baseline. Across all inspected Assembly-CSharp IL references, lastReceivedTick is assigned only here and when OnReceivedTick stores a copy of the newly decoded tick. PlayerInit and ResetState do not clear it. A reused sleeping player entity can therefore retain an earlier protobuf delta baseline; absent fields must not be assumed to reset to zero. Even full protobuf serializers omit default scalar fields, so semantic reset requires the delta contract to be respected."
+    },
+    {
+      "methods": [
+        {"method": "BasePlayer.UpdateModelStateFromTick", "metadataToken": "06001B73"},
+        {"method": "BasePlayer.UpdatePositionFromTick", "metadataToken": "06001B74"},
+        {"method": "BasePlayer.UpdateRotationFromTick", "metadataToken": "06001B75"}
+      ],
+      "finding": "Normal awake tick processing uses the player's current position, parent and model/input state. Model state is transferred into the tick-state cache when changed. Position and eye position, as well as aim angles and mouse delta, must be finite; position parent must match the entity parent and server validation remains active. This report does not supply substituted coordinates, identity data or anti-cheat telemetry."
+    },
+    {
+      "method": "Auth_Steam.Run state machine",
+      "metadataToken": "060078AF",
+      "il": "02D0",
+      "finding": "The only reference to IPlatformService.UpdatePlayerSession found in the inspected Assembly-CSharp module is in Steam authentication. Neither EndSleeping nor the received-tick handlers performs an additional Steam player session publication."
+    }
+  ],
+  "conclusion": "A normal wake-up input transition is missing from a receiver that never sends PlayerTick, but the inspected connection event and active-player aggregation do not wait for that transition. Wake-up can be evaluated separately as normal initialization; it must not be described as a demonstrated fix for trusted player counts.",
+  "limitations": [
+    "Server-side IL was inspected from the installed local replica. This does not establish the exact implementation or settings of a remote server.",
+    "Client-side FinishLoading-to-input code was not reconstructed in this report.",
+    "No live tick, wake-up, movement, client-info or telemetry packet was sent during this investigation.",
+    "No backend trusted-count generation or ingestion contract was found."
+  ]
+}

@@ -38,6 +38,22 @@ export function safeMetadata(result) {
   }
   if (Array.isArray(result.stages)) clean.stages = result.stages.filter(stage => STAGES.has(stage)).slice(0, 64);
   if (CATEGORIES.has(result.disconnectCategory)) clean.disconnectCategory = result.disconnectCategory;
+  const ownState = result.ownPlayerState;
+  if (ownState && typeof ownState === 'object' && !Array.isArray(ownState)) {
+    if (ownState.observed === false && ownState.snapshots === 0) {
+      clean.ownPlayerState = { observed: false, snapshots: 0 };
+    } else if (ownState.observed === true
+        && typeof ownState.sleeping === 'boolean' && typeof ownState.receivingSnapshot === 'boolean'
+        && Number.isSafeInteger(ownState.snapshots) && ownState.snapshots > 0 && ownState.snapshots <= 1e12
+        && typeof ownState.ageSeconds === 'number' && Number.isFinite(ownState.ageSeconds)
+        && ownState.ageSeconds >= 0 && ownState.ageSeconds <= 1e12) {
+      // Age is measured at this worker sample, alongside elapsedSeconds.
+      // Only these booleans/counters survive; no IDs, flags or coordinates.
+      clean.ownPlayerState = { observed: true, sleeping: ownState.sleeping,
+        receivingSnapshot: ownState.receivingSnapshot, snapshots: ownState.snapshots,
+        ageSeconds: ownState.ageSeconds };
+    }
+  }
   for (const [name, pattern] of [['firstByteCounts', /^0x[0-9a-f]{2}$/], ['bitLengthCounts', /^\d{1,10}$/]]) {
     const values = result[name];
     if (values && typeof values === 'object' && !Array.isArray(values)) {

@@ -68,6 +68,7 @@ RESULT = {
     "eacVerified": False,
     "selfEntityObserved": False,
     "finishLoadingObserved": False,
+    "ownPlayerState": {"observed": False, "snapshots": 0},
     "sentPackets": 0,
     "worldMessages": 0,
     "stages": [],
@@ -336,11 +337,13 @@ def proto_fields(data):
         yield field, wire, value
 
 
-def self_entity_id(packet, steam_id):
+def self_entity_snapshot(packet, steam_id):
     # SendAsSnapshot06005188: 0x91 + uint32 sequence + raw Entity protobuf.
     # ToStream0600518F writes lengthDelimited=false; no compression/delta.
     # Entity fields: 1 BaseNetworkable, 3 BasePlayer. The nested fields are
-    # BaseNetworkable.uid=1:uint64 and BasePlayer.userid=2:uint64.
+    # BaseNetworkable.uid=1:uint64, BasePlayer.userid=2:uint64 and
+    # BasePlayer.playerFlags=7:int32. Return no state until this same complete
+    # snapshot has both a valid entity ID and the logged-in account's user ID.
     if len(packet) < 6 or packet[0] != 0x91:
         return None
     selected = {}
@@ -351,12 +354,19 @@ def self_entity_id(packet, steam_id):
             selected[field] = value
     if 1 not in selected or 3 not in selected:
         return None
-    user = uid = None
+    user = uid = flags = None
     for field, wire, value in proto_fields(selected[3]):
         if field == 2:
             if wire != 0 or user is not None:
                 raise ValueError()
             user = value
+        elif field == 7:
+            if wire != 0 or flags is not None:
+                raise ValueError()
+            # int32 uses either a positive varint or sign-extended uint64.
+            if 2**31 - 1 < value < 2**64 - 2**31:
+                raise ValueError()
+            flags = value
     if user != steam_id:
         return None
     for field, wire, value in proto_fields(selected[1]):
@@ -364,7 +374,12 @@ def self_entity_id(packet, steam_id):
             if wire != 0 or uid is not None:
                 raise ValueError()
             uid = value
-    return uid if uid else None
+    if not uid:
+        return None
+    # BasePlayer.Serialize060007F9 omits zero playerFlags. Its .ctor060007FC
+    # leaves this int32 at zero; ResetToPool060007E5 explicitly clears it.
+    # This is a full Entity snapshot, so an absent field means zero here.
+    return uid, 0 if flags is None else flags
 
 
 def is_finish_loading(packet, entity_id):
@@ -454,14 +469,20 @@ def run(args, identity, auth, ready):
     counts, lengths = Counter(), Counter()
     sent_auth = sent_ready = False
     self_id = None
+    last_self_snapshot = None
     stop_reason = "receive_deadline_reached"
     started = time.monotonic()
     last_snapshot = started
     stop = threading.Event()
     control_state = {"reason": "stop_requested"}
 
+    def update_own_snapshot_age():
+        if last_self_snapshot is not None:
+            RESULT["ownPlayerState"]["ageSeconds"] = round(max(0, time.monotonic() - last_self_snapshot), 3)
+
     def snapshot():
         nonlocal last_snapshot
+        update_own_snapshot_age()
         RESULT["receivedPackets"] = sum(counts.values())
         RESULT["firstByteCounts"] = {f"0x{k:02x}": v for k, v in sorted(counts.items())}
         RESULT["bitLengthCounts"] = {str(k): v for k, v in sorted(lengths.items())}
@@ -571,13 +592,23 @@ def run(args, identity, auth, ready):
                 emit("entity_message_received_after_ready")
                 packet = ctypes.string_at(pointer, bits // 8)
                 try:
-                    observed = self_entity_id(packet, identity["steamId"])
+                    observed = self_entity_snapshot(packet, identity["steamId"])
                 except ValueError:
                     # Unsupported entity variants are ignored; a failed
                     # parse must never become a successful identity match.
                     observed = None
                 if observed is not None:
-                    self_id = observed
+                    self_id, flags = observed
+                    last_self_snapshot = time.monotonic()
+                    RESULT["ownPlayerState"] = {
+                        "observed": True,
+                        # BasePlayer.PlayerFlags: Sleeping=16,
+                        # ReceivingSnapshot=8 (Assembly-CSharp.dll).
+                        "sleeping": bool(flags & 16),
+                        "receivingSnapshot": bool(flags & 8),
+                        "snapshots": RESULT["ownPlayerState"]["snapshots"] + 1,
+                        "ageSeconds": 0,
+                    }
                     emit("self_entity_observed")
             elif first == 0x95 and sent_ready and self_id is not None and bits == 104:
                 if is_finish_loading(ctypes.string_at(pointer, 13), self_id):
@@ -593,6 +624,7 @@ def run(args, identity, auth, ready):
             api.NET_Close(peer)
             closed = True
             emit("native_wrapper_closed")
+        update_own_snapshot_age()
         emit("summary", authSubmitted=sent_auth, readySubmitted=sent_ready,
              closed=closed, receivedPackets=sum(counts.values()),
              firstByteCounts={f"0x{k:02x}": v for k, v in sorted(counts.items())},

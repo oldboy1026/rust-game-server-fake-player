@@ -2,6 +2,12 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
+## 最新：正常客户端对照完成，自身仍Sleeping
+
+19:13:29–19:36:15 UTC两段48份只读采样已完成。用户退出到主菜单后，约19:24:30 UTC确认重新进入世界。三个独立账号全程保持不变，最后约30分钟留服且票据验证。Facepunch 19:15/19:20批次为5，19:25及19:30为4，19:35为3；用户也确认刷新收藏显示4。A2S/cp末段10/8、GMS8。不要将总人数变化唯一归因于用户，也未证明任一独立账号计入可信人数。见 `normal-client-count-control-2026-10-24.json`。
+
+对照结束后已19:36:50正常关闭服务，19:37:02启动含ownPlayerState的新版本，并错开恢复三账号。19:37:55诊断三者Sleeping=true、ReceivingSnapshot=false，各4份自身快照，年龄14–24秒。当前管理服务exec session9053；下一步先GET会话状态，勿无故断开。没有发送PlayerTick。两帧纯输入候选有录制时ModelState为空及已醒竞态，继续核对真实状态字段后才能实施。用户说目标管理员/RCON权限明天可能拿到，目前仍未取得。只读命令准备见 `rcon-player-count-observation.md`，不安装DLL或改统计；上传UploadedSize增长还需排除DryRun。
+
 ## 最新接续：列表人数研究仍未完成
 
 最新问题、运行实验和限制先读 `rust-research/player-count-update-2026-10-24.md`。用户确认目标 `61.147.247.35:28015`（查询 `28016`）的社区、收藏、历史列表均显示 5。三个独立会话已观察到自身实体、FinishLoading 和 Steam 接收方票据验证完成；A2S/cp 在三会话重连后从 `10/8` 增到 `13/11`，Steam CM GMS 精确目标认证人数为 11，而 Facepunch 公共人数服务多个新批次仍为 5。没有有效 EAC 会话。
