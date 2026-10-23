@@ -2,11 +2,13 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
-## 正在运行：单账号离服对照，必须恢复第三个账号
+## 正在运行：第二次单账号离服对照，必须恢复第三个账号
 
-20:18 UTC RCON名单与本机账号仅在内存匹配，确认3个研究账号、0个其他玩家。`work/count-exclusive-window.mjs` exec session61686 正运行；20:21:41.830 UTC已正常断开第3账号，`work/count-exclusive-window-state.json` 的 restoreRequired=true。计划离服600秒，约20:31:42 UTC自动恢复，再观察600秒。**接续先读此状态并确认最终restoreRequired=false及第三账号重新entered_game，不能遗忘恢复。** 通过创建ignored `work/count-exclusive-window-stop` 可请求提早结束并进入finally恢复；不要强杀脚本。
+第一轮已结束且restoreRequired=false。用户确认20:23的提前重连由其手动操作，并授权重做；该轮不能作为连续10分钟离服证据。脱敏记录在 `rust-research/interrupted-count-control-2026-10-24.json`。
 
-20:20:42公共新批次已从3降为2，早于断开操作，不能归因于本次离服。20:20:43和20:21:14内部仍3个研究账号、无其他玩家，因此当前不存在“3个研究账号已全部可信收录”的证据。后续每30秒记录RCON匿名汇总和公共批次；本阶段不改服务器配置、不唤醒或重启会话。用户已答目前仅RCON权限，不能上传只读插件到目标服。
+第二轮 `work/count-exclusive-repeat-window.mjs` exec session85771 于20:29:51 UTC开始，20:31:21.276 UTC正常断开第3账号，计划离服600秒至约20:41:21 UTC，然后自动恢复并继续观察600秒。状态在 `work/count-exclusive-repeat-window-state.json`。**接续先检查当前时间、phase、restoreRequired及最新样本；必须确认最终restoreRequired=false并重新entered_game。** 如需提早结束，创建ignored文件 `work/count-exclusive-repeat-window-stop`，让finally恢复；不要强杀脚本。第二轮身份匹配只允许已保存的三个研究账号，并检查唯一17位字符串；检测到提前重连会标记窗口中断。
+
+20:25:21与20:30:25两个新公共批次均为trusted0；基线RCON仍3个研究账号、0个其他玩家。断开后RCON2/cp2，20:32:44只读Steam CM authPlayers也为2，trusted仍0。因此此前trusted3与内部3相等不能当作已解决。后台算法未知。只读旁路采样session35646还在运行，预计20:37左右结束。本阶段不改服务器配置、不唤醒或重启会话。用户已明确目前仅RCON权限，不能上传诊断源码，不要重复询问。
 
 ## 当前接续：临时统计开关已恢复，本地正常客户端对照待做
 
