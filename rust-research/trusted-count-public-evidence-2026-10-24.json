@@ -1,0 +1,180 @@
+{
+  "subject": "Public Rust trusted-player-count endpoint and Steam GMS query boundaries",
+  "observedDate": "2026-10-24 Asia/Shanghai",
+  "trustedCountEndpoint": {
+    "url": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+    "shape": "JSON object mapping game IP:port strings to integer counts",
+    "target": "61.147.247.35:28015",
+    "snapshots": [
+      {
+        "observedAt": "2026-10-23T18:32:43.061Z",
+        "httpStatus": 200,
+        "targetCount": 5,
+        "entryCount": 4032,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 18:32:42 GMT",
+          "last-modified": "Fri, 23 Oct 2026 18:30:01 GMT",
+          "age": "160",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      },
+      {
+        "observedAt": "2026-10-23T18:35:52.169Z",
+        "httpStatus": 200,
+        "targetCount": 5,
+        "entryCount": 4022,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 18:35:51 GMT",
+          "last-modified": "Fri, 23 Oct 2026 18:35:03 GMT",
+          "age": "48",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      },
+      {
+        "observedAt": "2026-10-23T18:49:00.678Z",
+        "httpStatus": 200,
+        "targetCount": 5,
+        "entryCount": 4034,
+        "headers": {
+          "date": "Fri, 23 Oct 2026 18:49:00 GMT",
+          "last-modified": "Fri, 23 Oct 2026 18:45:05 GMT",
+          "age": "234",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        },
+        "comparison": "A parallel request with Cache-Control:no-cache and Pragma:no-cache returned the same target, entry count, batch timestamp, Age and cache HIT. This did not obtain an uncached origin response. The map contained only the target game-port entry for this IP."
+      }
+    ],
+    "limitations": [
+      "The service's backend count-generation algorithm has not been established.",
+      "A cache-control max-age header is not evidence that the data is generated only once per day.",
+      "Observed batch timestamps are not a guaranteed refresh schedule.",
+      "These observations do not prove that Steam gamesPlayed activity changes the count."
+    ]
+  },
+  "officialSteamEvidence": [
+    {
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser#AdvertiseGame",
+      "quote": "When you are using Steam authentication system this call is never required, the auth system automatically sets the appropriate rich presence.",
+      "implication": "Do not assume a separate AdvertiseGame call or manually supplied game-server address is required solely from missing rich-presence fields.",
+      "limitation": "This documents Steam rich presence, not Facepunch trusted-count generation."
+    },
+    {
+      "url": "https://partner.steamgames.com/doc/features/auth",
+      "finding": "A client issues an auth-session ticket; the receiver starts an auth session and receives a backend validation callback. A valid ticket also validates ownership for the AppID.",
+      "limitation": "This does not document a Facepunch trusted-count algorithm or a gamesPlayed prerequisite."
+    },
+    {
+      "url": "https://partner.steamgames.com/doc/api/ISteamUserStats#GetNumberOfCurrentPlayers",
+      "quote": "Asynchronously retrieves the total number of players currently playing the current game. Both online and in offline mode.",
+      "limitation": "This is an app-wide count and cannot establish a per-server trusted count."
+    }
+  ],
+  "steamGmsImplementation": {
+    "package": "steam-user",
+    "version": "5.3.0",
+    "npmVersionMetadata": "https://registry.npmjs.org/steam-user/5.3.0",
+    "npmGitHead": "e39d7cb8e0d4c83905f2d3896fb354b13f2591ec",
+    "publicSources": [
+      {
+        "path": "README.md",
+        "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/e39d7cb8e0d4c83905f2d3896fb354b13f2591ec/README.md",
+        "normalizedSha256": "fbbe434a3d403904ed04f6da672258d08cd19831bef8d7cd3afc38049b43a768",
+        "matchesInstalledAfterCrLfNormalization": true
+      },
+      {
+        "path": "components/gameservers.js",
+        "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/e39d7cb8e0d4c83905f2d3896fb354b13f2591ec/components/gameservers.js",
+        "normalizedSha256": "c86a0739a11244fbde7e43fb9666ff1c321c563097645d5ddf5b5f2360cb6bac",
+        "matchesInstalledAfterCrLfNormalization": true
+      },
+      {
+        "path": "protobufs/generated/_load.js",
+        "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/e39d7cb8e0d4c83905f2d3896fb354b13f2591ec/protobufs/generated/_load.js",
+        "normalizedSha256": "8c1bfd8e5bd6b70d790f244c6c8733ba38f2085b3cc926a576e5e0cf88c426eb",
+        "matchesInstalledAfterCrLfNormalization": true
+      },
+      {
+        "path": "protobufs/generated/steammessages_clientserver_gameservers.json",
+        "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/e39d7cb8e0d4c83905f2d3896fb354b13f2591ec/protobufs/generated/steammessages_clientserver_gameservers.json",
+        "normalizedSha256": "b56655af4c4346ebf13f9dc2c3defd9fbe86951965a4c968dd819bcc1c6583ab",
+        "matchesInstalledAfterCrLfNormalization": true
+      }
+    ],
+    "documentation": "README serverQuery describes players as authenticated players and explains its use in limiting inflated Steam browser counts. This is third-party library documentation, not proof of Facepunch's backend implementation.",
+    "loadedSchemaInspection": {
+      "method": "Read the generated schema loader and inspect selected protobuf type metadata without creating or logging in a Steam client.",
+      "entry": "components/03-messages.js loads protobufs/generated/_load.js",
+      "mergeOrder": "common.json is loaded before steammessages_clientserver_gameservers.json; mergeObjects replaces same-named properties with later definitions",
+      "actualServerType": ".CMsgGMSClientServerQueryResponse.Server",
+      "actualResponseFields": ["servers", "error", "default_server_data", "server_strings"],
+      "selectedActualServerFields": {
+        "query_port": 2,
+        "auth_players": 3,
+        "server_ip": 4,
+        "players": 8,
+        "game_port": 9
+      }
+    },
+    "wrapperBoundary": {
+      "playersMapping": "The public serverQuery wrapper maps server.auth_players to returned players.",
+      "stalePortMapping": "The same wrapper still reads server.server_port, which is absent from its actual loaded newer server type.",
+      "staleIpMapping": "The wrapper passes the server_ip message object to IPv4.intToString; that helper coerces its input with >>> 0 instead of reading server_ip.v4.",
+      "diagnosticRequirement": "Read selected original response fields and match game/query addresses explicitly; do not infer an exact endpoint from the wrapper's mapped port or IP.",
+      "limitation": "No authenticated GMS query or account connection was performed for this evidence file."
+    }
+  },
+  "otherSteamServerListInterfaces": {
+    "installedUnifiedMethod": "steam-user.getServerList calls GameServers.GetServerList#1",
+    "installedResponseType": "CGameServers_GetServerList_Response.Server",
+    "selectedResponseFields": {
+      "addr": "field 1, explicitly described as IP plus query port",
+      "gameport": "field 2, game connection port",
+      "players": "field 11, int32",
+      "auth_players": "absent from this response type"
+    },
+    "limitation": "A field called players is not by itself proof of authenticated-player semantics. Its value can be compared to a strictly matched ClientGMSServerQuery auth_players response, but no such comparison was executed by this researcher.",
+    "webApiPublicReference": {
+      "documentationMirror": "https://steamapi.xpaw.me/IGameServersService#GetServerList",
+      "endpoint": "https://api.steampowered.com/IGameServersService/GetServerList/v1/",
+      "description": "Gets a list of servers given a filter string",
+      "requiredParameter": "key",
+      "optionalParameters": ["filter", "limit"],
+      "label": "UNDOCUMENTED",
+      "provenance": "The mirror states that it is generated from GetSupportedAPIList using an API key.",
+      "officialDocs": "https://partner.steamgames.com/doc/webapi/IGameServersService",
+      "officialDocObservation": "The public Steamworks page lists server-account management and IP/SteamID mapping methods, but no GetServerList section was present when inspected.",
+      "limitation": "No Web API key was accessed or used. Neither the mirror nor the inspected official page specifies player-count generation, freshness or Facepunch's choice of source."
+    },
+    "steamDirectoryBoundary": {
+      "source": "https://raw.githubusercontent.com/SteamRE/SteamKit/2049844fdf746420c9f31a9575d4b75c40a5d575/SteamKit2/SteamKit2/Steam/WebAPI/SteamDirectory.cs",
+      "finding": "SteamKit SteamDirectory calls ISteamDirectory.GetCMListForConnect to discover Steam connection-manager endpoints. This is not a game-server player-count interface.",
+      "officialSupportedApiList": "https://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v1/",
+      "publicDirectoryMethodsObserved": ["GetCMList", "GetCMListForConnect", "GetSteamPipeDomains"]
+    },
+    "unresolved": "No inspected public source establishes whether Facepunch playerCounts consumes the Web API GetServerList, CM auth_players, a different Steam source or an independent calculation."
+  },
+  "officialBrowserHistory": {
+    "news": "https://rust.facepunch.com/news/solid-foundations",
+    "changelist": "https://rust.facepunch.com/changelist/3960",
+    "date": "2023-10-05",
+    "section": "Cached Browser",
+    "quote": "Tired of waiting 60+ sec for your favourite server to show up? Try enabling the \"Use Cache\" button & click \"Refresh\" to load all servers instantly!",
+    "historicalStatus": "The announcement described it as experimental and disabled by default at that time.",
+    "limitation": "This documents the existence of a cached browser in 2023, not the current trusted-count algorithm, cache lifetime or selected browser path."
+  },
+  "publicPolicySearch": {
+    "sources": [
+      "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=player%20count&locale=en-us",
+      "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=server%20browser&locale=en-us",
+      "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=fake%20players&locale=en-us",
+      "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=trusted&locale=en-us"
+    ],
+    "officialChangelogPagesInspected": "https://rust.facepunch.com/changes pages 1 through 15, covering the current 2026 page back through July 2020",
+    "finding": "No trusted-player-count generation specification was found in these support search results or the inspected changelog entries. The documented cached browser is recorded separately above.",
+    "limitation": "A limited search is not evidence that no public specification exists."
+  },
+  "privacy": "Only public server-address/count observations and public implementation details are included. No credentials, account identifiers, tickets, tokens, private configuration or raw game payloads are included."
+}

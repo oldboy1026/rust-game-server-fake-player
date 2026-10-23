@@ -124,6 +124,14 @@ node .\inspect-native.mjs .\steam-server-files\RustDedicated_Data\Plugins\x86_64
 
 ## 玩家人数发布路径
 
+`observe-player-counts.mjs` 从仓库根目录运行，持续比较同一目标的 A2S 人数、`cp` 与 Facepunch 公共可信人数，同时记录批次时间和缓存响应头：
+
+```powershell
+node tools/rust-research/observe-player-counts.mjs --host 61.147.247.35 --game-port 28015 --query-port 28016 --samples 24 --interval 30 --out work/player-counts.json
+```
+
+该工具只读、不登录账号或改变连接；只保存目标键，不保存公共接口的完整列表。最多 120 次采样，间隔至少 10 秒；Ctrl+C 会保存已取得的记录。游戏端口与查询端口需明确分别填写。
+
 `player-count-sources.json` 列出本轮官方文档和固定 Oxide 源码地址，可交给 `collect.mjs`。Valve Server_queries 页面本次返回反机器人挑战页，已在研究来源中排除；HTTP 200 不表示正文有效。
 
 `player-count-filelist.txt` 仅匹配人数研究使用的 3 个程序集，可用前述 DepotDownloader 命令替换 filelist 获取。`inspect-player-count.ps1` 只解析指定方法的 IL 上下文，输出模块哈希、MVID 和方法 token，不执行游戏程序集：

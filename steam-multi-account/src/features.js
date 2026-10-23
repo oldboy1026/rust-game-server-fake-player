@@ -3,6 +3,7 @@ import { ApiError } from './errors.js';
 import { RustAuthCheck } from './game-auth.js';
 import { connectRust } from './rust-connection.js';
 import { RustSession } from './rust-session.js';
+import { queryRustSteamCount, queryRustSteamServerListCount } from './rust-server-query.js';
 
 export function appIds(value, max = 32) {
   if (!Array.isArray(value) || value.length > max || value.some(id => !Number.isInteger(id) || id < 1 || id > 0xffffffff)) {
@@ -43,6 +44,7 @@ export class AccountFeatures {
     this.idleReportedAt = null;
     this.rustAuth = new RustAuthCheck({ client, requireOnline: () => this.requireOnline(), ensureCurrent: () => this.ensureCurrent() });
     this.rustSession = account.rustSession ||= new RustSession();
+    this.rustSession.setActivityListener(() => this.applyIdle());
     const on = (event, handler) => client.on(event, (...args) => { if (current()) handler(...args); });
     on('accountInfo', (name, country, authedMachines, flags) => Object.assign(this.profile, { nickname: name, country, authedMachines, accountFlags: flags }));
     on('emailInfo', (address, validated) => Object.assign(this.profile, { email: maskEmail(address), emailValidated: validated }));
@@ -131,8 +133,25 @@ export class AccountFeatures {
     this.requireOnline();
     return this.rustSession.start(this.rustAuth, input, this.profile.nickname || this.account.saved.accountName);
   }
-  rustSessionStatus() { return this.rustSession.snapshot(); }
+  rustSessionStatus() {
+    return { ...this.rustSession.snapshot(), steamAuthentication: this.rustAuth.activeSessionStatus() };
+  }
   stopRustSession() { return this.rustSession.stop(); }
+  async rustSteamCount() {
+    this.requireOnline();
+    const { host, port } = this.rustSession.snapshot();
+    if (!host) throw new ApiError(409, '请先选择并连接 Rust 服务器。');
+    const key = `${host}:${port}`;
+    this.rustSteamCountPending ||= new Map();
+    if (this.rustSteamCountPending.has(key)) return this.rustSteamCountPending.get(key);
+    const pending = Promise.all([
+      queryRustSteamCount(this.client, { host, port }, () => this.requireOnline()),
+      queryRustSteamServerListCount(this.client, { host, port }, () => this.requireOnline()),
+    ]).then(([result, serverList]) => ({ host, port, ...result, serverList }));
+    this.rustSteamCountPending.set(key, pending);
+    try { return await pending; }
+    finally { if (this.rustSteamCountPending.get(key) === pending) this.rustSteamCountPending.delete(key); }
+  }
   async refreshProfile() {
     this.requireOnline();
     if (this.profilePending) return this.profilePending;
@@ -239,7 +258,12 @@ export class AccountFeatures {
     if (!this.current() || this.account.state !== 'online') return;
     const config = this.account.saved.idle;
     if (this.blocked) return;
-    this.client.gamesPlayed(config?.enabled ? config.appIds : []);
+    let playing = config?.enabled ? [...config.appIds] : [];
+    // This is the real independent Rust session. Report it while it owns its
+    // transport/ticket, and restore the saved idle selection after cleanup.
+    const rustActivity = this.rustSession.steamGameActivity();
+    if (rustActivity) playing = [...playing.filter(appId => appId !== 252490), rustActivity];
+    this.client.gamesPlayed(playing);
     if (config?.enabled) {
       this.idleStartedAt ||= new Date().toISOString();
       this.idleReportedAt = new Date().toISOString();

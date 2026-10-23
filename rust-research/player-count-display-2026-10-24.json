@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-10-24",
+  "scope": "Read-only static inspection of the user-provided local server copy and installed Rust IL2CPP client files. D:/RustServer/rustds is not established as the running remote server. No game process access, client modification, service startup, configuration edits or tests were performed by this static investigation.",
+  "instructions": {
+    "agentsFilesFoundInLocalServerTree": 0,
+    "localStartupScriptsAndConfigurationValuesOmitted": true
+  },
+  "installationMetadata": {
+    "appId": 258550,
+    "installedBuildIdFromAppmanifest": "25902425",
+    "targetBuildIdFromAppmanifest": "26139947",
+    "downloadingDirectoryPresent": true,
+    "publishedProtocolInInspectedCode": 2635,
+    "oxideRustFileVersion": "2.0.7839.0",
+    "limitation": "Manifest metadata and file versions do not prove which binaries were loaded by any running server. Different hashes can reflect Oxide rewriting as well as build differences."
+  },
+  "moduleHashAlgorithm": "SHA-256",
+  "modules": [
+    {
+      "file": "RustDedicated_Data/Managed/Assembly-CSharp.dll",
+      "bytes": 10721280,
+      "sha256": "04fb89520f18a1920c1b1a350b82dd24a4258f31d97b82496971a9cc7a49dcb7",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "sameHashAsPriorOriginalManifestEvidence": false
+    },
+    {
+      "file": "RustDedicated_Data/Managed/Rust.Platform.Common.dll",
+      "sha256": "72fb1b0728253555be3e571f259e3ecaeb5c71bea12d1445bd1d6b0ce7fdc083"
+    },
+    {
+      "file": "RustDedicated_Data/Managed/Rust.Platform.Steam.dll",
+      "bytes": 43856,
+      "sha256": "c64b52033cd299a465644490a710a2d37e6eb86a0a1d1dac1a0fe25e9614ca03",
+      "mvid": "8488aab9-560d-4a1e-a7e2-84abf4312be5"
+    },
+    {
+      "file": "RustDedicated_Data/Managed/Facepunch.Steamworks.Win64.dll",
+      "bytes": 601424,
+      "sha256": "85aa01317bcbe7b001a27c007fc65b2d437a1f537d1fae4e38faad1cb3254893",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "fileVersion": "2.5.2"
+    },
+    {
+      "file": "RustDedicated_Data/Managed/Oxide.Rust.dll",
+      "bytes": 120320,
+      "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+      "mvid": "cfda664a-335e-470a-9404-e150d3f84ba0"
+    },
+    {
+      "file": "steam_api64.dll",
+      "bytes": 319584,
+      "sha256": "670d654aa3255c5061cf0236a1cdbb2f5076cbd5ae44f613b6f4921558e83e2d",
+      "fileVersion": "09.31.86.04",
+      "sameHashAsPluginsSteamApiCopy": true
+    },
+    {
+      "file": "steamclient64.dll",
+      "bytes": 23469488,
+      "sha256": "2bd4f96e356b8cbb6222c85fd5ae43e947b1abb3db570e955ecbb64438305b38",
+      "fileVersion": "09.38.28.26"
+    }
+  ],
+  "newDisplayModelEvidence": [
+    {
+      "module": "Rust.Platform.Common.dll",
+      "method": "ServerInfo.InitializeFromTags",
+      "metadataToken": "0x0600009A",
+      "il": [
+        "IL_0069..IL_0096",
+        "IL_00A2..IL_00CF"
+      ],
+      "finding": "A valid cp tag replaces ServerInfo.Players; a valid mp tag replaces MaxPlayers. Initial Steam query player values need not be the final model values."
+    },
+    {
+      "module": "Rust.Platform.Common.dll",
+      "method": "ServerInfo..ctor(..., int authedPlayers)",
+      "metadataToken": "0x06000098",
+      "il": [
+        "IL_005F..IL_0069",
+        "IL_00BC..IL_00D5"
+      ],
+      "selectedInstructions": [
+        "IL_00BC: call System.Void ServerInfo::InitializeFromTags()",
+        "IL_00C3: call System.Int32 ServerInfo::get_Players()",
+        "IL_00C8: ldarg.s authedPlayers",
+        "IL_00CA: call System.Int32 System.Math::Min(System.Int32,System.Int32)",
+        "IL_00CF: ldc.i4.0",
+        "IL_00D0: call System.Int32 System.Math::Max(System.Int32,System.Int32)",
+        "IL_00D5: call System.Void ServerInfo::set_Players(System.Int32)"
+      ],
+      "formula": "Players = max(0, min(PlayersAfterTagParsing, authedPlayers))",
+      "finding": "This constructor applies an explicit authenticated-player upper bound after tag parsing. A growing cp can still produce an unchanged model count when authedPlayers stays lower."
+    },
+    {
+      "module": "Rust.Platform.Steam.dll",
+      "method": "Rust.Platform.Steam.SteamPlatform.ToPlatformServer",
+      "metadataToken": "0x0600004D",
+      "il": [
+        "IL_002C..IL_0041",
+        "IL_0067..IL_006C"
+      ],
+      "selectedInstructions": [
+        "IL_002C: call System.String Steamworks.Data.ServerInfo::get_TagString()",
+        "IL_003A: call System.Int32 Steamworks.Data.ServerInfo::get_Players()",
+        "IL_0041: call System.Int32 Steamworks.Data.ServerInfo::get_MaxPlayers()",
+        "IL_0067: ldc.i4 2147483647",
+        "IL_006C: newobj System.Void ServerInfo::.ctor(...,System.Int32)"
+      ],
+      "finding": "Ordinary Steam server-list conversion passes int.MaxValue as authedPlayers. This call does not itself obtain or apply an external trusted count."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerBrowserList..ctor",
+      "metadataToken": "0x06007ECA",
+      "il": [
+        "IL_0013..IL_0015"
+      ],
+      "finding": "Initializes clampPlayerCountsToTrustedValues to true. This field alone does not prove the final client UI call path; client UI method bodies are stripped from this dedicated-server assembly."
+    }
+  ],
+  "serverPublicationMethods": [
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "BasePlayer.PlayerInit",
+      "metadataToken": "0x06001AA1",
+      "il": [
+        "IL_003D..IL_0054",
+        "IL_02E7..IL_02ED"
+      ],
+      "finding": "Adds activePlayerList and activePlayerLookup before invoking the Oxide IOnPlayerConnected hook."
+    },
+    {
+      "module": "Oxide.Rust.dll",
+      "method": "Oxide.Game.Rust.RustCore.IOnPlayerConnected",
+      "metadataToken": "0x0600003B",
+      "il": [
+        "IL_0077..IL_008B"
+      ],
+      "finding": "Forwards to public OnPlayerConnected after language/snapshot/Covalence setup."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.StartSteamServer",
+      "metadataToken": "0x06007AB2",
+      "il": [
+        "IL_0011..IL_0020"
+      ],
+      "finding": "Schedules UpdateServerInformation after 2 seconds, repeating every 30 seconds."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.UpdateServerInformation",
+      "metadataToken": "0x06007AC0",
+      "il": [
+        "IL_0000..IL_0007",
+        "IL_01A1..IL_01A6",
+        "IL_0220..IL_022A"
+      ],
+      "finding": "Returns early when SteamServer.IsValid is false; otherwise includes activePlayerList.Count in the cp tag, compresses tags and assigns SteamServer.GameTags."
+    },
+    {
+      "module": "Facepunch.Steamworks.Win64.dll",
+      "method": "Steamworks.SteamServer.set_GameTags",
+      "metadataToken": "0x060009A8",
+      "il": [
+        "IL_0000..IL_001F"
+      ],
+      "finding": "Skips unchanged values; changed tags call ISteamGameServer.SetGameTags and update the local cached string."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "Auth_Steam/<Run>d__1.MoveNext",
+      "metadataToken": "0x060078AF",
+      "il": [
+        "IL_0048..IL_0063",
+        "IL_028D..IL_02D0"
+      ],
+      "finding": "Begins a Steam player session, waits for authentication, and on success updates player session data. censorplayerlist chooses a name and does not suppress that update."
+    },
+    {
+      "module": "Rust.Platform.Steam.dll",
+      "method": "Rust.Platform.Steam.SteamPlatform.UpdatePlayerSession",
+      "metadataToken": "0x0600004B",
+      "il": [
+        "IL_0000..IL_000D"
+      ],
+      "finding": "Calls SteamServer.UpdatePlayer(steamId, name, 0)."
+    },
+    {
+      "module": "Facepunch.Steamworks.Win64.dll",
+      "method": "Steamworks.SteamServer.UpdatePlayer",
+      "metadataToken": "0x060009B1",
+      "il": [
+        "IL_0008..IL_000E"
+      ],
+      "finding": "Calls BUpdateUserData and discards its Boolean return. Failure is possible at the API boundary but was not observed by this static inspection."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.Update",
+      "metadataToken": "0x06007AB6",
+      "il": [
+        "IL_00E2"
+      ],
+      "finding": "Calls IPlatformService.Update; SteamPlatform.Update calls SteamServer.RunCallbacks when valid. Callback work is separate from the 30-second tag publication schedule."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.OnDisconnected",
+      "metadataToken": "0x06007AC1",
+      "il": [
+        "IL_0036..IL_0053",
+        "IL_0073..IL_0081"
+      ],
+      "finding": "Ends authenticated Steam sessions, invokes the Oxide disconnect hook and calls BasePlayer.OnDisconnected, which removes the active player."
+    }
+  ],
+  "nativeQueryBoundary": {
+    "inspection": "PE import/export tables and managed P/Invoke metadata only; native DLLs were not loaded or executed.",
+    "importLibrary": "steam_api64",
+    "verifiedExports": [
+      "SteamAPI_ISteamGameServer_BUpdateUserData",
+      "SteamAPI_ISteamGameServer_BeginAuthSession",
+      "SteamAPI_ISteamGameServer_EndAuthSession",
+      "SteamAPI_ISteamGameServer_SetGameTags",
+      "SteamAPI_ISteamGameServer_SetMaxPlayerCount",
+      "SteamAPI_ISteamGameServer_SetBotPlayerCount",
+      "SteamAPI_ISteamGameServer_HandleIncomingPacket",
+      "SteamAPI_ISteamGameServer_GetNextOutgoingPacket"
+    ],
+    "limitation": "Managed wrappers cross into the Steam native implementation. This inspection does not establish the native algorithm generating A2S_INFO players or A2S_PLAYER entries, nor that either equals an external authenticated-player count."
+  },
+  "pluginInspection": {
+    "sourceFiles": [
+      "Economics.cs",
+      "ImageLibrary.cs",
+      "Kits.cs",
+      "LHXPayShop.cs",
+      "Shop.cs",
+      "ShopConverter.cs"
+    ],
+    "sourceFileCount": 6,
+    "harmonyModsDirectoryEmpty": true,
+    "finding": "No direct SteamServer/GameTags/A2S/query publication override or activePlayerList Add/Remove/Clear was found in these plugin sources. Active-player references were enumeration/UI/player setup. ImageLibrary Steamworks references concern SteamInventory item definitions.",
+    "limitation": "Source inspection does not prove the active plugin set of any running instance or exclude indirect/reflection-based behavior."
+  },
+  "implications": [
+    "The server-side publication path contains no requirement for movement or ongoing PlayerTick messages to increment cp once a player remains in activePlayerList.",
+    "Increasing tag refresh frequency cannot by itself remove a lower authenticated-player display cap.",
+    "A diagnostic for a specific server should compare active count, cp, A2S_INFO players, external trusted count and manually refreshed UI at the same time.",
+    "If Steam user-data publication is suspected, instrument the actual BUpdateUserData result and Steam session callbacks before proposing a repair; failure has not been demonstrated here.",
+    "The installed client directly consumes the public player-count map by game endpoint and applies a finite model cap. Its one-minute request throttle and the observed public feed batch cadence are separate timing layers."
+  ],
+  "unresolved": [
+    "How the external service computes authenticated-player counts, why this target feed remains lower, and what client/session requirements it enforces.",
+    "The current remote server binaries, plugins, private configuration and active-player list.",
+    "The running browser object configuration, its exact last cached response, and the semantic meaning of the observed per-record clamp exception."
+  ],
+  "privacy": "No account names, passwords, Steam/player/entity IDs, tickets, tokens, configuration values, raw payloads or native/string tables are included.",
+  "installedClientDisplayPath": {
+    "inspection": "PE bytes, version-39 metadata definitions, code-generation module method-pointer tables, selected metadata usages and directed native disassembly. Game binaries were not loaded or executed.",
+    "files": [
+      {
+        "file": "GameAssembly.dll",
+        "bytes": 304039424,
+        "sha256": "e7156192c3773f1f07cd58f0a7817b35705683bab4f40cd4b14599bc0a4f954f"
+      },
+      {
+        "file": "RustClient_Data/il2cpp_data/Metadata/global-metadata.dat",
+        "bytes": 68271512,
+        "sha256": "1aa177b0ddfea713a2050a40d03533f45d62e6f3c92fa75201afde3dd64b94d1",
+        "metadataVersion": 39
+      }
+    ],
+    "addressNotation": "All native addresses below are RVAs relative to PE image base 0x180000000, not process addresses.",
+    "metadataFormatReference": {
+      "repository": "SamboyCoding/Cpp2IL",
+      "commit": "b5ad444b82267cb1e4b88b8b373c008105bdea52",
+      "url": "https://github.com/SamboyCoding/Cpp2IL/tree/b5ad444b82267cb1e4b88b8b373c008105bdea52/LibCpp2IL",
+      "use": "Read format definitions only; third-party analysis binaries were not executed."
+    },
+    "nativeAnalysisBoundary": "Selected methods were bounded by the next unique registered native method pointer, with a 32768-byte maximum. PE runtime-function records can split one method into chunks and were not treated as complete method boundaries. Reported direct branches and metadata references were checked in decoded instructions; this is not a complete control-flow reconstruction.",
+    "defaultClamp": {
+      "module": "Assembly-CSharp.dll",
+      "type": "ServerBrowserList",
+      "metadataToken": "0x060454b6",
+      "methodRva": "0x70e47d0",
+      "fieldMetadataIndex": 110080,
+      "serializedFieldName": "clampPlayerCountsToTrustedValues",
+      "instanceOffset": "0xdb",
+      "instructionRva": "0x70e4900",
+      "finding": "The installed-client constructor initializes the clamp option to true. A serialized scene/prefab value or runtime setting could override the constructor default; this inspection did not read live object state."
+    },
+    "fetchAndRefresh": {
+      "endpoint": "public/steamServers/playerCounts/rust",
+      "literalIndex": 26442,
+      "encodedMetadataUsage": "0xa000ce95",
+      "usageRva": "0x112a52a0",
+      "browserRefreshExample": {
+        "module": "Assembly-CSharp.dll",
+        "metadataToken": "0x060454d2",
+        "methodRva": "0x70e7780",
+        "clampCheckRva": "0x70e8cd1",
+        "callRva": "0x70e8cde",
+        "targetRva": "0x7b42240"
+      },
+      "refreshHelper": {
+        "module": "Facepunch.Unity.dll",
+        "metadataToken": "0x06000360",
+        "methodRva": "0x7b42240",
+        "utcNowCallRva": "0x7b42362",
+        "subtractCallRva": "0x7b423f1",
+        "elapsedMinutesMultiplyRva": "0x7b4241b",
+        "thresholdCompareRva": "0x7b42423",
+        "endpointHelperCallRva": "0x7b424a9",
+        "timestampStoreRva": "0x7b424dd"
+      },
+      "clockApis": [
+        {
+          "module": "mscorlib.dll",
+          "metadataToken": "0x06000676",
+          "method": "DateTime.get_UtcNow",
+          "methodRva": "0xa3be520"
+        },
+        {
+          "module": "mscorlib.dll",
+          "metadataToken": "0x0600067b",
+          "method": "DateTimeOffset..ctor",
+          "methodRva": "0xa3be8b0"
+        },
+        {
+          "module": "mscorlib.dll",
+          "metadataToken": "0x060006b9",
+          "method": "DateTimeOffset.op_Subtraction",
+          "methodRva": "0xa3c3480"
+        }
+      ],
+      "elapsedTicksToMinutesMultiplier": 1.6666666666666667e-09,
+      "elapsedMinutesThreshold": 1.0,
+      "cachedTimestampStaticOffset": "0x20",
+      "finding": "On the ordinary browser path the helper receives false, checks a nonempty platform API base, and only requests again when at least one minute has elapsed since its stored refresh-attempt timestamp. A true first argument bypasses that time comparison. The timestamp is stored when the request is initiated, not only after successful parsing.",
+      "timingBoundary": "This one-minute client request throttle is distinct from the roughly five-minute publication batches independently observed at the public endpoint. Static client code does not establish the backend publication interval or guarantee when any particular browser tab refreshes.",
+      "endpointHelper": {
+        "module": "Facepunch.Unity.dll",
+        "metadataToken": "0x06000377",
+        "methodRva": "0x7b45cf0",
+        "endpointLoadRva": "0x7b45db2",
+        "stringConcatCallRva": "0x7b45dbf",
+        "requestWrapperTailJumpRva": "0x7b45edd",
+        "requestWrapperTargetRva": "0x7977bd0"
+      },
+      "responseCallback": {
+        "module": "Facepunch.Unity.dll",
+        "metadataToken": "0x0600038d",
+        "method": "<>c.<UpdateMetadata>b__5_0",
+        "methodRva": "0x7b48f80",
+        "nonemptyResponseTailJumpRva": "0x7b48fd0",
+        "parserTargetRva": "0x7b44840"
+      },
+      "parser": {
+        "module": "Facepunch.Unity.dll",
+        "metadataToken": "0x0600036f",
+        "methodRva": "0x7b44840",
+        "keyParserCallRva": "0x7b44ad2",
+        "mapInsertCallRva": "0x7b44b13",
+        "publishMapInstructionRva": "0x7b44bbd",
+        "publishedMapStaticOffset": "0xa8"
+      },
+      "keyParser": {
+        "module": "Facepunch.Unity.dll",
+        "metadataToken": "0x0600036c",
+        "methodRva": "0x7b43f10",
+        "finding": "Splits each string key on colon, requires exactly two components, parses the IP address and integer port, checks port <=65535, and constructs an IPEndPoint. The corresponding integer count is inserted under this endpoint in the new map."
+      }
+    },
+    "lookupKeyPortProof": {
+      "finding": "The count lookup uses IPAddress plus ConnectionPort (game port). QueryPort is stored separately and is not used in this key.",
+      "steamSourceAccessors": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "type": "Steamworks.Data.ServerInfo",
+          "method": "get_Address",
+          "metadataToken": "0x06000918",
+          "methodRva": "0x11ea730",
+          "sourceInstanceOffset": "0x60"
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "type": "Steamworks.Data.ServerInfo",
+          "method": "get_ConnectionPort",
+          "metadataToken": "0x0600091a",
+          "methodRva": "0x1f92c90",
+          "sourceInstanceOffset": "0x68"
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "type": "Steamworks.Data.ServerInfo",
+          "method": "get_QueryPort",
+          "metadataToken": "0x0600091c",
+          "methodRva": "0xdab620",
+          "sourceInstanceOffset": "0x6c"
+        }
+      ],
+      "nativeConversionExample": {
+        "module": "Rust.Platform.Steam.dll",
+        "metadataToken": "0x060005fc",
+        "methodRva": "0xcab1400",
+        "addressReadRva": "0xcab144e",
+        "queryPortReadRva": "0xcab14c9",
+        "connectionPortReadRva": "0xcab14d0",
+        "constructorCallRva": "0xcab14d7",
+        "finding": "Source Address at +0x60 is passed in R9; source QueryPort at +0x6c is passed in caller stack +0x28; source ConnectionPort at +0x68 is passed in caller stack +0x20. All six directed native conversion callers inspected agree on these three assignments."
+      },
+      "constructorAssignments": {
+        "module": "Rust.Platform.Common.dll",
+        "metadataToken": "0x0600048c",
+        "methodRva": "0xca96640",
+        "addressStoreRva": "0xca966fa",
+        "connectionPortStoreRva": "0xca96768",
+        "queryPortStoreRva": "0xca96772",
+        "addressModelOffset": "0x88",
+        "connectionPortModelOffset": "0x9c",
+        "queryPortModelOffset": "0x60",
+        "obfuscationNote": "The installed platform model type and fields have obfuscated names. Address, ConnectionPort and QueryPort are recovered semantic labels from the named Steamworks accessors and this constructor data flow, not claims that these field names survive in metadata."
+      },
+      "browserLookup": {
+        "module": "Assembly-CSharp.dll",
+        "metadataToken": "0x060454e2",
+        "methodRva": "0x70ecd80",
+        "addressReadRva": "0x70ecf0e",
+        "connectionPortReadRva": "0x70ecf15",
+        "endpointConstructorCallRva": "0x70ecf2f",
+        "mapLookupCallRva": "0x70ecf53",
+        "finiteLimitCloneCallRva": "0x70ecf9b"
+      }
+    },
+    "finiteClamp": {
+      "browserApplyMethod": {
+        "module": "Assembly-CSharp.dll",
+        "metadataToken": "0x060454e2",
+        "methodRva": "0x70ecd80"
+      },
+      "cloneMethod": {
+        "module": "Assembly-CSharp.dll",
+        "metadataToken": "0x06045524",
+        "methodRva": "0x70fa520",
+        "limitArgumentStoreRva": "0x70fa6d7",
+        "constructorCallRva": "0x70fa75c"
+      },
+      "modelConstructor": {
+        "module": "Rust.Platform.Common.dll",
+        "metadataToken": "0x0600048c",
+        "methodRva": "0xca96640",
+        "tagInitializationCallRva": "0xca96972",
+        "limitAndPlayerComparisonRva": "0xca96999",
+        "lowerBoundRva": "0xca969a0",
+        "finalPlayersStoreRva": "0xca969a5",
+        "playersModelOffset": "0x98"
+      },
+      "formula": "Displayed model Players = max(0, min(Players after tag initialization, endpoint map count))",
+      "branches": "The apply method first requires the clamp option and an available nonempty map. It skips records with a non-null field at +0x78 and a positive field at +0xd8; the meaning of this exception was not recovered. For an eligible record, a lookup hit uses that integer count. When the map is nonempty but this key is missing, the inspected branch supplies zero. These branches must not be simplified to an unconditional clamp for every server in every list state.",
+      "implication": "A higher server cp/Steam query count can coexist with a lower displayed browser count when the public endpoint map supplies the smaller value. This mechanism matches the reported 5 display with the independently observed endpoint value of 5; static inspection alone does not prove which exact response the running UI cached."
+    },
+    "limits": [
+      "No live client object, network request, configuration, executable patch or process memory was inspected in this static subtask.",
+      "Obfuscated native wrappers include duplicate-looking methods. Only directed references on the reported browser, callback and constructor chain support the conclusions; duplicate methods were not assumed to be active or decoys solely from their names.",
+      "The endpoint backend aggregation rules, exclusions, trust checks, per-server delay and blacklist status cannot be inferred from this client-side consumption path.",
+      "This static display analysis does not create or establish a valid EAC-protected game session."
+    ]
+  }
+}

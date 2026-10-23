@@ -193,11 +193,12 @@ await api.stopIdling('account1');
 | `PORT` | `3210` | HTTP 端口，始终仅监听 `127.0.0.1` |
 | `STEAM_DATA_DIR` | 本项目的 `data` 目录 | 数据保存位置，建议使用绝对路径 |
 | `STEAM_WEB_COMPAT` | `1` | 使用 Steam WebSocket 443 端口；设置 `0` 使用库的默认传输选择 |
+| `STEAM_CM_PROXY` | `auto` | Steam CM 登录复用已配置的 HTTP/系统代理；设置 `direct` 可单独让 CM 直连 |
 | `STEAM_HTTP_PROXY` | 自动检测 | 库存与商店请求的 HTTP/HTTPS 代理地址；设置 `direct` 禁用代理 |
 | `RUST_NATIVE_DLL` | 无 | 独立 Rust 研究连接使用的本机 x64 RakNet.dll 绝对路径；加载前核对已研究版本的 SHA-256 |
 | `RUST_PYTHON` | 无 | 64 位 Windows Python 可执行文件的绝对路径 |
 
-库存与商店请求优先使用 `STEAM_HTTP_PROXY`，其次是 `HTTPS_PROXY` / `HTTP_PROXY`，最后读取 Windows 已启用的静态系统代理。此设置作用于新增的网站读取和免费包领取，不改变已有 CM 登录连接的传输设置。修改后重启服务生效。
+库存、商店请求与 Steam CM 登录优先使用 `STEAM_HTTP_PROXY`，其次是 `HTTPS_PROXY` / `HTTP_PROXY`，最后读取 Windows 已启用的静态系统代理。`STEAM_HTTP_PROXY=direct` 禁用这条代理配置；`STEAM_CM_PROXY=direct` 只让 CM 直连。Rust 游戏 UDP 连接继续使用其自身网络路径。修改后重启服务生效。
 
 修改端口后，PowerShell 脚本使用 `-BaseUrl http://127.0.0.1:新端口`，Node 客户端传入 `{ baseUrl: 'http://127.0.0.1:新端口' }`。
 
@@ -212,6 +213,10 @@ await api.stopIdling('account1');
 持续连接使用 `POST /v1/accounts/{id}/rust-session`，请求体仅 `{"host":"目标IPv4","port":28015}`；立即返回 202。`GET` 同一路径查询状态，`DELETE` 优雅断开。`entered_game` 表示已经确认本账号的玩家实体和 FinishLoading。网页“账号详情 → Rust 服务器连接”提供相同操作；关闭页面后连接继续，停止服务或退出 Steam 账号会断开。
 
 本机可在被忽略的 `data/rust-runtime.json` 保存 `{"dll":"RakNet.dll绝对路径","python":"Python绝对路径"}`，环境变量优先。该文件只存本机路径，迁移电脑后需重新配置。持续会话目前不自动恢复；服务重启后先等待账号上线，再连接服务器。
+
+持续会话开始后会报告实际 Rust 游戏活动；传输连接后附上真实游戏地址，结束清理后恢复保存的挂机配置。账号在其他 Steam 会话游戏时，活动报告继续遵守暂停规则。此报告不保证外部可信人数或游戏列表人数更新。
+
+`GET /v1/accounts/{id}/rust-session` 的 `steamAuthentication` 返回本账号 Rust 票据活动及验证观察状态，不返回票据或身份字段。`GET /v1/accounts/{id}/rust-steam-count` 通过当前 Steam 连接只读查询最近所选游戏地址的 GMS 认证人数，另在 `serverList` 保留 `GameServers.GetServerList` 的状态和人数；该 `players` 字段不保证等同于认证人数。缺失或失败保持未知值。它们与服务器 A2S、`cp` 和 Facepunch 可信人数是不同来源，不能用单个数值证明某账号已计入 Rust 列表。
 
 已在当前目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；未实现或发送 PlayerTick，也没有有效 EAC 受保护会话，不能保证其他服务器兼容或无限期留服。实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
 

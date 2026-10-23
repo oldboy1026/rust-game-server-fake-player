@@ -44,6 +44,7 @@ const STAGE_ERRORS = [
 // manager across Steam reconnects so a retiring worker cannot overlap its next.
 export class RustSession {
   #run = null;
+  #activityListener = null;
   #status = {
     state: 'closed', host: null, port: null, startedAt: null, endedAt: null,
     metadata: safeMetadata({}), lastError: null,
@@ -51,6 +52,25 @@ export class RustSession {
 
   snapshot() {
     return { ...this.#status, metadata: safeMetadata(this.#status.metadata) };
+  }
+
+  isActive() { return this.#run !== null; }
+
+  steamGameActivity() {
+    if (!this.#run) return null;
+    const activity = { game_id: 252490 };
+    if (this.#status.metadata.transportConnected === true) {
+      activity.game_ip_address = { v4: this.#status.host.split('.').reduce((value, part) => value * 256 + Number(part), 0) };
+      activity.game_port = this.#status.port;
+    }
+    return activity;
+  }
+
+  setActivityListener(listener) { this.#activityListener = listener; }
+
+  #notifyActivity() {
+    // Presence reporting must never prevent ticket or transport cleanup.
+    try { this.#activityListener?.(); } catch {}
   }
 
   start(auth, input, username, env = process.env) {
@@ -65,6 +85,7 @@ export class RustSession {
       metadata: safeMetadata({ closed: false, playerConnected: false, eacVerified: false,
         selfEntityObserved: false, finishLoadingObserved: false }), lastError: null,
     };
+    this.#notifyActivity();
     // The HTTP request returns immediately. This task owns the ticket through
     // worker close and the authentication lease's cancellation/zeroing step.
     void this.#execute(run, auth, runtime, destination, username);
@@ -101,7 +122,9 @@ export class RustSession {
 
   #update(run, result) {
     const metadata = safeMetadata(result);
+    const wasConnected = this.#status.metadata.transportConnected === true;
     this.#status.metadata = metadata;
+    if (!wasConnected && metadata.transportConnected === true) this.#notifyActivity();
     if (metadata.selfEntityObserved === true && metadata.finishLoadingObserved === true) {
       run.reachedEnteredGame = true;
     }
@@ -156,6 +179,7 @@ export class RustSession {
       clearTimeout(run.killTimer);
       this.#status.endedAt = new Date().toISOString();
       if (this.#run === run) this.#run = null;
+      this.#notifyActivity();
     }
   }
 

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "target": { "host": "61.147.247.35", "gamePort": 28015, "queryPort": 28016 },
+  "observedDate": "2026-10-24 Asia/Shanghai",
+  "timestamps": "UTC ISO-8601",
+  "userObservation": {
+    "lists": ["community", "favorites", "history"],
+    "players": 5,
+    "source": "User confirmed that the displayed 5 matches the public Facepunch target entry."
+  },
+  "steamGmsSamples": [
+    { "observedAt": "2026-10-23T18:44:55.581Z", "status": "ok", "authPlayers": 11 },
+    { "observedAt": "2026-10-23T18:56:08.639Z", "status": "ok", "authPlayers": 11 },
+    { "observedAt": "2026-10-23T19:01:01.614Z", "status": "ok", "authPlayers": 11 },
+    { "observedAt": "2026-10-23T19:04:40.464Z", "status": "ok", "authPlayers": 9 }
+  ],
+  "gmsLimitations": [
+    "Each successful result strictly matched the target game IPv4 and game port.",
+    "Decoded header eresult=2 may be an omitted-field default; it is not separately classified as an observed wire rejection.",
+    "The response's freshness and delay after individual session transitions have not been established."
+  ],
+  "publicCountSnapshots": [
+    { "observedAt": "2026-10-23T18:47:23.216Z", "lastModified": "Fri, 23 Oct 2026 18:45:05 GMT", "players": 5, "ageSeconds": 137 },
+    { "observedAt": "2026-10-23T18:50:54.529Z", "lastModified": "Fri, 23 Oct 2026 18:50:07 GMT", "players": 5, "ageSeconds": 46 },
+    { "observedAt": "2026-10-23T18:55:54.576Z", "lastModified": "Fri, 23 Oct 2026 18:55:08 GMT", "players": 5, "ageSeconds": 45 },
+    { "observedAt": "2026-10-23T19:00:54.660Z", "lastModified": "Fri, 23 Oct 2026 19:00:10 GMT", "players": 5, "ageSeconds": 45 },
+    { "observedAt": "2026-10-23T19:06:26.296Z", "lastModified": "Fri, 23 Oct 2026 19:05:09 GMT", "players": 5, "ageSeconds": 76 }
+  ],
+  "a2sSamples": [
+    { "observedAt": "2026-10-23T18:55:54.489Z", "players": 13, "cp": 11, "bots": 0 },
+    { "observedAt": "2026-10-23T18:57:24.539Z", "players": 10, "cp": 8, "bots": 0 },
+    { "observedAt": "2026-10-23T19:06:26.203Z", "players": 13, "cp": 11, "bots": 0 }
+  ],
+  "sessionSnapshots": [
+    { "observedAt": "2026-10-23T18:56:02.509Z", "sessions": 3, "enteredGame": 3, "selfEntityObserved": 3, "finishLoadingObserved": 3, "ticketRecipientValidationObserved": 3 },
+    { "observedAt": "2026-10-23T19:02:55.470Z", "sessions": 3, "enteredGame": 3, "selfEntityObserved": 3, "finishLoadingObserved": 3, "ticketRecipientValidationObserved": 3 },
+    { "observedAt": "2026-10-23T19:06:52.681Z", "sessions": 3, "enteredGame": 3, "selfEntityObserved": 3, "finishLoadingObserved": 3, "ticketRecipientValidationObserved": 3 }
+  ],
+  "networkRecovery": {
+    "firstServiceStop": "2026-10-23T18:56:19.436Z",
+    "issue": "All three fresh CM logins failed while direct access to the public CM directory timed out.",
+    "credentialFreeDiagnostic": { "directError": "UND_ERR_CONNECT_TIMEOUT", "configuredProxyDirectoryHttpStatus": 200, "configuredProxyAnonymousLoginSucceeded": true },
+    "change": "Explicitly pass the existing configured HTTP/system proxy to SteamUser; allow STEAM_CM_PROXY=direct.",
+    "allThreeSteamLoginsRestoredBy": "2026-10-23T19:00:49.971Z",
+    "subsequentTransientSteamDisconnect": "2026-10-23T19:03:11.932Z",
+    "subsequentThreeGameSessionsRestoredObservedAt": "2026-10-23T19:06:52.681Z"
+  },
+  "secondSteamInterface": {
+    "method": "GameServers.GetServerList#1",
+    "observedAt": "2026-10-23T19:04:40.349Z",
+    "status": "not_found",
+    "players": null,
+    "interpretation": "No exact target count was available from this response. This is not evidence that the target is unregistered or empty, and the decoded default header result does not resolve the reason."
+  },
+  "conclusion": "The real independent sessions increase the server's published active count, but observed Facepunch batches and the user-reported browser remain at 5. No trusted-count repair has been demonstrated.",
+  "privacy": "No credentials, proxy addresses, account identifiers, SteamIDs, tickets, tokens, native payloads or complete server lists are included."
+}

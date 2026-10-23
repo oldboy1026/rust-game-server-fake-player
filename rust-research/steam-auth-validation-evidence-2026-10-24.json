@@ -1,0 +1,70 @@
+{
+  "subject": "Steam auth-ticket activation, recipient validation and game-server association boundaries",
+  "observedDate": "2026-10-24 Asia/Shanghai",
+  "scope": "Read-only implementation and public-document research; no account login, ticket creation or game connection performed",
+  "installedSteamUser": {
+    "version": "5.3.0",
+    "publicCommit": "e39d7cb8e0d4c83905f2d3896fb354b13f2591ec",
+    "source": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/e39d7cb8e0d4c83905f2d3896fb354b13f2591ec/components/appauth.js",
+    "observations": [
+      "createAuthSessionTicket(appid) obtains a legitimate ownership ticket and a Steam-issued game-connect token, builds a session ticket and activates it through ClientAuthList.",
+      "New own tickets are cached with estate=0; tickets owned by another user are cached with estate=1.",
+      "ClientTicketAuthComplete is matched to an active ticket using ticket_crc.",
+      "A non-OK eauth_session_response removes the ticket from the active list.",
+      "The event's estate replaces the cached ticket estate.",
+      "getActiveAuthSessionTickets reports validated as cached estate > 1.",
+      "For an own ticket the completion event is emitted as authTicketStatus; for another user's ticket it is authTicketValidation.",
+      "For an own ticket the library comments that the returned SteamID identifies the entity which validated it."
+    ],
+    "interpretation": "For a unique own ticket sent only to the current peer, an active validated=true is evidence that the library observed recipient-side ticket completion with an OK response. It does not establish inclusion in a Facepunch player-count batch.",
+    "limitations": [
+      "No official numeric estate enum mapping was found. The initial values and validated comparison above are implementation facts, not official names for all possible states.",
+      "validated=false can mean no successful completion was observed by this client. It is not by itself proof of a particular rejection reason.",
+      "An active-ticket boolean is not a permanent history of past validations; cancellation, disconnect or an error can remove the ticket.",
+      "A generic own-ticket validated flag does not identify a target server without internal ticket/run association. No server or player identity should be exposed just to provide this diagnostic."
+    ]
+  },
+  "independentSteamKitEvidence": {
+    "commit": "2049844fdf746420c9f31a9575d4b75c40a5d575",
+    "callbacksSource": "https://raw.githubusercontent.com/SteamRE/SteamKit/2049844fdf746420c9f31a9575d4b75c40a5d575/SteamKit2/SteamKit2/Steam/Handlers/SteamAuthTicket/Callbacks.cs",
+    "handlerSource": "https://raw.githubusercontent.com/SteamRE/SteamKit/2049844fdf746420c9f31a9575d4b75c40a5d575/SteamKit2/SteamKit2/Steam/Handlers/SteamAuthTicket/SteamAuthTicket.cs",
+    "distinction": [
+      "TicketAcceptedCallback handles ClientAuthListAck and is described as Steam accepting the auth ticket as valid.",
+      "TicketAuthCompleteCallback handles ClientTicketAuthComplete and is described as a generated ticket having been used to authenticate the user.",
+      "Its State is a uint described as Authentication state, with no numeric enum documented there.",
+      "Its SteamID property is documented as the game server's SteamID."
+    ]
+  },
+  "officialSdkBoundary": [
+    {
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser#GetAuthSessionTicket",
+      "signature": "HAuthTicket GetAuthSessionTicket(void *pTicket, int cbMaxTicket, uint32 *pcbTicket, const SteamNetworkingIdentity *pIdentityRemote)",
+      "remoteIdentity": "The identity of the remote system authenticating the ticket; a game-server SteamID may be used if obtained from a trusted third party, otherwise use the IP address.",
+      "finding": "The current documented SDK supports identifying the intended verifier. The installed node-steam-user createAuthSessionTicket(appid) API has no remote-identity argument.",
+      "limitation": "This API difference does not prove a ticket already accepted by a game server must be absent from external player counts. The installed Rust caller still requires separate examination."
+    },
+    {
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser#AdvertiseGame",
+      "quote": "When you are using Steam authentication system this call is never required, the auth system automatically sets the appropriate rich presence.",
+      "finding": "There is no documented general requirement to add AdvertiseGame to a correctly completed Steam-authentication session. Reporting the actual connected game address through presence can be an honest experiment, but its necessity for trusted counts has not been established."
+    },
+    {
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser#InitiateGameConnection",
+      "quote": "This is part of the old user authentication API and should not be mixed with the new API.",
+      "finding": "Do not add the deprecated three-way authentication handshake to an existing GetAuthSessionTicket/BeginAuthSession flow as a speculative fix."
+    },
+    {
+      "url": "https://partner.steamgames.com/doc/api/ISteamGameServer#BeginAuthSession",
+      "finding": "Ticket identity is not confirmed until the receiver gets ValidateAuthTicketResponse_t and checks for success. Returning a ticket to the sender is not the same event."
+    }
+  ],
+  "publicFacepunchWrapper": {
+    "commit": "a9ab9a18208bd2532933e46a35860296d7dda688",
+    "source": "https://raw.githubusercontent.com/Facepunch/Facepunch.Steamworks/a9ab9a18208bd2532933e46a35860296d7dda688/Facepunch.Steamworks/SteamUser.cs",
+    "generatedInterface": "https://raw.githubusercontent.com/Facepunch/Facepunch.Steamworks/a9ab9a18208bd2532933e46a35860296d7dda688/Facepunch.Steamworks/Generated/Interfaces/ISteamUser.cs",
+    "finding": "GetAuthSessionTicket(NetIdentity identity) passes the identity by reference to the native SDK. GetAuthSessionTicketAsync waits for its SDK response before returning.",
+    "limitation": "Public repository code alone does not prove which identity value an installed Rust build uses."
+  },
+  "nextDiagnostic": "Observe the current run's own-ticket validation boolean, a strictly matched Steam GMS auth_players response, a changed Facepunch batch timestamp and a manually refreshed browser count. Keep activation, verification and external statistics separate.",
+  "privacy": "No credentials, tickets, tokens, ticket CRCs, player SteamIDs or private account data are included."
+}

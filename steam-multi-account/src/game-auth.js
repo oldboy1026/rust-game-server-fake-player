@@ -36,6 +36,18 @@ export class RustAuthCheck {
     this.#leaseController?.abort();
   }
 
+  activeSessionStatus() {
+    try {
+      this.requireOnline();
+      this.ensureCurrent();
+      const tickets = this.#ownTickets();
+      return { available: true, active: tickets.length > 0,
+        serverValidationObserved: tickets.some(ticket => ticket.validated === true) };
+    } catch {
+      return { available: false, active: false, serverValidationObserved: false };
+    }
+  }
+
   // Internal consumers receive the ticket only for the lifetime of callback.
   // Callback results are deliberately discarded to keep this from becoming a
   // ticket-export API. Consumers may separately retain public worker metadata.

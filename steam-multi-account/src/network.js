@@ -30,9 +30,14 @@ export function steamProxy(environment = process.env, platform = process.platfor
 
 export function createSteamNetwork() {
   const proxy = steamProxy();
+  const cmProxyMode = process.env.STEAM_CM_PROXY || 'auto';
+  if (!['auto', 'direct'].includes(cmProxyMode)) throw new Error('STEAM_CM_PROXY must be auto or direct.');
   const dispatcher = proxy ? new ProxyAgent(proxy) : undefined;
   return {
     usingProxy: Boolean(proxy),
+    // steam-user does not inherit the OS HTTP proxy. Without this option its
+    // initial CM directory request and WebSocket can fail while web calls work.
+    clientOptions: proxy && cmProxyMode !== 'direct' ? { httpProxy: proxy } : {},
     fetchImpl: (url, options = {}) => fetch(url, { ...options, ...(dispatcher ? { dispatcher } : {}) }),
     createStore() {
       const store = new SteamStore({ timeout: 12000 });
