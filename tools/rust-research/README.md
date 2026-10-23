@@ -2,7 +2,33 @@
 
 这些脚本读取公开资料和本地服务端程序集，不会启动 Rust 或登录玩家账号。工具下载包、原始游戏程序集和生成的中间文件均被 Git 忽略。
 
-需要 Windows PowerShell、Node.js 22+。先在 `steam-multi-account/` 中安装项目依赖，再进入本目录。
+另有下述正常客户端观察工具；它们要求用户已经正常运行游戏，不能实现独立玩家登录。
+
+## 正常客户端采集与安全汇总
+
+在仓库根目录，以管理员权限运行限时采集；每次使用新的或空的输出目录。游戏 IP 可显式提供，否则尝试从普通客户端日志的最后一条 Raknet Connecting 记录读取：
+
+```powershell
+.\tools\rust-research\capture-client.ps1 -RustDirectory 'E:\SteamLibrary\steamapps\common\Rust' -DurationSeconds 90 -GameServerIp '61.147.247.35'
+```
+
+可用 `-RustProcessId` 选择进程、`-UserStage` 记录用户报告的当前阶段、`-OutputDirectory` 指定仓库 `captures/` 或 `work/` 下的新目录。脚本拒绝已有 pktmon 会话或过滤器，只创建和清理本次命名过滤器。输出完整包、端点快照及原始日志；它们可能含认证资料，必须留在忽略目录。停止成功与过滤器清理分别检查，结束后仍应核对 `pktmon status`、`pktmon filter list`。
+
+过滤范围为游戏服务器 IP、最多 24 个现有 UDP 端口和 7 个现有公网 TCP 端口，单个端口过滤器匹配任一方向。没有 PID 过滤能力，不能保证全部包归属于该进程，也会漏掉部分新端口、环回或代理通信。`UserStage` 只是标签，不是入服证明。
+
+默认完整抓包，multi-file 每段阈值 128 MB；256 MiB 可见长度检查只是尽力控制。ETW 缓冲和预分配会使文件在停止时超过阈值，时长是主要限制。运行前确认空间，不要把分段大小当作总容量上限。
+
+用本机实际 IPv4 对离线包做元数据汇总（下面的 `192.0.2.10` 是需要替换的文档示例）：
+
+```powershell
+node .\tools\rust-research\analyze-capture.mjs .\captures\本次目录\rust1.pcapng --local-ip 192.0.2.10 --game-host 61.147.247.35 --out .\work\capture-summary.json
+```
+
+支持多 section、大小端、接口时间分辨率/偏移、Ethernet/VLAN、未分片 IPv4 UDP/TCP 的 Enhanced Packet Block。IPv6、分片、其他链路或包块只计数；不做 TCP/RakNet 重组、去重或解密。汇总不输出载荷、本地地址/端口、GUID、用户身份、票据或 pcapng 文本注释。A2S、TLS 和 RakNet 标签标明头部兼容性；不能据此认定认证成功。MTU 和 ACK 字节序保留候选解释，协议参考源码固定链接随 JSON 输出。
+
+2026-10-24 的实测、原始捕获哈希及已验证/未验证部分见 [客户端观察报告](../../rust-research/client-observation-2026-10-24.md)。
+
+以下资料获取与服务端复核脚本需要 Windows PowerShell、Node.js 22+，并使用 `steam-multi-account/` 中的项目依赖；先安装依赖，再进入本目录。上面的客户端采集/分析工具使用系统 pktmon 和 Node.js 原生模块。
 
 ## 获取公开资料
 

@@ -1,6 +1,18 @@
 # 换电脑后的接续说明
 
-最后整理日期：2026-10-23，Asia/Shanghai。
+最后整理日期：2026-10-24，Asia/Shanghai。
+
+## 最新接续：真实客户端已观测
+
+2026-10-24 在用户的新电脑上启动了 Steam 管理服务（`http://127.0.0.1:3210/`，`/health` 成功）。用户提供 Rust 安装目录 `E:\SteamLibrary\steamapps\common\Rust`，客户端已运行。先阅读新增的 `rust-research/client-observation-2026-10-24.md` 和同名 JSON，再参考下面的历史研究。
+
+当前客户端日志：protocol `2635.289.1`、changeset `168909`；Steam build ID `26140533`。客户端是 IL2CPP，metadata 版本字段 39。当前实际游戏目标为 `61.147.247.35:28015`，查询为 `28016`，与此前两台目标分开记录。
+
+已完成 90 秒会话基线和 300 秒正常重连观察，主捕获共 107,740 包。两次完整 RakNet 离线握手的版本字节均为 6。MTU 位置按 BE 为 30725、LE 为 1400；不能直接套用上游默认字节序。RakNet security 标志为 0 不代表 EAC 状态。内部可靠消息、分片、应用载荷和加密边界仍未解码。
+
+对当前服务器的四次独立 A2S 样本均为 players 比 cp 多 2（14/12 → 12/10），未取得服务端活跃名单或浏览器刷新显示，差异原因未定位。现有目标不能用于证明旧目标的 EAC 策略。仍未实现 Rust 独立玩家客户端或验证独立 EAC 会话。
+
+新增复核工具：`tools/rust-research/capture-client.ps1`、`analyze-capture.mjs`。主采集原始资料在被忽略的 `captures/20261024-011608/`、`captures/20261024-reconnect/`，静态资料在 `work/`，不得推送。另外两段 10 秒采集分别复核正常清理与启动日志写入失败场景，结果均已停止并清空本次过滤器；对应 `captures/20261024-tool-validation/`、`captures/20261024-final-validation/`。下文所述“未安装客户端/未抓包”是 2026-10-23 历史状态，已由此次观察更新。
 
 ## 用户目标与当前进度
 

@@ -49,3 +49,5 @@ node .\rust-research\query-server.mjs --host 202.189.21.138 --port 28017
 ```
 
 研究快照记录于 2026-10-23；目标服务器和 Steam 公开分支之后可能更新。`steam-user.gamesPlayed()` 设置的是 Steam 游戏活动状态，不能据此认定账号已经进入 Rust 服务器。
+
+2026-10-24 已完成真实客户端的当前会话与正常重连观察，记录了两次 RakNet 握手和人数差异样本。见 [客户端观察报告](./rust-research/client-observation-2026-10-24.md)。本轮实际服务器为 `61.147.247.35:28015`（查询 `28016`），与前述研究目标分别记录；独立 Rust 玩家客户端仍未实现。

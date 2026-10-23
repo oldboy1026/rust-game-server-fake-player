@@ -1,0 +1,1250 @@
+{
+  "schemaVersion": 1,
+  "observedDate": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "scope": "Normal user-operated Rust client: file inspection, passive traffic and separately labelled public A2S queries. No independent player connection or EAC session generated.",
+  "client": {
+    "userProvidedInstallDirectory": "E:\\SteamLibrary\\steamapps\\common\\Rust",
+    "processName": "RustClient.exe",
+    "processExecutablePathIndependentlyRead": false,
+    "protocolLogValue": "2635.289.1",
+    "changeset": 168909,
+    "steamBuildId": "26140533",
+    "unityProductVersion": "6000.3.15x1-13 (a91cf34396ee)",
+    "compilation": "IL2CPP",
+    "metadata": {
+      "relativePath": "RustClient_Data/il2cpp_data/Metadata/global-metadata.dat",
+      "bytes": 68271512,
+      "sha256": "1aa177b0ddfea713a2050a40d03533f45d62e6f3c92fa75201afde3dd64b94d1",
+      "magic": "0xfab11baf",
+      "version": 39
+    },
+    "native": {
+      "raknet": {
+        "file": "RakNet.dll",
+        "bytes": 312656,
+        "sha256": "5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44",
+        "architecture": "x64",
+        "exportCount": 36,
+        "selectedExports": [
+          "NET_Receive",
+          "NET_SendMessage",
+          "NET_StartClient",
+          "NET_StartServer"
+        ]
+      },
+      "eossdk": {
+        "file": "EOSSDK-Win64-Shipping.dll",
+        "bytes": 19531704,
+        "sha256": "12ee3053ad76fc9a455534b627ca7a0f9923db3c05f54085a7daa3aff00d0b7e",
+        "architecture": "x64",
+        "exportCount": 680,
+        "selectedExports": [
+          "EOS_AntiCheatClient_BeginSession",
+          "EOS_AntiCheatClient_ProtectMessage",
+          "EOS_AntiCheatClient_ReceiveMessageFromServer",
+          "EOS_AntiCheatClient_UnprotectMessage",
+          "EOS_Connect_Login"
+        ]
+      },
+      "rustnative": {
+        "file": "RustNative.dll",
+        "bytes": 1737552,
+        "sha256": "0f703d43b57672b8bb3dfd29bab0d484f8622fbac66dee7f1f058893ef22a99c",
+        "architecture": "x64",
+        "exportCount": 126,
+        "selectedExports": []
+      }
+    },
+    "raknetComparison": {
+      "clientSha256": "5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44",
+      "serverSha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+      "sha256Equal": false,
+      "clientBytes": 312656,
+      "serverBytes": 312656,
+      "clientExportCount": 36,
+      "serverExportCount": 36,
+      "clientOnlyExports": [],
+      "serverOnlyExports": [],
+      "allServerManagedImportsPresent": true,
+      "managedImportCount": 29,
+      "limitation": "Hashes differ, so files are not byte-identical. Equal export names do not establish current managed wrapper signatures, runtime configuration, ABI compatibility, protocol version, connection success or EAC session. Original server binary is not present locally for section/certificate comparison."
+    },
+    "assemblies": {
+      "relativePath": "RustClient_Data/ScriptingAssemblies.json",
+      "bytes": 7084,
+      "sha256": "3d57b2d02ea0e6ef3e6d8e2c0e68f62d03b1c3bf79522a041cd9928345625a97",
+      "totalNames": 220,
+      "totalTypeValues": 220,
+      "networkRelated": [
+        {
+          "name": "Facepunch.Network.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Facepunch.Ping.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Facepunch.Raknet.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Facepunch.Rcon.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Facepunch.SteamNetworking.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Rust.Platform.Common.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Rust.Platform.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Rust.Platform.Steam.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "BouncyCastle.Cryptography.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Facepunch.Nexus.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Facepunch.Steamworks.Win64.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "Fleck.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "DnsClient.dll",
+          "typeValue": 16
+        },
+        {
+          "name": "websocket-sharp.dll",
+          "typeValue": 16
+        }
+      ],
+      "limitation": "Assembly names are build inventory; typeValue is not decoded as a CLR type. Does not demonstrate live protocol use."
+    },
+    "runtimeInitializers": {
+      "relativePath": "RustClient_Data/RuntimeInitializeOnLoads.json",
+      "bytes": 8417,
+      "sha256": "0556565554882ded6c65e4f5c548972e735d08f16e85cf06d503428195505c2c",
+      "totalInitializers": 51,
+      "networkRelated": [
+        {
+          "assemblyName": "Assembly-CSharp",
+          "nameSpace": "",
+          "className": "NetworkProfiler",
+          "methodName": "InstallResolvers",
+          "loadTypes": 2,
+          "isUnityClass": false
+        },
+        {
+          "assemblyName": "Rust.Global",
+          "nameSpace": "Rust",
+          "className": "Application",
+          "methodName": "Startup",
+          "loadTypes": 2,
+          "isUnityClass": false
+        },
+        {
+          "assemblyName": "Rust.UI",
+          "nameSpace": "Rust.UI",
+          "className": "HttpImage",
+          "methodName": "ResetStaticFields",
+          "loadTypes": 4,
+          "isUnityClass": false
+        }
+      ],
+      "limitation": "Runtime initializer declarations identify names, not method bodies or live invocation traces."
+    }
+  },
+  "server": {
+    "gameEndpoint": "61.147.247.35:28015",
+    "queryEndpoint": "61.147.247.35:28016",
+    "registrationSource": "Steam ISteamApps/GetServersAtAddress/v1",
+    "registrationSecureFlag": false,
+    "a2s": {
+      "observedAt": "2026-10-24T01:20:00.676+08:00",
+      "protocolField": 17,
+      "version": "2635",
+      "buildRule": 168909,
+      "vacSecure": false,
+      "transportTag": "ptrak",
+      "eacStatus": "not verified"
+    },
+    "separateFromPriorTargets": [
+      "202.189.21.138",
+      "103.91.208.182"
+    ]
+  },
+  "captures": [
+    {
+      "kind": "current-session",
+      "startedAt": "2026-10-24T01:18:23.3452260+08:00",
+      "stoppedAt": "2026-10-24T01:19:55.2182714+08:00",
+      "rawCapture": {
+        "relativePath": "captures/20261024-011608/rust1.pcapng",
+        "gitIgnored": true,
+        "sha256": "58cfd186cbea1789ceea4b7bf9afd75cbdc8232c3cac8a3c174f9b123624d05d"
+      },
+      "durationSeconds": 90.911218,
+      "counts": {
+        "enhancedPacketBlocks": 24686,
+        "capturedFrameBytes": 1967482,
+        "originalFrameBytes": 1967482,
+        "truncatedCapturePackets": 0,
+        "capturedLengthExceedsOriginal": 0,
+        "unknownInterfacePackets": 0,
+        "ipv4Packets": 24686,
+        "ipv6UnsupportedPackets": 0,
+        "arpPackets": 0,
+        "otherEtherTypePackets": 0,
+        "unsupportedLinkTypePackets": 0,
+        "fragmentedIpv4UnsupportedPackets": 0,
+        "udpPackets": 24647,
+        "tcpPackets": 39,
+        "otherIpv4ProtocolPackets": 0,
+        "truncatedNetworkPackets": 0,
+        "publicPeerPackets": 24686,
+        "nonPublicPeerPackets": 0,
+        "unmatchedLocalAddressPackets": 0,
+        "bothEndpointsLocalPackets": 0
+      },
+      "interfaces": [
+        {
+          "sectionIndex": 0,
+          "interfaceId": 0,
+          "linkType": 1,
+          "snapshotLength": 0,
+          "timestampResolution": {
+            "base": 10,
+            "exponent": 6
+          },
+          "packetCount": 24686,
+          "capturedFrameBytes": 1967482,
+          "originalFrameBytes": 1967482,
+          "truncatedCapturePackets": 0,
+          "malformedFrames": 0,
+          "vlanPackets": 0
+        }
+      ],
+      "pktmonConversion": {
+        "packetCount": 24686,
+        "discardedPackets": 0,
+        "stopLogReportedEventLoss": false
+      },
+      "privacy": {
+        "payloadIncluded": false,
+        "localAddressesIncluded": false,
+        "localPortsIncluded": false,
+        "identityFieldsDecoded": false,
+        "pcapngTextOptionsIncluded": false
+      },
+      "recognizableHeaders": {
+        "raknet.ack-prefix.header-compatible": 11871,
+        "raknet.ack-record-layout.big-endian.header-compatible": 1,
+        "raknet.datagram.header-compatible": 12775,
+        "tls.record-header-compatible": 18,
+        "unclassified": 21
+      },
+      "udpFirstByteFrequencies": {
+        "0x80": 11376,
+        "0x84": 1397,
+        "0x88": 2,
+        "0xc0": 11872
+      },
+      "raknetOpenRequest1VersionByteFrequencies": {},
+      "raknetHandshakeEvents": [],
+      "gameFlows": [
+        {
+          "protocol": "UDP",
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "inbound",
+          "matchesGameHost": true,
+          "packetCount": 12775,
+          "originalFrameBytes": 1298767,
+          "capturedFrameBytes": 1298767,
+          "ipBytes": 1110138,
+          "declaredTransportPayloadBytes": 752438,
+          "capturedTransportPayloadBytes": 752438,
+          "truncatedCapturePackets": 0,
+          "outOfOrderTimestamps": 0,
+          "udpFirstByteFrequencies": {
+            "0x80": 11376,
+            "0x88": 2,
+            "0xc0": 1397
+          },
+          "recognizableHeaders": {
+            "raknet.ack-prefix.header-compatible": 1397,
+            "raknet.datagram.header-compatible": 11378
+          },
+          "firstPacketSecondsFromCaptureStart": 0,
+          "lastPacketSecondsFromCaptureStart": 90.911218,
+          "originalFrameLengthBytes": {
+            "count": 12775,
+            "min": 60,
+            "max": 1333,
+            "mean": 101.664736,
+            "p50": 93,
+            "p90": 122,
+            "p95": 152,
+            "p99": 375,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 64,
+                "count": 1415
+              },
+              {
+                "greaterThan": 64,
+                "lessThanOrEqual": 128,
+                "count": 10235
+              },
+              {
+                "greaterThan": 128,
+                "lessThanOrEqual": 256,
+                "count": 856
+              },
+              {
+                "greaterThan": 256,
+                "lessThanOrEqual": 512,
+                "count": 244
+              },
+              {
+                "greaterThan": 512,
+                "lessThanOrEqual": 1024,
+                "count": 21
+              },
+              {
+                "greaterThan": 1024,
+                "lessThanOrEqual": 1500,
+                "count": 4
+              },
+              {
+                "greaterThan": 1500,
+                "lessThanOrEqual": 9000,
+                "count": 0
+              },
+              {
+                "greaterThan": 9000,
+                "lessThanOrEqual": null,
+                "count": 0
+              }
+            ]
+          },
+          "packetIntervalMilliseconds": {
+            "count": 12774,
+            "min": 0,
+            "max": 75.941,
+            "mean": 7.116895,
+            "p50": 5.058,
+            "p90": 18.235,
+            "p95": 23.373,
+            "p99": 36.782,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 0,
+                "count": 390
+              },
+              {
+                "greaterThan": 0,
+                "lessThanOrEqual": 1,
+                "count": 3803
+              },
+              {
+                "greaterThan": 1,
+                "lessThanOrEqual": 5,
+                "count": 2152
+              },
+              {
+                "greaterThan": 5,
+                "lessThanOrEqual": 10,
+                "count": 2970
+              },
+              {
+                "greaterThan": 10,
+                "lessThanOrEqual": 20,
+                "count": 2456
+              },
+              {
+                "greaterThan": 20,
+                "lessThanOrEqual": 50,
+                "count": 987
+              },
+              {
+                "greaterThan": 50,
+                "lessThanOrEqual": 100,
+                "count": 16
+              },
+              {
+                "greaterThan": 100,
+                "lessThanOrEqual": 500,
+                "count": 0
+              },
+              {
+                "greaterThan": 500,
+                "lessThanOrEqual": 1000,
+                "count": 0
+              },
+              {
+                "greaterThan": 1000,
+                "lessThanOrEqual": null,
+                "count": 0
+              }
+            ]
+          }
+        },
+        {
+          "protocol": "UDP",
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "outbound",
+          "matchesGameHost": true,
+          "packetCount": 11872,
+          "originalFrameBytes": 660534,
+          "capturedFrameBytes": 660534,
+          "ipBytes": 494326,
+          "declaredTransportPayloadBytes": 161910,
+          "capturedTransportPayloadBytes": 161910,
+          "truncatedCapturePackets": 0,
+          "outOfOrderTimestamps": 0,
+          "udpFirstByteFrequencies": {
+            "0x84": 1397,
+            "0xc0": 10475
+          },
+          "recognizableHeaders": {
+            "raknet.ack-prefix.header-compatible": 10474,
+            "raknet.ack-record-layout.big-endian.header-compatible": 1,
+            "raknet.datagram.header-compatible": 1397
+          },
+          "firstPacketSecondsFromCaptureStart": 0.000508,
+          "lastPacketSecondsFromCaptureStart": 90.902007,
+          "originalFrameLengthBytes": {
+            "count": 11872,
+            "min": 53,
+            "max": 82,
+            "mean": 55.637972,
+            "p50": 53,
+            "p90": 73,
+            "p95": 73,
+            "p99": 75,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 64,
+                "count": 10491
+              },
+              {
+                "greaterThan": 64,
+                "lessThanOrEqual": 128,
+                "count": 1381
+              },
+              {
+                "greaterThan": 128,
+                "lessThanOrEqual": 256,
+                "count": 0
+              },
+              {
+                "greaterThan": 256,
+                "lessThanOrEqual": 512,
+                "count": 0
+              },
+              {
+                "greaterThan": 512,
+                "lessThanOrEqual": 1024,
+                "count": 0
+              },
+              {
+                "greaterThan": 1024,
+                "lessThanOrEqual": 1500,
+                "count": 0
+              },
+              {
+                "greaterThan": 1500,
+                "lessThanOrEqual": 9000,
+                "count": 0
+              },
+              {
+                "greaterThan": 9000,
+                "lessThanOrEqual": null,
+                "count": 0
+              }
+            ]
+          },
+          "packetIntervalMilliseconds": {
+            "count": 11871,
+            "min": 0.007,
+            "max": 66.609,
+            "mean": 7.657442,
+            "p50": 5.597,
+            "p90": 18.889,
+            "p95": 23.826,
+            "p99": 37.006,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 0,
+                "count": 0
+              },
+              {
+                "greaterThan": 0,
+                "lessThanOrEqual": 1,
+                "count": 3275
+              },
+              {
+                "greaterThan": 1,
+                "lessThanOrEqual": 5,
+                "count": 2155
+              },
+              {
+                "greaterThan": 5,
+                "lessThanOrEqual": 10,
+                "count": 2975
+              },
+              {
+                "greaterThan": 10,
+                "lessThanOrEqual": 20,
+                "count": 2444
+              },
+              {
+                "greaterThan": 20,
+                "lessThanOrEqual": 50,
+                "count": 1002
+              },
+              {
+                "greaterThan": 50,
+                "lessThanOrEqual": 100,
+                "count": 20
+              },
+              {
+                "greaterThan": 100,
+                "lessThanOrEqual": 500,
+                "count": 0
+              },
+              {
+                "greaterThan": 500,
+                "lessThanOrEqual": 1000,
+                "count": 0
+              },
+              {
+                "greaterThan": 1000,
+                "lessThanOrEqual": null,
+                "count": 0
+              }
+            ]
+          }
+        }
+      ],
+      "limitations": [
+        "Only Ethernet (including VLAN), unfragmented IPv4 UDP/TCP enhanced packet blocks are decoded.",
+        "IPv6, non-Ethernet links, fragmented IPv4 and obsolete/simple packet blocks are counted but not decoded.",
+        "Flows omit peers that are local, private, reserved or not associated with a supplied local address.",
+        "Header-compatible labels are candidates, not proof of protocol, authenticated session or valid packet contents.",
+        "ACK/NAK prefix compatibility does not establish record layout; record-layout labels require the standard boundary checks.",
+        "ACK/NAK record-count word orders are independent candidates; matching boundaries do not verify sequence ranges or a session.",
+        "RakNet payloads, reliability frames, encryption and Rust application messages are not decoded or reassembled.",
+        "Handshake fields require standard offline magic and compatible layouts; GUIDs, addresses, cookies and proofs are skipped.",
+        "RakNet security flags concern transport security, not Rust EAC configuration or authentication status.",
+        "MTU fields expose both byte-order interpretations; upstream compile options do not establish how this Rust library was built.",
+        "TLS labels inspect an individual TCP segment prefix; TCP streams are not reassembled or decrypted.",
+        "UDP first-byte frequencies are one-byte numeric counts only, not application message IDs.",
+        "No deduplication or retransmission diagnosis; pktmon component duplicates may affect counts.",
+        "No access to pre-capture traffic, process memory, authentication tickets or capture-tool drop counters."
+      ]
+    },
+    {
+      "kind": "normal-reconnect",
+      "startedAt": "2026-10-24T01:21:23.5119788+08:00",
+      "stoppedAt": "2026-10-24T01:26:25.0280839+08:00",
+      "rawCapture": {
+        "relativePath": "captures/20261024-reconnect/rust1.pcapng",
+        "gitIgnored": true,
+        "sha256": "15ba50cb8e5da40c0a5a5cd8ed34885fb4dccc9bf12fe01b17e8cf6190a90f1b"
+      },
+      "durationSeconds": 300.577769,
+      "counts": {
+        "enhancedPacketBlocks": 83054,
+        "capturedFrameBytes": 9701216,
+        "originalFrameBytes": 9701216,
+        "truncatedCapturePackets": 0,
+        "capturedLengthExceedsOriginal": 0,
+        "unknownInterfacePackets": 0,
+        "ipv4Packets": 83054,
+        "ipv6UnsupportedPackets": 0,
+        "arpPackets": 0,
+        "otherEtherTypePackets": 0,
+        "unsupportedLinkTypePackets": 0,
+        "fragmentedIpv4UnsupportedPackets": 0,
+        "udpPackets": 82858,
+        "tcpPackets": 196,
+        "otherIpv4ProtocolPackets": 0,
+        "truncatedNetworkPackets": 0,
+        "publicPeerPackets": 83054,
+        "nonPublicPeerPackets": 0,
+        "unmatchedLocalAddressPackets": 0,
+        "bothEndpointsLocalPackets": 0
+      },
+      "interfaces": [
+        {
+          "sectionIndex": 0,
+          "interfaceId": 0,
+          "linkType": 1,
+          "snapshotLength": 0,
+          "timestampResolution": {
+            "base": 10,
+            "exponent": 6
+          },
+          "packetCount": 83054,
+          "capturedFrameBytes": 9701216,
+          "originalFrameBytes": 9701216,
+          "truncatedCapturePackets": 0,
+          "malformedFrames": 0,
+          "vlanPackets": 0
+        }
+      ],
+      "pktmonConversion": {
+        "packetCount": 83054,
+        "discardedPackets": 0,
+        "stopLogReportedEventLoss": false
+      },
+      "privacy": {
+        "payloadIncluded": false,
+        "localAddressesIncluded": false,
+        "localPortsIncluded": false,
+        "identityFieldsDecoded": false,
+        "pcapngTextOptionsIncluded": false
+      },
+      "recognizableHeaders": {
+        "a2s.single.challenge.header-compatible": 9,
+        "a2s.single.info-request.header-compatible": 10,
+        "a2s.single.info-response.header-compatible": 5,
+        "a2s.single.rules-request.header-compatible": 8,
+        "a2s.single.rules-response.header-compatible": 4,
+        "raknet.ack-prefix.header-compatible": 39374,
+        "raknet.ack-record-layout.big-endian.header-compatible": 3,
+        "raknet.ack-record-layout.little-endian.header-compatible": 1,
+        "raknet.datagram.header-compatible": 43425,
+        "raknet.nak-record-layout.little-endian.header-compatible": 11,
+        "raknet.open-connection-reply-1.header-compatible": 2,
+        "raknet.open-connection-reply-2.header-compatible": 2,
+        "raknet.open-connection-request-1.header-compatible": 2,
+        "raknet.open-connection-request-2.header-compatible": 2,
+        "tls.record-header-compatible": 88,
+        "unclassified": 108
+      },
+      "udpFirstByteFrequencies": {
+        "0x05": 2,
+        "0x06": 2,
+        "0x07": 2,
+        "0x08": 2,
+        "0x80": 33628,
+        "0x84": 8333,
+        "0x88": 39,
+        "0x8c": 1425,
+        "0xa0": 11,
+        "0xc0": 36056,
+        "0xe0": 3322,
+        "0xff": 36
+      },
+      "raknetOpenRequest1VersionByteFrequencies": {
+        "6": 2
+      },
+      "raknetHandshakeEvents": [
+        {
+          "enhancedPacketIndex": 39624,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "outbound",
+          "type": "open-connection-request-1",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 1372,
+          "ipPacketBytes": 1400,
+          "layoutStatus": "standard-prefix-compatible",
+          "protocolVersionByte": 6,
+          "secondsFromCaptureStart": 104.905902
+        },
+        {
+          "enhancedPacketIndex": 39625,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "inbound",
+          "type": "open-connection-reply-1",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 28,
+          "ipPacketBytes": 56,
+          "layoutStatus": "standard-field-offsets-compatible",
+          "raknetSecurityFlagSet": false,
+          "mtuFieldInterpretations": {
+            "bigEndian": 30725,
+            "littleEndian": 1400,
+            "byteOrderVerified": false
+          },
+          "secondsFromCaptureStart": 104.919766
+        },
+        {
+          "enhancedPacketIndex": 39626,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "outbound",
+          "type": "open-connection-request-2",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 34,
+          "ipPacketBytes": 62,
+          "layoutStatus": "standard-field-offsets-compatible",
+          "encodedAddressVersion": 4,
+          "mtuFieldInterpretations": {
+            "bigEndian": 30725,
+            "littleEndian": 1400,
+            "byteOrderVerified": false
+          },
+          "secondsFromCaptureStart": 104.919834
+        },
+        {
+          "enhancedPacketIndex": 39627,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "inbound",
+          "type": "open-connection-reply-2",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 35,
+          "ipPacketBytes": 63,
+          "layoutStatus": "standard-field-offsets-compatible",
+          "encodedAddressVersion": 4,
+          "mtuFieldInterpretations": {
+            "bigEndian": 30725,
+            "littleEndian": 1400,
+            "byteOrderVerified": false
+          },
+          "raknetSecurityFlagSet": false,
+          "secondsFromCaptureStart": 104.933011
+        },
+        {
+          "enhancedPacketIndex": 64353,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "outbound",
+          "type": "open-connection-request-1",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 1372,
+          "ipPacketBytes": 1400,
+          "layoutStatus": "standard-prefix-compatible",
+          "protocolVersionByte": 6,
+          "secondsFromCaptureStart": 213.091786
+        },
+        {
+          "enhancedPacketIndex": 64354,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "inbound",
+          "type": "open-connection-reply-1",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 28,
+          "ipPacketBytes": 56,
+          "layoutStatus": "standard-field-offsets-compatible",
+          "raknetSecurityFlagSet": false,
+          "mtuFieldInterpretations": {
+            "bigEndian": 30725,
+            "littleEndian": 1400,
+            "byteOrderVerified": false
+          },
+          "secondsFromCaptureStart": 213.105817
+        },
+        {
+          "enhancedPacketIndex": 64355,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "outbound",
+          "type": "open-connection-request-2",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 34,
+          "ipPacketBytes": 62,
+          "layoutStatus": "standard-field-offsets-compatible",
+          "encodedAddressVersion": 4,
+          "mtuFieldInterpretations": {
+            "bigEndian": 30725,
+            "littleEndian": 1400,
+            "byteOrderVerified": false
+          },
+          "secondsFromCaptureStart": 213.10589
+        },
+        {
+          "enhancedPacketIndex": 64356,
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "inbound",
+          "type": "open-connection-reply-2",
+          "evidence": "standard-magic-and-header-compatible",
+          "udpPayloadBytes": 35,
+          "ipPacketBytes": 63,
+          "layoutStatus": "standard-field-offsets-compatible",
+          "encodedAddressVersion": 4,
+          "mtuFieldInterpretations": {
+            "bigEndian": 30725,
+            "littleEndian": 1400,
+            "byteOrderVerified": false
+          },
+          "raknetSecurityFlagSet": false,
+          "secondsFromCaptureStart": 213.118205
+        }
+      ],
+      "gameFlows": [
+        {
+          "protocol": "UDP",
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "inbound",
+          "matchesGameHost": true,
+          "packetCount": 43365,
+          "originalFrameBytes": 7127639,
+          "capturedFrameBytes": 7127639,
+          "ipBytes": 6483345,
+          "declaredTransportPayloadBytes": 5269125,
+          "capturedTransportPayloadBytes": 5269125,
+          "truncatedCapturePackets": 0,
+          "outOfOrderTimestamps": 0,
+          "udpFirstByteFrequencies": {
+            "0x06": 2,
+            "0x08": 2,
+            "0x80": 33628,
+            "0x84": 3012,
+            "0x88": 39,
+            "0x8c": 1355,
+            "0xc0": 5327
+          },
+          "recognizableHeaders": {
+            "raknet.ack-prefix.header-compatible": 5327,
+            "raknet.datagram.header-compatible": 38034,
+            "raknet.open-connection-reply-1.header-compatible": 2,
+            "raknet.open-connection-reply-2.header-compatible": 2
+          },
+          "firstPacketSecondsFromCaptureStart": 0,
+          "lastPacketSecondsFromCaptureStart": 300.577713,
+          "originalFrameLengthBytes": {
+            "count": 43365,
+            "min": 60,
+            "max": 1409,
+            "mean": 164.363865,
+            "p50": 93,
+            "p90": 227,
+            "p95": 631,
+            "p99": 1406,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 64,
+                "count": 5387
+              },
+              {
+                "greaterThan": 64,
+                "lessThanOrEqual": 128,
+                "count": 30921
+              },
+              {
+                "greaterThan": 128,
+                "lessThanOrEqual": 256,
+                "count": 3038
+              },
+              {
+                "greaterThan": 256,
+                "lessThanOrEqual": 512,
+                "count": 1609
+              },
+              {
+                "greaterThan": 512,
+                "lessThanOrEqual": 1024,
+                "count": 716
+              },
+              {
+                "greaterThan": 1024,
+                "lessThanOrEqual": 1500,
+                "count": 1694
+              },
+              {
+                "greaterThan": 1500,
+                "lessThanOrEqual": 9000,
+                "count": 0
+              },
+              {
+                "greaterThan": 9000,
+                "lessThanOrEqual": null,
+                "count": 0
+              }
+            ]
+          },
+          "packetIntervalMilliseconds": {
+            "count": 43364,
+            "min": 0,
+            "max": 6291.33,
+            "mean": 6.931503,
+            "p50": 3.432,
+            "p90": 14.36,
+            "p95": 19.502,
+            "p99": 30.301,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 0,
+                "count": 1892
+              },
+              {
+                "greaterThan": 0,
+                "lessThanOrEqual": 1,
+                "count": 13539
+              },
+              {
+                "greaterThan": 1,
+                "lessThanOrEqual": 5,
+                "count": 10672
+              },
+              {
+                "greaterThan": 5,
+                "lessThanOrEqual": 10,
+                "count": 9496
+              },
+              {
+                "greaterThan": 10,
+                "lessThanOrEqual": 20,
+                "count": 5736
+              },
+              {
+                "greaterThan": 20,
+                "lessThanOrEqual": 50,
+                "count": 1982
+              },
+              {
+                "greaterThan": 50,
+                "lessThanOrEqual": 100,
+                "count": 22
+              },
+              {
+                "greaterThan": 100,
+                "lessThanOrEqual": 500,
+                "count": 0
+              },
+              {
+                "greaterThan": 500,
+                "lessThanOrEqual": 1000,
+                "count": 1
+              },
+              {
+                "greaterThan": 1000,
+                "lessThanOrEqual": null,
+                "count": 24
+              }
+            ]
+          }
+        },
+        {
+          "protocol": "UDP",
+          "peerAddress": "61.147.247.35",
+          "peerPort": 28015,
+          "direction": "outbound",
+          "matchesGameHost": true,
+          "packetCount": 39457,
+          "originalFrameBytes": 2501411,
+          "capturedFrameBytes": 2501411,
+          "ipBytes": 1949013,
+          "declaredTransportPayloadBytes": 844217,
+          "capturedTransportPayloadBytes": 844217,
+          "truncatedCapturePackets": 0,
+          "outOfOrderTimestamps": 0,
+          "udpFirstByteFrequencies": {
+            "0x05": 2,
+            "0x07": 2,
+            "0x84": 5321,
+            "0x8c": 70,
+            "0xa0": 11,
+            "0xc0": 30729,
+            "0xe0": 3322
+          },
+          "recognizableHeaders": {
+            "raknet.ack-prefix.header-compatible": 34047,
+            "raknet.ack-record-layout.big-endian.header-compatible": 3,
+            "raknet.ack-record-layout.little-endian.header-compatible": 1,
+            "raknet.datagram.header-compatible": 5391,
+            "raknet.nak-record-layout.little-endian.header-compatible": 11,
+            "raknet.open-connection-request-1.header-compatible": 2,
+            "raknet.open-connection-request-2.header-compatible": 2
+          },
+          "firstPacketSecondsFromCaptureStart": 0.000544,
+          "lastPacketSecondsFromCaptureStart": 300.577769,
+          "originalFrameLengthBytes": {
+            "count": 39457,
+            "min": 49,
+            "max": 1414,
+            "mean": 63.395874,
+            "p50": 53,
+            "p90": 75,
+            "p95": 119,
+            "p99": 161,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 64,
+                "count": 34106
+              },
+              {
+                "greaterThan": 64,
+                "lessThanOrEqual": 128,
+                "count": 3528
+              },
+              {
+                "greaterThan": 128,
+                "lessThanOrEqual": 256,
+                "count": 1745
+              },
+              {
+                "greaterThan": 256,
+                "lessThanOrEqual": 512,
+                "count": 0
+              },
+              {
+                "greaterThan": 512,
+                "lessThanOrEqual": 1024,
+                "count": 2
+              },
+              {
+                "greaterThan": 1024,
+                "lessThanOrEqual": 1500,
+                "count": 76
+              },
+              {
+                "greaterThan": 1500,
+                "lessThanOrEqual": 9000,
+                "count": 0
+              },
+              {
+                "greaterThan": 9000,
+                "lessThanOrEqual": null,
+                "count": 0
+              }
+            ]
+          },
+          "packetIntervalMilliseconds": {
+            "count": 39456,
+            "min": 0.005,
+            "max": 6281.316,
+            "mean": 7.618036,
+            "p50": 4.322,
+            "p90": 15.018,
+            "p95": 19.429,
+            "p99": 30.293,
+            "histogram": [
+              {
+                "greaterThan": null,
+                "lessThanOrEqual": 0,
+                "count": 0
+              },
+              {
+                "greaterThan": 0,
+                "lessThanOrEqual": 1,
+                "count": 11464
+              },
+              {
+                "greaterThan": 1,
+                "lessThanOrEqual": 5,
+                "count": 10429
+              },
+              {
+                "greaterThan": 5,
+                "lessThanOrEqual": 10,
+                "count": 9629
+              },
+              {
+                "greaterThan": 10,
+                "lessThanOrEqual": 20,
+                "count": 6136
+              },
+              {
+                "greaterThan": 20,
+                "lessThanOrEqual": 50,
+                "count": 1762
+              },
+              {
+                "greaterThan": 50,
+                "lessThanOrEqual": 100,
+                "count": 11
+              },
+              {
+                "greaterThan": 100,
+                "lessThanOrEqual": 500,
+                "count": 0
+              },
+              {
+                "greaterThan": 500,
+                "lessThanOrEqual": 1000,
+                "count": 1
+              },
+              {
+                "greaterThan": 1000,
+                "lessThanOrEqual": null,
+                "count": 24
+              }
+            ]
+          }
+        }
+      ],
+      "limitations": [
+        "Only Ethernet (including VLAN), unfragmented IPv4 UDP/TCP enhanced packet blocks are decoded.",
+        "IPv6, non-Ethernet links, fragmented IPv4 and obsolete/simple packet blocks are counted but not decoded.",
+        "Flows omit peers that are local, private, reserved or not associated with a supplied local address.",
+        "Header-compatible labels are candidates, not proof of protocol, authenticated session or valid packet contents.",
+        "ACK/NAK prefix compatibility does not establish record layout; record-layout labels require the standard boundary checks.",
+        "ACK/NAK record-count word orders are independent candidates; matching boundaries do not verify sequence ranges or a session.",
+        "RakNet payloads, reliability frames, encryption and Rust application messages are not decoded or reassembled.",
+        "Handshake fields require standard offline magic and compatible layouts; GUIDs, addresses, cookies and proofs are skipped.",
+        "RakNet security flags concern transport security, not Rust EAC configuration or authentication status.",
+        "MTU fields expose both byte-order interpretations; upstream compile options do not establish how this Rust library was built.",
+        "TLS labels inspect an individual TCP segment prefix; TCP streams are not reassembled or decrypted.",
+        "UDP first-byte frequencies are one-byte numeric counts only, not application message IDs.",
+        "No deduplication or retransmission diagnosis; pktmon component duplicates may affect counts.",
+        "No access to pre-capture traffic, process memory, authentication tickets or capture-tool drop counters."
+      ]
+    }
+  ],
+  "reconnectLogEvents": [
+    {
+      "sourceLine": 658,
+      "observedAt": "2026-10-24T01:23:08.382+08:00",
+      "event": "connecting",
+      "server": "61.147.247.35",
+      "port": 28015,
+      "transport": "Raknet"
+    },
+    {
+      "sourceLine": 710,
+      "observedAt": "2026-10-24T01:23:24.891+08:00",
+      "event": "Spawning World",
+      "durationSeconds": 13.8
+    },
+    {
+      "sourceLine": 728,
+      "observedAt": "2026-10-24T01:23:29.052+08:00",
+      "event": "Finalizing",
+      "durationSeconds": 1.1
+    },
+    {
+      "sourceLine": 737,
+      "observedAt": "2026-10-24T01:23:30.489+08:00",
+      "event": "Cleaning Up",
+      "durationSeconds": 1.4
+    },
+    {
+      "sourceLine": 839,
+      "observedAt": "2026-10-24T01:24:56.578+08:00",
+      "event": "connecting",
+      "server": "61.147.247.35",
+      "port": 28015,
+      "transport": "Raknet"
+    },
+    {
+      "sourceLine": 875,
+      "observedAt": "2026-10-24T01:24:59.287+08:00",
+      "event": "Loading World",
+      "durationSeconds": 0.3
+    },
+    {
+      "sourceLine": 900,
+      "observedAt": "2026-10-24T01:25:11.571+08:00",
+      "event": "Spawning World",
+      "durationSeconds": 12
+    },
+    {
+      "sourceLine": 918,
+      "observedAt": "2026-10-24T01:25:14.588+08:00",
+      "event": "Finalizing",
+      "durationSeconds": 0.9
+    },
+    {
+      "sourceLine": 928,
+      "observedAt": "2026-10-24T01:25:15.956+08:00",
+      "event": "Cleaning Up",
+      "durationSeconds": 1.4
+    }
+  ],
+  "countSamples": [
+    {
+      "observedAt": "2026-10-24T01:20:00.676+08:00",
+      "players": 14,
+      "cp": 12,
+      "maxPlayers": 200,
+      "bots": 0,
+      "probe": "separate Node A2S query, not a player connection"
+    },
+    {
+      "observedAt": "2026-10-24T01:20:55.351+08:00",
+      "players": 14,
+      "cp": 12,
+      "maxPlayers": 200,
+      "bots": 0,
+      "probe": "separate Node A2S query, not a player connection"
+    },
+    {
+      "observedAt": "2026-10-24T01:21:25.440+08:00",
+      "players": 12,
+      "cp": 10,
+      "maxPlayers": 200,
+      "bots": 0,
+      "probe": "separate Node A2S query, not a player connection"
+    },
+    {
+      "observedAt": "2026-10-24T01:21:55.546+08:00",
+      "players": 12,
+      "cp": 10,
+      "maxPlayers": 200,
+      "bots": 0,
+      "probe": "separate Node A2S query, not a player connection"
+    }
+  ],
+  "protocolReferences": {
+    "offlineMagicAndHandshake": "https://github.com/facebookarchive/RakNet/blob/1a169895a900c9fc4841c556e16514182b75faf8/Source/RakPeer.cpp",
+    "headerAndFieldLayouts": "https://github.com/wireshark/wireshark/blob/fe168fe75ceda882ef00271041ee8e53d7ab5dad/epan/dissectors/packet-raknet.c",
+    "nativeEndianCompileOption": "https://github.com/facebookarchive/RakNet/blob/1a169895a900c9fc4841c556e16514182b75faf8/Source/RakNetDefines.h#L31",
+    "integerSerialization": "https://github.com/facebookarchive/RakNet/blob/1a169895a900c9fc4841c556e16514182b75faf8/Source/BitStream.h#L1083"
+  },
+  "validation": {
+    "primaryCapturePacketTotal": 107740,
+    "analyzerMatchesPktmonConversion": true,
+    "analyzerSyntheticChecks": "Endian sections, timestamp resolutions/offsets, VLAN, IPv4 UDP/TCP, A2S, strict magic, MTU/ACK candidate word orders, unsupported blocks, malformed/truncated rejection, privacy",
+    "powershellParsePassed": true,
+    "finalCollectorTenSecondRun": {
+      "startedAt": "2026-10-24T01:34:21.2238628+08:00",
+      "stoppedAt": "2026-10-24T01:34:32.3727964+08:00",
+      "stopConfirmed": true,
+      "cleanupErrors": [],
+      "startupLogWriteFailureSimulated": true
+    },
+    "finalPktmonState": "not running; no filters",
+    "steamService": {
+      "url": "http://127.0.0.1:3210/",
+      "healthOk": true
+    }
+  },
+  "privacy": {
+    "rawPayloadPublished": false,
+    "authenticationMaterialPublished": false,
+    "localAddressesPublished": false,
+    "localPortsPublished": false,
+    "nonGamePeerAddressesPublished": false
+  },
+  "unresolved": [
+    "Native transport byte order and reliability/frame reassembly",
+    "Rust application payload and delta serialization",
+    "Encryption boundaries and official EOS/EAC session requirements",
+    "Server active list and refreshed browser player-count comparison"
+  ]
+}

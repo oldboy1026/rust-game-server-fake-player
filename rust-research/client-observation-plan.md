@@ -2,6 +2,8 @@
 
 本方案供装有游戏的 Windows 电脑使用。本轮只准备文档，尚未在那台电脑执行。目标游戏端点为 `202.189.21.138:28015`，A2S 查询端点为 `202.189.21.138:28017`。
 
+**执行更新（2026-10-24）：** 已在装有 Rust 的电脑完成会话基线和正常重连采集，实际目标与本方案原目标不同，见 [客户端观察报告](./client-observation-2026-10-24.md)。下文保留原始准备方案。可使用 `tools/rust-research/capture-client.ps1` 执行限时采集，再用 `analyze-capture.mjs` 输出脱敏汇总；参数与范围见工具 README。采集结束后必须实际核对 pktmon 状态与过滤器。
+
 ## 开始前确认
 
 先记录 Windows 版本、Rust 安装目录与构建信息、客户端/网络组件 SHA-256、实际使用的启动方式和网卡。检查现有 pktmon、Wireshark/dumpcap/tshark、Npcap 和实际权限；Wireshark 工具可能在 `C:\Program Files\Wireshark` 而没有加入 PATH。
