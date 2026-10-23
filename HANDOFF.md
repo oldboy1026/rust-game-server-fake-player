@@ -4,6 +4,12 @@
 
 ## 最新接续：独立 Steam 票据与原生传输已实测
 
+**更新：当前目标已完成独立真实玩家入服。** `rust-session` 持续模式已匹配本账号实体和精确FinishLoading，确认PlayerInit→EnterGame；保持146.922秒后API优雅断开成功，再从网页重连成功。A2S人数9/cp7→10/cp8→断开后9/cp7。当前没有有效EAC受保护会话；服务器允许该连接的配置不能推广到其他secure目标。新网页路径：账号详情→Rust服务器连接。继续工作前先GET rust-session查询，避免打断已在线会话。
+
+本机data/rust-runtime.json已保存Python和RakNet.dll路径；未提交。正常start.cmd可读取，不再需要每次手设环境变量。GET/POST/DELETE /v1/accounts/{id}/rust-session分别查询/连接/停止；关闭网页继续连接，服务重启后需重新点击连接。研究证据及限制见最新独立连接报告和player-admission-evidence-2026-10-24.json。此前“尚未独立入服”表述是历史状态。
+
+网页重连后快照已运行271.672秒，接收59449条消息，仍为entered_game。原Steam/Rust进程保留作观察基线；没有进行两者全部退出后的重连实验。程序自行登录Steam和取得新票据，不使用原客户端会话或IPC；仍需兼容RakNet.dll。未实现或发送PlayerTick，不保证无限期留服。
+
 先读 `rust-research/independent-connection-2026-10-24.md` 及同名 JSON。独立 Python + 安装目录 RakNet.dll 已与 `61.147.247.35:28015` 建立传输连接，收到 accepted 与 RequestUserInformation，未启动新的 Steam/Rust 客户端。独立 Steam 服务已取得并核验所有权及240字节会话票据，取得143字节加密应用票据，诊断票据取消确认。它们尚不能证明Rust玩家入服或有效EAC。
 
 重连抓包内43,425个数据报、39,378个ACK、11个NAK已精确解析；数据报偏移8帧起点和ACK时间字段对应上游UDT时间字段分支。身份所有七个长度前缀u32LE；两次Ready均为982字节protobuf+头。此前“内部可靠消息/分片未解码”的记录已由新证据更新。

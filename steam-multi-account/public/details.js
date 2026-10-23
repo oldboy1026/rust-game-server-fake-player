@@ -1,6 +1,7 @@
 const $ = selector => document.querySelector(selector);
 const states = { offline: '已退出', connecting: '正在登录', guard_required: '等待验证', online: '在线', reconnecting: '正在重连', error: '连接失败' };
 const idleStates = { stopped: '已停止', running: '挂机中', pending: '正在提交', waiting_connection: '等待账号上线', paused_other_session: '其他位置正在游戏，已暂停' };
+const rustStates = { closed: '未连接', connecting: '正在连接', receiving_world: '正在接收世界', player_initialized: '玩家已初始化', entered_game: '已进入服务器', stopping: '正在断开', error: '连接结束' };
 function node(tag, className, text) {
   const result = document.createElement(tag);
   if (className) result.className = className;
@@ -32,6 +33,8 @@ export function createAccountDetails({ request, notice, changed }) {
   let freeNext = null;
   let freeTerm = '';
   let latest = null;
+  let rustRevision = 0, rustPending = false, rustSessionView = null;
+  const buttonOperations = new Map();
   let libraryRevision = 0, inventoryRevision = 0, freeRevision = 0;
   const context = () => {
     const id = currentId, version = generation;
@@ -40,10 +43,15 @@ export function createAccountDetails({ request, notice, changed }) {
   async function run(button, operation) {
     if (!currentId || button?.disabled) return;
     const ctx = context();
-    if (button) button.disabled = true;
+    const operationId = Symbol();
+    if (button) { buttonOperations.set(button, operationId); button.disabled = true; }
     try { await operation(ctx); }
     catch (error) { if (ctx.valid()) notice(error.message || '操作失败，请稍后重试。', true); }
-    finally { if (button) button.disabled = false; }
+    finally {
+      if (button && buttonOperations.get(button) === operationId) {
+        buttonOperations.delete(button); button.disabled = false;
+      }
+    }
   }
   function action(parent, label, operation, style = 'secondary') {
     const button = node('button', `button small ${style}`, label);
@@ -91,7 +99,11 @@ export function createAccountDetails({ request, notice, changed }) {
   async function refresh() {
     if (!currentId || busy) return;
     const ctx = context(); busy = true;
-    try { const data = await ctx.api('details'); if (ctx.valid()) paint(data); }
+    try {
+      const data = await ctx.api('details');
+      if (ctx.valid()) paint(data);
+      if (ctx.valid() && selectedTab === 'rust') await loadRust(ctx);
+    }
     catch (error) { if (ctx.valid()) notice(error.message, true); }
     finally { busy = false; }
   }
@@ -102,6 +114,43 @@ export function createAccountDetails({ request, notice, changed }) {
     if (tab === 'library' && !libraryLoaded) run(null, ctx => loadGames(ctx));
     if (tab === 'inventory' && !inventoryLoaded) run(null, ctx => loadInventory(ctx));
     if (tab === 'free' && !freeLoaded) run(null, ctx => loadFree(ctx));
+    if (tab === 'rust') run(null, ctx => loadRust(ctx));
+  }
+  async function loadRust(ctx) {
+    const revision = ++rustRevision;
+    const session = await ctx.api('rust-session');
+    if (!ctx.valid() || revision !== rustRevision) return;
+    rustSessionView = session;
+    const active = !['closed', 'error'].includes(session.state);
+    $('#rust-state').textContent = rustStates[session.state] || '正在连接';
+    $('#rust-state').className = `badge ${session.state === 'entered_game' ? 'online' : session.state === 'error' ? 'error' : active ? 'connecting' : ''}`;
+    renderRustControls();
+    if (!$('#rust-host').value && session.host) { $('#rust-host').value = session.host; $('#rust-port').value = session.port; }
+    $('#rust-target').textContent = session.host ? `${session.host}:${session.port}${session.startedAt ? ` · 开始于 ${date(session.startedAt)}` : ''}` : '尚未建立服务器连接。';
+    const metadata = session.metadata || {};
+    $('#rust-progress').textContent = session.startedAt ? `已接收 ${Number(metadata.receivedPackets || 0).toLocaleString('zh-CN')} 条消息 · 运行 ${Math.floor(metadata.elapsedSeconds || 0)} 秒${metadata.finishLoadingObserved ? ' · 服务器已完成入服流程' : metadata.selfEntityObserved ? ' · 已确认本账号玩家实体' : ''}` : '';
+    $('#rust-error').textContent = typeof session.lastError === 'string' ? session.lastError : '';
+  }
+  function renderRustControls() {
+    const active = rustSessionView && !['closed', 'error'].includes(rustSessionView.state);
+    $('#rust-connect').disabled = rustPending || !rustSessionView || active || latest?.state !== 'online';
+    $('#rust-disconnect').disabled = rustPending || !active || rustSessionView?.state === 'stopping';
+    $('#rust-host').disabled = rustPending || !rustSessionView || active;
+    $('#rust-port').disabled = rustPending || !rustSessionView || active;
+  }
+  async function rustAction(operation) {
+    if (!currentId || rustPending || !rustSessionView) return;
+    const ctx = context();
+    rustPending = true; ++rustRevision; renderRustControls();
+    try { await operation(ctx); }
+    catch (error) { if (ctx.valid()) notice(error.message || 'Rust 连接操作失败。', true); }
+    finally {
+      if (ctx.valid()) {
+        try { await loadRust(ctx); } catch (error) { if (ctx.valid()) notice(error.message, true); }
+        if (!ctx.valid()) return;
+        rustPending = false; renderRustControls();
+      }
+    }
   }
   function renderGames() {
     const term = $('#library-search').value.trim().toLowerCase();
@@ -207,9 +256,16 @@ export function createAccountDetails({ request, notice, changed }) {
   }
   async function open(id) {
     generation++; currentId = id; busy = false; latest = null;
+    for (const button of buttonOperations.keys()) button.disabled = false;
+    buttonOperations.clear();
     games = []; libraryLoaded = false; inventoryLoaded = false; freeLoaded = false;
     $('#library-list').replaceChildren(); $('#inventory-list').replaceChildren(); $('#free-list').replaceChildren();
     $('#library-search').value = ''; $('#idle-apps').value = ''; $('#free-search').value = ''; freeTerm = '';
+    $('#rust-host').value = ''; $('#rust-port').value = '28015';
+    rustRevision++; rustPending = false; rustSessionView = null;
+    $('#rust-state').textContent = '正在读取'; $('#rust-state').className = 'badge';
+    $('#rust-target').textContent = ''; $('#rust-progress').textContent = ''; $('#rust-error').textContent = '';
+    renderRustControls();
     $('#inventory-more').hidden = true; $('#library-more').hidden = true; $('#free-more').hidden = true;
     $('#detail-name').textContent = '正在读取账号…'; $('#profile-fields').replaceChildren();
     $('#dashboard').classList.add('show-details'); $('#account-detail').hidden = false;
@@ -240,5 +296,16 @@ export function createAccountDetails({ request, notice, changed }) {
     run(event.submitter, async ctx => { await ctx.api('idle', 'POST', { appIds: values.map(Number) }); if (ctx.valid()) { notice('已保存并提交游戏挂机配置。'); await refresh(); await changed(); } });
   });
   $('#idle-stop').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('idle', 'POST', { appIds: [] }); if (ctx.valid()) { notice('已停止该账号的游戏挂机。'); await refresh(); await changed(); } }));
+  $('#rust-form').addEventListener('submit', event => {
+    event.preventDefault();
+    rustAction(async ctx => {
+      await ctx.api('rust-session', 'POST', { host: $('#rust-host').value.trim(), port: Number($('#rust-port').value) });
+      if (ctx.valid()) notice('已开始连接 Rust 服务器。');
+    });
+  });
+  $('#rust-disconnect').addEventListener('click', () => rustAction(async ctx => {
+    await ctx.api('rust-session', 'DELETE');
+    if (ctx.valid()) notice('正在断开 Rust 服务器连接。');
+  }));
   return { open, close, refresh, sync(accounts) { if (!currentId) return; if (!accounts.some(account => account.id === currentId)) close(true); else refresh(); } };
 }

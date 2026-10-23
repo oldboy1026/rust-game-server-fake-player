@@ -10,7 +10,13 @@
 
 票据签发与本地签名核验，不能代替目标 Rust 服务器的认证结果。有效 EOS 身份和 EAC 受保护会话仍需分别验证。
 
-第一次独立身份连接已经实际运行 60.078 秒：真实 Steam 会话票据被服务器接受，收到 Approved（encryption=0），随后发出最小 Ready。持续收到 10,078 个应用消息，包括 1,320 个 Entities、6,257 个 EntityPosition 和 935 个 RPC。没有收到断开原因、EAC 消息或传输断线，由本地时限主动正常关闭。接收世界数据表明协议继续推进；尚需匹配本账号自己的实体和加载完成 RPC，才能更明确确认玩家初始化。
+第一次独立身份连接已经实际运行 60.078 秒：真实 Steam 会话票据被服务器接受，收到 Approved（encryption=0），随后发出最小 Ready。持续收到 10,078 个应用消息，包括 1,320 个 Entities、6,257 个 EntityPosition 和 935 个 RPC。没有收到断开原因、EAC 消息或传输断线，由本地时限主动正常关闭。
+
+后续持续模式已完成更直接的玩家入服验证：从 `Entities` 的 `Entity.basePlayer.userid` 仅比较本账号真实 SteamID，取得自身实体 ID 后，收到只发给该实体的 13 字节 `FinishLoading` RPC。函数 ID 为 `2811987493`，由原版 `ManifestHash` 算法及两次真实客户端重连共同核对。因此确认服务器执行了本账号 `PlayerInit` 和 `EnterGame`；实际持续 146.922 秒后，通过 API 优雅停止，原生关闭及 Steam 票据清理完成。随后从网页重新连接，再次识别自身实体和 FinishLoading，保持持续运行。
+
+网页重连后的后续快照已连续运行 271.672 秒，接收 59,449 条消息，仍为 `entered_game`。实测期间原有 Steam/Rust 客户端保留作观察基线，没有进行将两者全部退出后的重复连接。独立程序自行连接 Steam 并使用本实例的新票据，不读取原客户端会话或通过其 IPC 建立游戏连接；它直接加载安装目录的兼容 RakNet 原生库。
+
+公开查询交叉观察：连接前 `A2S_INFO players=9 / cp7`，连接后 `10 / cp8`，断开后回到 `9 / cp7`，符合新增一名活跃玩家。A2S_PLAYER 名称未匹配到本地 Steam 昵称，不能单凭名称查询确认个人身份；个人身份依据前述自身实体匹配。此结果也不解决原有 players 比 cp 多 2 的差异原因。
 
 当前版本服务端静态实现允许未启用 secure 的服务器直接推进内部 EAC 状态；这与有效受保护 EAC 会话不同。因此当前目标的连接结果不能推广到历史所述启用 EAC 的服务器。
 
@@ -27,6 +33,8 @@
 ## 当前程序接口
 
 `POST /v1/accounts/{id}/rust-auth-check`，请求体 `{}`，返回票据签发、核验及取消的元数据。需要本机 Bearer API key。
+
+`POST /v1/accounts/{id}/rust-session` 接受 IPv4 `host` 和游戏端口 `port`，启动持续连接。`GET` 查询阶段、接收数量和自身实体/加载完成的布尔结果，`DELETE` 断开。网页账号详情的 Rust 服务器连接面板提供相同操作。持续模式只接收世界数据并维持原生传输，没有实现移动或世界模拟，未实现或发送 PlayerTick，也没有有效 EAC 会话。
 
 `tools/rust-research/native-peer.py` 可执行限时传输连接。`analyze-raknet-frames.mjs` 离线解析原始捕获，默认只统计边界和首字节；`--inspect-application-shapes` 才检查身份长度和 Protobuf 字段。原始捕获继续保存在忽略目录。
 

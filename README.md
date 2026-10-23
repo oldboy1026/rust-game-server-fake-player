@@ -2,7 +2,9 @@
 
 这个项目包含可运行的 Node.js Steam 多账号管理服务，以及 Rust 2635 协议、EOS/EAC 会话的研究资料。
 
-**目前已实现 Steam 多账号登录、账号信息、库存、免费游戏许可申请和 Steam 游戏在线状态设置。Rust 独立玩家连接与有效 EAC 会话尚未实现。**
+**已实现 Steam 多账号管理，并在 `61.147.247.35:28015` 通过独立 Node.js/Python 程序完成真实账号入服和持续连接。程序自行登录 Steam、取得票据和建立 Rust 传输，不调用 Steam 桌面客户端或 Rust 游戏进程。当前没有实现有效 EAC 受保护会话，结果限于已验证的服务器配置。**
+
+实测期间原有 Steam/Rust 客户端保留作观察基线；尚未进行将两者全部退出后的重复连接。独立程序仍需要本机兼容版本的 `RakNet.dll` 和 64 位 Python。
 
 ## 在另一台 Windows 电脑继续
 
@@ -50,6 +52,6 @@ node .\rust-research\query-server.mjs --host 202.189.21.138 --port 28017
 
 研究快照记录于 2026-10-23；目标服务器和 Steam 公开分支之后可能更新。`steam-user.gamesPlayed()` 设置的是 Steam 游戏活动状态，不能据此认定账号已经进入 Rust 服务器。
 
-2026-10-24 已完成真实客户端的当前会话与正常重连观察，记录了两次 RakNet 握手和人数差异样本。见 [客户端观察报告](./rust-research/client-observation-2026-10-24.md)。本轮实际服务器为 `61.147.247.35:28015`（查询 `28016`），与前述研究目标分别记录；独立 Rust 玩家客户端仍未实现。
+2026-10-24 已完成真实客户端的当前会话与正常重连观察，记录了两次 RakNet 握手和人数差异样本。见 [客户端观察报告](./rust-research/client-observation-2026-10-24.md)。本轮实际服务器为 `61.147.247.35:28015`（查询 `28016`），与前述研究目标分别记录。该观察阶段之后已实现下述独立玩家连接。
 
-后续已实测独立 Steam 票据签发和原生 RakNet 连接，收到 Rust 的身份请求，且完成可靠帧、ACK、分片及身份/Ready结构核对。见 [独立连接研究](./rust-research/independent-connection-2026-10-24.md)。新增限时 `rust-connect` 研究接口；传输连接、审批及有效玩家/EAC状态仍分别记录。
+后续已实测独立 Steam 票据签发和原生 RakNet 连接，完成真实身份提交、审批、Ready、自身玩家实体及 FinishLoading 确认，并实现网页持续连接和断开。见 [独立连接研究](./rust-research/independent-connection-2026-10-24.md)。持续连接使用 `rust-session`，限时研究使用 `rust-connect`；玩家入服与有效 EAC 状态分别记录。

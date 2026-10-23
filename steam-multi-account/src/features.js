@@ -2,6 +2,7 @@ import SteamStore from 'steamstore';
 import { ApiError } from './errors.js';
 import { RustAuthCheck } from './game-auth.js';
 import { connectRust } from './rust-connection.js';
+import { RustSession } from './rust-session.js';
 
 export function appIds(value, max = 32) {
   if (!Array.isArray(value) || value.length > max || value.some(id => !Number.isInteger(id) || id < 1 || id > 0xffffffff)) {
@@ -41,6 +42,7 @@ export class AccountFeatures {
     this.idleStartedAt = null;
     this.idleReportedAt = null;
     this.rustAuth = new RustAuthCheck({ client, requireOnline: () => this.requireOnline(), ensureCurrent: () => this.ensureCurrent() });
+    this.rustSession = account.rustSession ||= new RustSession();
     const on = (event, handler) => client.on(event, (...args) => { if (current()) handler(...args); });
     on('accountInfo', (name, country, authedMachines, flags) => Object.assign(this.profile, { nickname: name, country, authedMachines, accountFlags: flags }));
     on('emailInfo', (address, validated) => Object.assign(this.profile, { email: maskEmail(address), emailValidated: validated }));
@@ -115,6 +117,7 @@ export class AccountFeatures {
     if (typeof this.client.getPersonas === 'function') this.refreshProfile().catch(() => {});
   }
   disconnect() {
+    this.rustSession.stop();
     this.rustAuth.disconnect();
     this.cookies = [];
     this.storeClient = null;
@@ -124,6 +127,12 @@ export class AccountFeatures {
   }
   rustAuthCheck() { return this.rustAuth.check(); }
   rustConnect(input) { return connectRust(this.rustAuth, input, this.profile.nickname || this.account.saved.accountName); }
+  startRustSession(input) {
+    this.requireOnline();
+    return this.rustSession.start(this.rustAuth, input, this.profile.nickname || this.account.saved.accountName);
+  }
+  rustSessionStatus() { return this.rustSession.snapshot(); }
+  stopRustSession() { return this.rustSession.stop(); }
   async refreshProfile() {
     this.requireOnline();
     if (this.profilePending) return this.profilePending;

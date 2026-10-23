@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "scope": "Static admission/player lifecycle evidence and aggregate matching in an earlier normal-client reconnect capture. Independent-client runtime results are recorded separately.",
+  "source": {
+    "steamAppId": 258550,
+    "depotId": 258551,
+    "manifestId": "93946663446561466",
+    "moduleHashAlgorithm": "SHA-256",
+    "modules": {
+      "Assembly-CSharp.dll": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "Assembly-CSharp-firstpass.dll": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77",
+      "Facepunch.Network.dll": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "Facepunch.Raknet.dll": "95ea907d62c8cdbfd8f61246c3d7bf8a95c83aa567173d17a7da509150f9c2be",
+      "Rust.Global.dll": "84b661f33746deebd0345c0044cfe42bd04c0c80cc6a587e42d7c3dd5a1102bf"
+    }
+  },
+  "admissionMethods": [
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.OnGiveUserInformation",
+      "metadataToken": "0x06007AA3",
+      "il": ["IL_03DA..IL_040D"],
+      "finding": "Reads antiId/antiToken with StringRaw limits 128/2048; no direct empty-string rejection in this reader. Steam ticket validation is separate."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "Auth_EAC/<Run>d__0.MoveNext",
+      "metadataToken": "0x0600788D",
+      "il": ["IL_0197..IL_01F2"],
+      "finding": "Calls OnJoinGame and waits while active, not rejected, and authStatusEAC is empty."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnJoinGame",
+      "metadataToken": "0x060078EF",
+      "il": ["IL_0000..IL_0014", "IL_018D..IL_01A1"],
+      "finding": "The configured nonsecure/editor server path invokes local and remote callbacks, establishing dictionary status 2. This branch does not demonstrate a protected EAC client session."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnJoinGame",
+      "metadataToken": "0x060078EF",
+      "il": ["IL_0065..IL_0075", "IL_0141..IL_014D"],
+      "finding": "Protected path parses ProductUserId and calls RegisterClient; managed caller discards Result. Exact SDK behavior for an empty/invalid ID was not exercised."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnAuthenticatedLocal",
+      "metadataToken": "0x060078E5",
+      "il": ["IL_0000..IL_0030"],
+      "finding": "Sets dictionary status 1; sets authStatusEAC to ok when strictauth_eac is false and the status string is empty."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnAuthenticatedRemote",
+      "metadataToken": "0x060078E6",
+      "il": ["IL_0000..IL_0030"],
+      "finding": "Sets dictionary status 2; sets authStatusEAC to ok when strictauth_eac is true and the status string is empty."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnClientAuthStatusChanged",
+      "metadataToken": "0x060078E8",
+      "il": ["IL_0072..IL_00C5"],
+      "finding": "Remote status callback constructs an ID token and calls VerifyIdToken."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.OnVerifyIdToken",
+      "metadataToken": "0x060078E7",
+      "il": ["IL_0000..IL_0011", "IL_005D..IL_0145"],
+      "finding": "When token validation applies, failed validation or Steam account mismatch causes Kick. No token bodies are retained here."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.DoTick",
+      "metadataToken": "0x06007AB9",
+      "il": ["IL_002A..IL_004C"],
+      "finding": "Unauthenticated connections are kicked after server.authtimeout; the static default is 60 seconds."
+    },
+    {
+      "module": "Facepunch.Network.dll",
+      "method": "Network.Connection.get_isAuthenticated",
+      "metadataToken": "0x0600004E",
+      "il": ["IL_0000..IL_005A"],
+      "finding": "Requires Steam, EAC, Nexus, CentralizedBans and PremiumServer status strings all equal ok."
+    }
+  ],
+  "playerLifecycleMethods": [
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.ClientReady",
+      "metadataToken": "0x06007A9D",
+      "il": ["IL_0000..IL_0024", "IL_009F..IL_0132"],
+      "finding": "Requires Welcoming state 3, sets Connected state 4, marks JoinedGame and calls a player spawn path."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.SpawnPlayerSleeping",
+      "metadataToken": "0x06007A9B",
+      "il": ["IL_0033..IL_0035"],
+      "finding": "Calls BasePlayer.PlayerInit."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.SpawnNewPlayer",
+      "metadataToken": "0x06007A9C",
+      "il": ["IL_0083..IL_0085"],
+      "finding": "Calls BasePlayer.PlayerInit."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "BasePlayer.PlayerInit",
+      "metadataToken": "0x06001AA1",
+      "il": ["IL_003D..IL_0054"],
+      "finding": "Adds the player to activePlayerList and activePlayerLookup before EnterGame."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "BasePlayer.ConnectedPlayersUpdate",
+      "metadataToken": "0x06001A9A",
+      "il": ["IL_0075..IL_00A1"],
+      "finding": "ReceivingSnapshot path waits for an empty SnapshotQueue and EACServer.IsAuthenticated before EnterGame."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "EACServer.IsAuthenticated",
+      "metadataToken": "0x060078E4",
+      "il": ["IL_0000..IL_0012"],
+      "finding": "Returns whether the connection dictionary status equals 2. The configured nonsecure/editor path also supplies this status."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "BasePlayer.EnterGame",
+      "metadataToken": "0x06001A9C",
+      "il": ["IL_0000..IL_0003", "IL_002F..IL_003B"],
+      "finding": "Clears ReceivingSnapshot flag 8 and sends player-targeted FinishLoading ClientRPC."
+    },
+    {
+      "module": "Assembly-CSharp.dll",
+      "method": "ServerMgr.UpdateServerInformation",
+      "metadataToken": "0x06007AC0",
+      "il": ["IL_01A1..IL_01A6"],
+      "finding": "Builds cp from activePlayerList.Count; simultaneous other joins/leaves can confound remote count comparisons."
+    }
+  ],
+  "finishLoadingRpc": {
+    "envelopeMethod": {
+      "module": "Assembly-CSharp.dll",
+      "method": "BaseEntity.ClientRPCStart",
+      "metadataToken": "0x06001534",
+      "il": ["IL_000A..IL_002A"]
+    },
+    "envelope": "0x95 + entityID:uint64LE + pooledFunctionID:uint32LE + arguments",
+    "hashMethod": {
+      "module": "Rust.Global.dll",
+      "method": "UnityEngine.StringEx.ManifestHash",
+      "metadataToken": "0x0600019D",
+      "il": ["IL_000A..IL_0018", "IL_001A..IL_0035"]
+    },
+    "hashAlgorithm": "Lowercase string, UTF-8, MD5, BitConverter.ToUInt32(digest, 0); little endian on observed Windows platform",
+    "rpcName": "FinishLoading",
+    "normalizedRpcName": "finishloading",
+    "rpcIdDecimal": 2811987493,
+    "rpcIdHex": "0xa79b8625",
+    "argumentsBytes": 0,
+    "normalClientCapture": {
+      "source": "captures/20261024-reconnect/rust1.pcapng",
+      "sourceKind": "Earlier normal-client reconnect, not an independent-client run",
+      "inboundUnsplitRpcFrames": 4028,
+      "matchingFrames": 2,
+      "matchingFramesAfterObservedReady": 2,
+      "matchingPayloadByteLengths": { "13": 2 },
+      "matchingScope": "Only verified unsplit inbound RPC frame payload+9; entity IDs skipped. Split RPCs are outside this count."
+    }
+  },
+  "disconnectEnvelope": {
+    "module": "Facepunch.Raknet.dll",
+    "method": "Facepunch.Network.Raknet.Server.Kick",
+    "metadataToken": "0x06000032",
+    "il": ["IL_004A..IL_0054"],
+    "format": "0x9a + reasonByteLength:uint32LE + reason:UTF-8; reliable immediate send, then close"
+  },
+  "limitations": [
+    "World messages alone do not establish a self-owned player entity or completion of EnterGame.",
+    "FinishLoading in a normal-client capture validates the observable marker; independent-client admission and persistence require separate runtime evidence.",
+    "No remote private server configuration, exact active-player list, or protected EAC client lifecycle is established by this file.",
+    "Method metadata tokens and IL offsets apply to the module hashes above."
+  ],
+  "privacy": {
+    "included": "Method names, metadata tokens, IL offsets, module hashes, protocol constants and aggregate counts only",
+    "excluded": ["Account names", "Passwords", "Steam/player/entity IDs", "Authentication tickets and tokens", "EOS configuration values", "Raw StringPool tables", "Raw payloads"]
+  }
+}

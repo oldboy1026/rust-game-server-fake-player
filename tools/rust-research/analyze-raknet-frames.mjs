@@ -309,10 +309,13 @@ export function analyzeRaknetFrames(data, { peer, port = 28015, inspectApplicati
           const splitKey = `${directionKey}|${frame.splitId}`;
           let group = splitGroups.get(splitKey);
           if (!group) {
-            group = { count: frame.splitCount, fragments: new Map(), direction, conflict: false };
+            group = { count: frame.splitCount, fragments: new Map(), direction, conflict: false,
+              reliability: frame.reliability, orderingIndex: frame.orderingIndex, orderingChannel: frame.orderingChannel };
             splitGroups.set(splitKey, group);
           }
           if (group.count !== frame.splitCount) group.conflict = true;
+          if (group.reliability !== frame.reliability || group.orderingIndex !== frame.orderingIndex
+            || group.orderingChannel !== frame.orderingChannel) group.conflict = true;
           const fragmentMetadata = `${frame.payloadBits}|${frame.firstByte}`;
           if (group.fragments.has(frame.splitIndex)) {
             result.splitGroups.duplicateFragmentMetadata++;

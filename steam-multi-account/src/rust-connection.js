@@ -1,11 +1,12 @@
 import { spawn } from 'node:child_process';
 import { isIP } from 'node:net';
-import { isAbsolute } from 'node:path';
+import { isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
 import { ApiError } from './errors.js';
 
-const WORKER = fileURLToPath(new URL('../../tools/rust-research/rust-peer.py', import.meta.url));
-const DLL_SHA256 = '5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44';
+export const RUST_WORKER = fileURLToPath(new URL('../../tools/rust-research/rust-peer.py', import.meta.url));
+export const RUST_DLL_SHA256 = '5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44';
 const STAGES = new Set([
   'native_wrapper_created', 'native_wrapper_closed', 'native_create_failed',
   'native_start_failed', 'native_connect_start_failed', 'transport_connect_started',
@@ -21,13 +22,15 @@ const STAGES = new Set([
   'unexpected_approval', 'repeated_identity_request', 'identity_native_send_failed',
   'ready_native_send_failed', 'server_queue_update_received', 'invalid_server_guid',
   'local_setup_or_native_call_failed', 'input_rejected', 'transport_connection_rate_limited',
+  'self_entity_observed', 'finish_loading_observed', 'stop_requested', 'control_eof',
+  'control_input_closed', 'invalid_control_command', 'interrupted',
 ]);
 const CATEGORIES = new Set(['steam_auth', 'eac_required', 'eos_identity_required',
   'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown']);
-function safeMetadata(result) {
-  const clean = { dllSha256: DLL_SHA256, abi: 'windows-x64' };
+export function safeMetadata(result) {
+  const clean = { dllSha256: RUST_DLL_SHA256, abi: 'windows-x64' };
   for (const key of ['created', 'closed', 'transportConnected', 'identitySent', 'approved',
-    'readySent', 'playerConnected', 'eacVerified']) {
+    'readySent', 'playerConnected', 'eacVerified', 'selfEntityObserved', 'finishLoadingObserved']) {
     if (typeof result[key] === 'boolean') clean[key] = result[key];
   }
   for (const key of ['receivedPackets', 'sentPackets', 'startClientResult', 'elapsedSeconds', 'worldMessages', 'encryptionLevel']) {
@@ -47,25 +50,47 @@ function safeMetadata(result) {
 
 // The HTTP layer accepts a destination, never arbitrary executables or DLLs.
 // Native runtime paths are configured by the local service operator.
-export async function connectRust(auth, input, username, env = process.env) {
-  if (Object.keys(input).some(key => !['host', 'port', 'seconds'].includes(key))
-      || isIP(input.host) !== 4 || !Number.isInteger(input.port) || input.port < 1 || input.port > 65535) {
+export function validateRustDestination(input, optionalKeys = []) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)
+      || Object.keys(input).some(key => !['host', 'port', ...optionalKeys].includes(key))
+      || typeof input.host !== 'string' || isIP(input.host) !== 4
+      || !Number.isInteger(input.port) || input.port < 1 || input.port > 65535) {
     throw new ApiError(400, '需要有效的 IPv4 host 和游戏端口 port。');
   }
+  return { host: input.host, port: input.port };
+}
+
+export function readRustRuntime(env = process.env) {
+  let saved = {};
+  if (!env.RUST_NATIVE_DLL || !env.RUST_PYTHON) {
+    try {
+      const directory = env.STEAM_DATA_DIR
+        ? resolve(env.STEAM_DATA_DIR)
+        : fileURLToPath(new URL('../data/', import.meta.url));
+      saved = JSON.parse(readFileSync(join(directory, 'rust-runtime.json'), 'utf8').replace(/^\uFEFF/, ''));
+      if (!saved || typeof saved !== 'object' || Array.isArray(saved)) saved = {};
+    } catch { saved = {}; }
+  }
+  const dll = env.RUST_NATIVE_DLL || saved.dll;
+  const python = env.RUST_PYTHON || saved.python;
+  if (typeof dll !== 'string' || typeof python !== 'string' || !isAbsolute(dll) || !isAbsolute(python)) {
+    throw new ApiError(503, '请在服务启动环境配置绝对路径 RUST_NATIVE_DLL 和 RUST_PYTHON。');
+  }
+  return { dll, python, worker: RUST_WORKER, sha256: RUST_DLL_SHA256 };
+}
+
+export async function connectRust(auth, input, username, env = process.env) {
+  validateRustDestination(input, ['seconds']);
   const seconds = input.seconds ?? 45;
   if (!Number.isInteger(seconds) || seconds < 5 || seconds > 120) {
     throw new ApiError(400, 'seconds 必须为 5 到 120 的整数。');
   }
-  const dll = env.RUST_NATIVE_DLL;
-  const python = env.RUST_PYTHON;
-  if (!dll || !python || !isAbsolute(dll) || !isAbsolute(python)) {
-    throw new ApiError(503, '请在服务启动环境配置绝对路径 RUST_NATIVE_DLL 和 RUST_PYTHON。');
-  }
+  const { dll, python } = readRustRuntime(env);
   let metadata;
   await auth.withSessionTicket(async ({ sessionTicket, steamId, signal }) => {
     if (signal.aborted) throw new ApiError(409, '账号会话已结束。');
     metadata = await new Promise((resolve, reject) => {
-      const child = spawn(python, [WORKER, '--dll', dll, '--sha256', DLL_SHA256,
+      const child = spawn(python, [RUST_WORKER, '--dll', dll, '--sha256', RUST_DLL_SHA256,
         '--host', input.host, '--port', String(input.port), '--seconds', String(seconds)], {
         windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'], shell: false,
       });

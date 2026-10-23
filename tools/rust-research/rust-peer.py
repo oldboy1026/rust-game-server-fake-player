@@ -1,4 +1,4 @@
-"""Short lived standalone Rust identity probe; secrets enter only via stdin.
+"""Standalone Rust identity worker; secrets enter only via stdin.
 
 Input is one JSON line, at most 32768 bytes:
   steamId: decimal uint64 string (real logged-in account)
@@ -13,7 +13,10 @@ and anticheat tokens are empty because this worker has no protected runtime.
 An EAC message or protected encryption requirement stops the attempt.
 Ready uses the verified empty protobuf by default, only after an unencrypted
 Approval; --no-ready stops after Approval. Explicit clientInfo is optional.
-No tick, world loading, sustained player connection or EAC session is claimed.
+It recognizes only its own entity and the exact own FinishLoading RPC as
+evidence of PlayerInit/EnterGame. --persistent --stream keeps receiving until
+a stop line, stdin EOF, remote disconnect or protected requirement. It sends
+no PlayerTick and implements no EAC session.
 
 Static managed sources are the hashes recorded in evidence.json, Steam depot
 258551 manifest 93946663446561466. Relevant tokens: Peer.SendTo 06000059,
@@ -34,6 +37,7 @@ import json
 from pathlib import Path
 import struct
 import sys
+import threading
 import time
 
 
@@ -47,6 +51,10 @@ MAX_RECEIVE_BYTES = 2 * 1024 * 1024
 BUILD_PROTOCOL = 2635
 BUILD_CHANGESET = 168909
 BUILD_TIME_MS = 1792686656000
+# StringEx.ManifestHash (Rust.Global.dll token0600019D): lowercase UTF-8,
+# MD5, then BitConverter.ToUInt32(hash, 0), verified against real RPC frames.
+FINISH_LOADING_RPC_ID = 2811987493
+PROGRESS = None
 RESULT = {
     "dllSha256": native.INSPECTED_SHA256,
     "abi": "windows-x64",
@@ -58,6 +66,8 @@ RESULT = {
     "readySent": False,
     "playerConnected": False,
     "eacVerified": False,
+    "selfEntityObserved": False,
+    "finishLoadingObserved": False,
     "sentPackets": 0,
     "worldMessages": 0,
     "stages": [],
@@ -69,8 +79,8 @@ class InputError(ValueError):
 
 
 def emit(stage, **metadata):
-    # One final JSON is consumed by the service. No untrusted string from stdin
-    # or the remote server is ever copied into this object.
+    # Only safe snapshots are consumed by the service. No untrusted string
+    # from stdin or the remote server is ever copied into this object.
     mapped = {
         "transport_connection_accepted": "transport_connection_request_accepted",
         "identity_submitted": "identity_sent",
@@ -85,7 +95,8 @@ def emit(stage, **metadata):
         for key in ("closed", "receivedPackets", "firstByteCounts", "bitLengthCounts", "elapsedSeconds"):
             RESULT[key] = metadata[key]
         return
-    if mapped not in RESULT["stages"]:
+    changed = mapped not in RESULT["stages"]
+    if changed:
         RESULT["stages"].append(mapped)
     if stage == "native_wrapper_created":
         RESULT["created"] = True
@@ -104,6 +115,13 @@ def emit(stage, **metadata):
         RESULT["encryptionLevel"] = metadata["encryptionLevel"]
     elif stage in {"entity_message_received_after_ready", "world_received"}:
         RESULT["worldMessages"] += 1
+    elif stage == "self_entity_observed":
+        RESULT["selfEntityObserved"] = True
+    elif stage == "finish_loading_observed":
+        RESULT["finishLoadingObserved"] = True
+        # Self snapshot followed by its exact no-argument FinishLoading RPC
+        # confirms the observed server reached PlayerInit and EnterGame.
+        RESULT["playerConnected"] = RESULT["selfEntityObserved"]
     elif stage == "server_rejected":
         RESULT["disconnectCategory"] = {
             "eac_or_eos_requirement": "eac_required",
@@ -115,6 +133,8 @@ def emit(stage, **metadata):
         }.get(metadata["category"], "other")
         if RESULT["disconnectCategory"] == "eac_required" and "eac_required" not in RESULT["stages"]:
             RESULT["stages"].append("eac_required")
+    if changed and PROGRESS is not None:
+        PROGRESS()
 
 
 def parse_args():
@@ -125,6 +145,8 @@ def parse_args():
     parser.add_argument("--port", required=True, type=int)
     parser.add_argument("--seconds", default=45, type=float)
     parser.add_argument("--no-ready", action="store_true")
+    parser.add_argument("--persistent", action="store_true", help="Continue until a stop control line, stdin EOF, remote disconnect or protected requirement")
+    parser.add_argument("--stream", action="store_true", help="Emit full safe JSONL snapshots every five seconds and at new stages")
     parser.add_argument("--validate-input", action="store_true", help="Validate stdin/serialization without loading any DLL or opening a socket")
     args = parser.parse_args()
     try:
@@ -135,6 +157,8 @@ def parse_args():
         parser.error("An absolute DLL path and the inspected SHA-256 are required")
     if not 1 <= args.port <= 65535 or not 5 <= args.seconds <= 120:
         parser.error("Use a UDP port 1..65535 and a receive deadline from five to 120 seconds")
+    if args.persistent and not args.stream:
+        parser.error("--persistent requires --stream")
     return args
 
 
@@ -279,6 +303,96 @@ def approval_encryption(data):
     return encryption
 
 
+def proto_fields(data):
+    """Bounded protobuf scanner; strings are never decoded or retained."""
+    offset = previous = operations = 0
+    while offset < len(data):
+        operations += 1
+        if operations > 4096:
+            raise ValueError()
+        key, offset = read_varint(data, offset)
+        field, wire = key >> 3, key & 7
+        if not 1 <= field <= 2**29 - 1 or field < previous:
+            raise ValueError()
+        previous = field
+        if wire == 0:
+            value, offset = read_varint(data, offset)
+        elif wire == 1:
+            value = None
+            offset += 8
+        elif wire == 2:
+            size, offset = read_varint(data, offset)
+            if size > len(data) - offset:
+                raise ValueError()
+            value = memoryview(data)[offset:offset + size]
+            offset += size
+        elif wire == 5:
+            value = None
+            offset += 4
+        else:
+            raise ValueError()
+        if offset > len(data):
+            raise ValueError()
+        yield field, wire, value
+
+
+def self_entity_id(packet, steam_id):
+    # SendAsSnapshot06005188: 0x91 + uint32 sequence + raw Entity protobuf.
+    # ToStream0600518F writes lengthDelimited=false; no compression/delta.
+    # Entity fields: 1 BaseNetworkable, 3 BasePlayer. The nested fields are
+    # BaseNetworkable.uid=1:uint64 and BasePlayer.userid=2:uint64.
+    if len(packet) < 6 or packet[0] != 0x91:
+        return None
+    selected = {}
+    for field, wire, value in proto_fields(memoryview(packet)[5:]):
+        if field in {1, 3}:
+            if wire != 2 or field in selected:
+                raise ValueError()
+            selected[field] = value
+    if 1 not in selected or 3 not in selected:
+        return None
+    user = uid = None
+    for field, wire, value in proto_fields(selected[3]):
+        if field == 2:
+            if wire != 0 or user is not None:
+                raise ValueError()
+            user = value
+    if user != steam_id:
+        return None
+    for field, wire, value in proto_fields(selected[1]):
+        if field == 1:
+            if wire != 0 or uid is not None:
+                raise ValueError()
+            uid = value
+    return uid if uid else None
+
+
+def is_finish_loading(packet, entity_id):
+    # ClientRPCStart06001534 writes exactly header + EntityID:uint64LE +
+    # function:uint32LE. EnterGame's FinishLoading has no RPC arguments.
+    return (entity_id is not None and len(packet) == 13 and packet[0] == 0x95
+            and struct.unpack_from("<Q", packet, 1)[0] == entity_id
+            and struct.unpack_from("<I", packet, 9)[0] == FINISH_LOADING_RPC_ID)
+
+
+def control_reader(stream, stop, state):
+    # Only a stop request is accepted; no payload forwarding or arbitrary RPCs.
+    try:
+        line = stream.readline(2049)
+        if not line:
+            state["reason"] = "control_eof"
+        else:
+            command = json.loads(line) if len(line) <= 2048 else None
+            state["reason"] = ("stop_requested" if isinstance(command, dict)
+                               and set(command) == {"stop"}
+                               and command["stop"] is True
+                               else "invalid_control_command")
+    except (OSError, ValueError, UnicodeError):
+        state["reason"] = "invalid_control_command"
+    finally:
+        stop.set()
+
+
 def rejection_category(data):
     # NetWrite.String/NetRead.String use uint32LE UTF-8 lengths. Only a fixed
     # category leaves this function. Unrecognised or malformed strings stay
@@ -330,6 +444,7 @@ def send(api, peer, guid, payload):
 
 
 def run(args, identity, auth, ready):
+    global PROGRESS
     if sys.platform != "win32" or struct.calcsize("P") != 8:
         raise ValueError()
     native.verify_dll(args.dll, args.sha256)
@@ -338,10 +453,33 @@ def run(args, identity, auth, ready):
     peer = None
     counts, lengths = Counter(), Counter()
     sent_auth = sent_ready = False
+    self_id = None
     stop_reason = "receive_deadline_reached"
     started = time.monotonic()
-    emit("input_validated", eosIdentityAvailable=False, eacSessionAvailable=False)
+    last_snapshot = started
+    stop = threading.Event()
+    control_state = {"reason": "stop_requested"}
+
+    def snapshot():
+        nonlocal last_snapshot
+        RESULT["receivedPackets"] = sum(counts.values())
+        RESULT["firstByteCounts"] = {f"0x{k:02x}": v for k, v in sorted(counts.items())}
+        RESULT["bitLengthCounts"] = {str(k): v for k, v in sorted(lengths.items())}
+        RESULT["elapsedSeconds"] = round(time.monotonic() - started, 3)
+        print(json.dumps({"type": "progress", **RESULT}, separators=(",", ":")), flush=True)
+        last_snapshot = time.monotonic()
+
+    if args.stream:
+        PROGRESS = snapshot
+    if args.persistent:
+        # Use unbuffered FileIO for both identity and control. A remote close
+        # may leave this daemon blocked in an OS read; unlike BufferedReader,
+        # FileIO holds no buffered stdin lock during interpreter finalization.
+        # Reading identity through the same raw stream avoids prefetching a
+        # subsequent control line into a different buffer.
+        threading.Thread(target=control_reader, args=(sys.stdin.buffer.raw, stop, control_state), daemon=True).start()
     try:
+        emit("input_validated", eosIdentityAvailable=False, eacSessionAvailable=False)
         peer = api.NET_Create()
         if not peer:
             emit("native_create_failed")
@@ -354,7 +492,12 @@ def run(args, identity, auth, ready):
             return
         emit("transport_connect_started")
         deadline = started + args.seconds
-        while time.monotonic() < deadline:
+        while args.persistent or time.monotonic() < deadline:
+            if stop.is_set():
+                stop_reason = control_state["reason"]
+                break
+            if args.stream and time.monotonic() - last_snapshot >= 5:
+                snapshot()
             if not api.NET_Receive(peer):
                 time.sleep(0.005)
                 continue
@@ -368,7 +511,8 @@ def run(args, identity, auth, ready):
                 break
             first = ctypes.c_ubyte.from_address(pointer).value
             counts[first] += 1
-            lengths[bits] += 1
+            if bits in lengths or len(lengths) < 512:
+                lengths[bits] += 1
             if first == 16:
                 emit("transport_connection_accepted")
             elif first in {17, 18, 19, 20, 21, 22, 23, 24, 25, 26}:
@@ -425,8 +569,25 @@ def run(args, identity, auth, ready):
                 emit("world_received")
             elif first == 0x91 and sent_ready:
                 emit("entity_message_received_after_ready")
+                packet = ctypes.string_at(pointer, bits // 8)
+                try:
+                    observed = self_entity_id(packet, identity["steamId"])
+                except ValueError:
+                    # Unsupported entity variants are ignored; a failed
+                    # parse must never become a successful identity match.
+                    observed = None
+                if observed is not None:
+                    self_id = observed
+                    emit("self_entity_observed")
+            elif first == 0x95 and sent_ready and self_id is not None and bits == 104:
+                if is_finish_loading(ctypes.string_at(pointer, 13), self_id):
+                    emit("finish_loading_observed")
         emit(stop_reason)
     finally:
+        # Disable streaming before cleanup: a closed stdout must still allow
+        # NET_Close and the final secret wiping in main to run.
+        PROGRESS = None
+        stop.set()
         closed = False
         if peer:
             api.NET_Close(peer)
@@ -448,7 +609,7 @@ def main():
     args = parse_args()
     identity = auth = ready = None
     try:
-        identity = read_identity(sys.stdin.buffer)
+        identity = read_identity(sys.stdin.buffer.raw)
         auth = encode_identity(identity)
         ready = encode_ready(identity["ready"] if identity["ready"] is not None else {"clientInfo": []})
         if args.validate_input:
@@ -473,7 +634,13 @@ def main():
         wipe(ready)
         if identity:
             wipe(identity["ticket"])
-        print(json.dumps(RESULT, separators=(",", ":")), flush=True)
+        output = {"type": "final", **RESULT} if args.stream else RESULT
+        try:
+            print(json.dumps(output, separators=(",", ":")), flush=True)
+        except OSError:
+            # The parent may already have closed its output pipe. Cleanup is
+            # complete and no exception text or stdin content is emitted.
+            pass
 
 
 if __name__ == "__main__":
