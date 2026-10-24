@@ -74,16 +74,21 @@ export class RustSession {
   }
 
   start(auth, input, username, env = process.env) {
-    const destination = validateRustDestination(input);
+    const destination = validateRustDestination(input, ['respawnOnDead']);
+    if (Object.hasOwn(input, 'respawnOnDead') && typeof input.respawnOnDead !== 'boolean') {
+      throw new ApiError(400, 'respawnOnDead 必须为布尔值。');
+    }
+    const respawnOnDead = Object.hasOwn(input, 'respawnOnDead') && input.respawnOnDead === true;
     const runtime = readRustRuntime(env);
     if (this.#run) throw new ApiError(409, '该账号的 Rust 会话或清理仍在进行，请先停止并等待结束。');
-    const run = { child: null, workerStarted: false, reachedEnteredGame: false,
+    const run = { child: null, workerStarted: false, reachedEnteredGame: false, respawnOnDead,
       stopRequested: false, stopSent: false, killTimer: null, failure: null };
     this.#run = run;
     this.#status = {
       state: 'connecting', ...destination, startedAt: new Date().toISOString(), endedAt: null,
       metadata: safeMetadata({ closed: false, playerConnected: false, eacVerified: false,
-        selfEntityObserved: false, finishLoadingObserved: false }), lastError: null,
+        selfEntityObserved: false, finishLoadingObserved: false, respawnOnDeadEnabled: respawnOnDead,
+        respawnAttempted: false, respawnSent: false, respawnAliveObserved: false }), lastError: null,
     };
     this.#notifyActivity();
     // The HTTP request returns immediately. This task owns the ticket through
@@ -189,7 +194,8 @@ export class RustSession {
       try {
         child = spawn(runtime.python, [runtime.worker, '--dll', runtime.dll,
           '--sha256', runtime.sha256, '--host', destination.host,
-          '--port', String(destination.port), '--persistent', '--stream'], {
+          '--port', String(destination.port), '--persistent', '--stream',
+          ...(run.respawnOnDead ? ['--respawn-on-dead'] : [])], {
           windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'], shell: false,
         });
       } catch {

@@ -1,0 +1,3356 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "purpose": "恢复观察及自身生命状态诊断；不是列表人数修复结果",
+  "source": {
+    "file": "work/resume-20261024-count-window-state.json",
+    "sha256": "d4f3ac714d0aa21aecafa415732180b385ac16ce704f4715b7a205820161f898"
+  },
+  "staticLifecycleSource": {
+    "file": "work/state-review-today/own-state.il.txt",
+    "sha256": "92001ccbdef12c04b07a596e37aa60f15948fa2bf1f5b21b6f9f86cd4f0963fb"
+  },
+  "window": {
+    "startedAt": "2026-10-24T05:51:50.469Z",
+    "completed": true,
+    "completionTime": "2026-10-24T06:07:37.710Z",
+    "firstSampleAt": "2026-10-24T05:51:50.500Z",
+    "lastSampleAt": "2026-10-24T06:07:36.450Z",
+    "sampleCount": 31,
+    "rconUsableSamples": 30,
+    "observationFailedSamples": 1,
+    "a2sFailedSamples": 1,
+    "trustedFailedSamples": 1,
+    "samplingReadOnly": true,
+    "researchAccountsPresentSampleCount": 3,
+    "researchAccountsPresentFirstSampleAt": "2026-10-24T05:56:00.934Z",
+    "researchAccountsPresentLastSampleAt": "2026-10-24T05:57:03.508Z",
+    "otherAccountCountsObserved": [
+      8,
+      9
+    ],
+    "researchAccountCountsObserved": [
+      0,
+      3
+    ]
+  },
+  "findings": [
+    "三个研究会话实际观察到entered_game、自身实体、FinishLoading及Steam接收方票据验证；同期三个自身快照lifeState均为dead。",
+    "lifeState与sleeping为不同维度，不能把sleeping=false解释为角色已正常醒来。",
+    "只读静态链显示BaseCombatEntity.Die先把health设为0并将lifestate设为Dead，BasePlayer.OnDied调用EndSleeping；死亡后sleeping=false有合理生命周期解释。",
+    "三个会话随后均记录transport_connection_lost并清理为error，最后票据active=false；旧自身快照仍保留，不能当作当前在线状态。",
+    "研究账号在服的可用样本中，RCON为11（研究3、其他8），A2S为14，cp先8后11；同期已观察可信新批次仍7。",
+    "其余账号的总数后续8变9，未核对其身份集合；无法将可信人数或总人数变化唯一归因于研究账号。",
+    "研究账号已不在服后，06:06:32 GMT可信新批次从7升8；这不是研究账号计入的证据。"
+  ],
+  "limitations": [
+    "采样命令为只读，但观察期间主任务在另一步骤恢复了三个研究连接；本报告没有发起新实验或自动重连。",
+    "API、RCON和公共查询顺序执行，有秒级时间差；表内时间不是所有数据的同一个瞬时截面。",
+    "断开原因未定位，不能归因于死亡、EAC、加载本地服务器或服务端踢出。",
+    "receivingSnapshot=true来自最后收到的自身完整快照；快照老化且未有新更新时，不表示当前仍在加载。",
+    "healthPositive=null表示未观察到显式health字段，不表示零血或健康。",
+    "entityParseFailures统计所有Entity解析失败，不是自身实体专用失败计数。",
+    "Steam票据验证完成不等于有效EAC会话；本轮没有验证有效EAC会话或证明可信人数计入资格。",
+    "连接只保持约96至106秒，跨越可信批次的时间较短，未完成长期正常生命状态对照。"
+  ],
+  "trustedBatches": [
+    {
+      "lastModified": "Sat, 24 Oct 2026 05:51:31 GMT",
+      "values": [
+        7
+      ],
+      "firstObservedAt": "2026-10-24T05:51:51.268Z",
+      "lastObservedAt": "2026-10-24T05:56:01.695Z",
+      "samples": 8
+    },
+    {
+      "lastModified": "Sat, 24 Oct 2026 05:56:31 GMT",
+      "values": [
+        7
+      ],
+      "firstObservedAt": "2026-10-24T05:56:33.142Z",
+      "lastObservedAt": "2026-10-24T06:01:21.572Z",
+      "samples": 9
+    },
+    {
+      "lastModified": "Sat, 24 Oct 2026 06:01:33 GMT",
+      "values": [
+        7
+      ],
+      "firstObservedAt": "2026-10-24T06:01:52.888Z",
+      "lastObservedAt": "2026-10-24T06:06:03.260Z",
+      "samples": 9
+    },
+    {
+      "lastModified": "Sat, 24 Oct 2026 06:06:32 GMT",
+      "values": [
+        8
+      ],
+      "firstObservedAt": "2026-10-24T06:06:34.849Z",
+      "lastObservedAt": "2026-10-24T06:07:37.096Z",
+      "samples": 3
+    }
+  ],
+  "standaloneSessionObservations": [
+    {
+      "source": {
+        "file": "work/resume-1355-session-safe.json",
+        "sha256": "0b61ccb4e3096a1e3b77825a714c6c06a543210eafb58a08fbabcb78b9f5d74a"
+      },
+      "observedAt": "2026-10-24T05:56:13.173Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 22.203,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 20,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed"
+          ]
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 17.25,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 15,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed"
+          ]
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 12.234,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 10.016,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed"
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "work/resume-1358-sessions-safe.json",
+        "sha256": "bb42f2a03942e53ec83638ce666c3e9cf193e7201ceaf7cc16ab5b5701275f72"
+      },
+      "observedAt": "2026-10-24T05:57:44.393Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "stopping",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 106.484,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "transport_connection_lost",
+            "native_wrapper_closed"
+          ]
+        },
+        {
+          "account": 2,
+          "state": "stopping",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 101.469,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "transport_connection_lost",
+            "native_wrapper_closed"
+          ]
+        },
+        {
+          "account": 3,
+          "state": "stopping",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 96.437,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "transport_connection_lost",
+            "native_wrapper_closed"
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "work/resume-1400-ended-sessions-safe.json",
+        "sha256": "e12d1c5b4949394c5f3917a72426b5085301b56ab067dc38a995df41453bb649"
+      },
+      "observedAt": "2026-10-24T05:59:22.801Z",
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 106.484,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "transport_connection_lost",
+            "native_wrapper_closed"
+          ]
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 101.469,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "transport_connection_lost",
+            "native_wrapper_closed"
+          ]
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "elapsedSeconds": 96.437,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "transport_connection_lost",
+            "native_wrapper_closed"
+          ]
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "observedAt": "2026-10-24T05:51:50.500Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:51:51.022Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:51:51.268Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:52:21.835Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:52:22.366Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:52:22.771Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:52:53.114Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:52:53.622Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:52:54.204Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:53:24.404Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:53:24.986Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:53:25.099Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:53:55.705Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:53:56.206Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:53:56.369Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:54:27.010Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:54:27.517Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:54:27.812Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:54:58.305Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 2,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        },
+        {
+          "account": 3,
+          "state": "closed",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:54:58.805Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:54:58.966Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:55:30.889Z",
+      "status": "observation_failed"
+    },
+    {
+      "observedAt": "2026-10-24T05:56:00.934Z",
+      "serverPlayers": 11,
+      "joining": 0,
+      "statusRows": 11,
+      "researchAccounts": 3,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 10,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 5,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 0.016,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:56:01.448Z",
+        "a2sOk": true,
+        "a2sPlayers": 14,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:56:01.695Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:51:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:56:32.205Z",
+      "serverPlayers": 11,
+      "joining": 0,
+      "statusRows": 11,
+      "researchAccounts": 3,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 40,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 35,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 30.016,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:56:32.766Z",
+        "a2sOk": true,
+        "a2sPlayers": 14,
+        "cp": 11,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:56:33.142Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:57:03.508Z",
+      "serverPlayers": 11,
+      "joining": 0,
+      "statusRows": 11,
+      "researchAccounts": 3,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 70,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 65,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "entered_game",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 60.016,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:57:04.070Z",
+        "a2sOk": true,
+        "a2sPlayers": 14,
+        "cp": 11,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:57:04.205Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:57:34.799Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "stopping",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "stopping",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "stopping",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:57:40.374Z",
+        "a2sOk": false,
+        "a2sPlayers": null,
+        "cp": null,
+        "bots": null,
+        "trustedObservedAt": "2026-10-24T05:57:39.427Z",
+        "trustedOk": false,
+        "trustedPlayers": null,
+        "trustedBatch": null,
+        "a2sErrorClass": "timeout",
+        "trustedErrorClass": "network_error"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:58:13.092Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:58:13.638Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:58:13.845Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:58:44.397Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:58:44.932Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:58:44.989Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:59:15.694Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:59:16.247Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:59:16.347Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T05:59:47.003Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T05:59:47.543Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T05:59:47.711Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:00:18.301Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:00:18.842Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:00:19.068Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:00:49.595Z",
+      "serverPlayers": 8,
+      "joining": 0,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:00:50.160Z",
+        "a2sOk": true,
+        "a2sPlayers": 11,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:00:50.298Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:01:20.901Z",
+      "serverPlayers": 8,
+      "joining": 1,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:01:21.419Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:01:21.572Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 05:56:31 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:01:52.197Z",
+      "serverPlayers": 8,
+      "joining": 1,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:01:52.794Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:01:52.888Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:02:23.506Z",
+      "serverPlayers": 8,
+      "joining": 1,
+      "statusRows": 8,
+      "researchAccounts": 0,
+      "otherAccounts": 8,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:02:24.041Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:02:24.134Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:02:54.792Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:02:55.298Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 8,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:02:55.470Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:03:26.098Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:03:26.624Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:03:26.923Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:03:57.422Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:03:57.971Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:03:58.152Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:04:28.693Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:04:29.242Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:04:29.753Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:05:00.028Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:05:00.592Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:05:00.755Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:05:31.284Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:05:31.821Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:05:31.921Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:06:02.602Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:06:03.143Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:06:03.260Z",
+        "trustedOk": true,
+        "trustedPlayers": 7,
+        "trustedBatch": "Sat, 24 Oct 2026 06:01:33 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:06:33.893Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:06:34.438Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:06:34.849Z",
+        "trustedOk": true,
+        "trustedPlayers": 8,
+        "trustedBatch": "Sat, 24 Oct 2026 06:06:32 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:07:05.162Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:07:05.746Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:07:05.907Z",
+        "trustedOk": true,
+        "trustedPlayers": 8,
+        "trustedBatch": "Sat, 24 Oct 2026 06:06:32 GMT"
+      }
+    },
+    {
+      "observedAt": "2026-10-24T06:07:36.450Z",
+      "serverPlayers": 9,
+      "joining": 0,
+      "statusRows": 9,
+      "researchAccounts": 0,
+      "otherAccounts": 9,
+      "sessions": [
+        {
+          "account": 1,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 104.281,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 2,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 99.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        },
+        {
+          "account": 3,
+          "state": "error",
+          "selfEntityObserved": true,
+          "finishLoadingObserved": true,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "ownPlayerState": {
+            "observed": true,
+            "sleeping": false,
+            "receivingSnapshot": true,
+            "snapshots": 3,
+            "ageSeconds": 94.219,
+            "spectating": false,
+            "wounded": false,
+            "connectedFlag": true,
+            "loadingAfterTransfer": false,
+            "flagsFieldPresent": true,
+            "combatComponentObserved": true,
+            "combatStateFieldPresent": true,
+            "lifeState": "dead",
+            "healthPositive": null,
+            "entityChanges": 0,
+            "stateChanges": 0
+          }
+        }
+      ],
+      "publicCounts": {
+        "a2sObservedAt": "2026-10-24T06:07:36.975Z",
+        "a2sOk": true,
+        "a2sPlayers": 12,
+        "cp": 9,
+        "bots": 0,
+        "trustedObservedAt": "2026-10-24T06:07:37.096Z",
+        "trustedOk": true,
+        "trustedPlayers": 8,
+        "trustedBatch": "Sat, 24 Oct 2026 06:06:32 GMT"
+      }
+    }
+  ],
+  "nextEvidenceNeeded": [
+    "核对普通自身重生生命周期，在不伪造人数、认证或EAC数据的条件下区分已入服、死亡和正常存活。",
+    "定位transport_connection_lost的真实原因，先改善生命周期稳定性再开展有限人数对照。",
+    "在其他玩家变化可区分且观察跨越多个新可信批次的条件下，比较RCON、A2S、cp与可信人数。"
+  ]
+}

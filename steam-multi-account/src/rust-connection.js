@@ -24,16 +24,24 @@ const STAGES = new Set([
   'local_setup_or_native_call_failed', 'input_rejected', 'transport_connection_rate_limited',
   'self_entity_observed', 'finish_loading_observed', 'stop_requested', 'control_eof',
   'control_input_closed', 'invalid_control_command', 'interrupted',
+  'respawn_sent', 'respawn_native_send_failed', 'respawn_alive_observed',
 ]);
 const CATEGORIES = new Set(['steam_auth', 'eac_required', 'eos_identity_required',
   'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown']);
 export function safeMetadata(result) {
   const clean = { dllSha256: RUST_DLL_SHA256, abi: 'windows-x64' };
   for (const key of ['created', 'closed', 'transportConnected', 'identitySent', 'approved',
-    'readySent', 'playerConnected', 'eacVerified', 'selfEntityObserved', 'finishLoadingObserved']) {
+    'readySent', 'playerConnected', 'eacVerified', 'selfEntityObserved', 'finishLoadingObserved',
+    'respawnOnDeadEnabled', 'respawnAttempted', 'respawnSent', 'respawnAliveObserved']) {
     if (typeof result[key] === 'boolean') clean[key] = result[key];
   }
-  for (const key of ['receivedPackets', 'sentPackets', 'startClientResult', 'elapsedSeconds', 'worldMessages', 'encryptionLevel']) {
+  if (result.respawnSent === true && result.respawnAliveObserved === true
+      && typeof result.respawnAliveAfterSeconds === 'number'
+      && Number.isFinite(result.respawnAliveAfterSeconds)
+      && result.respawnAliveAfterSeconds >= 0 && result.respawnAliveAfterSeconds <= 1e12) {
+    clean.respawnAliveAfterSeconds = result.respawnAliveAfterSeconds;
+  }
+  for (const key of ['receivedPackets', 'sentPackets', 'startClientResult', 'elapsedSeconds', 'worldMessages', 'encryptionLevel', 'entityParseFailures']) {
     if (typeof result[key] === 'number' && Number.isFinite(result[key]) && result[key] >= 0 && result[key] <= 1e12) clean[key] = result[key];
   }
   if (Array.isArray(result.stages)) clean.stages = result.stages.filter(stage => STAGES.has(stage)).slice(0, 64);
@@ -52,6 +60,15 @@ export function safeMetadata(result) {
       clean.ownPlayerState = { observed: true, sleeping: ownState.sleeping,
         receivingSnapshot: ownState.receivingSnapshot, snapshots: ownState.snapshots,
         ageSeconds: ownState.ageSeconds };
+      for (const key of ['spectating', 'wounded', 'connectedFlag', 'loadingAfterTransfer',
+        'flagsFieldPresent', 'combatComponentObserved', 'combatStateFieldPresent']) {
+        if (typeof ownState[key] === 'boolean') clean.ownPlayerState[key] = ownState[key];
+      }
+      if (['alive', 'dead', 'unknown'].includes(ownState.lifeState)) clean.ownPlayerState.lifeState = ownState.lifeState;
+      if (ownState.healthPositive === null || typeof ownState.healthPositive === 'boolean') clean.ownPlayerState.healthPositive = ownState.healthPositive;
+      for (const key of ['entityChanges', 'stateChanges']) {
+        if (Number.isSafeInteger(ownState[key]) && ownState[key] >= 0 && ownState[key] <= 1e12) clean.ownPlayerState[key] = ownState[key];
+      }
     }
   }
   for (const [name, pattern] of [['firstByteCounts', /^0x[0-9a-f]{2}$/], ['bitLengthCounts', /^\d{1,10}$/]]) {

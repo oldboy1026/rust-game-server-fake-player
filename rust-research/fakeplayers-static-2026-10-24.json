@@ -1,0 +1,188 @@
+{
+  "date": "2026-10-24",
+  "scope": "Offline static analysis only. The supplied DLL was not loaded into a CLR, executed, installed, deployed or contacted over the network. dnlib read its metadata and IL as data.",
+  "input": {
+    "fileName": "FakePlayers.dll",
+    "size": 322048,
+    "sha256": "5b939869639363ebc690c34beef57243b066a8e73ce2dc44bafd5178c56eeb19",
+    "assemblyName": "System.Runtime.Cache",
+    "assemblyVersion": "4.0.0.0",
+    "runtimeVersion": "v4.0.30319",
+    "mvid": "97dc6748-0f5e-431d-395f-1c6c09bb7c1c",
+    "peMachine": "0x14c",
+    "peMagic": "0x10b",
+    "clrFlags": "0x1",
+    "metadataSignature": "BSJB",
+    "architectureLimit": "ILONLY is set and 32BITREQUIRED is not set. PE32/i386 alone does not establish x86-only compatibility.",
+    "identityLimit": "The filename and assembly name differ. This is not by itself a compatibility failure. The PE timestamp and assembly version are not a verified release date."
+  },
+  "inventory": {
+    "types": 212,
+    "methods": 1460,
+    "methodsWithBody": 1319,
+    "pinvokeMethods": 4,
+    "resources": [
+      { "name": "16a6GV0XK2", "length": 3356 },
+      { "name": "6ba0e89c476a4fd49105093d7f052d0d", "length": 41988 }
+    ],
+    "relevantReferences": [
+      "Rust.Harmony, Version=0.0.0.0",
+      "0Harmony, Version=2.3.1.1",
+      "UnityEngine.CoreModule, Version=0.0.0.0",
+      "Newtonsoft.Json, Version=8.0.0.0"
+    ],
+    "pinvokeImports": [
+      "ncrypt.dll!NCryptFreeObject",
+      "ncrypt.dll!NCryptEncrypt",
+      "ncrypt.dll!NCryptImportKey",
+      "ncrypt.dll!NCryptOpenStorageProvider"
+    ]
+  },
+  "protection": {
+    "confirmed": [
+      "Obfuscated type/member names and opaque control-flow branches are present.",
+      "Some business methods delegate to an internal resource-backed dispatcher/interpreter and their substantive bodies are not recovered in this report.",
+      "The metadata and many IL method bodies remain readable; the whole file is not opaque encrypted data."
+    ],
+    "attribution": "The #=q/#=z and dje_ naming patterns are consistent with Eazfuscator-style protection. Exact protector and version are not independently established.",
+    "businessArrayDecoder": {
+      "decoderMethod": "0600037E",
+      "scoreMethod": "06000380",
+      "directCharMethod": "060003C6",
+      "xorCharMethod": "0600039D",
+      "xorKey": 23659,
+      "algorithm": "Produce UTF-16 chars directly from Int32 values and from value XOR 23659. Score ASCII 32..126 as +3; CR/LF/TAB and U+4E00..U+9FFF as +1; other chars as -2. Return XOR candidate only if its score is greater; ties select direct chars. This selection is implemented by the DLL's own IL, not an analyst guess.",
+      "limit": "Only arrays actually consumed by this decoder are decoded strings. Arbitrary field-RVA binary data must not be interpreted as recovered strings. The separate protected resource/string interpreter remains unresolved."
+    }
+  },
+  "verifiedFindings": [
+    {
+      "id": "harmony-entry",
+      "methods": ["06000324", "06000325"],
+      "finding": "A type implements IHarmonyModHooks and provides OnLoaded(OnHarmonyModLoadedArgs) and OnUnloaded(OnHarmonyModUnloadedArgs). OnLoaded creates Harmony and registers patches. The <Module> type has no methods or module initializer."
+    },
+    {
+      "id": "patch-targets",
+      "method": "06000340",
+      "finding": "The statically decoded reflection targets are ServerMgr.Update (postfix) and ConVar.Chat.say (prefix). This proves intended interception targets, not successful runtime patch installation."
+    },
+    {
+      "id": "ping-path",
+      "methods": ["06000351", "060003B4", "06000352"],
+      "finding": "A separate patch search filters method names containing Ping, with one parameter and Int32 return. Its prefix can substitute Random.Next(15,150) for objects in an internal dictionary. The concrete target object's acquisition is still protected, so its current runtime type is not established."
+    },
+    {
+      "id": "capacity-read",
+      "methods": ["06000350", "06000375"],
+      "finding": "The visible capacity helper reflects ConVar.Server.maxplayers/reservedslots and BasePlayer.activePlayerList, then computes max(0,maxplayers-reservedslots-activeCount). Its collection helper casts to non-generic System.Collections.IList. Null collections contribute activeCount=0. This is not a direct trusted-count reporting hook."
+    },
+    {
+      "id": "external-transport",
+      "methods": ["06000344", "0600038E", "0600037A"],
+      "finding": "Configuration handling reads LicenseKey, including a fallback legacy key. An HTTP worker issues JSON POST requests to an embedded HTTPS base with optional Authorization: Bearer, processes responses and schedules callbacks. Another helper selects reflection names from a runtime JArray with fallback values. The worker is generic; the remaining protected call sites do not establish whether a given request performs licensing, count reporting or another action.",
+      "privacy": "Embedded network destinations and raw strings were retained only in ignored local work files. No HTTP request, license check or license modification was performed."
+    }
+  ],
+  "localCompatibility": {
+    "scope": "Current local disk files only. No conclusion about the remote server's installed files or runtime patches.",
+    "files": [
+      { "file": "Rust.Harmony.dll", "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5", "version": "0.0.0.0" },
+      { "file": "0Harmony.dll", "sha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0", "version": "2.3.1.1" },
+      { "file": "Assembly-CSharp.dll", "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601", "version": "0.0.0.0" },
+      { "file": "Facepunch.System.dll", "sha256": "e697f08a2e081a90c3287733b85ae2a6d2c5e9a2955b9df988d7098975b7801e", "version": "0.0.0.0" }
+    ],
+    "loader": {
+      "method": "HarmonyLoader.LoadHarmonyMods",
+      "token": "06000008",
+      "finding": "The local Rust.Harmony loader derives a server-root HarmonyMods directory from Application.dataPath/.. and enumerates *.dll. TryLoadMod discovers IHarmonyModHooks and invokes OnLoaded. These metadata facts support the Harmony mod entry path, not automatic loading from oxide/plugins or a recommendation to install this unknown DLL.",
+      "entrySignaturesStillMatch": true,
+      "referencedHarmonyVersionMatchesLocal": true
+    },
+    "targetsStillPresent": [
+      { "member": "System.Void ServerMgr.Update()", "token": "06007AB6" },
+      { "member": "System.Void ConVar.Chat.say(ConsoleSystem.Arg)", "token": "06009EFE" }
+    ],
+    "verifiedLocalMismatch": {
+      "pluginCollectionHelperToken": "06000375",
+      "pluginCapacityHelperToken": "06000350",
+      "currentField": "ListHashSet<BasePlayer> BasePlayer.activePlayerList",
+      "currentCollectionTypeToken": "Facepunch.System.dll:02000010",
+      "interfaces": ["IEnumerable<T>", "System.Collections.IEnumerable", "IList<T>", "ICollection<T>"],
+      "baseType": "System.Object",
+      "missingInterface": "System.Collections.IList",
+      "consequence": "The field value cannot satisfy the helper's non-generic IList cast. In this visible capacity helper activeCount therefore becomes zero. IL_00CF calls the helper; IL_00D4..00D9 selects zero for null; only IL_00DB reads ICollection.Count. There is no additional fallback at this call site.",
+      "limit": "This establishes one concrete incompatibility in visible collection reads. The only visible business call site of this capacity helper is one administrator chat-command branch, not the periodic protected path. It does not prove that it is the sole reason for failure or that fixing it would affect browser trusted counts. The substantive protected paths are still unresolved."
+    },
+    "otherDifferences": [
+      "Current BasePlayer.allPlayerList is an IEnumerable<BasePlayer> property rather than a non-generic IList. The recovered literal alone does not prove how protected code uses it.",
+      "No reservedslots member was found in the inspected current ConVar.Server fields or properties. The visible numeric getter returns zero for missing values."
+    ]
+  },
+  "visibleCallGraph": {
+    "scope": "Static IL call/callvirt/newobj/ldftn edges; runtime reflection and interpreted-resource edges are incomplete. No sample code was executed.",
+    "resourceWrappers": {
+      "countInBusinessClass": 22,
+      "tokens": ["06000353", "06000355", "06000356", "06000357", "06000358", "0600035B", "0600035C", "0600035D", "0600035E", "06000360", "06000362", "06000363", "06000364", "06000365", "06000366", "06000368", "0600036E", "0600036F", "06000370", "06000377", "06000378", "0600037D"],
+      "streamFactoryToken": "06000328",
+      "resource": "6ba0e89c476a4fd49105093d7f052d0d",
+      "resourceLength": 41988,
+      "resourcePath": "The stream factory reads this embedded resource and passes it, an initialized 128-byte field array, and another protected string to a stream transformer. Wrappers obtain an interpreter instance and this stream, then pass an opaque selector plus packed arguments to 06000482 or 0600048E.",
+      "dispatcherTokens": ["06000482", "0600048E"],
+      "limit": "The resource transform, selector resolution and substantive interpreted operations were not recovered. No resource code or sample initializer was run."
+    },
+    "loadAndSchedule": [
+      "06000324 OnLoaded -> 06000344 configuration -> 06000340 patch registration.",
+      "OnLoaded schedules 06000345 after 2 seconds through 06000348.",
+      "06000345 -> 06000351 Ping patch installation, 06000353 protected initialization, 06000354 periodic scheduling.",
+      "06000354 schedules 06000355 through 06000349; 06000355 is an interpreted-resource wrapper. The interval field defaults to 10 and is also writable in callback-compatible JSON processing."
+    ],
+    "serverUpdate": {
+      "path": "ServerMgr.Update postfix 06000341 -> 06000347 scheduler.",
+      "finding": "The scheduler copies and clears queued Actions, collects due timers under a lock, and invokes actions after releasing the lock. It also reschedules repeating timers. This establishes a main-thread execution mechanism, not a count-update operation."
+    },
+    "chatAndCapacity": {
+      "path": "ConVar.Chat.say prefix 06000342 -> 0600034B command handler -> 0600034E authorization gate; one command branch -> 06000350 capacity helper -> 06000357 protected operation.",
+      "finding": "The authorization helper checks authLevel >= 2. In the visible capacity branch, a parsed requested quantity is bounded and limited by remaining capacity before being passed, with a position and response callback, to the protected wrapper. The command strings and wrapper's actual operation are not fully recovered.",
+      "importantLimit": "Only this command branch visibly calls the capacity helper. Its IList mismatch does not establish failure of the background periodic path or of browser trusted-count reporting."
+    },
+    "httpCallbackDelivery": {
+      "path": "0600038E HTTP worker -> queues 060003AB through 0600034A -> 06000347 drains queue -> 060003AB invokes the supplied Action<Boolean,String>.",
+      "finding": "The HTTP worker passes a success flag and processed response string to an existing callback using the same scheduler. No visible direct business edge to the HTTP worker or HTTP wrapper 06000370 was recovered; their initiation and callback registration remain behind resource dispatch/reflection."
+    },
+    "callbackCompatibleJsonHandlers": [
+      {
+        "token": "060003B5",
+        "finding": "A Boolean,String handler returns on failure and otherwise parses JObject. It directly assigns a JArray to the global reflection-name table consumed by 0600037A. After an additional response flag it also assigns strings, including the field used by the HTTP worker's Bearer header, an interval-related integer, and a ready flag. The JSON member keys and registration edge remain protected; no actual response or credential was obtained."
+      },
+      {
+        "token": "060003B6",
+        "finding": "Another Boolean,String handler parses two JArrays selected using the reflection-name table. It forwards the first array to protected wrapper 06000356. From the second it builds a nonempty-string set, selects matching entries by Value from an internal UInt64-to-string dictionary, and forwards their UInt64 keys to protected wrapper 06000366. This is visible data-dependent processing; it does not identify a player-list or count-report API."
+      }
+    ],
+    "remainingEvidenceGaps": [
+      "The protected initial and periodic methods' resource instructions and their outbound request construction are missing.",
+      "The HTTP worker's closure population, callback registrations and request paths are missing. Matching Boolean,String signatures alone do not prove which HTTP request invokes which handler.",
+      "The runtime reflection-name map's actual values are missing. Visible JSON assignments show that a response can configure that map, but no real external response was observed.",
+      "The protected collection/entity operations and any final Steam, EAC or Facepunch backend-reporting effects are missing. Therefore no trusted-count mechanism, successful report or repair follows from this graph."
+    ]
+  },
+  "notEstablished": [
+    "No direct Steam, EAC, Facepunch trusted-count or analytics reporting hook has been established in the recovered business IL.",
+    "No successful DLL load, license status, external-service response, player creation, authenticated player session or browser count change has been observed.",
+    "No explanation of the protected principal functions or complete method-name mapping has been recovered.",
+    "No working replacement, count-forging plugin or protection bypass was produced."
+  ],
+  "privateEvidence": [
+    "work/fakeplayers-static/inventory-private.json",
+    "work/fakeplayers-static/all-il-private.txt",
+    "work/fakeplayers-static/fields-private.json",
+    "work/fakeplayers-static/decoded-arrays-private.json",
+    "work/fakeplayers-static/current-compat-private.json",
+    "work/fakeplayers-static/callgraph-private.json"
+  ],
+  "nextSteps": [
+    "Use existing authorized server logs to distinguish loader failures, patch-target failures and license/service errors without running this sample.",
+    "If legitimate source or an updated build is available from its author, compare its documented behavior and current API compatibility.",
+    "Continue separating actual authenticated players, local server active counts, Steam query counts and public browser trusted counts. This sample does not establish a repair for the latter."
+  ]
+}

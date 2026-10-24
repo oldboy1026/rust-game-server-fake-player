@@ -17,6 +17,9 @@ It recognizes only its own entity and the exact own FinishLoading RPC as
 evidence of PlayerInit/EnterGame. --persistent --stream keeps receiving until
 a stop line, stdin EOF, remote disconnect or protected requirement. It sends
 no PlayerTick and implements no EAC session.
+--respawn-on-dead optionally attempts one fixed own respawn command, only with
+a fresh dead self snapshot and that entity's exact FinishLoading observation.
+Post-send alive metadata records reception, not a server command acknowledgement.
 
 Static managed sources are the hashes recorded in evidence.json, Steam depot
 258551 manifest 93946663446561466. Relevant tokens: Peer.SendTo 06000059,
@@ -34,6 +37,7 @@ import ctypes
 import importlib.util
 import ipaddress
 import json
+import math
 from pathlib import Path
 import struct
 import sys
@@ -68,9 +72,14 @@ RESULT = {
     "eacVerified": False,
     "selfEntityObserved": False,
     "finishLoadingObserved": False,
+    "respawnOnDeadEnabled": False,
+    "respawnAttempted": False,
+    "respawnSent": False,
+    "respawnAliveObserved": False,
     "ownPlayerState": {"observed": False, "snapshots": 0},
     "sentPackets": 0,
     "worldMessages": 0,
+    "entityParseFailures": 0,
     "stages": [],
 }
 
@@ -148,6 +157,7 @@ def parse_args():
     parser.add_argument("--no-ready", action="store_true")
     parser.add_argument("--persistent", action="store_true", help="Continue until a stop control line, stdin EOF, remote disconnect or protected requirement")
     parser.add_argument("--stream", action="store_true", help="Emit full safe JSONL snapshots every five seconds and at new stages")
+    parser.add_argument("--respawn-on-dead", action="store_true", help="Attempt one own respawn after exact own FinishLoading and a dead self snapshot no older than ten seconds")
     parser.add_argument("--validate-input", action="store_true", help="Validate stdin/serialization without loading any DLL or opening a socket")
     args = parser.parse_args()
     try:
@@ -328,7 +338,7 @@ def proto_fields(data):
             value = memoryview(data)[offset:offset + size]
             offset += size
         elif wire == 5:
-            value = None
+            value = memoryview(data)[offset:offset + 4]
             offset += 4
         else:
             raise ValueError()
@@ -342,13 +352,14 @@ def self_entity_snapshot(packet, steam_id):
     # ToStream0600518F writes lengthDelimited=false; no compression/delta.
     # Entity fields: 1 BaseNetworkable, 3 BasePlayer. The nested fields are
     # BaseNetworkable.uid=1:uint64, BasePlayer.userid=2:uint64 and
-    # BasePlayer.playerFlags=7:int32. Return no state until this same complete
+    # BasePlayer.playerFlags=7:int32; Entity.baseCombat=24, whose state is
+    # field1:int32 and health field2:fixed32. Return no state until this complete
     # snapshot has both a valid entity ID and the logged-in account's user ID.
     if len(packet) < 6 or packet[0] != 0x91:
         return None
     selected = {}
     for field, wire, value in proto_fields(memoryview(packet)[5:]):
-        if field in {1, 3}:
+        if field in {1, 3, 24}:
             if wire != 2 or field in selected:
                 raise ValueError()
             selected[field] = value
@@ -379,7 +390,36 @@ def self_entity_snapshot(packet, steam_id):
     # BasePlayer.Serialize060007F9 omits zero playerFlags. Its .ctor060007FC
     # leaves this int32 at zero; ResetToPool060007E5 explicitly clears it.
     # This is a full Entity snapshot, so an absent field means zero here.
-    return uid, 0 if flags is None else flags
+    life_state, health_positive, combat_state_present = "unknown", None, False
+    if 24 in selected:
+        state, health_seen = 0, False
+        for field, wire, value in proto_fields(selected[24]):
+            if field == 1:
+                if wire != 0 or combat_state_present:
+                    raise ValueError()
+                if 2**31 - 1 < value < 2**64 - 2**31:
+                    raise ValueError()
+                state, combat_state_present = value, True
+            elif field == 2:
+                if wire != 5 or health_seen:
+                    raise ValueError()
+                health = struct.unpack("<f", value)[0]
+                if not math.isfinite(health):
+                    raise ValueError()
+                health_positive, health_seen = health > 0, True
+        # Full BaseCombat snapshots initialize state to zero (Alive). The
+        # component must exist before applying that default. An absent health
+        # field remains unobserved here; no numeric health is exported.
+        life_state = {0: "alive", 1: "dead"}.get(state, "unknown")
+    return {
+        "uid": uid,
+        "flags": 0 if flags is None else flags,
+        "flagsFieldPresent": flags is not None,
+        "combatComponentObserved": 24 in selected,
+        "combatStateFieldPresent": combat_state_present,
+        "lifeState": life_state,
+        "healthPositive": health_positive,
+    }
 
 
 def is_finish_loading(packet, entity_id):
@@ -468,8 +508,13 @@ def run(args, identity, auth, ready):
     peer = None
     counts, lengths = Counter(), Counter()
     sent_auth = sent_ready = False
+    server_guid = None
     self_id = None
     last_self_snapshot = None
+    finish_loading_self_id = None
+    respawn_self_id = None
+    respawn_sent_at = None
+    RESULT["respawnOnDeadEnabled"] = args.respawn_on_dead
     stop_reason = "receive_deadline_reached"
     started = time.monotonic()
     last_snapshot = started
@@ -479,6 +524,28 @@ def run(args, identity, auth, ready):
     def update_own_snapshot_age():
         if last_self_snapshot is not None:
             RESULT["ownPlayerState"]["ageSeconds"] = round(max(0, time.monotonic() - last_self_snapshot), 3)
+
+    def maybe_respawn():
+        nonlocal respawn_self_id, respawn_sent_at
+        now = time.monotonic()
+        if (not args.respawn_on_dead or RESULT["respawnAttempted"] or stop.is_set()
+                or not sent_auth or not sent_ready or server_guid is None or RESULT.get("encryptionLevel") != 0
+                or self_id is None or finish_loading_self_id != self_id
+                or last_self_snapshot is None or not 0 <= now - last_self_snapshot <= 10
+                or RESULT["ownPlayerState"].get("lifeState") != "dead"):
+            return
+        # Set before the native call: even a failed call is the only attempt
+        # for this connection. This is a fixed ServerUser command bound by
+        # ConsoleNetwork to the authenticated connection's own player.
+        RESULT["respawnAttempted"] = True
+        payload = bytearray(b"\x98\x07\x00\x00\x00respawn")
+        if send(api, peer, server_guid, payload):
+            respawn_self_id, respawn_sent_at = self_id, now
+            RESULT["respawnSent"] = True
+            RESULT["sentPackets"] += 1
+            emit("respawn_sent")
+        else:
+            emit("respawn_native_send_failed")
 
     def snapshot():
         nonlocal last_snapshot
@@ -552,6 +619,7 @@ def run(args, identity, auth, ready):
                     stop_reason = "identity_native_send_failed"
                     break
                 sent_auth = True
+                server_guid = guid
                 emit("identity_submitted", bytes=len(auth), eosIdentityIncluded=False, eacTokenIncluded=False)
             elif first == 0xA2:
                 stop_reason = "protected_eac_session_required"
@@ -597,22 +665,61 @@ def run(args, identity, auth, ready):
                     # Unsupported entity variants are ignored; a failed
                     # parse must never become a successful identity match.
                     observed = None
+                    RESULT["entityParseFailures"] += 1
                 if observed is not None:
-                    self_id, flags = observed
+                    previous_state = RESULT["ownPlayerState"]
+                    entity_changes = previous_state.get("entityChanges", 0)
+                    if self_id is not None and self_id != observed["uid"]:
+                        entity_changes += 1
+                        # A historical FinishLoading for another entity must
+                        # never authorize a command for this replacement.
+                        finish_loading_self_id = None
+                    self_id, flags = observed["uid"], observed["flags"]
                     last_self_snapshot = time.monotonic()
-                    RESULT["ownPlayerState"] = {
+                    current_state = {
                         "observed": True,
                         # BasePlayer.PlayerFlags: Sleeping=16,
                         # ReceivingSnapshot=8 (Assembly-CSharp.dll).
                         "sleeping": bool(flags & 16),
                         "receivingSnapshot": bool(flags & 8),
+                        "spectating": bool(flags & 32),
+                        "wounded": bool(flags & 64),
+                        "connectedFlag": bool(flags & 256),
+                        "loadingAfterTransfer": bool(flags & 33554432),
+                        "flagsFieldPresent": observed["flagsFieldPresent"],
+                        "combatComponentObserved": observed["combatComponentObserved"],
+                        "combatStateFieldPresent": observed["combatStateFieldPresent"],
+                        "lifeState": observed["lifeState"],
+                        "healthPositive": observed["healthPositive"],
+                        "entityChanges": entity_changes,
                         "snapshots": RESULT["ownPlayerState"]["snapshots"] + 1,
                         "ageSeconds": 0,
                     }
+                    changed = previous_state.get("observed") is True and any(
+                        previous_state.get(key) != current_state[key]
+                        for key in ("sleeping", "receivingSnapshot", "lifeState",
+                                    "spectating", "wounded", "connectedFlag"))
+                    current_state["stateChanges"] = previous_state.get("stateChanges", 0) + int(changed)
+                    RESULT["ownPlayerState"] = current_state
+                    alive_observed = (RESULT["respawnSent"] and not RESULT["respawnAliveObserved"]
+                                      and self_id == respawn_self_id and observed["lifeState"] == "alive")
+                    if alive_observed:
+                        # Entity sequence ordering is not verified. This only
+                        # records a full own alive snapshot received after
+                        # the send, not causation or a server acknowledgement.
+                        RESULT["respawnAliveObserved"] = True
+                        RESULT["respawnAliveAfterSeconds"] = round(max(0, last_self_snapshot - respawn_sent_at), 3)
                     emit("self_entity_observed")
+                    if alive_observed:
+                        emit("respawn_alive_observed")
+                    maybe_respawn()
             elif first == 0x95 and sent_ready and self_id is not None and bits == 104:
                 if is_finish_loading(ctypes.string_at(pointer, 13), self_id):
+                    finish_loading_self_id = self_id
                     emit("finish_loading_observed")
+                    # The full snapshot can arrive before FinishLoading.
+                    # It still must be fresh when this gate is evaluated.
+                    maybe_respawn()
         emit(stop_reason)
     finally:
         # Disable streaming before cleanup: a closed stdout must still allow
