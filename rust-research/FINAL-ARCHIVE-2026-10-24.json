@@ -1,0 +1,1220 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-24T11:09:33.512Z",
+  "timezone": "Asia/Shanghai",
+  "localDate": "2026-10-24",
+  "status": "research_ended_by_user_archive_only",
+  "repository": "https://gitee.com/oldboy1026/demo-rust-player-no-client-in-server",
+  "parentCommitBeforeArchive": "070cdae246cf65a2c76158fef158f8c31dba93d2",
+  "primaryDocument": "rust-research/FINAL-ARCHIVE-2026-10-24.md",
+  "implemented": [
+    "Steam multi-account service and local encrypted login storage",
+    "Independent Rust connection and session lifecycle under documented compatible server settings",
+    "Rust batch dashboard with per-account logs, import results and server grouping",
+    "Duplicate rejection-event fix and documented offline and limited real validation",
+    "Read-only diagnostic sources and documented query/reporting-path research"
+  ],
+  "unresolvedOrNotImplemented": {
+    "publicPlayerCountRepairVerified": false,
+    "facepunchBackendEligibilityRulesRecovered": false,
+    "effectiveEacProtectedSessionImplemented": false,
+    "repeatAfterBothDesktopClientsClosedVerified": false,
+    "accountChatImplemented": false,
+    "accountMovementImplemented": false,
+    "npcAiCoreImplemented": false,
+    "serverNpcPluginImplemented": false,
+    "npcSuggestedTestsExecuted": false,
+    "offlineReceiveCandidateLiveCompatibilityVerified": false
+  },
+  "historicalBatchExperiment": {
+    "researchAccounts": 39,
+    "maximumEntered": 38,
+    "matching38SampleSpanSeconds": 211.151,
+    "fullTwentyMinutesInWorldVerified": false,
+    "interruptionUserConfirmedLocalWifiWithoutInternet": true,
+    "driverCompletedUtc": "2026-10-24T10:26:47.772Z",
+    "rollback": {
+      "independentRestoreUtc": "2026-10-24T10:20:15.817Z",
+      "independentBefore": 50,
+      "independentAfter": 5,
+      "independentVerified": true,
+      "driverRollbackRequired": false,
+      "driverRollbackPending": false,
+      "driverRollbackResult": "already_original",
+      "finalReadback": {
+        "observedUtc": "2026-10-24T10:27:14.757Z",
+        "value": 5,
+        "originalRestored": true
+      }
+    },
+    "finalReadOnlySnapshotUtc": "2026-10-24T10:27:14.880Z",
+    "finalSnapshotResearchConnections": 0,
+    "snapshotIsHistoricalNotCurrent": true,
+    "detailedEvidence": "rust-research/bulk-count-observation-2026-10-24.json"
+  },
+  "archivalLocalStatus": {
+    "version": 1,
+    "observedUtc": "2026-10-24T11:05:11.169Z",
+    "scope": "local_service_read_only",
+    "health": true,
+    "accounts": {
+      "total": 39,
+      "states": {
+        "online": 39
+      }
+    },
+    "runningJobs": 0,
+    "rustSessions": {
+      "read": 39,
+      "failed": 0,
+      "states": {
+        "error": 37,
+        "entered_game": 2
+      },
+      "ticketAvailable": 39,
+      "ticketUnavailable": 0,
+      "ticketActive": 2,
+      "ticketAvailableInactive": 37
+    },
+    "completedUtc": "2026-10-24T11:05:11.229Z"
+  },
+  "archivalSessionOwnership": {
+    "observedEntered": 2,
+    "enteredStartedAfterBulkCompleted": 2,
+    "enteredMatchesAnyBulkNewStartedAt": 0,
+    "accountSessionMutationsByArchive": false
+  },
+  "archiveActions": {
+    "remoteServerRequestsPerformed": false,
+    "accountLoginOrDisconnectPerformed": false,
+    "gameOrWebServiceRestartPerformed": false,
+    "serverConfigurationChanged": false,
+    "existingTwoSessionsPreserved": true,
+    "newConnectionExperimentsStarted": false,
+    "followupResearchScheduled": false
+  },
+  "evidenceBoundaries": [
+    "Historical reports retain the conditions and timestamps at which they were written.",
+    "A sampled connection or local test is not proof of full client behavior, an EAC session, or public-count acceptance.",
+    "A public count change without a controlled cohort cannot establish per-account eligibility.",
+    "Unavailable authentication state is not cancellation acknowledgement; a later empty snapshot is only current local state.",
+    "The NPC design checklist was not implemented or tested.",
+    "Raw private data and game binaries remain ignored locally and cannot be recovered by cloning Gitee alone."
+  ],
+  "inventory": {
+    "indexedPublicFilesExcludingThisJson": 178,
+    "countsByGroupExcludingThisJson": {
+      "project_metadata_and_handoff": 5,
+      "research_reports_and_evidence": 90,
+      "service_documentation_and_configuration": 9,
+      "web_interface": 7,
+      "service_source": 13,
+      "service_tests": 4,
+      "research_tools_and_diagnostic_sources": 50
+    },
+    "researchDirectoryIncludingThisJson": {
+      "total": 91,
+      "markdown": 30,
+      "json": 60,
+      "scripts": 1
+    },
+    "selfExcludedToAvoidCircularHash": true
+  },
+  "localEvidenceSources": [
+    {
+      "file": "work/final-archive/local-status-safe.json",
+      "sha256": "82d9d3db41da6a23fb30be32b40cde84cd9bb0c9733e0c3271cfe0fb159407d6",
+      "retainedLocallyOnly": true
+    },
+    {
+      "file": "work/final-archive/session-ownership-safe.json",
+      "sha256": "fe37c6eb52b6c75de837fa0b4890ebf22fe7e5103bf499353beb295406d48f76",
+      "retainedLocallyOnly": true
+    },
+    {
+      "file": "work/npc-ai-review/design-review.md",
+      "sha256": "6e11e75d5f597896708ef7bc8261177b29ebb2518df3c6c380a21656703396b3",
+      "retainedLocallyOnly": true
+    },
+    {
+      "file": "work/npc-ai-review/inspect-server-npc.ps1",
+      "sha256": "e1d12c01091348f29c5cef3c56a6433aaec6e99b92c683b2d7a67e325cdbe217",
+      "retainedLocallyOnly": true
+    },
+    {
+      "file": "work/npc-ai-review/server-npc-static-private.json",
+      "sha256": "6f49e35f872bb62e93a44fa92252650b8329cbfe3ce83d9119c57caa7e36125a",
+      "retainedLocallyOnly": true
+    }
+  ],
+  "artifactIndex": [
+    {
+      "path": ".gitattributes",
+      "group": "project_metadata_and_handoff",
+      "bytes": 169,
+      "sha256": "bb1432e48d7f8116c1443538ffcaa80c33d9b104c70f7b211115ec5de473391d"
+    },
+    {
+      "path": ".gitignore",
+      "group": "project_metadata_and_handoff",
+      "bytes": 686,
+      "sha256": "e9ff25dc879fcb44d956ccf167b6e05e4602803ef10041a91cebbd10a1a1adb5"
+    },
+    {
+      "path": "AGENTS.md",
+      "group": "project_metadata_and_handoff",
+      "bytes": 959,
+      "sha256": "a09236899e63b278cb6369e01fb47d4b807c26c4af30cf4a9978285640e1e1c1"
+    },
+    {
+      "path": "HANDOFF.md",
+      "group": "project_metadata_and_handoff",
+      "bytes": 46975,
+      "sha256": "06a6b778ff5685090727f03b77003afa9c8e3a65835db1351ea794ef67246db7"
+    },
+    {
+      "path": "README.md",
+      "group": "project_metadata_and_handoff",
+      "bytes": 4633,
+      "sha256": "997be8d6a7f249e8765775c39647fb319c32a73c212090d24b46511cdc65df43"
+    },
+    {
+      "path": "rust-research/FINAL-ARCHIVE-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 8057,
+      "sha256": "c540adfe7e4ed0298f59c423fb57038ab5a37401d38f0a73023b9c368dfa8b90"
+    },
+    {
+      "path": "rust-research/RESUME-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 18759,
+      "sha256": "c7be6b9050e8672cd761519024f378d6580c260ff56b942114e4df9dfbfe53f3"
+    },
+    {
+      "path": "rust-research/bulk-count-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 7488,
+      "sha256": "183f3f52308c08dbd26f76386cb5f9ce65347f657a590130e199e26853353ede"
+    },
+    {
+      "path": "rust-research/bulk-count-observation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 6229,
+      "sha256": "d8bff9650e1c965070899d9438ef554e80625ac61f51b816f260a33d895753f0"
+    },
+    {
+      "path": "rust-research/bupdate-observation-design-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 6227,
+      "sha256": "80785829fef15679d9dd87ae7238ef9ca20e59c465fb9378e94732260cc373a5"
+    },
+    {
+      "path": "rust-research/bupdate-observation-design-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 7957,
+      "sha256": "a79cc17eea1bc7299f08cbe5d68f3ebc3293c0ae6a7e92d8f5ec52d1582cb0c6"
+    },
+    {
+      "path": "rust-research/client-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 41417,
+      "sha256": "a3d920dba497c7490f69e00e9706dfb46c39f5864f8cc074262f4d7dc4c02adf"
+    },
+    {
+      "path": "rust-research/client-observation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 7952,
+      "sha256": "622adfab7063aa19cac2732c07f5bc881fcec216d92f68387d50709c5646d276"
+    },
+    {
+      "path": "rust-research/client-observation-plan.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 8670,
+      "sha256": "0a1f4e91b18f7b07e3389243ce041538815a23dde73eb9ef9e9a5713c79c979d"
+    },
+    {
+      "path": "rust-research/client-outbound-session-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 16048,
+      "sha256": "d17a61cfa688a8fb013abbe29fb9ebe892aec0c499d8458e7e9d50c2b836dea7"
+    },
+    {
+      "path": "rust-research/client-tick-static-followup-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 10535,
+      "sha256": "a3e1286fc66091264056620ac50acaa603e1a2b1f27d54510abf659b11906a3b"
+    },
+    {
+      "path": "rust-research/count-chain-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 19895,
+      "sha256": "5444a0caf65aba05e5c77e5fdb941349098bd552114cc954c7972a5ce0dcae89"
+    },
+    {
+      "path": "rust-research/count-chain-observation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 2007,
+      "sha256": "bfe77ca7e12f841e701da85121329441a906a27996f8008c485b481431449af1"
+    },
+    {
+      "path": "rust-research/count-client-deep-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 3183,
+      "sha256": "7e5466d6a96ff921ac2393bc8aa1f97540db91a39beb8029c4b52d5f2ac910c8"
+    },
+    {
+      "path": "rust-research/count-diagnostics-build-0.1.2-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 2968,
+      "sha256": "f827009320de44a58070898f2aa7755aebf14a0468c6574d43af170c5a8cb867"
+    },
+    {
+      "path": "rust-research/count-diagnostics-build-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 344,
+      "sha256": "eb1ecf9c2ea094c202d7277e13df572715a2e2a6e76f89654311f78074df6b9d"
+    },
+    {
+      "path": "rust-research/count-query-reporting-deep-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 8536,
+      "sha256": "62c12524b5b9d947098fbd92f9038c161403e3046be989754d46735cace133f3"
+    },
+    {
+      "path": "rust-research/count-server-deep-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 33210,
+      "sha256": "0788d48a4b7e2e8e649193071bf3fffdf2ae09f7684844fd53259859657cc140"
+    },
+    {
+      "path": "rust-research/count-snapshot-local-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 8248,
+      "sha256": "4efecce18f6907a483de73cc990a298c0eef6e1be8d9164e04d86b816fd00ff7"
+    },
+    {
+      "path": "rust-research/count-snapshot-local-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 2117,
+      "sha256": "8f00610912c22c3a4ee8ea5e7627338f20a0b272358dd967e7f9b4218ca21b08"
+    },
+    {
+      "path": "rust-research/count-upload-window-audit-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 22355,
+      "sha256": "f2fe13921c075f9bb5a94e0ef0d2132f74875f75e5230941ae2ede4ab8a12164"
+    },
+    {
+      "path": "rust-research/evidence.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 13850,
+      "sha256": "b6874c70828eae4d85c1a9710c3fe92b8a49a61a7d1db759fd362c4d4bced733"
+    },
+    {
+      "path": "rust-research/fakeplayers-static-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 14735,
+      "sha256": "27496216331fbe37b1ae84664b34afb050ab3bd2caaf5282c5eea3648dd238ec"
+    },
+    {
+      "path": "rust-research/fakeplayers-static-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 7049,
+      "sha256": "132ef1243765bce044585fc92a4be49e340063787aa7d874a18c0c0d1608ab5e"
+    },
+    {
+      "path": "rust-research/gameplay-analytics-control-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 25804,
+      "sha256": "eba94ad67f713fe83abe30fbb4f5360e504519fde16d6de63a10f6a579cf4f4a"
+    },
+    {
+      "path": "rust-research/harmony-loader-passive-design-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 9386,
+      "sha256": "5da773753be284484a9bd4437dd87cd42bc090b85fb0c7e3db30343e2be82198"
+    },
+    {
+      "path": "rust-research/harmony-loader-passive-design-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 7962,
+      "sha256": "7d345abfc11d3640eabb7c134eac2a274fafe4ddac013c13feb032fb2176d7da"
+    },
+    {
+      "path": "rust-research/independent-connection-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 21466,
+      "sha256": "0c708b0e19e26870b158d952aafc04ed36d71ee04b2392e96bc0c02b2d5a1f75"
+    },
+    {
+      "path": "rust-research/independent-connection-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 5779,
+      "sha256": "0a63e4416e71084bca8489af8d6d44ab2ba0579229e801f43669ef7b09f9fce0"
+    },
+    {
+      "path": "rust-research/interrupted-count-control-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 11433,
+      "sha256": "9012c89d044fc2b47594cb3977978137e8ba3bf6f29caa5456548121d1f28ad6"
+    },
+    {
+      "path": "rust-research/local-server-version-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 13796,
+      "sha256": "b74112047c77310177ae33c55f475b719c0f8d985b986522ec22502a60e8fd94"
+    },
+    {
+      "path": "rust-research/local-test-server-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 8229,
+      "sha256": "eb5b3e7efe3e6c46e2dc3117eef95cc856c22ca6079e76924bfbec1ea51b4f74"
+    },
+    {
+      "path": "rust-research/native-transport-evidence.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 12833,
+      "sha256": "6efb6e4d5729275f242c353090cb0f8680ed734cd959d247bbf580106b9504b5"
+    },
+    {
+      "path": "rust-research/normal-client-count-control-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 16684,
+      "sha256": "3df16e46664f9cdca25f810cbec1dc93c0c574338cde20c9e7d6ddc6653322ef"
+    },
+    {
+      "path": "rust-research/npc-ai-design-status-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 1951,
+      "sha256": "58eb0d0a689712627e4f686b3878d2f494bda58d41c731f35bd98ac418671292"
+    },
+    {
+      "path": "rust-research/observer-state-bridge-preparation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 4420,
+      "sha256": "63e5bb072b3e362a3eaa8f4f4064d333da193d9f91112d6ca2db5a7d11a11276"
+    },
+    {
+      "path": "rust-research/own-player-state-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 1814,
+      "sha256": "8c80c079b524d70e8e172476f47873240902bec4131ab4bcf06ea38b2220d57a"
+    },
+    {
+      "path": "rust-research/player-admission-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 8656,
+      "sha256": "7cd1a0e9aef6d46aa160800d88315cd635cd53dbfb611a061f425b44596bd04b"
+    },
+    {
+      "path": "rust-research/player-count-cache-followup-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 11091,
+      "sha256": "a31bface136b7eb7039016dd5a0795df9ee4841fc4ee408ce2953436706530b9"
+    },
+    {
+      "path": "rust-research/player-count-diagnosis.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 7120,
+      "sha256": "e450558c9efd295caa720891e1462078f358fe6a96e7c0ee7f137d0d588105dc"
+    },
+    {
+      "path": "rust-research/player-count-display-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 23176,
+      "sha256": "83f836798cebbfbfd7aba844326871ed8f0c996d508e2ad83ef4894dde4a04bc"
+    },
+    {
+      "path": "rust-research/player-count-evidence.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 24014,
+      "sha256": "d26e537e652bb90f7a05b2bd0df0bf78b0cac635fe9968c0459cce995305c0dc"
+    },
+    {
+      "path": "rust-research/player-count-live-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 4047,
+      "sha256": "ebe14e398b4686b01c51b7ed7b9a0ad385d349aa2eee14f7981ce5e38b14fc31"
+    },
+    {
+      "path": "rust-research/player-count-sources.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 3114,
+      "sha256": "f0328a22511b50b8b73a84698e73e997a04ca1622a0fa1da7ac1027b90246786"
+    },
+    {
+      "path": "rust-research/player-count-update-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 21302,
+      "sha256": "7494cc4bb3279dddb954b2073b79b41bb95e4032391e65d6ff528f5ca883530e"
+    },
+    {
+      "path": "rust-research/playercount-lifecycle-followup-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 17173,
+      "sha256": "e8ad83f04384d20b60a1a9e1498e32ae18837bc4bcd2f7ec97fad49068567cf3"
+    },
+    {
+      "path": "rust-research/playercount-probe-preparation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 39538,
+      "sha256": "9471023dba3ceba77c3127dbf2b0dd9ac14f40dd58bfa1e991338e0daae8894c"
+    },
+    {
+      "path": "rust-research/playercount-probe-preparation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 3116,
+      "sha256": "7b4cb453682ec56e815987185f439082ced0c1a5ce45607f37d52b914814b1ec"
+    },
+    {
+      "path": "rust-research/playercount-probe-target-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 20045,
+      "sha256": "2c49ae59d4faaf71c1ea72b6d49ed475807f0b6078a091964d06b1ae64b33b7a"
+    },
+    {
+      "path": "rust-research/playercount-probe-target-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 9264,
+      "sha256": "c60182985ea02f69f4bca1cec3e3062c667f963c5ea2d2327e367bfaa0dc0eb3"
+    },
+    {
+      "path": "rust-research/protocol-map.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 10422,
+      "sha256": "c7836adbf895f6128b4cb6145d57ddd0bce1cfe01943e4441f055bf787926480"
+    },
+    {
+      "path": "rust-research/query-server.mjs",
+      "group": "research_reports_and_evidence",
+      "bytes": 6606,
+      "sha256": "f186fe96955b37e6183483e695bb0867e24e47d066d570be59d525cf439aee29"
+    },
+    {
+      "path": "rust-research/rcon-player-count-observation.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 3180,
+      "sha256": "223fa6a646cfcdc2ade6aa2857055f428d2a17f809fd48d05a0fb8607898aaf8"
+    },
+    {
+      "path": "rust-research/remote-plugin-inventory-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 1865,
+      "sha256": "33f7431483590101bfcab4afa199fafbee957dede7711f52a931b42719875750"
+    },
+    {
+      "path": "rust-research/repeat-count-control-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 31091,
+      "sha256": "dc9eaffaec8678d79f9f0412aa84581ab52f358017540b6c1dca95b86e962bfc"
+    },
+    {
+      "path": "rust-research/reporting-diagnostics-build-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 6656,
+      "sha256": "a382647cbcad6d1abd3cd395778884c16e9416e0293a2b0418e88d238fcc303b"
+    },
+    {
+      "path": "rust-research/reporting-diagnostics-local-framework-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 2734,
+      "sha256": "733b2b5b30aeb651a9d15e3da6ed0fec415f2b591cca2bedd0826234771ee787"
+    },
+    {
+      "path": "rust-research/reporting-observer-isolation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 5421,
+      "sha256": "58cc76811dadbb90aac8c3a6cc54e8f88a6debaca9a6280e22ee8c754c3dd894"
+    },
+    {
+      "path": "rust-research/reporting-observer-isolation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 3924,
+      "sha256": "0b7264c28a926f6d359e0db284a92189d732bd9870899a7fb0528f267f04987f"
+    },
+    {
+      "path": "rust-research/reporting-observer-local-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 12316,
+      "sha256": "655346fd903f095841dbc247d9ec7fb56ff2000d389c0c1a2c67c98e0ada0b25"
+    },
+    {
+      "path": "rust-research/reporting-observer-local-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 4396,
+      "sha256": "f1d884e2605041f3ea3fe8379d024077833d05cc3536ea1b242788fc2e888b90"
+    },
+    {
+      "path": "rust-research/research-update-2026-10-23.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 12242,
+      "sha256": "ec953775c6c7c961753b377b8af47452458db7a3fcffe7b71b18e16d336e2595"
+    },
+    {
+      "path": "rust-research/respawn-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 331966,
+      "sha256": "43d5d4f26d5e34cd4d12c2b503e442645ae448b003f4e2312c5e6e56de232fb4"
+    },
+    {
+      "path": "rust-research/respawn-observation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 8181,
+      "sha256": "3d4dcf4e3520a4d3104567612678c94739d789bebb6a48d4b3524455fffee907"
+    },
+    {
+      "path": "rust-research/respawn-repeat-observation-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 245452,
+      "sha256": "c312822a0c62ad53672584fac5f88cf52a5dead21af7b01fb3a27a97bbeca946"
+    },
+    {
+      "path": "rust-research/respawn-repeat-observation-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 5191,
+      "sha256": "bc04093e5d228a35502642f8a650cb0c6ccff7983aad94cd9d70053ed9ea19f3"
+    },
+    {
+      "path": "rust-research/resume-own-state-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 105929,
+      "sha256": "db265a68268bcb5e18657bfbf7c41fe0b9ab70b4313e2b4649f2d4f714ca57e6"
+    },
+    {
+      "path": "rust-research/resume-own-state-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 5942,
+      "sha256": "79a414c1de1e845f53d2085040de47735125f7e10ba8d127e0831e45965e98b2"
+    },
+    {
+      "path": "rust-research/rust-workspace-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 3276,
+      "sha256": "dc78e53e07cc3d27de1b5171b012fe3ff1cf0f768055eec3d0437afece77257e"
+    },
+    {
+      "path": "rust-research/self-player-state-command-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 15815,
+      "sha256": "adfc54e5befb90b4d6908c7b041541b10144703af088dff03fc53490c9023b08"
+    },
+    {
+      "path": "rust-research/server-103-91-208-182-observation.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 10037,
+      "sha256": "9b1b19bca0e7bd70ef640f40996501115d2b78b203ac012bf95f60fffb9486e6"
+    },
+    {
+      "path": "rust-research/server-103-91-208-182.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 6197,
+      "sha256": "0990ceacd07b32cb20f9d2e6bf7e48cd001468d2820392ce66e3bf5db443346e"
+    },
+    {
+      "path": "rust-research/server-reporting-paths-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 18847,
+      "sha256": "19dd40dbef39ae23fbcf2bc480f91b2f9cdfe121430cae103da63d48716760ae"
+    },
+    {
+      "path": "rust-research/server-reporting-paths-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 8081,
+      "sha256": "162e7a8f1f29a11bf6b82c9762306b1090d2401aa4cec0ae4a407bcca9bbe5d0"
+    },
+    {
+      "path": "rust-research/server-security-diagnostics-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 15239,
+      "sha256": "352f54f60f8256cf3171cb15cb82aeebbf438bdac709c3163c45b07b898c39e4"
+    },
+    {
+      "path": "rust-research/shutdown-state-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 734,
+      "sha256": "04a05fc19b21894f4889933abcaab95688e7c79960c831429f6d2eb5bd90ac95"
+    },
+    {
+      "path": "rust-research/sources.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 18054,
+      "sha256": "c9c89f0d659d20309a6e801d8169c40315e5f96fc4b33aaef0f86a6ff1d87d99"
+    },
+    {
+      "path": "rust-research/steam-auth-validation-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 6522,
+      "sha256": "58931ea5d9f55ef204e4312fc8e0f8d18caa100dfde74ea0f51e6605e9189904"
+    },
+    {
+      "path": "rust-research/steam-backend-state-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 5462,
+      "sha256": "ad5f8707fc5000f15c6a4883e5be159e99503e311e89c92c9f6bd167d126e01d"
+    },
+    {
+      "path": "rust-research/steam-presence-identity-followup-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 9684,
+      "sha256": "e8a8eeccdbb3250cc24bf3068dfe25492147452a05df15ba20dd927bce248799"
+    },
+    {
+      "path": "rust-research/target-query.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 1107,
+      "sha256": "1bd7caabd80dc49844e17ff6905891d12b292fc8f77e72aaafaab53ee124de71"
+    },
+    {
+      "path": "rust-research/trusted-count-public-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 11324,
+      "sha256": "05013d6544a572f540236e2287332a134ea7d48b802fc3cccb14a54a9cb85ac1"
+    },
+    {
+      "path": "rust-research/trusted-count-reporting-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 22539,
+      "sha256": "27aba4304b8010fa99a4effc48dede1d0f3c2cd93ddbfcfbce28067f4dc3cc0b"
+    },
+    {
+      "path": "rust-research/wake-input-boundaries-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 9196,
+      "sha256": "b199cbc42337cfd5189faec296edbeec2051eb907b4e877fc7f91c4106d081a8"
+    },
+    {
+      "path": "rust-research/wake-input-boundaries-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 2297,
+      "sha256": "c1b5f662d4d6a15f66fa249688359533175931946459280ab54128b84811454f"
+    },
+    {
+      "path": "rust-research/wakeup-lifecycle-evidence-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 10299,
+      "sha256": "1cd811a449e08fb39c0da3a9d21ccd09fefce45445c9ef1ed3fe5bc3e2720a4b"
+    },
+    {
+      "path": "rust-research/web-sources-2026-10-23.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 54744,
+      "sha256": "af54c57462ab1afedc868606e80c6f077c19de38b157420de2e0b87716d4b62a"
+    },
+    {
+      "path": "rust-research/worker-rejection-fix-2026-10-24.json",
+      "group": "research_reports_and_evidence",
+      "bytes": 8232,
+      "sha256": "4609efcd0246324b590896536dc0ac809a7738bd0f8ee15e58f5b8df43ddabaa"
+    },
+    {
+      "path": "rust-research/worker-rejection-fix-2026-10-24.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 3409,
+      "sha256": "6353eaccfc13a08ad489bb49054fb45a61c68d91b7b17a8125d3c46af1759721"
+    },
+    {
+      "path": "rust-research/研究报告.md",
+      "group": "research_reports_and_evidence",
+      "bytes": 18919,
+      "sha256": "58d921d0bf60cf33d023c6e92ccae909b8155d11a3114ea1d0e5f117a51438b8"
+    },
+    {
+      "path": "steam-multi-account/.gitignore",
+      "group": "service_documentation_and_configuration",
+      "bytes": 36,
+      "sha256": "3822951f83d9bb42b97778813fc79366b07f2e46b816cc0e5348528aee9cf330"
+    },
+    {
+      "path": "steam-multi-account/README.md",
+      "group": "service_documentation_and_configuration",
+      "bytes": 21301,
+      "sha256": "8507cb3e05db2d56a9a80c92885e313a56264a8decd4c5bb96db439dfd508702"
+    },
+    {
+      "path": "steam-multi-account/client.js",
+      "group": "service_documentation_and_configuration",
+      "bytes": 2983,
+      "sha256": "3714188f4fefe27d059122b2be335305b3d2f8681cf61fcef760d79fbfc21964"
+    },
+    {
+      "path": "steam-multi-account/open-dashboard.cmd",
+      "group": "service_documentation_and_configuration",
+      "bytes": 136,
+      "sha256": "3ba6df1ce397b8bfbf12776bf85f6412ca5385e843df52e78095be53c63082eb"
+    },
+    {
+      "path": "steam-multi-account/package-lock.json",
+      "group": "service_documentation_and_configuration",
+      "bytes": 61001,
+      "sha256": "f6ff4d39399083bda8a84a2c71b72275723cdf9994f677aa8a412674b97e7d9a"
+    },
+    {
+      "path": "steam-multi-account/package.json",
+      "group": "service_documentation_and_configuration",
+      "bytes": 433,
+      "sha256": "4769c57b2e2e37b66a84673bc3becc588e6abace0f2c4961949bf6381f6382bb"
+    },
+    {
+      "path": "steam-multi-account/public/app.js",
+      "group": "web_interface",
+      "bytes": 13224,
+      "sha256": "c7ddda911911e6acb2786b1578bdf8edb492bf4c7df411af6c75ed2375d23e84"
+    },
+    {
+      "path": "steam-multi-account/public/details.js",
+      "group": "web_interface",
+      "bytes": 22181,
+      "sha256": "b7ce345b93e923e3d2233572a7b5aa4340a174d4161adc7a51ae271a20ab05b7"
+    },
+    {
+      "path": "steam-multi-account/public/index.html",
+      "group": "web_interface",
+      "bytes": 11372,
+      "sha256": "0b32437f2c19992073fde7d902441e0868b851471f0a6a35fb4c47019f8a8821"
+    },
+    {
+      "path": "steam-multi-account/public/rust.css",
+      "group": "web_interface",
+      "bytes": 7923,
+      "sha256": "f7efbedd0cbbcd10631279cd6766f6a51244f7ace6b8b226549df51449b556b5"
+    },
+    {
+      "path": "steam-multi-account/public/rust.html",
+      "group": "web_interface",
+      "bytes": 8413,
+      "sha256": "f8b240addb4a14a4aa98ce4dfda1d94eb2c8d89993436ae9e67c407bf1679620"
+    },
+    {
+      "path": "steam-multi-account/public/rust.js",
+      "group": "web_interface",
+      "bytes": 26963,
+      "sha256": "d94bfaf69f366cc7f759fe8787861e8833df323b156a07a05de039826309a19d"
+    },
+    {
+      "path": "steam-multi-account/public/styles.css",
+      "group": "web_interface",
+      "bytes": 12403,
+      "sha256": "63258aabf65e78dd49dd97b016066626ccefd8a959cf194d7ac84fac0ffcd222"
+    },
+    {
+      "path": "steam-multi-account/scripts/open-dashboard.ps1",
+      "group": "service_documentation_and_configuration",
+      "bytes": 671,
+      "sha256": "648c94ff80a1d831fdf46560ea500e83f13b72265ee8e2dca8696ca18c40c021"
+    },
+    {
+      "path": "steam-multi-account/scripts/steam.ps1",
+      "group": "service_documentation_and_configuration",
+      "bytes": 3637,
+      "sha256": "5512e9aeb855d7ccf38ec4b9a674b010d1b51c5c9ec97cf4e9cb81952b4e5c01"
+    },
+    {
+      "path": "steam-multi-account/src/accounts.js",
+      "group": "service_source",
+      "bytes": 12184,
+      "sha256": "6deb8a348b11b4e7e71c22bd747521ac071c39978b774c758c6167a81ff99551"
+    },
+    {
+      "path": "steam-multi-account/src/catalog.js",
+      "group": "service_source",
+      "bytes": 2851,
+      "sha256": "835853baa95add601b88b45ef0990e365b34d57bcd2133c107884ce76b8adedf"
+    },
+    {
+      "path": "steam-multi-account/src/errors.js",
+      "group": "service_source",
+      "bytes": 113,
+      "sha256": "07560525469078b92d7d5024861ededf11cb71bdf1bc653624f8e608e0506633"
+    },
+    {
+      "path": "steam-multi-account/src/features.js",
+      "group": "service_source",
+      "bytes": 17396,
+      "sha256": "5f312d36d07d4de3507ba00029482382d8692a835db1bc922bfdfb6d606d7f3f"
+    },
+    {
+      "path": "steam-multi-account/src/game-auth.js",
+      "group": "service_source",
+      "bytes": 9634,
+      "sha256": "bc251d3ebb93695c6a316827825670ee26bc0e52700c1238b76e2b88438877a1"
+    },
+    {
+      "path": "steam-multi-account/src/http.js",
+      "group": "service_source",
+      "bytes": 10323,
+      "sha256": "a761ad02d0584148b3cb3d749bd150537c0fc38fcb1016d0767b0ce92db5a1aa"
+    },
+    {
+      "path": "steam-multi-account/src/network.js",
+      "group": "service_source",
+      "bytes": 2602,
+      "sha256": "9778aa37cf449eb446b89815aee151009124b98733838b1e85af741edf3e6d4f"
+    },
+    {
+      "path": "steam-multi-account/src/rust-connection.js",
+      "group": "service_source",
+      "bytes": 10029,
+      "sha256": "0737d1acd316aced27fad384736a81e79f16f94faf17603c2d14fae61fe7c088"
+    },
+    {
+      "path": "steam-multi-account/src/rust-server-query.js",
+      "group": "service_source",
+      "bytes": 14611,
+      "sha256": "089e738121e0c2354c1d1519ca045addc6cd94d96aa0bd9e47c5f27f83557a2c"
+    },
+    {
+      "path": "steam-multi-account/src/rust-session.js",
+      "group": "service_source",
+      "bytes": 13096,
+      "sha256": "c11d546edee2aab39104100fce096de94fc208ce60e52fdb9306d8af4ed3a315"
+    },
+    {
+      "path": "steam-multi-account/src/rust-workspace.js",
+      "group": "service_source",
+      "bytes": 19152,
+      "sha256": "1e38cf49b574581e5755ed65399c513c843abd9dbedd2d503e254d510ff2fee5"
+    },
+    {
+      "path": "steam-multi-account/src/server.js",
+      "group": "service_source",
+      "bytes": 3630,
+      "sha256": "663d263eab37031baac530a27ee6cd7d9c56b2d0ca8eada72628bd3eacd2aa35"
+    },
+    {
+      "path": "steam-multi-account/src/store.js",
+      "group": "service_source",
+      "bytes": 3628,
+      "sha256": "04e4c67656727f86ad02595e3a74a4e38afd5f2adfe9b69a0225b237adea3e58"
+    },
+    {
+      "path": "steam-multi-account/start.cmd",
+      "group": "service_documentation_and_configuration",
+      "bytes": 232,
+      "sha256": "3f43816e9f9ab7c8bf8ab49cafc7218d9e1622acb01535ace7e5bf5df4313ab7"
+    },
+    {
+      "path": "steam-multi-account/test/features.test.js",
+      "group": "service_tests",
+      "bytes": 10435,
+      "sha256": "45ddfcf7763c475049488e7e7e8bca74d2e0ef0a39656bdd7398c34c9b985c71"
+    },
+    {
+      "path": "steam-multi-account/test/game-auth.test.js",
+      "group": "service_tests",
+      "bytes": 14419,
+      "sha256": "d0fe5aa88af7ca375a96b135da2351fea8d37a66f34fa1486bf347ff541d0416"
+    },
+    {
+      "path": "steam-multi-account/test/rust-workspace.test.js",
+      "group": "service_tests",
+      "bytes": 10627,
+      "sha256": "e4d351d153b21a02a7c52ebd8d87cf4ac100f10966ede2de02c63a5d42cbfe72"
+    },
+    {
+      "path": "steam-multi-account/test/service.test.js",
+      "group": "service_tests",
+      "bytes": 10421,
+      "sha256": "7e80bdd6fa0c9f00bf50c9c5e5db3932beed34f9c933fbb4ec0ccf8e7bd29c84"
+    },
+    {
+      "path": "tools/rust-research/Build-CountSnapshot.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3645,
+      "sha256": "a8a8a2ef3f65593fc60108bb8ba7f4a0dcf8f183a51597258abd7b0aeab76a8a"
+    },
+    {
+      "path": "tools/rust-research/Build-ObserverStateBridge.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3763,
+      "sha256": "72355a8566adba3f91d7c650bd57b8de8bde3ca1d9512c51cc4fe7ef1b019d43"
+    },
+    {
+      "path": "tools/rust-research/Build-PlayerCountProbe.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3744,
+      "sha256": "58b37dd86ca41ad2864c74cc9fc408b20f220c22c23ec529b479c7aeb7a483b7"
+    },
+    {
+      "path": "tools/rust-research/Build-ReportingObserver.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3517,
+      "sha256": "31de353aa848d23d0df83f944a6848731d421b9c7ba6da527f457b337fcacdfb"
+    },
+    {
+      "path": "tools/rust-research/Build-ReportingObserverFocused.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3593,
+      "sha256": "e6514d390484a47a7aad914f958ffcc65cdce13de2297f59bbb816178d0ffb00"
+    },
+    {
+      "path": "tools/rust-research/CountDiagnostics.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 4077,
+      "sha256": "5e6df0256bc933e615cae9a621770e2423e2461fff4b7fcb38d9cc1c93a51f3a"
+    },
+    {
+      "path": "tools/rust-research/CountSnapshot.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 6393,
+      "sha256": "ac211c3df065e8a3c8514be0d70ad49ac6fc572938b1a1c14f10967d79b3ffbe"
+    },
+    {
+      "path": "tools/rust-research/CountSnapshot.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3056,
+      "sha256": "bc51232d26849e3768c4ba62bb507a1af3b10598d41228015375ddcf3bd0649c"
+    },
+    {
+      "path": "tools/rust-research/ObserverStateBridge.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 11711,
+      "sha256": "b842211586a773db0a6b6883b3013970208eeaff650fc40b8ed2331939f6f252"
+    },
+    {
+      "path": "tools/rust-research/ObserverStateBridge.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 5427,
+      "sha256": "2457b94ba90889f716579f027bfb22178688530d28c5f90fd205a8e065999216"
+    },
+    {
+      "path": "tools/rust-research/PlayerCountProbe.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 12792,
+      "sha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e"
+    },
+    {
+      "path": "tools/rust-research/PlayerCountProbe.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 4365,
+      "sha256": "78774c871792a14afe1e96aa12f054207d77fae7fa2ca722a34d3df733fc4f9a"
+    },
+    {
+      "path": "tools/rust-research/README.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 11525,
+      "sha256": "d37fd5a2130f707bb4d053ff3bf6f1bfd7cfa6a4281d613292976f5d4b2b4eda"
+    },
+    {
+      "path": "tools/rust-research/ReportingDiagnostics.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 9197,
+      "sha256": "7e01c36f56b24bfc74557e3fb0e5213cf0691855bf89c4cb4bb0ce450485b341"
+    },
+    {
+      "path": "tools/rust-research/ReportingDiagnostics.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 2717,
+      "sha256": "e679dcd50e87e3acb94de77edd473d0cf9b7fd40ffdc7fad4950c15fd07235b3"
+    },
+    {
+      "path": "tools/rust-research/ReportingObserver.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 8248,
+      "sha256": "8a2105b4f93b743423a621e80976b3621a0a3c9d9a106b82f05d29432a988757"
+    },
+    {
+      "path": "tools/rust-research/ReportingObserver.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3132,
+      "sha256": "bea2f1cc5df19bebfbfb4d87bcf01bb330897cf7902a843c4acfaf3387f2114b"
+    },
+    {
+      "path": "tools/rust-research/ReportingObserverFocused.cs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 15608,
+      "sha256": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b"
+    },
+    {
+      "path": "tools/rust-research/ReportingObserverFocused.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 2845,
+      "sha256": "5ccbe3f351bd008477f4965cbd4e8a8f12f80b9058f785066c16e91a37a2d453"
+    },
+    {
+      "path": "tools/rust-research/analyze-capture.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 27735,
+      "sha256": "f43dc82fd8f0f9ef8b616352808151bd2f8855f8df8a2c670a144ba23feefd4e"
+    },
+    {
+      "path": "tools/rust-research/analyze-raknet-frames.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 28292,
+      "sha256": "bec9e26ada564f4ee9fddf901c3316a40d67181ed55f615f9ab1d29468853cc0"
+    },
+    {
+      "path": "tools/rust-research/api-facts.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 996,
+      "sha256": "87f3aff22cd5dc3be40d2af0587344b1ca5655a3f86590e82cf871427a2a6f69"
+    },
+    {
+      "path": "tools/rust-research/capture-client.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 9282,
+      "sha256": "a17967d46dfdc8d3d8cd1996737141f886330727f6fcf470b1f609776249b044"
+    },
+    {
+      "path": "tools/rust-research/collect.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 2468,
+      "sha256": "40ede684a41b351efedf24611554686dd3f48d64bb00afbed5491d031de351d5"
+    },
+    {
+      "path": "tools/rust-research/depot-research.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 334,
+      "sha256": "7064039f9453fecccd7306903d7a0dbf175d2ac7cfe017377cd9acce7b5ead29"
+    },
+    {
+      "path": "tools/rust-research/details.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 1153,
+      "sha256": "1ee60609ea07ba876e7a5fc1f02f14837a476746a92b07db3a70467551e8bc8d"
+    },
+    {
+      "path": "tools/rust-research/docs.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 1333,
+      "sha256": "c17fcb1e71920de746da0bf2d01594b6694b75706fb0b1903da80cc7172fbb87"
+    },
+    {
+      "path": "tools/rust-research/download.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 2381,
+      "sha256": "9daa9375d20480ef0c2b6ae3b4ddb425c2a76d8503ebe55ab4b7e1d31c815355"
+    },
+    {
+      "path": "tools/rust-research/eos-connect.py",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 17067,
+      "sha256": "ef263da84e3363c43a09a55540b85b937cfbdb56134753ba786599c448c6ee10"
+    },
+    {
+      "path": "tools/rust-research/export-evidence.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 12382,
+      "sha256": "7071878070f0aedb929a1337aaca89945ed60bfc61e710fe653a8b47dfd681b4"
+    },
+    {
+      "path": "tools/rust-research/game-sources.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 1454,
+      "sha256": "c409b4b9b1c0bb53d6110d6c8da7399fec8cadc4c63767eb7e447b5a37f15be5"
+    },
+    {
+      "path": "tools/rust-research/inspect-native.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3849,
+      "sha256": "b3f95afc065fb798b4f68af787aa4aba6281104e4dc5d7bad7e5c6fdd2901a60"
+    },
+    {
+      "path": "tools/rust-research/inspect-original.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3949,
+      "sha256": "48ddb7a8767fe9542a69e826225538a9ec3a7c42d08d159630b96e5fe72a91e6"
+    },
+    {
+      "path": "tools/rust-research/inspect-player-count.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 4929,
+      "sha256": "9833e0ab869624a503a69e411bd9b394171023013505d8e22cd10203468310b0"
+    },
+    {
+      "path": "tools/rust-research/local-count-diagnostics.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 7871,
+      "sha256": "cb7fdf42cf90b6c2a056f38d5258e56e07e7673bc210e29ef941fb5c510738bf"
+    },
+    {
+      "path": "tools/rust-research/local-game-relay.md",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 3792,
+      "sha256": "041a0e60f4504c1682c9bb431a34eee5d7b9d2bd938871c685ff268d7085d6cc"
+    },
+    {
+      "path": "tools/rust-research/native-peer.py",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 8330,
+      "sha256": "336c82aba5f5337605c95ef17593294f43e9d40c9e0a776ae9388f6baa6f98a9"
+    },
+    {
+      "path": "tools/rust-research/observe-local-game-relay.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 8145,
+      "sha256": "664e0739e62e06c39a568db74e36eed5304f4d010b82759ea3aa0390568bff58"
+    },
+    {
+      "path": "tools/rust-research/observe-player-counts.mjs",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 9548,
+      "sha256": "edb476f6c338b91585c02be633bd26656433e0f0341629d29a7cfd553044d93a"
+    },
+    {
+      "path": "tools/rust-research/player-count-filelist.txt",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 118,
+      "sha256": "842bce016fd532eceec50d41fbc45e17a4b0a8537024efcf19b039346d87bcb0"
+    },
+    {
+      "path": "tools/rust-research/player-count-sources.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 796,
+      "sha256": "abd0be398e54469925e11aef57a32fc37cd98e124b651d29874661a278d6b63f"
+    },
+    {
+      "path": "tools/rust-research/repositories.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 669,
+      "sha256": "90412c9d4f4349083766a86b155e092ea80c2f516f19dfbb1f287b9002607d0e"
+    },
+    {
+      "path": "tools/rust-research/rust-peer.py",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 35202,
+      "sha256": "45d62cd324fb0d18f83a9555f2f8b2046486873e64e88d9b905172724113e5fa"
+    },
+    {
+      "path": "tools/rust-research/sdk-enums.ps1",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 995,
+      "sha256": "4bd9546ab50dc07246ddffb673ed0a28e62ef5eeada282764d9df86060fdc60f"
+    },
+    {
+      "path": "tools/rust-research/server-103-91-208-182-sources.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 1046,
+      "sha256": "2cdcc064c6d7eae163452692988b0e76106be15b3bd28ae91ba394f27aba2e0c"
+    },
+    {
+      "path": "tools/rust-research/server-filelist.txt",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 176,
+      "sha256": "a07f25e490575f4e5b93c4d28b58ee760b33ccba9525544cf3c66c2c8f624798"
+    },
+    {
+      "path": "tools/rust-research/server-native-filelist.txt",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 74,
+      "sha256": "4dc45140ed2663ff350fb424235b7ad142e910d86e49c5f286066e063df3389d"
+    },
+    {
+      "path": "tools/rust-research/steam-reference-source.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 653,
+      "sha256": "45587498b1adba81c1f939d7dc0f7529fb5a3b6b9107073e808e7de9889eb022"
+    },
+    {
+      "path": "tools/rust-research/test_rust_peer.py",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 7658,
+      "sha256": "c47592573d470c8db1154075e69b5791aba86bcc68f9de0185a42ea94b68cb10"
+    },
+    {
+      "path": "tools/rust-research/web-research-2026-10-23.json",
+      "group": "research_tools_and_diagnostic_sources",
+      "bytes": 12849,
+      "sha256": "d49b2fa669a6c58d6c26563175c49195713d4d43d42c934acfe2ff7987fcb8c0"
+    }
+  ]
+}
