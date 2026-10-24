@@ -1,0 +1,668 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Natural comparison of RCON, A2S/cp and Facepunch counts with no research Rust connections",
+  "baseline": {
+    "sample": 1,
+    "observedAt": "2026-10-24T07:47:16.347Z",
+    "a2s": {
+      "observedAt": "2026-10-24T07:47:16.491Z",
+      "ok": true,
+      "players": 14,
+      "cp": 10,
+      "bots": 0
+    },
+    "facepunch": {
+      "observedAt": "2026-10-24T07:47:16.622Z",
+      "ok": true,
+      "players": 7,
+      "status": 200,
+      "headers": {
+        "date": "Sat, 24 Oct 2026 07:47:16 GMT",
+        "age": "32",
+        "last-modified": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "cache-control": "public, max-age=86400",
+        "cf-cache-status": "HIT"
+      }
+    }
+  },
+  "window": {
+    "startedAt": "2026-10-24T07:49:36.876Z",
+    "mode": "read_only_natural_observation",
+    "samples": [
+      {
+        "index": 0,
+        "observedAt": "2026-10-24T07:49:36.876Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:49:37.425Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:49:37.531Z",
+            "ok": true,
+            "players": 14,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:49:37.771Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:49:37 GMT",
+              "age": "173",
+              "last-modified": "Sat, 24 Oct 2026 07:46:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:49:37.087Z",
+          "players": 11,
+          "joining": 1,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 1,
+        "observedAt": "2026-10-24T07:50:06.885Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:50:07.415Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:50:07.522Z",
+            "ok": true,
+            "players": 14,
+            "cp": 12,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:50:07.644Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:50:07 GMT",
+              "age": "203",
+              "last-modified": "Sat, 24 Oct 2026 07:46:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:50:07.084Z",
+          "players": 12,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 12
+      },
+      {
+        "index": 2,
+        "observedAt": "2026-10-24T07:50:36.891Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:50:37.431Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:50:37.545Z",
+            "ok": true,
+            "players": 14,
+            "cp": 12,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:50:37.754Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:50:37 GMT",
+              "age": "233",
+              "last-modified": "Sat, 24 Oct 2026 07:46:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:50:37.080Z",
+          "players": 12,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 12
+      },
+      {
+        "index": 3,
+        "observedAt": "2026-10-24T07:51:06.904Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:51:07.443Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:51:07.561Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:51:07.628Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:51:07 GMT",
+              "age": "263",
+              "last-modified": "Sat, 24 Oct 2026 07:46:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:51:07.076Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 4,
+        "observedAt": "2026-10-24T07:51:36.907Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:51:37.446Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:51:37.548Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:51:37.829Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:51:37 GMT",
+              "age": "293",
+              "last-modified": "Sat, 24 Oct 2026 07:46:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:51:37.066Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 5,
+        "observedAt": "2026-10-24T07:52:06.912Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:52:07.450Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:52:07.563Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:52:07.798Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:52:07 GMT",
+              "age": "22",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:52:07.066Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 6,
+        "observedAt": "2026-10-24T07:52:36.913Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:52:37.447Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:52:37.520Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:52:37.693Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:52:37 GMT",
+              "age": "52",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:52:37.063Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 7,
+        "observedAt": "2026-10-24T07:53:06.926Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:53:07.465Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:53:07.583Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:53:07.699Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:53:07 GMT",
+              "age": "82",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:53:07.070Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 8,
+        "observedAt": "2026-10-24T07:53:36.937Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:53:37.479Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:53:37.559Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:53:37.775Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:53:37 GMT",
+              "age": "112",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:53:37.069Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 9,
+        "observedAt": "2026-10-24T07:54:06.946Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:54:07.506Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:54:07.591Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:54:07.696Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:54:07 GMT",
+              "age": "142",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:54:07.160Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 10,
+        "observedAt": "2026-10-24T07:54:36.953Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:54:37.501Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:54:37.589Z",
+            "ok": true,
+            "players": 13,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:54:37.816Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:54:37 GMT",
+              "age": "172",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:54:37.163Z",
+          "players": 11,
+          "joining": 0,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      },
+      {
+        "index": 11,
+        "observedAt": "2026-10-24T07:55:06.966Z",
+        "publicRunOk": true,
+        "rconRunOk": true,
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T07:55:07.498Z",
+          "a2s": {
+            "observedAt": "2026-10-24T07:55:07.571Z",
+            "ok": true,
+            "players": 14,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T07:55:07.782Z",
+            "ok": true,
+            "players": 9,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 07:55:07 GMT",
+              "age": "202",
+              "last-modified": "Sat, 24 Oct 2026 07:51:44 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "rcon": {
+          "observedAt": "2026-10-24T07:55:07.165Z",
+          "players": 11,
+          "joining": 1,
+          "queued": 0
+        },
+        "rconStatusRows": 11
+      }
+    ],
+    "requestedSamples": 12,
+    "intervalSeconds": 30,
+    "completedAt": "2026-10-24T07:55:08.264Z"
+  },
+  "rawSourceHashes": [
+    {
+      "sample": 0,
+      "rawRconSha256": "e62dc9cd5d66297f8602ed938eb7d66af538230c49b8524ad64fa17ec4f83bf1",
+      "rawPublicSha256": "e9a3d7a317f01339f587c2087f0ad716c31c690e75f6b87205a15e2dab6c9730"
+    },
+    {
+      "sample": 1,
+      "rawRconSha256": "4c34f1c63aaf6c2518ab3e8db3d155ff09fdc70ca3b48407c9981093e1a4dfec",
+      "rawPublicSha256": "35841c906c3b2649de49babe52c7c5fbde3be6f63aa9598de3f4c9253455acf6"
+    },
+    {
+      "sample": 2,
+      "rawRconSha256": "d7963be80104af4f0b47c5e292f8ec146c7c46dca8cee1dee27f79f47d2f94ad",
+      "rawPublicSha256": "dc8d6a74d207b9eb02e3de063f84c3a9de75176e13333a0ef19007db4ff8ec85"
+    },
+    {
+      "sample": 3,
+      "rawRconSha256": "c231405f23362296698de660fc23f64c891e08827db7d2f27725b303217ea7d4",
+      "rawPublicSha256": "c7d64c9eb29ac90811d1a1a12c22a69239d1547d78c14a37c196c906909feb04"
+    },
+    {
+      "sample": 4,
+      "rawRconSha256": "01d995a2320587fc3b1deaf55646514ffdebad267567697a517cbd1b46554bd7",
+      "rawPublicSha256": "2ddfedd50a2efa2e16ab40af71ba3f5b13b04ab49b23b8749e2646fb98d46976"
+    },
+    {
+      "sample": 5,
+      "rawRconSha256": "07f906b2c39a82988019e89476dd6a967b70b59425b67cb5a82318800593a4b7",
+      "rawPublicSha256": "626b506412bb83a3877ffc21b0a633dbbe4e822eaf6ada30c9dbb10b7f684159"
+    },
+    {
+      "sample": 6,
+      "rawRconSha256": "7c751931493a749b575f1ccd6c5b5f658c4c87bfe2451cb674a5b33d8c12d2f8",
+      "rawPublicSha256": "18f6b5ddcb6461f3ee1faea54ca7266a564cc83b5575e9b02921295a38ea5504"
+    },
+    {
+      "sample": 7,
+      "rawRconSha256": "bc33a909c1e92a7029d3397e51cc1d6b57d224aac78d541b9b85f58d404ba748",
+      "rawPublicSha256": "f5cdfefa6ebaa54ccf2fddf1b512a008cb9c32be266f0b7d8088ba9d95329a0a"
+    },
+    {
+      "sample": 8,
+      "rawRconSha256": "f89587461e23186b92705e42da3b49fb74a4ec1cc7756f38ccb13c4bbdd17fc7",
+      "rawPublicSha256": "3f0ad8b4ab6489599dd20d39501ae9f55e849cfdd6c2be03790eb25616712ef1"
+    },
+    {
+      "sample": 9,
+      "rawRconSha256": "b2df29beac9a432dd23eedb51c0dc85636ce5b037bda63e473cc8f520b2a6a7e",
+      "rawPublicSha256": "f085f9a3d508e8c091776db55d2c519eed936b40ecb3d82e244d1a53c96386d4"
+    },
+    {
+      "sample": 10,
+      "rawRconSha256": "e1bfa2b7b11e7b55c092dc5c514b24ac137cc451ac991425a00e81f1ddf1d472",
+      "rawPublicSha256": "dbf3e57b7202faeb3643f0e80ae70536bcfb68ae43a9451fe00ae9a5d4045f40"
+    },
+    {
+      "sample": 11,
+      "rawRconSha256": "a34c9243b41e2ce3ea6de9b57778ecfe09a1ff7b2951b3b76cca2b37b2a6d63c",
+      "rawPublicSha256": "e5829fd1cfd4eff287e49cba579bf058c0ac8f87db66b11a34ef2ac44d5e25a2"
+    }
+  ],
+  "rosterComparison": {
+    "method": "Validate unique 17-digit string identities in memory and compare exact sets; persist booleans only.",
+    "adjacent": [
+      {
+        "from": 0,
+        "to": 1,
+        "sameIdentitySet": false
+      },
+      {
+        "from": 1,
+        "to": 2,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 2,
+        "to": 3,
+        "sameIdentitySet": false
+      },
+      {
+        "from": 3,
+        "to": 4,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 4,
+        "to": 5,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 5,
+        "to": 6,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 6,
+        "to": 7,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 7,
+        "to": 8,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 8,
+        "to": 9,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 9,
+        "to": 10,
+        "sameIdentitySet": true
+      },
+      {
+        "from": 10,
+        "to": 11,
+        "sameIdentitySet": true
+      }
+    ]
+  },
+  "summary": {
+    "samples": 12,
+    "cpEqualsRcon": 12,
+    "a2sMinusCpValues": [
+      3,
+      2
+    ],
+    "botsValues": [
+      0
+    ],
+    "trustedValues": [
+      7,
+      9
+    ],
+    "batches": [
+      {
+        "lastModified": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "players": 7
+      },
+      {
+        "lastModified": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "players": 9
+      }
+    ]
+  },
+  "steamReadOnlyAttempt": {
+    "existingApiContextError": "no_existing_target_context",
+    "anonymousLoginObserved": true,
+    "observedAt": "2026-10-24T07:54:00.576Z",
+    "gms": {
+      "status": "timeout",
+      "observedAt": "2026-10-24T07:54:00.576Z",
+      "authPlayers": null,
+      "eresult": null,
+      "eresultSource": null
+    },
+    "serverList": {
+      "status": "not_found",
+      "observedAt": "2026-10-24T07:53:30.813Z",
+      "players": null,
+      "queryPort": null,
+      "eresult": 2,
+      "eresultSource": "steam_user_decoded_header"
+    },
+    "logSha256": "caba39142dc0a1412c0d9df7847c74ea8d3b4a8c1831da4c6218ac367bc1caa6",
+    "limitation": "The service had no saved target context after its previous restart; no player connection was created to obtain one. Anonymous GMS timed out and GetServerList returned no target. Neither is a zero count or proof of deregistration."
+  },
+  "controls": {
+    "researchRustActiveConnections": 0,
+    "steamAccountsOnline": 3,
+    "configurationChanged": false,
+    "remoteDllDeployed": false,
+    "normalClientsRestarted": false,
+    "note": "Web overview before and after this batch showed no active/connecting research Rust session. No session start, stop or account-login operation was performed in this observation."
+  },
+  "limits": [
+    "Natural player changes and backend delay prevent attributing trusted 7 to 9 to any individual player or action.",
+    "Paired queries are close in time, not atomic; cp has its own periodic publication cadence.",
+    "The baseline A2S minus cp was 4; window differences were 2 or 3. No fixed offset is established.",
+    "The cause of A2S extra players is unknown; this does not identify or prove behavior of a particular remote plugin.",
+    "No manual game-browser refresh observation was obtained for this batch.",
+    "A new public batch and changed count do not reveal its upstream source or qualification rule."
+  ],
+  "privacy": "No identities, names, addresses of players, tickets, credentials, management endpoints or full public map are included."
+}

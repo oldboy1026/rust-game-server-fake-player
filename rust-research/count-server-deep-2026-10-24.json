@@ -1,0 +1,869 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Current dedicated-server registration, callback pump, publishing and cache semantics",
+  "scope": {
+    "focused": {
+      "modules": 12,
+      "selectedMethods": 313,
+      "matchingCallSites": 333,
+      "matchingNativeImports": 78,
+      "broaderPlayerCountNameMatches": 10
+    },
+    "wide": {
+      "managedModules": 266,
+      "failedModules": [],
+      "selectedMethods": 26,
+      "matchingCallSites": 8,
+      "exactSetPlayerCountDefinitions": 0
+    },
+    "provenanceBoundary": "Local disk files, including Oxide libraries that may be present without being loaded. No claim that these binaries or frameworks are loaded in the current local process or match the remote running server.",
+    "nativeBoundary": "P/Invoke declarations/call chains inspected as metadata only. steam_api64 implementation, real packet timing, master-list publication and Facepunch trusted-count classification are unverified."
+  },
+  "modules": [
+    {
+      "file": "Assembly-CSharp-firstpass.dll",
+      "sha256": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77",
+      "mvid": "57da5e47-80e4-4f72-8ce5-862327f1980d",
+      "assembly": "Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "assembly": "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480",
+      "assembly": "Facepunch.Network, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Raknet.dll",
+      "sha256": "95ea907d62c8cdbfd8f61246c3d7bf8a95c83aa567173d17a7da509150f9c2be",
+      "mvid": "44553f38-d673-4769-aa8d-c05b27885261",
+      "assembly": "Facepunch.Raknet, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.SteamNetworking.dll",
+      "sha256": "d3c9a993f36ab39208158ddc2dac0be27903dc7f11b29d0e2abb6b35169939e2",
+      "mvid": "3bb81528-8e3d-4476-a2a7-8c9199552c0d",
+      "assembly": "Facepunch.SteamNetworking, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "assembly": "Facepunch.Steamworks.Win64, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Oxide.Core.dll",
+      "sha256": "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05",
+      "mvid": "15f61ddd-a771-464d-8246-ebdce8ff4811",
+      "assembly": "Oxide.Core, Version=2.0.4143.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Oxide.Rust.dll",
+      "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+      "mvid": "cfda664a-335e-470a-9404-e150d3f84ba0",
+      "assembly": "Oxide.Rust, Version=2.0.7839.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Global.dll",
+      "sha256": "84b661f33746deebd0345c0044cfe42bd04c0c80cc6a587e42d7c3dd5a1102bf",
+      "mvid": "3c8e3414-61c0-4f6c-8c5c-c3c8a8061f6e",
+      "assembly": "Rust.Global, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Platform.Common.dll",
+      "sha256": "748eefb285bdedf3e181d3a2590aa3211a7e9ef2df1db337dd40c7662102bd1d",
+      "mvid": "5e189cb5-e999-4e7c-a8f1-b8353f8deed3",
+      "assembly": "Rust.Platform.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Platform.dll",
+      "sha256": "f30c52f576f3f4bd2983e9dcf1a9fb38f2852dc398f095e15770f17c14789d57",
+      "mvid": "17435d2e-146b-492c-b54b-2bfe638acd5b",
+      "assembly": "Rust.Platform, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Platform.Steam.dll",
+      "sha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11",
+      "mvid": "8488aab9-560d-4a1e-a7e2-84abf4312be5",
+      "assembly": "Rust.Platform.Steam, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "sourceEvidenceSha256": "f4c45ee3665bcb8acf25d27c784932b406c62dddd8140a146309ebdd1cfc6ffd",
+  "findings": [
+    {
+      "id": "normal_callback_pump",
+      "finding": "ServerMgr.Update calls IPlatformService.Update; SteamPlatform.Update checks SteamServer.IsValid and calls SteamServer.RunCallbacks; a nonzero ServerPipe is passed to Dispatch.Frame.",
+      "boundary": "A static call chain does not prove the remote frame loop is currently running or that a particular callback has arrived. ServerMgr frame updates are guarded by runFrameUpdate.",
+      "evidence": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::Update()",
+          "metadataToken": "0x06007AB6",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0008"
+            ],
+            [
+              "IL_00D0",
+              "IL_0105"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::Update()",
+          "metadataToken": "0x06000059",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000C"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::RunCallbacks()",
+          "metadataToken": "0x06000994",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_001C"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manual_dispatch_and_cleanup",
+      "finding": "Dispatch.Frame prevents reentry, invokes native ManualDispatch_RunFrame, drains GetNextCallback, processes each server/client classified callback and frees the last callback in finally. Exceptions are delivered to OnException when installed; runningFrame is cleared in finally.",
+      "boundary": "These managed operations process callbacks; they are not evidence of successful external registration, a backend player-count acknowledgement or the native heartbeat interval.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.Dispatch::Frame(Steamworks.Data.HSteamPipe)",
+          "metadataToken": "0x06000016",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0067"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "callback_server_scope",
+      "finding": "SteamServer installs validation, connected, failure, disconnected and networking-auth callbacks with server=true. Dispatch.ProcessCallback filters registered actions by the server flag before invoking them.",
+      "boundary": "Callback type names and field metadata are static; no runtime identity, token or callback payload is included.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::InstallEvents()",
+          "metadataToken": "0x06000985",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_00B9"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.Dispatch::ProcessCallback(Steamworks.Dispatch/CallbackMsg_t,System.Boolean)",
+          "metadataToken": "0x06000017",
+          "ilRanges": [
+            [
+              "IL_002E",
+              "IL_0054"
+            ],
+            [
+              "IL_006C",
+              "IL_0088"
+            ],
+            [
+              "IL_00B3",
+              "IL_00C0"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.Dispatch::Install<T>(System.Action`1<T>,System.Boolean)",
+          "metadataToken": "0x0600001D",
+          "ilRanges": [
+            [
+              "IL_0044",
+              "IL_006F"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platform_registration",
+      "finding": "SteamPlatform.StartSteamServer returns when already valid or server parameters are absent; otherwise builds SteamServerInit from hooks and calls SteamServer.Init with asyncCallbacks=false. It subscribes to lifecycle events, selects dedicated mode and calls LogOnAnonymous.",
+      "boundary": "No endpoint values are contained in this static evidence. Initialization and logon are separate operations; neither proves backend listing or trusted player eligibility.",
+      "evidence": [
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::StartSteamServer()",
+          "metadataToken": "0x06000046",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0025"
+            ],
+            [
+              "IL_0026",
+              "IL_00A8"
+            ],
+            [
+              "IL_00D7",
+              "IL_0136"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "native_initialization_and_publish",
+      "finding": "SteamServer.Init selects server mode from Secure, calls SteamInternal.GameServer_Init, checks its result, initializes manual dispatch and ServerPipe, registers interfaces, enables advertising and initializes metadata. The native init wrapper forwards to SteamInternal_GameServer_Init_V2.",
+      "boundary": "Native initialization errors throw in this wrapper. The native library internals and actual master-server publishing or scheduling are not exposed by these managed IL snippets.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::Init(Steamworks.AppId,Steamworks.SteamServerInit,System.Boolean)",
+          "metadataToken": "0x06000990",
+          "ilRanges": [
+            [
+              "IL_0056",
+              "IL_0062"
+            ],
+            [
+              "IL_00B8",
+              "IL_00D4"
+            ],
+            [
+              "IL_0121",
+              "IL_01BF"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "Steamworks.SteamAPIInitResult Steamworks.SteamInternal::GameServer_Init(System.UInt32,System.UInt16,System.UInt16,System.Int32,System.String,System.String,System.String&)",
+          "metadataToken": "0x06000028",
+          "ilRanges": [
+            [
+              "IL_0017",
+              "IL_0045"
+            ],
+            [
+              "IL_0071",
+              "IL_0072"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advertising_aliases",
+      "finding": "Both AutomaticHeartbeats and AdvertiseServer setters call ISteamGameServer.SetAdvertiseServerActive, which forwards to a steam_api64 import.",
+      "boundary": "The property name AutomaticHeartbeats does not establish a managed heartbeat timer, interval setter or immediate backend refresh. This analysis does not change advertising.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::set_AutomaticHeartbeats(System.Boolean)",
+          "metadataToken": "0x060009AE",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000B"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::set_AdvertiseServer(System.Boolean)",
+          "metadataToken": "0x060009AF",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000B"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.ISteamGameServer::SetAdvertiseServerActive(System.Boolean)",
+          "metadataToken": "0x060001FE",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000C"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heartbeat_noop",
+      "finding": "SteamServer.ForceHeartbeat consists of exactly one instruction: ret at IL_0000. LogOnAnonymous calls this method after its native anonymous-logon call.",
+      "boundary": "This exact binary cannot be refreshed by repeatedly invoking this managed no-op. This does not show that the native Steam implementation lacks automatic heartbeats.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::ForceHeartbeat()",
+          "metadataToken": "0x060009B0",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0000"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::LogOnAnonymous()",
+          "metadataToken": "0x060009AA",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000F"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_handlers",
+      "finding": "SteamPlatform connected, disconnected and connection-failure handlers only format/log their events and return; the inspected methods do not clear metadata caches, reinitialize SteamServer or force a metadata replay.",
+      "boundary": "Other callers, native handling, runtime patches and external plugins remain outside this narrow negative result. No real disconnection or native-cache loss was observed here.",
+      "evidence": [
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::OnSteamServersDisconnected(Steamworks.Result)",
+          "metadataToken": "0x06000047",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0015"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::OnSteamConnected()",
+          "metadataToken": "0x06000048",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000A"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::OnSteamConnectionFailure(Steamworks.Result,System.Boolean)",
+          "metadataToken": "0x06000049",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0015"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metadata_equal_value_skip",
+      "finding": "MaxPlayers and BotCount return early when their numeric cached value equals the input; GameTags returns early for an equal cached string. On changes they call the native-facing setter and then replace the managed cached value.",
+      "boundary": "The IL proves suppression of identical writes. It does not prove that managed and native caches became inconsistent, or that replaying values would change Facepunch trusted counts.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::set_MaxPlayers(System.Int32)",
+          "metadataToken": "0x06000998",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_001A"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::set_BotCount(System.Int32)",
+          "metadataToken": "0x0600099A",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_001A"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::set_GameTags(System.String)",
+          "metadataToken": "0x060009A8",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_001F"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "key_cache_equal_value_skip",
+      "finding": "SetKey suppresses an existing key/value pair whose value is equal; otherwise updates/adds the managed dictionary and calls ISteamGameServer.SetKeyValue. ClearKeys explicitly clears both the dictionary and native key-values.",
+      "boundary": "This is a description of existing methods only. ClearKeys was not called. It must not be inferred that all caches are immutable or that a cache-loss recovery is needed.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::SetKey(System.String,System.String)",
+          "metadataToken": "0x060009B2",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0047"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::ClearKeys()",
+          "metadataToken": "0x060009B3",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0014"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cache_field_write_scope",
+      "finding": "The wider managed scan found direct writes to _maxplayers, _botcount and _gametags in their setters and the SteamServer static constructor; KeyValue field assignment is in that constructor. Initialize installs Dispatch.OnException.",
+      "boundary": "The direct-field-write search does not enumerate every mutation of an existing Dictionary, reflected/native access or runtime patch. SetKey and ClearKeys mutate the dictionary without assigning the field.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::.cctor()",
+          "metadataToken": "0x060009BB",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0052"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Boolean Rust.Platform.Steam.SteamPlatform::Initialize(IPlatformHooks)",
+          "metadataToken": "0x06000057",
+          "ilRanges": [
+            [
+              "IL_006E",
+              "IL_009A"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auth_to_user_data",
+      "finding": "The normal Steam validation callback is forwarded to IPlatformHooks.AuthSessionValidated. Auth_Steam updates player-session data after its validation flow. SteamPlatform.UpdatePlayerSession passes score 0 to SteamServer.UpdatePlayer; the latter discards BUpdateUserData bool. The lower wrapper returns the native bool unchanged after freeing its UTF-8 allocation.",
+      "boundary": "Static flow does not establish a callback or bool on the remote server. The separate local ReportingObserver true result is not a trusted-count receipt or EAC result and is outside this file static-only scope.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer/<>c::<InstallEvents>b__5_0(Steamworks.Data.ValidateAuthTicketResponse_t)",
+          "metadataToken": "0x060012A0",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_002B"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::<StartSteamServer>b__10_0(Steamworks.SteamId,Steamworks.SteamId,Steamworks.AuthResponse)",
+          "metadataToken": "0x0600005D",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_002A"
+            ]
+          ]
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Boolean Auth_Steam/<Run>d__1::MoveNext()",
+          "metadataToken": "0x060078AF",
+          "ilRanges": [
+            [
+              "IL_02AF",
+              "IL_02D5"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::UpdatePlayerSession(System.UInt64,System.String)",
+          "metadataToken": "0x0600004B",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000D"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::UpdatePlayer(Steamworks.SteamId,System.String,System.Int32)",
+          "metadataToken": "0x060009B1",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000E"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Boolean Steamworks.ISteamGameServer::BUpdateUserData(Steamworks.SteamId,System.String,System.UInt32)",
+          "metadataToken": "0x06000220",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_002E"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "periodic_cp",
+      "finding": "ServerMgr.StartSteamServer schedules UpdateServerInformation after 2 seconds and every 30 seconds. UpdateServerInformation formats cp using activePlayerList.Count, compresses tags and sends them via SteamServer.GameTags.",
+      "boundary": "The cp tag is an advertised active-list count. It is not automatically identical to A2S_INFO players, authenticated Steam players, EAC sessions or the client trusted-count result. The actual callback cadence was not measured.",
+      "evidence": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::StartSteamServer()",
+          "metadataToken": "0x06007AB2",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0020"
+            ]
+          ]
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::UpdateServerInformation()",
+          "metadataToken": "0x06007AC0",
+          "ilRanges": [
+            [
+              "IL_0186",
+              "IL_01B0"
+            ],
+            [
+              "IL_0220",
+              "IL_022A"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no_direct_setplayercount_definition",
+      "finding": "All 266 managed modules accepted by dnlib in the wider scan contained zero methods named exactly SetPlayerCount and zero matching call targets. The focused PlayerCount-name search had 10 broader matches, including max/bot or other count APIs, not 10 live-current-player setters.",
+      "boundary": "Bounded text/name/callsite search only. Native exports, vtables, reflection, obfuscation, runtime patches and code outside the scanned local directory are not ruled out.",
+      "evidence": []
+    },
+    {
+      "id": "packet_wrapper_scope",
+      "finding": "Managed SteamServer incoming/outgoing packet wrappers exist. The wider caller search found only the byte-array incoming wrapper calling the pointer wrapper and that wrapper calling ISteamGameServer.HandleIncomingPacket; no external managed caller of SteamServer.GetOutgoingPacket or these incoming wrappers was matched.",
+      "boundary": "This is not proof that Steam emits no packets or that the configured query port is inactive. Native socket ownership/scheduling and external or reflected callers remain unexamined.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Boolean Steamworks.SteamServer::GetOutgoingPacket(Steamworks.Data.OutgoingPacket&)",
+          "metadataToken": "0x060009B6",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_006D"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::HandleIncomingPacket(System.Byte[],System.Int32,System.UInt32,System.UInt16)",
+          "metadataToken": "0x060009B7",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0028"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::HandleIncomingPacket(System.IntPtr,System.Int32,System.UInt32,System.UInt16)",
+          "metadataToken": "0x060009B8",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000F"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "native_legacy_callback_wrapper",
+      "finding": "The separate SteamGameServer.RunCallbacks wrapper calls SteamGameServer_RunCallbacks, but the normal SteamPlatform.Update path selects SteamServer.RunCallbacks and manual Dispatch.Frame.",
+      "boundary": "Do not conflate the two similarly named callback wrappers, or inject additional pumps on the assumption the current path lacks one.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamGameServer::RunCallbacks()",
+          "metadataToken": "0x06000025",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0005"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::Update()",
+          "metadataToken": "0x06000059",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_000C"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::RunCallbacks()",
+          "metadataToken": "0x06000994",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_001C"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "optional_async_pump",
+      "finding": "SteamServer.Init only starts Dispatch.LoopServerAsync when its asyncCallbacks argument is true. That loop invokes Dispatch.Frame and awaits 32 ms while ServerPipe remains nonzero; SteamPlatform.StartSteamServer supplies false.",
+      "boundary": "The existence of the optional async loop does not mean it is enabled by the normal Rust dedicated-server path.",
+      "evidence": [
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::Init(Steamworks.AppId,Steamworks.SteamServerInit,System.Boolean)",
+          "metadataToken": "0x06000990",
+          "ilRanges": [
+            [
+              "IL_01B7",
+              "IL_01BF"
+            ]
+          ]
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.Dispatch/<LoopServerAsync>d__23::MoveNext()",
+          "metadataToken": "0x060011C4",
+          "ilRanges": [
+            [
+              "IL_000C",
+              "IL_0025"
+            ],
+            [
+              "IL_006F",
+              "IL_007F"
+            ]
+          ]
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::StartSteamServer()",
+          "metadataToken": "0x06000046",
+          "ilRanges": [
+            [
+              "IL_0096",
+              "IL_00A8"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "analytics_thread_and_shutdown_only_pump",
+      "finding": "AnalyticsManager.StartThead creates its worker. In DoWork, enabled uploaders accumulate/upload tables; the running loop sleeps 100 ms. PlatformService.Update at IL_00FD is in the shutdown task-wait branch: keepRunning=false creates the task list, and the branch waits at most 10 seconds with 10-ms sleeps while tasks complete.",
+      "boundary": "The PlatformService.Update call in this method is not evidence of a permanent second 100-ms Steam callback pump. Upload invocation/byte counters do not prove trusted-player eligibility. No upload payload or endpoint values are included.",
+      "evidence": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void Facepunch.Rust.AnalyticsManager::StartThead()",
+          "metadataToken": "0x06009316",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0039"
+            ]
+          ]
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void Facepunch.Rust.AnalyticsManager::DoWork()",
+          "metadataToken": "0x06009318",
+          "ilRanges": [
+            [
+              "IL_0013",
+              "IL_0047"
+            ],
+            [
+              "IL_0078",
+              "IL_00B7"
+            ],
+            [
+              "IL_00D5",
+              "IL_0154"
+            ],
+            [
+              "IL_01C5",
+              "IL_01D5"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "effective_security_not_configuration_only",
+      "finding": "The wider scan also records that ServerMgr.OpenConnection copies configured encryption, can mark effective Network.Server.secure false in startup/insufficient-encryption branches, and that EACServer.GetClient and IsAuthenticated are local mapping/status queries.",
+      "boundary": "Runtime effective secure/encryption, real EAC interface/handle and state provenance must be observed separately. IsAuthenticated=true alone is not a protected EAC-session proof. This file contains no configuration changes or runtime observations.",
+      "evidence": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::OpenConnection(System.Boolean)",
+          "metadataToken": "0x06007AAB",
+          "ilRanges": [
+            [
+              "IL_001E",
+              "IL_0028"
+            ],
+            [
+              "IL_007B",
+              "IL_00E2"
+            ]
+          ]
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.IntPtr EACServer::GetClient(Network.Connection)",
+          "metadataToken": "0x060078E2",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0015"
+            ]
+          ]
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Boolean EACServer::IsAuthenticated(Network.Connection)",
+          "metadataToken": "0x060078E4",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0012"
+            ]
+          ]
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void EACServer::OnJoinGame(Network.Connection,EAC/SystemConfig)",
+          "metadataToken": "0x060078EF",
+          "ilRanges": [
+            [
+              "IL_0000",
+              "IL_0014"
+            ],
+            [
+              "IL_018D",
+              "IL_01A1"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "rawEvidence": [
+    {
+      "file": "inspect.ps1",
+      "sha256": "1c0995539fbd94d97a22bf0fc7573022320f8ee3d265d97817814c7fce639d45",
+      "bytes": 5517
+    },
+    {
+      "file": "inspect-more.ps1",
+      "sha256": "308ad9604d489cccba7969d7503cbb48b6a4640d827cb7d7056447f1afe875ee",
+      "bytes": 4584
+    },
+    {
+      "file": "inventory-private.json",
+      "sha256": "f904f4ffb3a93fe9c380b5758df80205cca140db19736f57771e2b85361fb907",
+      "bytes": 1429288
+    },
+    {
+      "file": "selected-private.il.txt",
+      "sha256": "7595026b76bb5c58f6713c598fa1bff7862c65ef0cb8cd8d13d1a351da79dc21",
+      "bytes": 437387
+    },
+    {
+      "file": "wide-inventory-private.json",
+      "sha256": "d4985a0b8b449676c229eabc029f3550093e34466427c0794b6d521daafbd0ae",
+      "bytes": 65530
+    },
+    {
+      "file": "wide-selected-private.il.txt",
+      "sha256": "31eba4e83e45e1752f0a123d954767574e887535cb60fa9a6a524cecd19d0327",
+      "bytes": 105009
+    },
+    {
+      "file": "relay-fakeplayer-private.il.txt",
+      "sha256": "022efecac3e115f0742cc169f3637c86bae0d84e291d78591675d7b1d4aa0328",
+      "bytes": 36342
+    }
+  ],
+  "execution": {
+    "analysisOnly": true,
+    "networkRequests": 0,
+    "remoteDeployment": false,
+    "configurationChanged": false,
+    "unknownDllExecuted": false
+  },
+  "limits": [
+    "Static local files are not a remote runtime binary inventory. Presence of framework DLLs does not prove they are running.",
+    "This report stops at visible native API boundaries; native packet scheduling and Facepunch backend classification remain unestablished.",
+    "No cache-loss event was observed. Metadata caches are a conditional diagnostic hypothesis, not evidence of a bug or a reason to force updates."
+  ]
+}

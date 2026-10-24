@@ -1,0 +1,71 @@
+{
+  "analysisDate": "2026-10-24",
+  "scope": "Actual local Rust IL2CPP client static metadata/native code; no runtime state or backend algorithm recovery",
+  "unknownDllExecuted": false,
+  "gameProcessMemoryRead": false,
+  "runtimeCredentialsRead": false,
+  "inputs": {
+    "GameAssembly.dll": "e7156192c3773f1f07cd58f0a7817b35705683bab4f40cd4b14599bc0a4f954f",
+    "global-metadata.dat": "1aa177b0ddfea713a2050a40d03533f45d62e6f3c92fa75201afde3dd64b94d1"
+  },
+  "findings": [
+    {
+      "id": "separate-public-key-and-api-base-getters",
+      "status": "verified_static",
+      "gateFunctionRva": "0x7b42240",
+      "gateGetterCallRva": "0x7b422fc",
+      "gateGetterVtableOffset": "0xad8",
+      "gateGetterSlot": 154,
+      "apiGetterCallRva": "0x7b45dac",
+      "apiGetterVtableOffset": "0xa78",
+      "apiGetterSlot": 148,
+      "gateFailureLiteral": "[ServerMeta] Not downloading server list metadata - no public key",
+      "concretePublicKeyGetterRva": "0xce6d30",
+      "keyValueIncluded": false,
+      "meaning": "Request admission checks a build-static public-key getter separately from API URL construction; this is not a per-account ticket getter in the recovered path."
+    },
+    {
+      "id": "enabled-browser-notification-chain",
+      "status": "verified_static_conditional",
+      "chainRvas": [
+        "0x7b48f80",
+        "0x7b44840",
+        "0x7b41610",
+        "0xce0170",
+        "0x70ecd80"
+      ],
+      "publishInstructionRva": "0x7b44bbd",
+      "notificationCallRva": "0x7b44c40",
+      "integrationNotificationSlot": 89,
+      "integrationActionFieldOffset": "0x28",
+      "onEnableRva": "0x71058c0",
+      "onEnableCallbackMethodToken": "0x060454e2",
+      "onEnableCombineRva": "0x7105ad9",
+      "onEnableFieldStoreRva": "0x7105b02",
+      "onDisableRva": "0x70e09b0",
+      "onDisableRemoveRva": "0x70e0ad9",
+      "listDirtyInstructionRva": "0x70ed033",
+      "meaning": "A successfully published response can immediately notify and reapply counts to an enabled subscribed browser list; the provisional no-notification/next-manual-refresh theory is statically contradicted under those conditions."
+    },
+    {
+      "id": "invalid-port-key-boundary",
+      "status": "verified_static_narrow",
+      "parserRva": "0x7b43f10",
+      "unsignedRangeCompareRva": "0x7b44132",
+      "unsignedBranchRva": "0x7b44138",
+      "throwConstructionRva": "0x7b442e4",
+      "meaning": "An integer port outside 0..65535 takes an exception branch; malformed IP/integer/component parsing returns false. This does not establish any invalid live payload."
+    }
+  ],
+  "notEstablished": [
+    "Facepunch backend count eligibility algorithm",
+    "Actual runtime integration/callback state or per-user current map",
+    "HTTP success or real UI repaint latency",
+    "Duplicate normalized endpoint parser behavior",
+    "A trustworthy count repair or a headless-account eligibility repair"
+  ],
+  "trackedFilesChanged": false,
+  "newRestorationObligations": false,
+  "sourceSummarySha256": "b6d2ebfaabeb828ef0df6053bbe004b0aaca86f90194cd9284629bc724309aba",
+  "originalEvidenceManifestSha256": "d71c9f09de139e041db92b808ce37e0540f12ff3ed1a2abd088752473a501ab3"
+}

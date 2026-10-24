@@ -2,6 +2,20 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
+## 最新：公共人数查询/上报深扫与本地实际安全状态
+
+当前仍未验证修复公共游戏列表人数。先读 `rust-research/count-query-reporting-deep-2026-10-24.md`，它整合本批新增证据与下一阶段条件。客户端已补齐成功映射→integration通知→已启用列表应用/dirty链，不能再用“没有刷新通知”解释；请求前门槛为PublicKey，与ApiUrl getter分离，已修正旧显示证据JSON的措辞。后台资格算法不在已取得的本地文件中。
+
+服务端深扫12模块/313方法/333调用及266模块补充扫描，确认正常注册、帧callback泵及原生边界；ForceHeartbeat当前只有ret，相同元数据有缓存跳写，但未观察缓存失配，不得据此强制重发。详见 `count-server-deep-2026-10-24.json`。
+
+15:49:36–15:55:08只读12次并行采样：cp逐份等于RCON11→12→11；A2S多2或3且bots0，较早基线差4，不能写固定+2。trusted新批次7→9，研究Rust始终0，名单集合2次变化，不能归因研究账号。匿名GMS超时、另一个列表未返回目标，缺失不是0或未注册。见 `count-chain-observation-2026-10-24.md/.json`。
+
+15:50:18官方加载自写无patch的CountSnapshot单次聚合，确认本地Steam已登录，但effectiveSecure=false/encryption1、EAC接口false/句柄0，缓存IsAuthenticated却为1；active/alive/awake/connected各1。这个本地服不能作有效EAC对照，旧本地加密拒绝也不是EAC认证结果。源码真实引用编译通过、独立静态复核，无配置/玩家操作；15:50:19已卸载并移出复制DLL。final复写同次缓存，不是第二次状态采样。前后RCON同一1连接、时长覆盖窗口。见 `count-snapshot-local-2026-10-24.md/.json` 和 `tools/rust-research/CountSnapshot.md`。
+
+旧gameplay实验七份原始uploader记录已复核：DryRun=False，Null/Azure序列化0，仅FP有流，支持旧HTTP成功状态推断，但不是后台采用回执。uploaderstats Total Bytes是序列化字节，Upload Task可能吞网络异常后正常完成，不得仅凭Task/总体字节宣告成功。见 `count-upload-window-audit-2026-10-24.json`。
+
+Web保持运行，3Steam在线、0研究Rust活动连接，正常RustClient/本地服均保留。本批有限观察已完成，无卸载/票据/配置回滚义务。远端仍只有RCON无法部署新DLL；下一步优先取得已登记服正规诊断部署和版本核对，关联真实Steam/EAC/token/具体上传生命周期；无需先购买服务器，不能通过本地非secure连接或反复Flush推导公共资格。
+
 ## 最新：自写Harmony诊断DLL已在本地实际验证并卸载
 
 15:28:44–15:28:53在用户本地服使用官方 `harmony.load/unload` 完成有限观察，不重启、不改配置/人数/认证，不执行未知FakePlayers.dll。自写 `ReportingObserver.cs` 精确锁定当前Steamworks MVID与bool方法签名，拒绝已有目标补丁，仅观察值参数返回与是否执行原方法。源码和构建DLL的SHA及结果见 `reporting-observer-local-2026-10-24.md/.json`；构建工具/说明随源码保存。

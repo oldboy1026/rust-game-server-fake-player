@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Single aggregate snapshot of effective Steam, network and EAC state in the local running server",
+  "source": {
+    "file": "tools/rust-research/CountSnapshot.cs",
+    "sha256": "ac211c3df065e8a3c8514be0d70ad49ac6fc572938b1a1c14f10967d79b3ffbe"
+  },
+  "build": {
+    "startedUtc": "2026-10-24T07:48:25.3044207Z",
+    "completedUtc": "2026-10-24T07:48:25.9456726Z",
+    "compileOnly": true,
+    "success": true,
+    "exitCode": 0,
+    "inputsUnchanged": true,
+    "sdk": "10.0.201",
+    "source": {
+      "sha256": "ac211c3df065e8a3c8514be0d70ad49ac6fc572938b1a1c14f10967d79b3ffbe",
+      "file": "tools/rust-research/CountSnapshot.cs"
+    },
+    "references": [
+      {
+        "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df",
+        "file": "mscorlib.dll"
+      },
+      {
+        "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3",
+        "file": "netstandard.dll"
+      },
+      {
+        "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc",
+        "file": "System.dll"
+      },
+      {
+        "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de",
+        "file": "System.Core.dll"
+      },
+      {
+        "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427",
+        "file": "System.Runtime.dll"
+      },
+      {
+        "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5",
+        "file": "Rust.Harmony.dll"
+      },
+      {
+        "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9",
+        "file": "UnityEngine.CoreModule.dll"
+      },
+      {
+        "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+        "file": "Assembly-CSharp.dll"
+      },
+      {
+        "sha256": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77",
+        "file": "Assembly-CSharp-firstpass.dll"
+      },
+      {
+        "sha256": "e697f08a2e081a90c3287733b85ae2a6d2c5e9a2955b9df988d7098975b7801e",
+        "file": "Facepunch.System.dll"
+      },
+      {
+        "sha256": "b460f7dc8d48be7db72fd2fe5d5d7178ae5b0be63f903e1550d4cae641b79a43",
+        "file": "Facepunch.UnityEngine.dll"
+      },
+      {
+        "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+        "file": "Facepunch.Network.dll"
+      },
+      {
+        "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+        "file": "Facepunch.Steamworks.Win64.dll"
+      }
+    ],
+    "output": {
+      "sha256": "b5f1a4eed68687ccfd3efe55f550286c657ec77ca8792810667151c9ea5834dd",
+      "file": "CountSnapshot.dll"
+    },
+    "buildRecordSha256": "b1df5d966b1284d984c78ff4b64594badb008d171018d42d7bd22ed1b86c6dc6"
+  },
+  "modules": [
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "assembly": "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "assembly": "Facepunch.Steamworks.Win64, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480",
+      "assembly": "Facepunch.Network, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "execution": {
+    "startedAt": "2026-10-24T07:50:18.875Z",
+    "localOnly": true,
+    "configurationChanged": false,
+    "playerOperations": false,
+    "patchesInstalled": false,
+    "unloadRequired": false,
+    "copied": true,
+    "copiedHash": "b5f1a4eed68687ccfd3efe55f550286c657ec77ca8792810667151c9ea5834dd",
+    "loaded": {
+      "version": "0.1.0",
+      "startedUtc": "2026-10-24T07:50:18.9606240Z",
+      "writtenUtc": "2026-10-24T07:50:18.9626236Z",
+      "unloaded": false,
+      "writeErrors": 0,
+      "status": "captured",
+      "activeListEntries": 1,
+      "activeValid": 1,
+      "activeAlive": 1,
+      "activeDead": 0,
+      "activeSleeping": 0,
+      "activeConnected": 1,
+      "activeReceivingSnapshot": 0,
+      "sleepingListEntries": 0,
+      "connectionListEntries": 1,
+      "connectedConnections": 1,
+      "authenticatedConnections": 1,
+      "eacMappedConnections": 0,
+      "eacStatusAuthenticatedConnections": 1,
+      "effectiveSecure": false,
+      "effectiveEncryption": 1,
+      "eacInterfaceAvailable": false,
+      "steamInterfaceValid": true,
+      "steamLoggedOn": true
+    },
+    "final": {
+      "version": "0.1.0",
+      "startedUtc": "2026-10-24T07:50:18.9606240Z",
+      "writtenUtc": "2026-10-24T07:50:19.2598970Z",
+      "unloaded": true,
+      "writeErrors": 0,
+      "status": "captured",
+      "activeListEntries": 1,
+      "activeValid": 1,
+      "activeAlive": 1,
+      "activeDead": 0,
+      "activeSleeping": 0,
+      "activeConnected": 1,
+      "activeReceivingSnapshot": 0,
+      "sleepingListEntries": 0,
+      "connectionListEntries": 1,
+      "connectedConnections": 1,
+      "authenticatedConnections": 1,
+      "eacMappedConnections": 0,
+      "eacStatusAuthenticatedConnections": 1,
+      "effectiveSecure": false,
+      "effectiveEncryption": 1,
+      "eacInterfaceAvailable": false,
+      "steamInterfaceValid": true,
+      "steamLoggedOn": true
+    },
+    "copiedDllRemoved": true,
+    "completedAt": "2026-10-24T07:50:19.467Z"
+  },
+  "rosterControl": {
+    "snapshots": [
+      {
+        "sourceSha256": "7d424a4e2e3c610cd098754bae345c62494b694bd9db4389700bc504ec8233f6",
+        "observedAt": "2026-10-24T07:47:15.851Z",
+        "players": 1,
+        "joining": 0,
+        "queued": 0,
+        "statusRows": 1
+      },
+      {
+        "sourceSha256": "2a921e375a776295e2271878151168dbe5ff751ade456c85bd85325a26079e44",
+        "observedAt": "2026-10-24T07:50:42.209Z",
+        "players": 1,
+        "joining": 0,
+        "queued": 0,
+        "statusRows": 1
+      }
+    ],
+    "uniqueStringIdentitiesValidated": true,
+    "sameIdentitySet": true,
+    "afterConnectionTimeValuesAvailable": true,
+    "minimumAfterConnectedSeconds": 4596.338,
+    "minimumAfterDurationCoversFromBeforeThroughCleanup": true
+  },
+  "findings": [
+    "Steam interface valid and BLoggedOn true at this one local observation.",
+    "Effective Net.sv.secure false and encryption 1, with EAC interface false and no nonzero EAC client handles.",
+    "EACServer.IsAuthenticated returned true for the one connection despite the absent interface/handle; the inspected nonsecure branch can set that cached state.",
+    "The active list contained one alive, awake, connected entry with no receiving-snapshot flag.",
+    "The official loader accepted this self-authored DLL; it installed no Harmony patches and was unloaded with its copied DLL removed."
+  ],
+  "limits": [
+    "Exactly one Capture call; execution.final repeats the cached snapshot with an unloaded marker and is not another observation.",
+    "Active-player and connection/EAC aggregates have separate denominators and do not associate an individual identity with an EAC result.",
+    "This is not evidence of a valid protected EAC session, EOS ID-token completion or public trusted-count qualification.",
+    "The local server does not provide a public playerCounts map entry; no local result establishes the remote backend generation algorithm.",
+    "MVID locks and disk input hashes identify inspected modules, not an attestation of every runtime patch or native backend.",
+    "A transport encryption requirement alone does not establish an EAC requirement. Earlier headless local encryption refusal is not an EAC authentication result.",
+    "Normal clients were not disconnected or restarted; no settings, player state, counters, auth callbacks or upload scheduling were modified."
+  ],
+  "privacy": "Only aggregate counters, booleans, public module identifiers and hashes. No account identities, credentials, tickets or management endpoints."
+}

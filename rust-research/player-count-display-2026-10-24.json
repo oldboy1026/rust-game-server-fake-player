@@ -339,7 +339,7 @@
       "elapsedTicksToMinutesMultiplier": 1.6666666666666667e-09,
       "elapsedMinutesThreshold": 1.0,
       "cachedTimestampStaticOffset": "0x20",
-      "finding": "On the ordinary browser path the helper receives false, checks a nonempty platform API base, and only requests again when at least one minute has elapsed since its stored refresh-attempt timestamp. A true first argument bypasses that time comparison. The timestamp is stored when the request is initiated, not only after successful parsing.",
+      "finding": "On the ordinary browser path the helper receives false, checks a nonempty platform PublicKey (distinct from the ApiUrl getter; see count-client-deep-2026-10-24.json), and only requests again when at least one minute has elapsed since its stored refresh-attempt timestamp. A true first argument bypasses that time comparison. The timestamp is stored when the request is initiated, not only after successful parsing.",
       "timingBoundary": "This one-minute client request throttle is distinct from the roughly five-minute publication batches independently observed at the public endpoint. Static client code does not establish the backend publication interval or guarantee when any particular browser tab refreshes.",
       "endpointHelper": {
         "module": "Facepunch.Unity.dll",

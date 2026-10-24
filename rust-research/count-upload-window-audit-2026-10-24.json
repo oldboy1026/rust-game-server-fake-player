@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Recheck of existing gameplay window uploader/byte evidence",
+  "sourceSha256": "30d2b1014471628295306d4e8c398cab7af032b53fc37d31771aa32ce1351afb",
+  "evidence": {
+    "scope": "Existing snapshots only; no new network or RCON requests",
+    "privacy": "Allowlisted aggregate telemetry only; excludes credentials, endpoints, identities and raw RCON",
+    "semantics": {
+      "uploaderstats.Total Bytes": "IUploader.BytesSerialized; NOT BytesUploaded",
+      "stats.Uploaded Bytes": "GatherStats sum of IUploader.BytesUploaded; direct per-uploader uploaded counters not captured",
+      "snapshotTiming": "Commands are sequential and fields may advance within a snapshot"
+    },
+    "snapshots": [
+      {
+        "source": "work/rcon-gameplay-window-baseline-private.json",
+        "sourceSha256": "78973206090a7c6ca65c017eb6d88c86a2385154f402200f0e29bde6e88c52f0",
+        "observedAt": "2026-10-23T19:49:29.706Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T19:49:29.930Z",
+            "status": "response",
+            "values": {
+              "Total Events": 605,
+              "Total Bytes": 99723,
+              "Uploaded Bytes": 98981,
+              "Queue Count": 0,
+              "Max Queue Count": 3
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T19:49:30.033Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 605,
+                "serializedBytes": 99723
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T19:49:30.129Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 605,
+                "serializedBytes": 99723
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T19:49:30.230Z",
+            "status": "response",
+            "value": false
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T19:49:30.530Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      },
+      {
+        "source": "work/rcon-gameplay-window-1-private.json",
+        "sourceSha256": "c77179b21f883d04f8358fd01649c7ec4f04baf0a8611528160ded5faad9f71b",
+        "observedAt": "2026-10-23T19:51:33.033Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T19:51:33.228Z",
+            "status": "response",
+            "values": {
+              "Total Events": 2360,
+              "Total Bytes": 220080,
+              "Uploaded Bytes": 182474,
+              "Queue Count": 0,
+              "Max Queue Count": 117
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T19:51:33.327Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 2360,
+                "serializedBytes": 220080
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T19:51:33.428Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 2373,
+                "serializedBytes": 220080
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T19:51:33.537Z",
+            "status": "response",
+            "value": true
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T19:51:33.826Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      },
+      {
+        "source": "work/rcon-gameplay-window-2-private.json",
+        "sourceSha256": "18fa0ff1b748f54cc7b63ac829ea614f3721315b40d0f0c016b26819ee08885d",
+        "observedAt": "2026-10-23T19:53:35.022Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T19:53:35.225Z",
+            "status": "response",
+            "values": {
+              "Total Events": 3656,
+              "Total Bytes": 302000,
+              "Uploaded Bytes": 182474,
+              "Queue Count": 0,
+              "Max Queue Count": 117
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T19:53:35.328Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 3657,
+                "serializedBytes": 302000
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T19:53:35.428Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 3657,
+                "serializedBytes": 302000
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T19:53:35.533Z",
+            "status": "response",
+            "value": true
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T19:53:35.824Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      },
+      {
+        "source": "work/rcon-gameplay-window-3-private.json",
+        "sourceSha256": "7b5febd849a5eb2a2ffbca1e984066e51ffb96ffcedd3f4e1fa7a8fa9f0337fa",
+        "observedAt": "2026-10-23T19:55:37.035Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T19:55:37.229Z",
+            "status": "response",
+            "values": {
+              "Total Events": 4936,
+              "Total Bytes": 383920,
+              "Uploaded Bytes": 182474,
+              "Queue Count": 0,
+              "Max Queue Count": 117
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T19:55:37.325Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 4936,
+                "serializedBytes": 383920
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T19:55:37.426Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 4936,
+                "serializedBytes": 383920
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T19:55:37.528Z",
+            "status": "response",
+            "value": true
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T19:55:37.823Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      },
+      {
+        "source": "work/rcon-gameplay-window-4-private.json",
+        "sourceSha256": "8caac54d6cd0518bb78d3511a4aa2756341b697b7540f4e4cddca4959034ba31",
+        "observedAt": "2026-10-23T19:57:39.021Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T19:57:39.224Z",
+            "status": "response",
+            "values": {
+              "Total Events": 6246,
+              "Total Bytes": 475013,
+              "Uploaded Bytes": 396447,
+              "Queue Count": 0,
+              "Max Queue Count": 117
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T19:57:39.324Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 6247,
+                "serializedBytes": 475013
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T19:57:39.425Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 6247,
+                "serializedBytes": 475013
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T19:57:39.524Z",
+            "status": "response",
+            "value": true
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T19:57:39.822Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      },
+      {
+        "source": "work/rcon-gameplay-window-5-private.json",
+        "sourceSha256": "781ef153325d3508d0dec8b5efffe6d854ccbb14e1acaacc831805ea4e7f6aec",
+        "observedAt": "2026-10-23T19:59:41.005Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T19:59:41.219Z",
+            "status": "response",
+            "values": {
+              "Total Events": 10603,
+              "Total Bytes": 716677,
+              "Uploaded Bytes": 396447,
+              "Queue Count": 0,
+              "Max Queue Count": 134
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T19:59:41.320Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 10603,
+                "serializedBytes": 716677
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T19:59:41.421Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 10603,
+                "serializedBytes": 716677
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T19:59:41.527Z",
+            "status": "response",
+            "value": true
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T19:59:41.822Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      },
+      {
+        "source": "work/rcon-gameplay-window-6-private.json",
+        "sourceSha256": "caba3c947aac8e26d7419b7c9c86491d9ce351ba7e061aa4709f1bc83acd1413",
+        "observedAt": "2026-10-23T20:01:33.001Z",
+        "commands": [
+          {
+            "name": "analytics.stats",
+            "observedAt": "2026-10-23T20:01:33.219Z",
+            "status": "response",
+            "values": {
+              "Total Events": 12495,
+              "Total Bytes": 896664,
+              "Uploaded Bytes": 859058,
+              "Queue Count": 1,
+              "Max Queue Count": 134
+            }
+          },
+          {
+            "name": "analytics.tablestats",
+            "observedAt": "2026-10-23T20:01:33.320Z",
+            "status": "response",
+            "tables": [
+              {
+                "name": "player_ticks_release",
+                "uploader": "Azure",
+                "compressed": true,
+                "interval": "00:01:00",
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "gameplay_events",
+                "uploader": "FPApi(server)",
+                "compressed": true,
+                "interval": "00:05:00",
+                "serializedEvents": 12496,
+                "serializedBytes": 896664
+              }
+            ]
+          },
+          {
+            "name": "analytics.uploaderstats",
+            "observedAt": "2026-10-23T20:01:33.418Z",
+            "status": "response",
+            "uploaders": [
+              {
+                "name": "Null",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "FPApi(server)",
+                "enabled": true,
+                "compressed": true,
+                "serializedEvents": 12497,
+                "serializedBytes": 896664
+              },
+              {
+                "name": "Azure",
+                "enabled": false,
+                "compressed": true,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              },
+              {
+                "name": "Azure->FPApi(server)",
+                "enabled": true,
+                "compressed": false,
+                "serializedEvents": 0,
+                "serializedBytes": 0
+              }
+            ]
+          },
+          {
+            "name": "analytics.gameplay_analytics",
+            "observedAt": "2026-10-23T20:01:33.520Z",
+            "status": "response",
+            "value": true
+          },
+          {
+            "name": "analytics.dryrun",
+            "observedAt": "2026-10-23T20:01:33.821Z",
+            "status": "response",
+            "value": false
+          }
+        ]
+      }
+    ]
+  },
+  "findings": [
+    "All seven saved snapshots had DryRun=False, zero Null/Azure serialized events and bytes, and FPApi(server) selected for gameplay_events.",
+    "Total Uploaded Bytes grew from 98981 to 859058. In the inspected implementation this is consistent with the FP HTTP success-status path under the observed selections.",
+    "The uploaderstats Total Bytes column is BytesSerialized, not per-uploader BytesUploaded. No per-uploader uploaded counter was directly captured.",
+    "The FP Upload task catches some HTTP/general exceptions, recycles the buffer and can finish normally. Task completion or an empty queue alone does not establish HTTP success.",
+    "No per-event adoption or per-player trusted eligibility receipt was obtained."
+  ],
+  "staticReferences": [
+    {
+      "method": "AnalyticsManager/FPUploader.Upload.MoveNext",
+      "token": "0x06009363",
+      "points": {
+        "dryRun": "IL_027B",
+        "postAsync": "IL_028F",
+        "ensureSuccessStatusCode": "IL_02EC",
+        "uploadedIncrement": "IL_02F2..IL_0305",
+        "internalCatch": "IL_032D..IL_035D",
+        "recycle": "IL_0369",
+        "setResult": "IL_03CB"
+      }
+    },
+    {
+      "method": "ConVar.Analytics.UploaderStats",
+      "token": "0x0600922A",
+      "points": {
+        "itemsSerialized": "IL_00BF",
+        "bytesSerialized": "IL_00D0"
+      }
+    },
+    {
+      "method": "AnalyticsManager.GatherStats",
+      "token": "0x0600931A",
+      "points": {
+        "sumUploaded": "IL_006A..IL_0092"
+      }
+    }
+  ],
+  "limits": [
+    "Saved commands are sequential snapshots, not atomic or continuous proofs of configuration.",
+    "The remote binary was not acquired; current local implementation semantics are a qualified comparison.",
+    "This audit reuses an already completed experiment; no new telemetry toggle or upload was requested."
+  ]
+}
