@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Classified server rejection raised duplicate-event KeyError and masked the server result",
+  "publicCountFixed": false,
+  "rootCause": {
+    "packet": "DisconnectReason",
+    "firstEvent": "server_rejected_with_category",
+    "secondEvent": "server_rejected_without_category",
+    "exception": "KeyError",
+    "finalMayAlreadyExist": true,
+    "nonzeroExitStillAFailure": true
+  },
+  "runtimeGameLimit": {
+    "observedUtc": "2026-10-24T09:21:34.821Z",
+    "convar": "server.maxconnectionsperip",
+    "value": 5,
+    "changed": false,
+    "semantics": "simultaneous_game_connections_per_source_IP_including_pre_authentication"
+  },
+  "sources": [
+    {
+      "file": "tools/rust-research/rust-peer.py",
+      "sha256": "45d62cd324fb0d18f83a9555f2f8b2046486873e64e88d9b905172724113e5fa"
+    },
+    {
+      "file": "tools/rust-research/test_rust_peer.py",
+      "sha256": "c47592573d470c8db1154075e69b5791aba86bcc68f9de0185a42ea94b68cb10"
+    },
+    {
+      "file": "steam-multi-account/src/rust-session.js",
+      "sha256": "c11d546edee2aab39104100fce096de94fc208ce60e52fdb9306d8af4ed3a315"
+    }
+  ],
+  "offlineRegression": {
+    "scope": "Offline tests only, synthetic input, fake native API, no networking/DLL loading/runtime process changes.",
+    "testSha256": "c47592573d470c8db1154075e69b5791aba86bcc68f9de0185a42ea94b68cb10",
+    "casesPerVariant": 11,
+    "results": [
+      {
+        "variant": "before",
+        "sourceSha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+        "testGroups": 5,
+        "errors": 9,
+        "failures": 0,
+        "keyErrorCategoryCount": 9,
+        "successful": false
+      },
+      {
+        "variant": "after",
+        "sourceSha256": "45d62cd324fb0d18f83a9555f2f8b2046486873e64e88d9b905172724113e5fa",
+        "testGroups": 5,
+        "errors": 0,
+        "failures": 0,
+        "keyErrorCategoryCount": 0,
+        "successful": true
+      }
+    ]
+  },
+  "nodeTestSuite": {
+    "passed": 35,
+    "failed": 0
+  },
+  "syntheticParentIntegrationEvidence": {
+    "file": "work/worker-exit-review/parent-integration-safe.json",
+    "sha256": "2fb48e0dce9f53e23a0830472c9356e0d87ceff407329cf506b7ea39642aa6ef",
+    "cases": 4,
+    "network": false
+  },
+  "realFiniteRegression": {
+    "startedAt": "2026-10-24T09:29:26.788Z",
+    "purpose": "finite_normal_rejection_reporting_check",
+    "noConfigurationChange": true,
+    "sourceSha256": "45d62cd324fb0d18f83a9555f2f8b2046486873e64e88d9b905172724113e5fa",
+    "attempts": [
+      {
+        "ordinal": 1,
+        "startedAt": "2026-10-24T09:29:26.823Z",
+        "observedAt": "2026-10-24T09:29:51.850Z",
+        "result": {
+          "state": "entered_game",
+          "error": null,
+          "steamAuthentication": {
+            "available": true,
+            "active": true,
+            "serverValidationObserved": true
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed"
+          ],
+          "closed": false,
+          "elapsedSeconds": 21.844
+        },
+        "cleanup": "closed_ticket_inactive",
+        "after": {
+          "state": "closed",
+          "error": null,
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "identity_requested",
+            "identity_sent",
+            "approved",
+            "ready_sent",
+            "world_received",
+            "self_entity_observed",
+            "finish_loading_observed",
+            "stop_requested",
+            "native_wrapper_closed"
+          ],
+          "closed": true,
+          "elapsedSeconds": 23.953
+        }
+      },
+      {
+        "ordinal": 2,
+        "startedAt": "2026-10-24T09:29:31.835Z",
+        "observedAt": "2026-10-24T09:29:51.852Z",
+        "result": {
+          "state": "error",
+          "error": "服务器限制了本次连接频率。",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "disconnect_reason_received",
+            "transport_connection_rate_limited",
+            "native_wrapper_closed"
+          ],
+          "closed": true,
+          "elapsedSeconds": 0.312
+        },
+        "cleanup": "closed_ticket_inactive",
+        "after": {
+          "state": "error",
+          "error": "服务器限制了本次连接频率。",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "disconnect_reason_received",
+            "transport_connection_rate_limited",
+            "native_wrapper_closed"
+          ],
+          "closed": true,
+          "elapsedSeconds": 0.312
+        }
+      },
+      {
+        "ordinal": 3,
+        "startedAt": "2026-10-24T09:29:36.842Z",
+        "observedAt": "2026-10-24T09:29:51.852Z",
+        "result": {
+          "state": "error",
+          "error": "服务器限制了本次连接频率。",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "disconnect_reason_received",
+            "transport_connection_rate_limited",
+            "native_wrapper_closed"
+          ],
+          "closed": true,
+          "elapsedSeconds": 0.297
+        },
+        "cleanup": "closed_ticket_inactive",
+        "after": {
+          "state": "error",
+          "error": "服务器限制了本次连接频率。",
+          "steamAuthentication": {
+            "available": true,
+            "active": false,
+            "serverValidationObserved": false
+          },
+          "stages": [
+            "input_validated",
+            "native_wrapper_created",
+            "transport_connect_started",
+            "transport_connection_request_accepted",
+            "disconnect_reason_received",
+            "transport_connection_rate_limited",
+            "native_wrapper_closed"
+          ],
+          "closed": true,
+          "elapsedSeconds": 0.297
+        }
+      }
+    ],
+    "stopRequired": false,
+    "completedAt": "2026-10-24T09:29:52.860Z"
+  },
+  "evidence": [
+    {
+      "file": "work/playercount-probe-test/game-connection-limits-review-safe.json",
+      "sha256": "311422145a96be5bc2e1ca233a507192690ebf93e31ed9551fc03c457f27f9cb"
+    },
+    {
+      "file": "work/rcon-game-limit-read-private.json",
+      "sha256": "2e9cc2ec5840af3940a47ead4fecf6baff66a95aa35bb5bed67d2a8459174684"
+    }
+  ],
+  "activation": {
+    "newPythonWorkersUsedFixedSource": true,
+    "existingPythonWorkersRestarted": false,
+    "nodeServiceRestarted": false,
+    "nodeTextChangeActivated": false
+  },
+  "bulkPlan": {
+    "onlineAccountCount": 39,
+    "requestedByUser": true,
+    "temporaryLimitProposed": 50,
+    "restoreLimit": 5,
+    "observationSecondsAfterScheduling": 1200,
+    "connectionSpacingSeconds": 5,
+    "userConfirmationPending": true,
+    "executed": false
+  },
+  "privacy": "No identities, credentials, ticket payloads or management endpoint values."
+}

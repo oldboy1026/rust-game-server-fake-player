@@ -2,7 +2,25 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
-## 最新：用户已能上传两种插件，第一阶段源码已准备
+## 最新：目标 Probe 已运行；批量拒绝错误已修复，同 IP 上限变更待确认
+
+用户已上传 `PlayerCountProbe.cs`，08:52:00 UTC 真正返回 version0.1.0/monitoring=true/sample成功；08:53私有配置原3研究身份。实际目标 secure=false/encryption0、Steam登录后台、EAC接口false；初始13连接均缓存已认证及原raw速率>0，真实可选输入hook有观测。不能再把本地hook未观察推广远端，也不能把EAC缓存值当受保护会话。详见 `rust-research/playercount-probe-target-2026-10-24.md/.json`。
+
+09:03:11开始原单账号正常入服，09:12:53持久RCON恢复后明确观测focus active/alive/sleeping/connected/networkAuthenticated各1，真实Steam回调OK1，input0/raw速率0；其他连接确有输入。09:15起用户又手动接入新账号，单账号因果设计已混杂。管理采样曾缺失，旧两socket反复握手已停止；不能确证当时是RCON限流。原账号09:18:11正常停止，票据inactive；20份离服RCON均确认selected不存在，09:28:12观察自然完成。可信多个批次一直11，不能称已修复。
+
+用户随后导入大量账号，最新09:34:56 UTC确认39个Steam在线、3个用户保有的Rust entered、0connecting。我们的原账号和09:29三次有限回归均已停止且票据inactive；不要擅自清理这3个已有用户连接。原Probe focus只有原3身份；后来未focus研究账号也在Probe.other内，other绝不自动是真人。全39总人数需要用本地私有集合逐行比对RCON，而不能只看focus。
+
+新增发现：目标实际 `server.maxconnectionsperip=5`（09:21:34只读确认），限制同一源IP的同时游戏连接数且含认证前连接，超限在RequestUserInformation前拒绝；不同源端口和错开连接不能突破。它与Fleck/WebRCON的管理连接上限是两项设置。用户要求全账号观察15–30分钟，已通过异步问题询问临时改50、观察20分钟后恢复5；**目前尚未回复，未改配置、未执行39账号批量脚本。** 不得将时间流逝当批准。
+
+私有 `work/probe-bulk-cycle.mjs` 已语法/静态核对，必须明确授权后才用 `--approved-temporary-limit-50` 执行：39在线唯一身份，单持久RCON队列，5秒错开单次正常尝试，最后握手有限settle再观察1200秒，主流程30分钟上限，已有用户会话保留。创建/cleanup按精确startedAt所有权；finally核对当前值仍50才恢复5并验证，别人改过的值不覆盖且明确pending。每次执行前核对当前账号数及是否已有ownership ledger，不能覆盖未完成回滚记录。脚本和所有私有配置留ignored，不要输出管理端点。
+
+用户看到的“不完整关闭结果”另有确定程序错误：DisconnectReason已带category emit后，循环尾重复无category emit导致KeyError。已修复 `rust-peer.py`（SHA45d62cd324fb0d18f83a9555f2f8b2046486873e64e88d9b905172724113e5fa）；5组11离线路径、4项合成父进程集成、Node35项通过。09:29:26–52真实三次验证1入world、2明确限制拒绝，均已清理，不再被重复事件异常覆盖。新worker已使用修复；父进程单行“同IP数量或频率”新文案未重载，当前Node仍显示旧“频率”字样，未重启3个用户进程。见 `worker-rejection-fix-2026-10-24.md/.json`。
+
+独立 `ObserverStateBridge.cs` 与构建/中文说明已新增tools/rust-research，真实引用编译+同源5组65断言通过，未上传/运行。它只读固定自写Observer状态schema，不碰Probe epoch。第二阶段outputs候选目录已备桥源码和自写 `ReportingObserverFocused.dll`，未配置/上传/加载，不是人数修复。原未知FakePlayers.dll仍未执行。MVID相同不能证明全部二进制字节相同。
+
+Rust正常客户端窗口存在，但computer-use两次抓图均超时，未取得本轮实际社区列表截图；不能把公共API结果称作已人工核对UI。仅激活窗口、没有点击/断开用户正常游戏。当前API/后台采样可用，Web保持运行。本批公开更新须正常提交、推Gitee并核远端SHA；后续以最新记录为准。
+
+## 历史：第一阶段源码准备完成，尚待首次上传时的记录
 
 用户新确认可上传 `oxide/plugins` 与 `HarmonyMods`。不要继续把“仅RCON、不能上传”作为当前限制；但截至本批记录，实际远端文件尚未上传/加载。已向用户提供outputs/目标服只读诊断包中的 `PlayerCountProbe.cs`，请先只上传此源码到 `oxide/plugins/`，无需重启；用户回复已上传后由我们通过已有私有RCON确认 `playercountprobe.snapshot`，不要求用户提供管理ID。
 

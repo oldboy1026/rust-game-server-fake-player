@@ -5,10 +5,11 @@
   "deployment": {
     "userCanUploadOxideSource": true,
     "userCanUploadHarmonyDll": true,
-    "targetPluginUploaded": false,
-    "targetPluginLoaded": false,
+    "targetPluginUploaded": true,
+    "targetPluginLoaded": true,
     "normalPlayerOperations": false,
-    "configurationChanged": false
+    "configurationChanged": false,
+    "confirmedRuntimeUtc": "2026-10-24T08:52:00.999Z"
   },
   "oxideProbe": {
     "source": {
@@ -820,5 +821,15 @@
     "Focus input is not echoed/persisted by the plugin; surrounding RCON/audit software may retain commands.",
     "No population, identity authentication, event upload, client input, config or publication result was changed by these artifacts."
   ],
-  "privacy": "Only source/reference hashes, aggregate validation records and public module metadata. No account identities, credentials, tickets, management endpoints or actual focus configuration."
+  "privacy": "Only source/reference hashes, aggregate validation records and public module metadata. No account identities, credentials, tickets, management endpoints or actual focus configuration.",
+  "subsequentRuntimeEvidence": {
+    "report": "rust-research/playercount-probe-target-2026-10-24.json",
+    "probeVersion": "0.1.0",
+    "monitoring": true,
+    "focusConfigured": true,
+    "focusAccountCount": 3,
+    "publicCountFixed": false,
+    "focusedHarmonyObserverLoaded": false,
+    "sourceHashIsLocalDeliveredArtifactNotRemoteAttestation": true
+  }
 }

@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "completedUtc": "2026-10-24T08:59:15.065Z",
+  "staticOnly": true,
+  "gameAssembliesExecuted": false,
+  "networkOperations": false,
+  "publicCountFixed": false,
+  "scope": {
+    "modules": 5,
+    "selectedMethods": 43,
+    "matchingCallSites": 128,
+    "sourceBoundary": "Current local disk DLLs; remote effective settings and plugin runtime observations are supplied/verified by root separately. Backend trusted-count rules are not visible in this static scope."
+  },
+  "modules": [
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811"
+    },
+    {
+      "file": "Rust.Platform.Steam.dll",
+      "sha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11",
+      "mvid": "8488aab9-560d-4a1e-a7e2-84abf4312be5"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f"
+    },
+    {
+      "file": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480"
+    },
+    {
+      "file": "Oxide.Rust.dll",
+      "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+      "mvid": "cfda664a-335e-470a-9404-e150d3f84ba0"
+    }
+  ],
+  "sourceEvidence": {
+    "file": "work/playercount-probe-followup/summary-safe.json",
+    "sha256": "00d14fa599027b95d1925f9b979123c18bc1a72c785738395f1a4d69712273bc"
+  },
+  "findings": [
+    {
+      "id": "worker_actual_scope",
+      "finding": "The tracked worker submits real Steam identity after server request, submits ClientReady after supported unencrypted Approval, observes its own full player entity and exact FinishLoading, and optionally sends one normal own respawn command when its documented guards hold. It does not send PlayerTick or implement a protected runtime.",
+      "sourceEvidenceItems": 4,
+      "locators": [
+        {
+          "file": "tools/rust-research/rust-peer.py",
+          "sha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+          "firstLine": 11,
+          "lastLine": 22
+        },
+        {
+          "file": "tools/rust-research/rust-peer.py",
+          "sha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+          "firstLine": 528,
+          "lastLine": 548
+        },
+        {
+          "file": "tools/rust-research/rust-peer.py",
+          "sha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+          "firstLine": 612,
+          "lastLine": 656
+        },
+        {
+          "file": "tools/rust-research/rust-peer.py",
+          "sha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+          "firstLine": 715,
+          "lastLine": 722
+        }
+      ]
+    },
+    {
+      "id": "ready_optional_metadata_difference",
+      "finding": "The default worker ClientReady has no clientInfo entries and globalNetworking=false; its encoder supports bounded clientInfo when explicitly supplied but not party data. Server ClientReady copies clientInfo to connection.info and globalNetworking to the connection, marks state Connected, advances queue membership and emits normal player_connect before choosing a sleeper/new spawn. Party/team handling is later and separate.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "file": "tools/rust-research/rust-peer.py",
+          "sha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+          "firstLine": 244,
+          "lastLine": 270
+        },
+        {
+          "file": "tools/rust-research/rust-peer.py",
+          "sha256": "21d4046d966051a2f401f527ad8c52de57ff069f88019318efc1c20f40ae53a8",
+          "firstLine": 746,
+          "lastLine": 760
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::ClientReady(Network.Message)"
+        }
+      ]
+    },
+    {
+      "id": "ready_to_active_entity",
+      "finding": "Server ClientReady selects SpawnPlayerSleeping, which reuses a sleeping player and calls PlayerInit; otherwise it calls SpawnNewPlayer. PlayerInit adds activePlayerList before subsequent snapshot lifecycle.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::ClientReady(Network.Message)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "BasePlayer ServerMgr::SpawnPlayerSleeping(Network.Connection)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::PlayerInit(Network.Connection)"
+        }
+      ]
+    },
+    {
+      "id": "snapshot_to_entergame_without_client_ack",
+      "finding": "ConnectedPlayersUpdate enters the game for a receiving-snapshot player when SnapshotQueue is empty and local IsAuthenticated is true. EnterGame clears ReceivingSnapshot, sends FinishLoading, and later invokes EACServer.OnFinishLoading itself. Its EndSleeping call is conditional on loading after transfer.",
+      "sourceEvidenceItems": 2,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::ConnectedPlayersUpdate(BasePlayer/PlayerServerStates/ReadOnly&,Unity.Collections.NativeArray`1/ReadOnly<System.Int32>,System.Single,System.Single)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::EnterGame()"
+        }
+      ]
+    },
+    {
+      "id": "steam_user_data_not_first_tick",
+      "finding": "In the five-module all-method callsite scan, the only IPlatformService.UpdatePlayerSession callsite is Auth_Steam success at 0x060078AF IL_02D0. SteamPlatform passes score 0 to UpdatePlayer, which calls BUpdateUserData and discards its bool. No second user-data update is invoked directly by ClientReady, EnterGame, OnReceiveTick, EndSleeping or RespawnAt.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Boolean Auth_Steam/<Run>d__1::MoveNext()"
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "method": "System.Void Rust.Platform.Steam.SteamPlatform::UpdatePlayerSession(System.UInt64,System.String)"
+        },
+        {
+          "module": "Facepunch.Steamworks.Win64.dll",
+          "method": "System.Void Steamworks.SteamServer::UpdatePlayer(Steamworks.SteamId,System.String,System.Int32)"
+        }
+      ]
+    },
+    {
+      "id": "natural_connect_and_auth_analytics",
+      "finding": "ClientReady invokes Azure.OnPlayerConnected at IL_00C2 before player spawn. RustPlatformHooks.AuthSessionValidated invokes normal Azure.OnSteamAuth separately. These event-generation paths do not depend on the first PlayerTick or waking in the inspected method bodies.",
+      "sourceEvidenceItems": 4,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::ClientReady(Network.Message)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void RustPlatformHooks::AuthSessionValidated(System.UInt64,System.UInt64,AuthResponse,System.String)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void Facepunch.Rust.Analytics/Azure::OnPlayerConnected(Network.Connection)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void Facepunch.Rust.Analytics/Azure::OnSteamAuth(System.UInt64,System.UInt64,System.String)"
+        }
+      ]
+    },
+    {
+      "id": "tick_input_and_lifecycle_early_returns",
+      "finding": "A normal application PlayerTick is dispatched to BasePlayer.OnReceivedTick, which decodes its delta and calls OnReceiveTick. OnReceiveTick may update InputState but returns early for ReceivingSnapshot, transfer protection, spectator or dead state; the sleeping wake branch also returns before normal position processing.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void ServerMgr::OnPlayerTick(Network.Message)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::OnReceivedTick(Network.NetRead)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::OnReceiveTick(PlayerTick,System.Boolean)"
+        }
+      ]
+    },
+    {
+      "id": "tick_finalize_selection",
+      "finding": "Normal accepted position/rotation processing marks TickNeedsFinalizing. GatherPlayersToFinalize selects non-ReceivingSnapshot players whose flag is true and clears the flag. ServerFinalizePlayers appends valid non-null finalized indices; that array is later passed to tick analytics.",
+      "sourceEvidenceItems": 5,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::UpdatePositionFromTick(PlayerTick,System.Boolean)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::UpdateRotationFromTick(PlayerTick)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::GatherPlayersToFinalize(BasePlayer/PlayerServerStates&,System.Single,Unity.Collections.NativeList`1<System.Int32>)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::ServerFinalizePlayers(BasePlayer/PlayerServerStates&,Unity.Collections.NativeArray`1/ReadOnly<BasePlayer/PositionChange>,Unity.Collections.NativeArray`1/ReadOnly<System.Int32>,Unity.Collections.NativeList`1<System.Int32>,Unity.Collections.NativeList`1<System.Int32>)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::FinalizeTickParallel(BasePlayer/PlayerServerStates&,System.Single,Unity.Collections.NativeList`1<System.Int32>)"
+        }
+      ]
+    },
+    {
+      "id": "optional_gameplay_tick_analytics",
+      "finding": "FinalizeTickParallel checks GameplayTickAnalyticsConVar before UpdateAnalytics. Its state machine iterates the supplied finalized indices and invokes Azure.OnPlayerTick. Azure checks the switch again, builds player_tick and appends it to TickLogging.TickTable.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::FinalizeTickParallel(BasePlayer/PlayerServerStates&,System.Single,Unity.Collections.NativeList`1<System.Int32>)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer/<<FinalizeTickParallel>g__UpdateAnalytics|988_1>d::MoveNext()"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void Facepunch.Rust.Analytics/Azure::OnPlayerTick(BasePlayer,UnityEngine.Vector3,BasePlayer/CachedState&,System.Boolean)"
+        }
+      ]
+    },
+    {
+      "id": "raw_rate_is_later_cached_state",
+      "finding": "ServerPreFinalize reads rawTicksPerSecond.Calculate and assigns rawTickCount only for selected finalized indices. OnReceivedTick increments the raw accumulator after OnReceiveTick returns, including cases where OnReceiveTick took an early return.",
+      "sourceEvidenceItems": 2,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::ServerPreFinalize(BasePlayer/PlayerServerStates&,Unity.Collections.NativeArray`1/ReadOnly<System.Int32>)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::OnReceivedTick(Network.NetRead)"
+        }
+      ]
+    },
+    {
+      "id": "wake_and_respawn_not_reauthentication",
+      "finding": "RespawnAt starts sleeping and invokes the normal player_respawn event; the Azure method is gated by GameplayAnalytics. EndSleeping calls EACServer.LogPlayerSpawn but has no Steam user-data or connect/auth event callsite in its inspected body.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::RespawnAt(UnityEngine.Vector3,UnityEngine.Quaternion,BaseEntity)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void Facepunch.Rust.Analytics/Azure::OnPlayerRespawned(BasePlayer,BaseEntity)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::EndSleeping()"
+        }
+      ]
+    },
+    {
+      "id": "eac_and_gameplay_tick_are_separate_gates",
+      "finding": "The EAC tick/spawn path depends on CanSendAnalytics, which requires its configuration boolean and a non-null EAC interface. FinalizeTickParallel separately checks GameplayTickAnalyticsConVar for Azure player_tick. EnterGame OnFinishLoading is guarded internally by interface and client handle.",
+      "sourceEvidenceItems": 3,
+      "locators": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Boolean EACServer::get_CanSendAnalytics()"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void BasePlayer::FinalizeTickParallel(BasePlayer/PlayerServerStates&,System.Single,Unity.Collections.NativeList`1<System.Int32>)"
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "method": "System.Void EACServer::OnFinishLoading(Network.Connection)"
+        }
+      ]
+    },
+    {
+      "id": "oxide_input_hook_is_observation_only",
+      "finding": "The bounded current five-module hook-string scan finds no OnPlayerInput injection in the local original Assembly-CSharp. The one matched current hook string is the Oxide.Rust OnPlayerConnected forwarding method.",
+      "sourceEvidenceItems": 0,
+      "locators": []
+    }
+  ],
+  "comparison": [
+    {
+      "stage": "Steam validation and first user-data update",
+      "worker": "Implemented real-account auth request and normal server auth flow; exact runtime callback/result must be observed.",
+      "ordinaryClient": "Uses normal auth flow; no inspected requirement for first input before first native user-data update.",
+      "nextEvidence": "Focused normal Steam callback and original native result observer."
+    },
+    {
+      "stage": "ClientReady and player_connect",
+      "worker": "Ready submitted with empty preferences by default; own snapshot/FinishLoading can witness later server stage.",
+      "ordinaryClient": "Can supply additional real preferences/party data; natural player_connect occurs before spawning.",
+      "nextEvidence": "Read-only actual lifecycle trace; do not synthesize absent events."
+    },
+    {
+      "stage": "Alive/asleep/awake",
+      "worker": "Source supports optional one guarded own respawn, no wake/tick implementation.",
+      "ordinaryClient": "Normal input can wake a sleeping live player and process subsequent updates.",
+      "nextEvidence": "Read-only focus state comparison; life/awake state are separate from trusted inclusion."
+    },
+    {
+      "stage": "Application PlayerTick and gameplay tick telemetry",
+      "worker": "No application PlayerTick is sent by current source.",
+      "ordinaryClient": "May produce accepted normal tick/position/rotation processing and optional configured telemetry.",
+      "nextEvidence": "Actual optional input-hook observation, raw-rate snapshot and actual analytics gate; no backend inference."
+    },
+    {
+      "stage": "EAC protected runtime",
+      "worker": "Absent by design, aborts when protected requirement is encountered.",
+      "ordinaryClient": "May have a protected runtime on secure servers; current target was reported insecure.",
+      "nextEvidence": "Keep effective settings/interface/handles separate; cannot make EAC the sole cause."
+    }
+  ],
+  "remainingUnknowns": [
+    "Remote binary identities and active patches relative to these local DLLs.",
+    "Actual normal-client metadata/tick sequence at this target and its ordinary server-side processing outcomes.",
+    "Actual native Steam user-data return and whether any later native/account presence state diverges.",
+    "Backend ingestion, trusted-count eligibility and batch timing; none is inferred from event generation."
+  ],
+  "limits": [
+    "Local static IL is separate from target runtime observations.",
+    "Backend trusted-count eligibility remains unobserved.",
+    "Other groups may contain research accounts outside the selected focus."
+  ]
+}

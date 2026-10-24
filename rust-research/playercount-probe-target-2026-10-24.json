@@ -1,0 +1,544 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Real target PlayerCountProbe deployment, incomplete controlled cycle, completed recovery observation and pending bulk plan",
+  "generatedUtc": "2026-10-24T09:39:48.760722Z",
+  "timeBasis": "UTC; Asia/Shanghai is UTC+8",
+  "outcome": {
+    "probeDeploymentVerified": true,
+    "originalSelectedTechnicalJoinConfirmed": true,
+    "originalSingleAccountCycleCompletedAsDesigned": false,
+    "recoveryObservationCompleted": true,
+    "trustedCountFixVerified": false,
+    "trustedAttribution": "inconclusive_due_to_missing_management_observations_and_population_changes"
+  },
+  "deployment": {
+    "artifact": "tools/rust-research/PlayerCountProbe.cs",
+    "version": "0.1.0",
+    "firstSuccessfulQueryStartedUtc": "2026-10-24T08:52:00.906Z",
+    "firstSuccessfulProbeUtc": "2026-10-24T08:52:00.8660855Z",
+    "monitoring": true,
+    "status": "sampled",
+    "normalRuntimeConfigurationChangedByProbe": false,
+    "initialUnconfiguredFocusCount": 0,
+    "initialUnclassified": {
+      "active": 13,
+      "alive": 13,
+      "dead": 0,
+      "sleeping": 0,
+      "connected": 13,
+      "receivingSnapshot": 0,
+      "rawTickRatePositive": 13,
+      "networkEntries": 13,
+      "networkConnected": 13,
+      "networkAuthenticated": 13,
+      "eacMapped": 0,
+      "eacStatusAuthenticated": 13,
+      "steamValidationCallbacks": 0,
+      "steamValidationOk": 0,
+      "steamValidationNonOk": 0,
+      "inputHookCalls": 16473,
+      "inputHookObserved": true
+    },
+    "moduleMvids": {
+      "gameModuleMvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "steamModuleMvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "networkModuleMvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480"
+    },
+    "moduleMvidsMatchInspectedLocalCopies": true,
+    "mvidMatchDoesNotAttestRuntimePatchesNativeOrBackend": true
+  },
+  "grouping": {
+    "focusConfiguredUtc": "2026-10-24T08:53:15.5719267Z",
+    "postFocusProbeUtc": "2026-10-24T08:53:15.6639228Z",
+    "originalFocusAccountCount": 3,
+    "maximumFocusAccountCount": 20,
+    "postFocusActive": {
+      "focused": 0,
+      "other": 13,
+      "unclassified": 0
+    },
+    "laterImportedResearchAccountCount": 39,
+    "originalFocusEqualsLaterAllResearchSet": false,
+    "otherMeans": "Entries outside the configured focus; not a verified real-player group.",
+    "unconfiguredMeans": "All observed entries are unclassified before focus is set.",
+    "focusChangeResetsEpoch": true
+  },
+  "runtime": {
+    "securityState": {
+      "effectiveSecure": false,
+      "effectiveEncryption": 0,
+      "steamInterfaceValid": true,
+      "steamLoggedOn": true,
+      "eacInterfaceAvailable": false
+    },
+    "observedSecurityCombinationCount": 1,
+    "observedVersionAndThreeMvidCombinationCount": 1,
+    "focusEpochs": [
+      "2026-10-24T08:53:15.5719267Z"
+    ],
+    "remoteInputHookWasActuallyObserved": true,
+    "eacCachedStatusIsProtectedSessionReceipt": false,
+    "securityInference": "Nonsecure/no-server-EAC-interface state coexists with authenticated connected entries, other-group input and nonzero public trusted counts; this does not prove EAC is irrelevant or that a newly connected research account qualifies."
+  },
+  "finiteCycle": {
+    "plannedSeconds": {
+      "baseline": 120,
+      "maximumInServerFromStartRequest": 900,
+      "post": 600
+    },
+    "connectionRequestedUtc": "2026-10-24T09:03:11.027Z",
+    "firstRosterFailureUtc": "2026-10-24T09:02:12.877Z",
+    "firstBothManagementSourcesMissingUtc": "2026-10-24T09:02:43.757Z",
+    "firstThreeSourcesRecoveredUtc": "2026-10-24T09:12:53.855Z",
+    "recoveryAdoptedUtc": "2026-10-24T09:07:53.393Z",
+    "connectionObservationEndedUtc": "2026-10-24T09:18:11.022Z",
+    "completedUtc": "2026-10-24T09:28:12.041Z",
+    "samplingSegmentsOverlapBriefly": true,
+    "threeSourceTimingQuality": "sequential_or_parallel_query_start_markers_not_atomic_snapshot",
+    "phaseStatistics": [
+      {
+        "driver": "originalDriver",
+        "phase": "baseline",
+        "samples": 4,
+        "threeSourcesComplete": 2,
+        "firstQueryStartedUtc": "2026-10-24T09:01:11.018Z",
+        "lastQueryStartedUtc": "2026-10-24T09:02:43.757Z",
+        "sourceFailures": {
+          "probe": 1,
+          "roster": 2,
+          "public": 0
+        },
+        "rosterOriginalFocusResearchCounts": [
+          0
+        ],
+        "selectedObservedPresentCounts": {
+          "false": 2
+        },
+        "distinctPublicBatches": 2,
+        "trustedValues": [
+          11
+        ]
+      },
+      {
+        "driver": "originalDriver",
+        "phase": "connected",
+        "samples": 11,
+        "threeSourcesComplete": 0,
+        "firstQueryStartedUtc": "2026-10-24T09:03:11.029Z",
+        "lastQueryStartedUtc": "2026-10-24T09:08:14.947Z",
+        "sourceFailures": {
+          "probe": 11,
+          "roster": 11,
+          "public": 0
+        },
+        "rosterOriginalFocusResearchCounts": [],
+        "selectedObservedPresentCounts": {},
+        "distinctPublicBatches": 2,
+        "trustedValues": [
+          11
+        ]
+      },
+      {
+        "driver": "recoveryDriver",
+        "phase": "connected_recovered",
+        "samples": 21,
+        "threeSourcesComplete": 11,
+        "firstQueryStartedUtc": "2026-10-24T09:07:53.395Z",
+        "lastQueryStartedUtc": "2026-10-24T09:17:58.128Z",
+        "sourceFailures": {
+          "probe": 10,
+          "roster": 10,
+          "public": 0
+        },
+        "rosterOriginalFocusResearchCounts": [
+          1,
+          3
+        ],
+        "selectedObservedPresentCounts": {
+          "true": 11
+        },
+        "distinctPublicBatches": 3,
+        "trustedValues": [
+          11
+        ]
+      },
+      {
+        "driver": "recoveryDriver",
+        "phase": "post",
+        "samples": 20,
+        "threeSourcesComplete": 20,
+        "firstQueryStartedUtc": "2026-10-24T09:18:12.037Z",
+        "lastQueryStartedUtc": "2026-10-24T09:27:45.081Z",
+        "sourceFailures": {
+          "probe": 0,
+          "roster": 0,
+          "public": 0
+        },
+        "rosterOriginalFocusResearchCounts": [
+          2
+        ],
+        "selectedObservedPresentCounts": {
+          "false": 20
+        },
+        "distinctPublicBatches": 3,
+        "trustedValues": [
+          11
+        ]
+      }
+    ],
+    "recoveryTransport": "One persistent queued WebSocket with five-minute reconnect cooldown; original owned session and cleanup deadline retained.",
+    "managementFailureCauseProven": false,
+    "crossSegmentNonOriginalFocusRoster": {
+      "originalBaselineSampleUtc": "2026-10-24T09:01:11.018Z",
+      "firstRecoveredRosterSampleUtc": "2026-10-24T09:12:53.855Z",
+      "originalBaselineNonOriginalFocusCount": 13,
+      "firstRecoveredNonOriginalFocusCount": 14,
+      "setsEqual": false,
+      "addedCount": 1,
+      "removedCount": 0
+    },
+    "firstMultipleOriginalFocusAccountsRosterUtc": "2026-10-24T09:15:23.402Z",
+    "laterUserConnectionsConfoundOriginalSingleAccountDesign": true,
+    "recoveryOtherBaselineRefersToFirstRecoveredRoster": true
+  },
+  "inputObservation": {
+    "singleFocusCompleteSamples": 5,
+    "firstQueryStartedUtc": "2026-10-24T09:12:53.855Z",
+    "lastQueryStartedUtc": "2026-10-24T09:14:57.575Z",
+    "focusedActiveAliveSleepingConnectedNetworkAuthenticatedEach": 1,
+    "focusedInputHookCallsAllZero": true,
+    "focusedRawTickRatePositiveAllZero": true,
+    "focusedSteamValidationCallbacks": 1,
+    "focusedSteamValidationOk": 1,
+    "representativeSamples": [
+      {
+        "queryStartedUtc": "2026-10-24T09:12:53.855Z",
+        "probeUtc": "2026-10-24T09:12:53.8241656Z",
+        "epochMatches": true,
+        "groups": {
+          "focused": {
+            "active": 1,
+            "alive": 1,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 1,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 0,
+            "networkEntries": 1,
+            "networkConnected": 1,
+            "networkAuthenticated": 1,
+            "eacMapped": 0,
+            "eacStatusAuthenticated": 1,
+            "steamValidationCallbacks": 1,
+            "steamValidationOk": 1,
+            "steamValidationNonOk": 0,
+            "inputHookCalls": 0,
+            "inputHookObserved": false
+          },
+          "other": {
+            "active": 14,
+            "alive": 14,
+            "dead": 0,
+            "sleeping": 0,
+            "connected": 14,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 14,
+            "networkEntries": 14,
+            "networkConnected": 14,
+            "networkAuthenticated": 14,
+            "eacMapped": 0,
+            "eacStatusAuthenticated": 14,
+            "steamValidationCallbacks": 1,
+            "steamValidationOk": 1,
+            "steamValidationNonOk": 0,
+            "inputHookCalls": 416777,
+            "inputHookObserved": true
+          }
+        },
+        "roster": {
+          "rows": 15,
+          "research": 1,
+          "other": 14,
+          "selectedPresent": true,
+          "otherMatchesBaseline": true,
+          "otherMatchesPrevious": null
+        },
+        "public": {
+          "a2s": {
+            "observedAt": "2026-10-24T09:12:54.501Z",
+            "players": 17,
+            "cp": 15,
+            "bots": 0,
+            "ok": true
+          },
+          "trusted": {
+            "observedAt": "2026-10-24T09:12:54.614Z",
+            "players": 11,
+            "batchLastModifiedUtc": "Sat, 24 Oct 2026 09:11:55 GMT",
+            "ok": true
+          },
+          "actualRustUiObservedPlayers": null
+        }
+      },
+      {
+        "queryStartedUtc": "2026-10-24T09:14:57.575Z",
+        "probeUtc": "2026-10-24T09:14:57.5236361Z",
+        "epochMatches": true,
+        "groups": {
+          "focused": {
+            "active": 1,
+            "alive": 1,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 1,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 0,
+            "networkEntries": 1,
+            "networkConnected": 1,
+            "networkAuthenticated": 1,
+            "eacMapped": 0,
+            "eacStatusAuthenticated": 1,
+            "steamValidationCallbacks": 1,
+            "steamValidationOk": 1,
+            "steamValidationNonOk": 0,
+            "inputHookCalls": 0,
+            "inputHookObserved": false
+          },
+          "other": {
+            "active": 14,
+            "alive": 14,
+            "dead": 0,
+            "sleeping": 0,
+            "connected": 14,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 14,
+            "networkEntries": 14,
+            "networkConnected": 14,
+            "networkAuthenticated": 14,
+            "eacMapped": 0,
+            "eacStatusAuthenticated": 14,
+            "steamValidationCallbacks": 1,
+            "steamValidationOk": 1,
+            "steamValidationNonOk": 0,
+            "inputHookCalls": 461404,
+            "inputHookObserved": true
+          }
+        },
+        "roster": {
+          "rows": 15,
+          "research": 1,
+          "other": 14,
+          "selectedPresent": true,
+          "otherMatchesBaseline": true,
+          "otherMatchesPrevious": true
+        },
+        "public": {
+          "a2s": {
+            "observedAt": "2026-10-24T09:14:58.268Z",
+            "players": 17,
+            "cp": 15,
+            "bots": 0,
+            "ok": true
+          },
+          "trusted": {
+            "observedAt": "2026-10-24T09:14:58.337Z",
+            "players": 11,
+            "batchLastModifiedUtc": "Sat, 24 Oct 2026 09:11:55 GMT",
+            "ok": true
+          },
+          "actualRustUiObservedPlayers": null
+        }
+      }
+    ],
+    "interpretation": "Real local lifecycle/input observation difference, compatible with the then-current worker lacking application PlayerTick and normal wake behavior; no proof of trusted backend qualification criteria.",
+    "rawTickRatePositiveMeaning": "Number of entries with cached raw tick rate greater than zero, not a cumulative packet count.",
+    "inputHookMeaning": "Hook invocations observed during one epoch, not raw packets or proof that no other network traffic exists."
+  },
+  "publicCounts": {
+    "scope": "Original and recovery finite observation samples through 2026-10-24T09:28:12.041Z only",
+    "allAvailableTrustedValuesInFiniteWindow": [
+      11
+    ],
+    "distinctBatchCountsAreWithinEachPhaseNotAdditiveNewBatchCounts": true,
+    "batchTimestampIsPerFileNotPerAccountProcessingReceipt": true,
+    "actualRustUiObservedPlayers": null,
+    "laterIndependentNaturalObservation": {
+      "queryStartedUtc": "2026-10-24T09:37:30.999Z",
+      "a2s": {
+        "observedAt": "2026-10-24T09:37:31.086Z",
+        "ok": true,
+        "players": 18,
+        "cp": 16,
+        "bots": 0
+      },
+      "trusted": {
+        "observedAt": "2026-10-24T09:37:31.235Z",
+        "ok": true,
+        "players": 10,
+        "status": 200,
+        "batchLastModifiedUtc": "Sat, 24 Oct 2026 09:36:59 GMT"
+      },
+      "attribution": "No batch experiment or configuration change; not attributable to one research account."
+    }
+  },
+  "cleanup": {
+    "originalSelected": {
+      "cleanup": "own_session_closed_ticket_inactive",
+      "stopRequired": false,
+      "afterClientState": "closed",
+      "afterTicketActive": false,
+      "firstSelectedServerAbsenceObservedUtc": "2026-10-24T09:18:12.037Z"
+    },
+    "postRosterSamplesAllSelectedAbsent": 20,
+    "firstSelectedAbsentQueryUtc": "2026-10-24T09:18:12.037Z",
+    "lastSelectedAbsentQueryUtc": "2026-10-24T09:27:45.081Z",
+    "pendingExperimentOwnedSessionCleanup": false,
+    "userOwnedSessionsRetained": true
+  },
+  "gameConnectionLimit": {
+    "realReadOnlyQueryUtc": "2026-10-24T09:21:34.821Z",
+    "responseParsed": true,
+    "convar": "server.maxconnectionsperip",
+    "observedValue": 5,
+    "semantics": "Maximum simultaneous game Network.Connection entries for the same IPAddressWithoutPort; newly arrived connection is added before Count > limit is tested.",
+    "compiledDefault": 5,
+    "rejectionBeforeRequestUserInformation": true,
+    "separateFromManagementAndCompanionLimits": true,
+    "staggeringOrDifferentSourcePortChangesSimultaneousLimit": false,
+    "configurationChangedInThisBatch": false
+  },
+  "postFixRegression": {
+    "report": "rust-research/worker-rejection-fix-2026-10-24.md",
+    "startedUtc": "2026-10-24T09:29:26.788Z",
+    "completedUtc": "2026-10-24T09:29:52.860Z",
+    "workerSourceSha256": "45d62cd324fb0d18f83a9555f2f8b2046486873e64e88d9b905172724113e5fa",
+    "attempts": 3,
+    "enteredWorld": 1,
+    "connectionLimitStageRejected": 2,
+    "noConfigurationChange": true,
+    "allThreeOwnedAttemptsClosedAndTicketInactive": true,
+    "stopRequired": false,
+    "historicalGenericRejectionsWereNotRetrospectivelyReclassified": true
+  },
+  "currentAccountOverview": {
+    "observedUtc": "2026-10-24T09:34:56.241Z",
+    "counts": {
+      "total": 39,
+      "steamOnline": 39,
+      "connected": 3,
+      "connecting": 0
+    },
+    "rustStates": {
+      "closed": 1,
+      "entered_game": 3,
+      "error": 35
+    },
+    "retainedThreeConnectionsOwnership": "user_existing_sessions_not_unfinished_experiment_cleanup",
+    "steamOnlineDoesNotMeanRustEnteredWorld": true
+  },
+  "pendingBulkPlan": {
+    "userRequestedAllImportedAccountsAndObservationMinutes": [
+      15,
+      30
+    ],
+    "proposedTemporaryLimit": {
+      "from": 5,
+      "to": 50,
+      "globalToAllSourceIps": true
+    },
+    "proposedObserveSecondsAfterStartup": 1200,
+    "restoreOriginalLimit": 5,
+    "configurationChangeApproval": "pending_as_of_this_report",
+    "configurationChangeExecuted": false,
+    "preparedBulkExperimentExecuted": false,
+    "userInitiatedConnectionsAndEarlierFiniteAttemptsAreSeparate": true,
+    "requiredControls": [
+      "Validate all 39 research identities privately and track the whole set even if only 20 are focused.",
+      "Preserve existing user-owned sessions and use exact startedAt ownership for newly created sessions.",
+      "Record each actual entered-world time and server presence, plus nonresearch roster-set changes.",
+      "Record multiple distinct public batches and an actual Rust UI refresh.",
+      "Restore the original limit after any authorized finite change and verify its value."
+    ]
+  },
+  "privacy": {
+    "rawRconEnvelopesIncluded": false,
+    "accountIdentitiesIncluded": false,
+    "managementEndpointsIncluded": false,
+    "credentialsOrTicketsIncluded": false,
+    "publicFieldsRebuiltFromAllowlist": true
+  },
+  "reportAuthoring": {
+    "localEvidenceOnly": true,
+    "networkCalls": false,
+    "rconOrAccountOperations": false,
+    "runtimeOrConfigurationChanges": false
+  },
+  "sources": [
+    {
+      "role": "independent_initial_security_review",
+      "file": "work/playercount-probe-test/remote-security-review-safe.json",
+      "sha256": "7f3461ec8fc77ed015739a3ec073c9ef5f4ab48009242525caf7ec736959974d"
+    },
+    {
+      "role": "initial_real_target_probe_response_private",
+      "file": "work/playercount-probe-snapshot-private.json",
+      "sha256": "d4b7d251445cd08328504c4e3800f91eb473d231998aa7844eb5211b24288805"
+    },
+    {
+      "role": "focus_configuration_and_real_snapshot_private",
+      "file": "work/playercount-probe-focus-private.json",
+      "sha256": "769d50cc7ec01786b6fd858cc8944f08c662e0dbffe7093814ee84c371d59d78"
+    },
+    {
+      "role": "independent_final_recovered_window_review",
+      "file": "work/playercount-probe-test/recovered-window-review-safe.json",
+      "sha256": "793d46e64a3eff5b550dee7d0d816c0ad8439d81da4886564a192a7d049d6bf7"
+    },
+    {
+      "role": "original_driver_state_private",
+      "file": "work/probe-target-cycle-state.json",
+      "sha256": "e01456a06366967d45abd917805fb3866e14482aed3aba675933f9dd3e87e257"
+    },
+    {
+      "role": "completed_recovery_driver_state_private",
+      "file": "work/probe-target-recovery-state.json",
+      "sha256": "42bc6f3338af6cc42b8dc0f19cfb063ae1fbc46e72a69f592fa89d406720d50f"
+    },
+    {
+      "role": "static_game_connection_limit_review",
+      "file": "work/playercount-probe-test/game-connection-limits-review-safe.json",
+      "sha256": "311422145a96be5bc2e1ca233a507192690ebf93e31ed9551fc03c457f27f9cb"
+    },
+    {
+      "role": "real_read_only_game_limit_query_private",
+      "file": "work/rcon-game-limit-read-private.json",
+      "sha256": "2e9cc2ec5840af3940a47ead4fecf6baff66a95aa35bb5bed67d2a8459174684"
+    },
+    {
+      "role": "real_post_fix_three_account_regression_private",
+      "file": "work/verify-rejection-live-state.json",
+      "sha256": "8afdecc4fb1ce4434d1195ac24282af1ba811b38c4b49c7bdc66420da170e80b"
+    },
+    {
+      "role": "post_fix_current_overview_private",
+      "file": "work/post-fix-current-overview-private.json",
+      "sha256": "e2716942a1a25cb21df07ef60d422176a1e501aa63ff1041132cc65a652e95eb"
+    },
+    {
+      "role": "initial_imported_account_overview_private",
+      "file": "work/bulk-observation-initial-private.json",
+      "sha256": "ffbb6694b13fed36e216fbdc0fb3a23f6d4f064e93e33358a8261fcb16f45f97"
+    },
+    {
+      "role": "later_independent_public_query",
+      "file": "work/bulk-unmodified-public-check.json",
+      "sha256": "ea515ff4e1edc778f6d32046927bad402b5800e79fc61f36b454774b09a9a428"
+    },
+    {
+      "role": "deployed_probe_source",
+      "file": "tools/rust-research/PlayerCountProbe.cs",
+      "sha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e"
+    }
+  ]
+}

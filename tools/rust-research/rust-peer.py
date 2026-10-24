@@ -133,16 +133,22 @@ def emit(stage, **metadata):
         # confirms the observed server reached PlayerInit and EnterGame.
         RESULT["playerConnected"] = RESULT["selfEntityObserved"]
     elif stage == "server_rejected":
-        RESULT["disconnectCategory"] = {
-            "eac_or_eos_requirement": "eac_required",
-            "steam_authentication_rejected": "steam_auth",
-            "account_or_server_ban": "banned",
-            "protocol_or_build_mismatch": "protocol_mismatch",
-            "server_full": "server_full",
-            "unspecified_server_rejection": "unknown",
-        }.get(metadata["category"], "other")
-        if RESULT["disconnectCategory"] == "eac_required" and "eac_required" not in RESULT["stages"]:
-            RESULT["stages"].append("eac_required")
+        if metadata["category"] == "connection_rate_limited":
+            # The parent already understands this stage. Do not set its
+            # generic "other" rejection, which would mask the limit message.
+            if "transport_connection_rate_limited" not in RESULT["stages"]:
+                RESULT["stages"].append("transport_connection_rate_limited")
+        else:
+            RESULT["disconnectCategory"] = {
+                "eac_or_eos_requirement": "eac_required",
+                "steam_authentication_rejected": "steam_auth",
+                "account_or_server_ban": "banned",
+                "protocol_or_build_mismatch": "protocol_mismatch",
+                "server_full": "server_full",
+                "unspecified_server_rejection": "unknown",
+            }.get(metadata["category"], "other")
+            if RESULT["disconnectCategory"] == "eac_required" and "eac_required" not in RESULT["stages"]:
+                RESULT["stages"].append("eac_required")
     if changed and PROGRESS is not None:
         PROGRESS()
 
@@ -720,7 +726,10 @@ def run(args, identity, auth, ready):
                     # The full snapshot can arrive before FinishLoading.
                     # It still must be fresh when this gate is evaluated.
                     maybe_respawn()
-        emit(stop_reason)
+        # The rejection branch already emitted its fixed category. Re-emitting
+        # it without metadata would raise KeyError before normal process exit.
+        if stop_reason != "server_rejected":
+            emit(stop_reason)
     finally:
         # Disable streaming before cleanup: a closed stdout must still allow
         # NET_Close and the final secret wiping in main to run.

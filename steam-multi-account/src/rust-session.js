@@ -37,7 +37,7 @@ const STAGE_ERRORS = [
   ['transport_connection_banned', '服务器拒绝了本次网络连接。'],
   ['transport_invalid_password', '服务器未接受本次网络连接密码。'],
   ['transport_incompatible_protocol_version', '服务器网络传输协议不兼容。'],
-  ['transport_connection_rate_limited', '服务器限制了本次连接频率。'],
+  ['transport_connection_rate_limited', '服务器限制了同一IP的连接数量或连接频率。'],
 ];
 
 // Only public, filtered worker metadata survives a run. The account keeps this
