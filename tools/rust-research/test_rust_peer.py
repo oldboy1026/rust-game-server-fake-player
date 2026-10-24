@@ -15,6 +15,7 @@ import threading
 import types
 import unittest
 from unittest.mock import patch
+from test_rust_player_tick import entity
 
 sys.dont_write_bytecode = True
 WORKER_PATH = Path(__file__).with_name("rust-peer.py")
@@ -57,11 +58,14 @@ class ControlStream:
 
 
 class FakeApi:
-    def __init__(self, packets):
+    def __init__(self, packets, clock):
         self.packets = iter(packets)
+        self.clock = clock
         self.current = None
         self.close_calls = 0
         self.send_calls = 0
+        self.payloads = []
+        self.send_args = []
         self.NET_Create = Function(lambda: 1)
         self.NET_StartClient = Function(lambda *args: 0)
         self.NET_Receive = Function(self.receive)
@@ -69,17 +73,21 @@ class FakeApi:
         self.NETRCV_RawData = Function(lambda peer: ctypes.addressof(self.current))
         self.NETRCV_GUID = Function(lambda peer: 1)
         self.NETSND_Start = Function(lambda peer: None)
-        self.NETSND_WriteBytes = Function(lambda *args: None)
+        self.NETSND_WriteBytes = Function(lambda peer, data, length: self.payloads.append(bytes(data[:length])))
         self.NETSND_Send = Function(self.send)
         self.NET_Close = Function(self.close)
 
     def receive(self, peer):
         packet = next(self.packets)
+        if packet is None:
+            self.clock[0] += 0.05
+            return False
         self.current = ctypes.create_string_buffer(packet, len(packet))
         return True
 
     def send(self, *args):
         self.send_calls += 1
+        self.send_args.append(args)
         return 1
 
     def close(self, peer):
@@ -91,21 +99,24 @@ def rejected(reason):
 
 
 class WorkerExitTests(unittest.TestCase):
-    def run_worker(self, packets):
+    def run_worker(self, packets, *, wake=False, entered=False):
         worker.RESULT = copy.deepcopy(INITIAL_RESULT)
         worker.PROGRESS = None
-        api = FakeApi(packets)
+        clock = [0.0]
+        api = FakeApi(packets, clock)
         stream = ControlStream()
         stdin = types.SimpleNamespace(buffer=types.SimpleNamespace(raw=stream))
         args = types.SimpleNamespace(dll=Path("synthetic-not-a-dll"), sha256="unused",
                                      host="127.0.0.1", port=1, seconds=1,
                                      persistent=True, stream=True, respawn_on_dead=False,
-                                     no_ready=False, validate_input=False)
+                                     no_ready=False, validate_input=False, wake_on_connect=wake)
         output = io.StringIO()
         try:
             with patch.object(worker, "parse_args", return_value=args), \
                     patch.object(worker.sys, "stdin", stdin), \
                     patch.object(worker.sys, "stdout", output), \
+                    patch.object(worker.time, "monotonic", side_effect=lambda: clock[0]), \
+                    patch.object(worker.time, "sleep"), \
                     patch.object(worker.native, "verify_dll") as verify, \
                     patch.object(worker.native, "load_api", return_value=api) as load:
                 code = worker.main()
@@ -123,7 +134,7 @@ class WorkerExitTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(api.close_calls, 1)
         self.assertTrue(final["closed"])
-        self.assertFalse(final["playerConnected"])
+        self.assertEqual(final["playerConnected"], entered)
         self.assertFalse(final["eacVerified"])
         return final, messages, api
 
@@ -177,6 +188,38 @@ class WorkerExitTests(unittest.TestCase):
         self.assertTrue(final["identitySent"])
         self.assertFalse(final["readySent"])
         self.assertEqual(api.send_calls, 1)
+
+    def test_enabled_worker_sends_three_ticks_and_observes_wake(self):
+        finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
+        final, _, api = self.run_worker([
+            b"\x10", b"\x9d", b"\x8f", entity(), finish, None,
+            entity(seq=2, flags=256), None, b"\x15",
+        ], wake=True, entered=True)
+        self.assertEqual([p[0] for p in api.payloads], [0x9e, 0x90, 0x9b, 0x9b, 0x9b])
+        self.assertTrue(all(args[2:] == (2, 3, 0) for args in api.send_args[2:]))
+        self.assertEqual(final["tickPacketsSent"], 3)
+        self.assertTrue(final["wakeAwakeObserved"])
+        self.assertTrue(final["wakeReleaseSent"])
+        self.assertEqual(final["wakeState"], "awake_observed")
+        self.assertEqual(final["sentPackets"], 5)
+
+    def test_enabled_worker_stops_on_own_position_change_while_pressed(self):
+        finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
+        correction = b"\x96" + struct.pack("<Q", 9) + bytes(28)
+        final, _, api = self.run_worker([
+            b"\x10", b"\x9d", b"\x8f", entity(), finish, None, correction,
+        ], wake=True, entered=True)
+        self.assertEqual(final["tickPacketsSent"], 2)
+        self.assertFalse(final["wakeReleaseSent"])
+        self.assertIn("wake_release_unavailable", final["stages"])
+        self.assertEqual(final["wakeState"], "interrupted")
+
+    def test_wake_enabled_does_not_change_protected_session_rejection(self):
+        for packets in ([b"\x10", b"\xa2"], [b"\x10", b"\x9d", b"\x8f\x60\x01"]):
+            final, _, api = self.run_worker(packets, wake=True)
+            self.assertEqual(final["tickPacketsSent"], 0)
+            self.assertFalse(any(p[0] == 0x9b for p in api.payloads))
+            self.assertFalse(final["readySent"])
 
 
 if __name__ == "__main__":

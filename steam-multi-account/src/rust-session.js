@@ -32,6 +32,8 @@ const STAGE_ERRORS = [
   ['invalid_server_guid', '独立 Rust 网络实例未能取得有效的服务器标识。'],
   ['identity_native_send_failed', '独立 Rust 网络实例发送身份失败。'],
   ['ready_native_send_failed', '独立 Rust 网络实例发送就绪消息失败。'],
+  ['tick_native_send_failed', '唤醒输入发送失败，连接已关闭。'],
+  ['wake_release_unavailable', '角色状态已改变，无法安全释放唤醒输入，连接已关闭。'],
   ['transport_connection_attempt_failed', '无法与该服务器建立网络连接。'],
   ['transport_no_free_incoming_connections', '服务器当前没有可用连接位置。'],
   ['transport_connection_banned', '服务器拒绝了本次网络连接。'],
@@ -43,12 +45,15 @@ const STAGE_ERRORS = [
 // Only public, filtered worker metadata survives a run. The account keeps this
 // manager across Steam reconnects so a retiring worker cannot overlap its next.
 export class RustSession {
+  #spawnWorker;
   #run = null;
   #activityListener = null;
   #status = {
     state: 'closed', host: null, port: null, startedAt: null, endedAt: null,
     metadata: safeMetadata({}), lastError: null,
   };
+
+  constructor({ spawnWorker = spawn } = {}) { this.#spawnWorker = spawnWorker; }
 
   snapshot() {
     return { ...this.#status, metadata: safeMetadata(this.#status.metadata) };
@@ -74,21 +79,28 @@ export class RustSession {
   }
 
   start(auth, input, username, env = process.env) {
-    const destination = validateRustDestination(input, ['respawnOnDead']);
+    const destination = validateRustDestination(input, ['respawnOnDead', 'wakeOnConnect']);
     if (Object.hasOwn(input, 'respawnOnDead') && typeof input.respawnOnDead !== 'boolean') {
       throw new ApiError(400, 'respawnOnDead 必须为布尔值。');
     }
     const respawnOnDead = Object.hasOwn(input, 'respawnOnDead') && input.respawnOnDead === true;
+    if (Object.hasOwn(input, 'wakeOnConnect') && typeof input.wakeOnConnect !== 'boolean') {
+      throw new ApiError(400, 'wakeOnConnect 必须为布尔值。');
+    }
+    const wakeOnConnect = input.wakeOnConnect === true;
     const runtime = readRustRuntime(env);
     if (this.#run) throw new ApiError(409, '该账号的 Rust 会话或清理仍在进行，请先停止并等待结束。');
-    const run = { child: null, workerStarted: false, reachedEnteredGame: false, respawnOnDead,
+    const run = { child: null, workerStarted: false, reachedEnteredGame: false, respawnOnDead, wakeOnConnect,
       stopRequested: false, stopSent: false, killTimer: null, failure: null };
     this.#run = run;
     this.#status = {
       state: 'connecting', ...destination, startedAt: new Date().toISOString(), endedAt: null,
       metadata: safeMetadata({ closed: false, playerConnected: false, eacVerified: false,
         selfEntityObserved: false, finishLoadingObserved: false, respawnOnDeadEnabled: respawnOnDead,
-        respawnAttempted: false, respawnSent: false, respawnAliveObserved: false }), lastError: null,
+        respawnAttempted: false, respawnSent: false, respawnAliveObserved: false,
+        tickWakeEnabled: wakeOnConnect, tickPacketsSent: 0, wakeAttempted: false,
+        wakePressSent: false, wakeReleaseSent: false, wakeAwakeObserved: false,
+        wakeState: wakeOnConnect ? 'waiting_state' : 'disabled' }), lastError: null,
     };
     this.#notifyActivity();
     // The HTTP request returns immediately. This task owns the ticket through
@@ -192,10 +204,11 @@ export class RustSession {
     return new Promise((resolve, reject) => {
       let child;
       try {
-        child = spawn(runtime.python, [runtime.worker, '--dll', runtime.dll,
+        child = this.#spawnWorker(runtime.python, [runtime.worker, '--dll', runtime.dll,
           '--sha256', runtime.sha256, '--host', destination.host,
           '--port', String(destination.port), '--persistent', '--stream',
-          ...(run.respawnOnDead ? ['--respawn-on-dead'] : [])], {
+          ...(run.respawnOnDead ? ['--respawn-on-dead'] : []),
+          ...(run.wakeOnConnect ? ['--wake-on-connect'] : [])], {
           windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'], shell: false,
         });
       } catch {

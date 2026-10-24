@@ -141,6 +141,15 @@ export function createAccountDetails({ request, notice, changed }) {
           ? `${ownState.ageSeconds.toLocaleString('zh-CN', { maximumFractionDigits: 1 })} 秒` : '未知';
         progress.push(`最近角色快照：${lifeState}（采样时快照年龄 ${age}）`);
       } else progress.push('尚未观察到角色快照');
+      if (metadata.tickWakeEnabled) {
+        const wakeLabels = { waiting_state: '等待可用角色状态', waiting_finish_loading: '等待入服完成',
+          unsupported_state: '当前角色状态不支持唤醒', unsequenced_state: '等待有序角色快照',
+          stale_state: '等待新的角色快照', sending: '正在发送唤醒输入',
+          awaiting_confirmation: '按键已释放，等待唤醒确认', already_awake: '角色已经清醒',
+          awake_observed: '已观察到清醒快照', unconfirmed: '尚未确认唤醒',
+          interrupted: '唤醒已中止', send_failed: '唤醒输入发送失败' };
+        progress.push(`唤醒：${wakeLabels[metadata.wakeState] || '等待状态'}`);
+      }
     }
     $('#rust-progress').textContent = progress.join(' · ');
     $('#rust-error').textContent = typeof session.lastError === 'string' ? session.lastError : '';
@@ -152,10 +161,14 @@ export function createAccountDetails({ request, notice, changed }) {
     $('#rust-host').disabled = rustPending || !rustSessionView || active;
     $('#rust-port').disabled = rustPending || !rustSessionView || active;
     $('#rust-respawn-on-dead').disabled = rustPending || !rustSessionView || active;
+    $('#rust-wake-on-connect').disabled = rustPending || !rustSessionView || active;
     // Active settings come from the running session. Closed-session refreshes
     // leave the user's next connection choice intact.
     if (active && typeof rustSessionView.metadata?.respawnOnDeadEnabled === 'boolean') {
       $('#rust-respawn-on-dead').checked = rustSessionView.metadata.respawnOnDeadEnabled;
+    }
+    if (active && typeof rustSessionView.metadata?.tickWakeEnabled === 'boolean') {
+      $('#rust-wake-on-connect').checked = rustSessionView.metadata.tickWakeEnabled;
     }
   }
   async function rustAction(operation) {
@@ -283,6 +296,7 @@ export function createAccountDetails({ request, notice, changed }) {
     $('#library-search').value = ''; $('#idle-apps').value = ''; $('#free-search').value = ''; freeTerm = '';
     $('#rust-host').value = ''; $('#rust-port').value = '28015';
     $('#rust-respawn-on-dead').checked = false;
+    $('#rust-wake-on-connect').checked = false;
     rustRevision++; rustPending = false; rustSessionView = null;
     $('#rust-state').textContent = '正在读取'; $('#rust-state').className = 'badge';
     $('#rust-target').textContent = ''; $('#rust-progress').textContent = ''; $('#rust-error').textContent = '';
@@ -320,7 +334,8 @@ export function createAccountDetails({ request, notice, changed }) {
   $('#rust-form').addEventListener('submit', event => {
     event.preventDefault();
     rustAction(async ctx => {
-      await ctx.api('rust-session', 'POST', { host: $('#rust-host').value.trim(), port: Number($('#rust-port').value), respawnOnDead: $('#rust-respawn-on-dead').checked === true });
+      await ctx.api('rust-session', 'POST', { host: $('#rust-host').value.trim(), port: Number($('#rust-port').value), respawnOnDead: $('#rust-respawn-on-dead').checked === true,
+        ...($('#rust-wake-on-connect').checked ? { wakeOnConnect: true } : {}) });
       if (ctx.valid()) notice('已开始连接 Rust 服务器。');
     });
   });

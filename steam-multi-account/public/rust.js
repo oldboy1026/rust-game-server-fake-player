@@ -81,6 +81,7 @@ function lock() {
   sessionStorage.removeItem('steam-api-key');
   $('#api-key').value = ''; $('#import-text').value = ''; updateImportCount();
   $('#target-respawn').checked = false;
+  $('#target-wake').checked = false;
   overview = { accounts: [], servers: [], jobs: [], counts: {} };
   logAccount = null; ++logRevision;
   if ($('#logs-dialog').open) $('#logs-dialog').close();
@@ -170,6 +171,16 @@ function snapshotCell(account) {
   const state = ['alive', 'dead'].includes(own.lifeState) ? own.lifeState : 'unknown';
   const label = { alive: '存活', dead: '死亡', unknown: '状态未知' }[state];
   cell.append(element('span', `snapshot-state ${state}`, label));
+  if (account.rust?.metadata?.tickWakeEnabled) {
+    const wake = account.rust.metadata;
+    const label = wake.wakeState === 'awake_observed' ? '已观察到唤醒'
+      : wake.wakeState === 'already_awake' ? '原已清醒'
+      : wake.wakeState === 'unconfirmed' ? '唤醒未确认'
+      : wake.wakeState === 'interrupted' ? '唤醒已中止'
+      : wake.wakeState === 'send_failed' ? '唤醒发送失败'
+      : wake.wakeReleaseSent ? '等待唤醒确认' : '等待唤醒条件';
+    cell.append(element('span', 'cell-secondary', label));
+  }
   const age = typeof own.ageSeconds === 'number' && Number.isFinite(own.ageSeconds) && own.ageSeconds >= 0 ? `${own.ageSeconds.toLocaleString('zh-CN', { maximumFractionDigits: 1 })} 秒` : '未知';
   cell.append(element('span', 'cell-secondary', `采样时快照年龄 ${age}`));
   if (!active(account)) cell.append(element('span', 'cell-secondary', '历史快照 · 连接已结束'));
@@ -200,7 +211,8 @@ function renderAccounts() {
     entry.checkbox.setAttribute('aria-label', `选择账号 ${account.accountName}`);
     const signature = JSON.stringify([account.accountName, account.nickname, account.steamState, account.hasSavedLogin,
       account.lastError, account.rust?.state, connected(account), account.rust?.elapsedSeconds,
-      account.rust?.lastError, account.rust?.host, account.rust?.port, account.rust?.serverName, account.rust?.metadata?.ownPlayerState]);
+      account.rust?.lastError, account.rust?.host, account.rust?.port, account.rust?.serverName, account.rust?.metadata?.ownPlayerState,
+      account.rust?.metadata?.wakeState]);
     if (entry.signature !== signature) {
       entry.signature = signature;
       entry.name.replaceChildren(element('span', 'table-account-name', account.accountName || '账号名称未知'));
@@ -299,7 +311,8 @@ async function submitAction(action) {
   if (selected.size > 200) { notice('每批最多处理 200 个账号，请调整所选范围。', true); return; }
   const payload = { action, accountIds: [...selected] };
   try {
-    if (action === 'connect') { payload.target = readTarget(); payload.respawnOnDead = $('#target-respawn').checked === true; }
+    if (action === 'connect') { payload.target = readTarget(); payload.respawnOnDead = $('#target-respawn').checked === true;
+      if ($('#target-wake').checked) payload.wakeOnConnect = true; }
   } catch (error) { notice(error.message, true); return; }
   await submitJob('/v1/rust/actions', payload, `${jobKinds[action]}任务已提交。`);
 }

@@ -14,6 +14,13 @@ const STAGES = {
   protected_or_unsupported_encryption_required: '服务器要求当前连接不支持的受保护会话，已停止。',
   transport_connection_lost: '服务器网络连接丢失。', disconnect_reason_received: '服务器已结束连接。',
   native_wrapper_closed: 'Rust 网络连接已清理。',
+  wake_neutral_sent: '已开始一次角色唤醒尝试。', wake_press_sent: '已发送普通唤醒输入。',
+  wake_release_sent: '已释放唤醒按键，等待角色快照。',
+  wake_awake_observed: '唤醒输入后已观察到角色清醒快照。',
+  wake_unconfirmed: '未在等待时间内确认唤醒，不再重试。',
+  wake_interrupted: '角色状态改变，唤醒尝试已停止。',
+  tick_native_send_failed: '唤醒输入发送失败，连接已关闭。',
+  wake_release_unavailable: '无法安全释放唤醒按键，连接已关闭。',
 };
 const STEAM_STATES = { online: 'Steam 已登录。', connecting: '正在登录 Steam。', reconnecting: 'Steam 正在重连。',
   guard_required: '此账号需要验证码。', offline: 'Steam 已退出。', error: 'Steam 登录或连接失败。' };
@@ -282,13 +289,15 @@ export class RustWorkspace {
     return this.jobView(job);
   }
   startActions(input) {
-    if (!input || Object.keys(input).some(k => !['action', 'accountIds', 'target', 'respawnOnDead'].includes(k))
+    if (!input || Object.keys(input).some(k => !['action', 'accountIds', 'target', 'respawnOnDead', 'wakeOnConnect'].includes(k))
         || !['login', 'connect', 'disconnect'].includes(input.action)) throw new ApiError(400, '请选择批量登录、连接或断开。');
     const ids = boundedIds(input.accountIds);
     const accounts = ids.map(id => this.manager.get(id));
     const target = input.action === 'connect' ? targetFrom(input.target) : null;
     if (input.respawnOnDead !== undefined && typeof input.respawnOnDead !== 'boolean')
       throw new ApiError(400, '死亡时重生选项必须是布尔值。');
+    if (input.wakeOnConnect !== undefined && typeof input.wakeOnConnect !== 'boolean')
+      throw new ApiError(400, '入服后唤醒选项必须是布尔值。');
     if (target) this.server(target);
     const job = this.newJob(input.action, accounts.length);
     void (async () => {
@@ -304,7 +313,7 @@ export class RustWorkspace {
             const existing = this.session(account);
             if (ACTIVE.has(existing.state)) { this.result(job, name, 'skipped', '已有 Rust 连接，已保留。'); continue; }
             this.manager.features(id).startRustSession({ host: target.host, port: target.port,
-              respawnOnDead: input.respawnOnDead === true });
+              respawnOnDead: input.respawnOnDead === true, wakeOnConnect: input.wakeOnConnect === true });
             this.addLog(id, `连接目标：${this.server(target).name}（${target.host}:${target.port}）。`);
             this.result(job, name, 'started', '连接已发起，进度见账号状态。');
             if (index < accounts.length - 1) await delay(this.connectSpacingMs);

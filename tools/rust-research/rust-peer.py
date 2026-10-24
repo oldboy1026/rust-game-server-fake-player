@@ -16,7 +16,9 @@ Approval; --no-ready stops after Approval. Explicit clientInfo is optional.
 It recognizes only its own entity and the exact own FinishLoading RPC as
 evidence of PlayerInit/EnterGame. --persistent --stream keeps receiving until
 a stop line, stdin EOF, remote disconnect or protected requirement. It sends
-no PlayerTick and implements no EAC session.
+no PlayerTick by default and implements no EAC session. --wake-on-connect
+optionally sends one bounded neutral/duck/release Tick cycle from a fresh,
+supported own snapshot after FinishLoading, then observes the awake snapshot.
 --respawn-on-dead optionally attempts one fixed own respawn command, only with
 a fresh dead self snapshot and that entity's exact FinishLoading observation.
 Post-send alive metadata records reception, not a server command acknowledgement.
@@ -49,6 +51,9 @@ sys.dont_write_bytecode = True
 _spec = importlib.util.spec_from_file_location("rust_native_peer", Path(__file__).with_name("native-peer.py"))
 native = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(native)
+_tick_spec = importlib.util.spec_from_file_location("rust_player_tick", Path(__file__).with_name("rust_player_tick.py"))
+player_tick = importlib.util.module_from_spec(_tick_spec)
+_tick_spec.loader.exec_module(player_tick)
 
 MAX_INPUT_BYTES = 32768
 MAX_RECEIVE_BYTES = 2 * 1024 * 1024
@@ -164,6 +169,7 @@ def parse_args():
     parser.add_argument("--persistent", action="store_true", help="Continue until a stop control line, stdin EOF, remote disconnect or protected requirement")
     parser.add_argument("--stream", action="store_true", help="Emit full safe JSONL snapshots every five seconds and at new stages")
     parser.add_argument("--respawn-on-dead", action="store_true", help="Attempt one own respawn after exact own FinishLoading and a dead self snapshot no older than ten seconds")
+    parser.add_argument("--wake-on-connect", action="store_true", help="Attempt one bounded ordinary own wake Tick cycle after FinishLoading; no continuous movement or EAC")
     parser.add_argument("--validate-input", action="store_true", help="Validate stdin/serialization without loading any DLL or opening a socket")
     args = parser.parse_args()
     try:
@@ -520,12 +526,30 @@ def run(args, identity, auth, ready):
     finish_loading_self_id = None
     respawn_self_id = None
     respawn_sent_at = None
+    wake = player_tick.WakeController(getattr(args, "wake_on_connect", False), proto_fields)
+    RESULT.update(wake.metadata)
     RESULT["respawnOnDeadEnabled"] = args.respawn_on_dead
     stop_reason = "receive_deadline_reached"
     started = time.monotonic()
     last_snapshot = started
     stop = threading.Event()
     control_state = {"reason": "stop_requested"}
+
+    def tick_progress():
+        RESULT.update(wake.metadata)
+        for stage in wake.take_events():
+            emit(stage)
+
+    def maybe_tick():
+        if not sent_auth or not sent_ready or server_guid is None or stop.is_set():
+            return None
+        if RESULT.get("encryptionLevel") != 0:
+            return None
+        previous = wake.metadata["tickPacketsSent"]
+        reason = wake.step(time.monotonic(), lambda payload: send(api, peer, server_guid, payload))
+        RESULT["sentPackets"] += wake.metadata["tickPacketsSent"] - previous
+        tick_progress()
+        return reason
 
     def update_own_snapshot_age():
         if last_self_snapshot is not None:
@@ -593,6 +617,10 @@ def run(args, identity, auth, ready):
             if args.stream and time.monotonic() - last_snapshot >= 5:
                 snapshot()
             if not api.NET_Receive(peer):
+                tick_error = maybe_tick()
+                if tick_error:
+                    stop_reason = tick_error
+                    break
                 time.sleep(0.005)
                 continue
             bits = api.NETRCV_LengthBits(peer)
@@ -672,6 +700,10 @@ def run(args, identity, auth, ready):
                     # parse must never become a successful identity match.
                     observed = None
                     RESULT["entityParseFailures"] += 1
+                    if wake.enabled:
+                        wake.invalidate()
+                if observed is not None and not wake.observe(packet, observed, time.monotonic()):
+                    observed = None
                 if observed is not None:
                     previous_state = RESULT["ownPlayerState"]
                     entity_changes = previous_state.get("entityChanges", 0)
@@ -719,13 +751,29 @@ def run(args, identity, auth, ready):
                     if alive_observed:
                         emit("respawn_alive_observed")
                     maybe_respawn()
-            elif first == 0x95 and sent_ready and self_id is not None and bits == 104:
-                if is_finish_loading(ctypes.string_at(pointer, 13), self_id):
+            elif first == 0x95 and sent_ready and self_id is not None:
+                packet = ctypes.string_at(pointer, bits // 8)
+                if is_finish_loading(packet, self_id):
                     finish_loading_self_id = self_id
+                    wake.finish_loading(self_id)
                     emit("finish_loading_observed")
                     # The full snapshot can arrive before FinishLoading.
                     # It still must be fresh when this gate is evaluated.
                     maybe_respawn()
+                elif len(packet) >= 9 and struct.unpack_from("<Q", packet, 1)[0] == self_id:
+                    # Unknown own RPCs may move/parent/transfer the player.
+                    # Wait for a new full own state, or close if release is unsafe.
+                    wake.invalidate()
+            elif first in {0x92, 0x96, 0xA3} and sent_ready and self_id is not None:
+                # Destroy/position/base-entity flags begin with the target EntityID.
+                # Full position/correction simulation is outside this feature.
+                packet = ctypes.string_at(pointer, min(bits // 8, 9))
+                if len(packet) >= 9 and struct.unpack_from("<Q", packet, 1)[0] == self_id:
+                    wake.invalidate()
+            tick_error = maybe_tick()
+            if tick_error:
+                stop_reason = tick_error
+                break
         # The rejection branch already emitted its fixed category. Re-emitting
         # it without metadata would raise KeyError before normal process exit.
         if stop_reason != "server_rejected":
@@ -735,6 +783,10 @@ def run(args, identity, auth, ready):
         # NET_Close and the final secret wiping in main to run.
         PROGRESS = None
         stop.set()
+        # Closing the owned transport also clears a pressed input when a stop,
+        # remote rejection or protection requirement prevents a safe release.
+        wake.shutdown()
+        tick_progress()
         closed = False
         if peer:
             api.NET_Close(peer)

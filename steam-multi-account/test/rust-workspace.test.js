@@ -124,11 +124,13 @@ test('batch connect validates selection and target, counts only entered sessions
   assert.throws(() => workspace.startActions({ action: 'connect', accountIds: [], target: {} }), { status: 400 });
   assert.throws(() => workspace.startActions({ action: 'connect', accountIds: ['one'], target: { host: 'invalid', port: 1 } }), { status: 400 });
   assert.throws(() => workspace.startActions({ action: 'connect', accountIds: ['one'], target: { host: '127.0.0.1', port: 1 }, respawnOnDead: 'true' }), { status: 400 });
+  assert.throws(() => workspace.startActions({ action: 'connect', accountIds: ['one'], target: { host: '127.0.0.1', port: 1 }, wakeOnConnect: 'true' }), { status: 400 });
   const job = await completed(workspace, workspace.startActions({ action: 'connect', accountIds: ['one', 'one', 'two', 'three'],
     target: { host: '127.0.0.1', port: 20090, queryPort: 20091 } }));
   assert.deepEqual(job.results.map(r => r.status), ['started', 'failed', 'started']);
   assert.equal(starts.length, 3);
   assert.ok(starts.every(s => s.target.respawnOnDead === false));
+  assert.ok(starts.every(s => s.target.wakeOnConnect === false));
   manager.get('one').rustSession.enter();
   const view = workspace.overview();
   assert.equal(view.counts.connected, 1);
@@ -147,6 +149,9 @@ test('batch connect validates selection and target, counts only entered sessions
   await completed(workspace, workspace.startActions({ action: 'disconnect', accountIds: ['one', 'three'] }));
   assert.equal(workspace.overview().counts.connected, 0);
   assert.equal(workspace.overview().servers.length, 0);
+  await completed(workspace, workspace.startActions({ action: 'connect', accountIds: ['one'],
+    target: { host: '127.0.0.1', port: 20090 }, wakeOnConnect: true }));
+  assert.equal(starts.at(-1).target.wakeOnConnect, true);
 });
 
 test('Rust HTTP routes protect batch operations and accept bounded imports larger than the old 16 KiB limit', async t => {

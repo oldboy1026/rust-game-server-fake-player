@@ -113,7 +113,7 @@ Content-Type: application/json
 
 `login` 和 `guard` 返回 HTTP **202**，表示已受理。继续查询状态，直到得到 `online`、`guard_required` 或 `error`。登录请求也可带 `authCode`（邮件验证码）或 `twoFactorCode`（手机验证码）。
 
-Rust 批量 `connect` 还需要 `target: {host, port, queryPort?}`，可选 `respawnOnDead` 必须为布尔值。批量接口每次选择 1–200 个账号；导入接口 JSON 请求体上限为 128 KiB，其余接口仍为 16 KiB。`started` 仅表示连接/断开已发起，最终状态见 overview；验证码与错误结果不会包含原始密码行。内部标识由 overview 提供，仅供程序调用，网页不显示。
+Rust 批量 `connect` 还需要 `target: {host, port, queryPort?}`，可选 `respawnOnDead` 和 `wakeOnConnect` 必须为布尔值。批量接口每次选择 1–200 个账号；导入接口 JSON 请求体上限为 128 KiB，其余接口仍为 16 KiB。`started` 仅表示连接/断开已发起，最终状态见 overview；验证码与错误结果不会包含原始密码行。内部标识由 overview 提供，仅供程序调用，网页不显示。
 
 需要验证码时的查询示例：
 
@@ -240,13 +240,23 @@ await api.stopIdling('account1');
 
 本机可在被忽略的 `data/rust-runtime.json` 保存 `{"dll":"RakNet.dll绝对路径","python":"Python绝对路径"}`，环境变量优先。该文件只存本机路径，迁移电脑后需重新配置。持续会话目前不自动恢复；服务重启后先等待账号上线，再连接服务器。
 
+请求可选严格布尔值 `wakeOnConnect`，默认 `false`；账号详情和 Rust 页面对应“入服后尝试唤醒一次”。例如单账号请求 `{"host":"127.0.0.1","port":28015,"wakeOnConnect":true}`。命令行 worker 对应 `--wake-on-connect`。后端代码更新需要重新启动服务才能接受新选项，现有运行中的会话不会自动启用；本批没有重启用户服务。
+
+启用后，只在已批准的无加密连接、同一自身实体的 FinishLoading、两秒内有序完整自身快照、存活且有正健康值、已连接且不在接收快照/旁观/受伤/转移状态时，尝试一次普通 `PlayerTick` 唤醒。初版只支持有接地模型状态、静止、无父实体/坐骑、非水中及非特殊移动姿态；从自身完整快照取得位置、视角和模型，按无父实体的直立/蹲伏眼位构造完整输入。未支持状态等待后续快照，不猜测坐标或执行管理员唤醒命令。
+
+一次尝试最多三帧，间隔设计为 50 毫秒：中立 → 蹲伏键 `64` → 中立释放。按可靠有序通道 0 发送，每一帧显式写出所有 Tick、Input、ModelState 和向量分量，包括零值，覆盖服务端旧 ProtoDelta 基线。该过程收起活动物品，不发送攻击。自身未知 RPC、销毁、位置或基础实体 flags 消息使保留状态失效；按下后不能安全释放时关闭本账号连接，发送失败也关闭，不重试。它是一次唤醒功能，不是持续 Tick 保活、走路、地形碰撞或完整 Rust 客户端。
+
+`metadata.tickWakeEnabled`、`tickPacketsSent`、`wakeAttempted`、`wakePressSent`、`wakeReleaseSent`、`wakeAwakeObserved`、`wakeState` 区分开关、尝试、发送、释放与观察结果。仅在按下后五秒内收到同一实体、更大有序序号、可用完整自身状态且 Sleeping 已清除时记录 `wakeAwakeObserved=true`；三帧完成但没有该快照时为 `awaiting_confirmation`，超时为 `unconfirmed`。`awake_observed` 同时要求释放帧已发送。发送成功不等于服务端处理成功，也不是唤醒因果或公共列表计数证明。坐标、实体 ID、完整 flags 和输入内容均不进入状态 API。
+
+离线验证：`python -B tools/rust-research/test_rust_player_tick.py` 和 `python -B tools/rust-research/test_rust_peer.py` 从仓库根目录运行；Node 验证在本目录运行 `npm.cmd test`。可使用 .NET 10 SDK 执行 `tools/rust-research/Test-PlayerTickInterop.ps1 -ServerDirectory <Rust服务端目录>`，用本机真实 Rust.Data 解码器验证三帧覆盖非零旧状态并可重新完整序列化；输出在 ignored work 中，不启动游戏或网络。真实服务器唤醒尚未实测。
+
 持续会话开始后会报告实际 Rust 游戏活动；传输连接后附上真实游戏地址，结束清理后恢复保存的挂机配置。账号在其他 Steam 会话游戏时，活动报告继续遵守暂停规则。此报告不保证外部可信人数或游戏列表人数更新。
 
 `GET /v1/accounts/{id}/rust-session` 的 `steamAuthentication` 返回本账号 Rust 票据活动及验证观察状态，不返回票据或身份字段。`GET /v1/accounts/{id}/rust-steam-count` 通过当前 Steam 连接只读查询最近所选游戏地址的 GMS 认证人数，另在 `serverList` 保留 `GameServers.GetServerList` 的状态和人数；该 `players` 字段不保证等同于认证人数。缺失或失败保持未知值。它们与服务器 A2S、`cp` 和 Facepunch 可信人数是不同来源，不能用单个数值证明某账号已计入 Rust 列表。
 
 `metadata.ownPlayerState` 观察本账号完整实体快照中的生命与玩家标志。`observed=false` 表示未知；观察成功后提供 `sleeping`、`receivingSnapshot`、`lifeState`（alive/dead/unknown）、`healthPositive`（布尔或未显式观察时的 null）、观战/受伤/连接/切换加载标志、字段是否出现、快照和状态变化计数、`ageSeconds`。Sleeping=false 不能单独证明角色存活或已醒；entered_game 也只表示此前确认入服。年龄以最近一次 worker 报告时刻计算，解析失败时保留旧状态并继续增加年龄；目前未核对消息序号，不能把旧快照当作当前服务器状态。`entityParseFailures` 统计所有 Entity 的解析失败。诊断不输出玩家 ID、坐标、生命值数值或原始标志，也不发送唤醒或移动输入。
 
-已在当前目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；未实现或发送 PlayerTick，也没有有效 EAC 受保护会话，不能保证其他服务器兼容或无限期留服。实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
+历史研究已在当时目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；2026-10-25 新增可选的一次 PlayerTick 唤醒流程，完成离线验证，尚未取得真实服务器唤醒结果。有效 EAC 受保护会话仍未实现，遇到 EAC 或非零加密要求继续停止，不能保证其他服务器兼容或无限期留服。历史实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
 
 ## 检查
 

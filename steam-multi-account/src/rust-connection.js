@@ -25,6 +25,8 @@ const STAGES = new Set([
   'self_entity_observed', 'finish_loading_observed', 'stop_requested', 'control_eof',
   'control_input_closed', 'invalid_control_command', 'interrupted',
   'respawn_sent', 'respawn_native_send_failed', 'respawn_alive_observed',
+  'wake_neutral_sent', 'wake_press_sent', 'wake_release_sent', 'wake_awake_observed',
+  'wake_unconfirmed', 'wake_interrupted', 'tick_native_send_failed', 'wake_release_unavailable',
 ]);
 const CATEGORIES = new Set(['steam_auth', 'eac_required', 'eos_identity_required',
   'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown']);
@@ -32,8 +34,17 @@ export function safeMetadata(result) {
   const clean = { dllSha256: RUST_DLL_SHA256, abi: 'windows-x64' };
   for (const key of ['created', 'closed', 'transportConnected', 'identitySent', 'approved',
     'readySent', 'playerConnected', 'eacVerified', 'selfEntityObserved', 'finishLoadingObserved',
-    'respawnOnDeadEnabled', 'respawnAttempted', 'respawnSent', 'respawnAliveObserved']) {
+    'respawnOnDeadEnabled', 'respawnAttempted', 'respawnSent', 'respawnAliveObserved',
+    'tickWakeEnabled', 'wakeAttempted', 'wakePressSent', 'wakeReleaseSent', 'wakeAwakeObserved']) {
     if (typeof result[key] === 'boolean') clean[key] = result[key];
+  }
+  if (Number.isSafeInteger(result.tickPacketsSent) && result.tickPacketsSent >= 0 && result.tickPacketsSent <= 3) {
+    clean.tickPacketsSent = result.tickPacketsSent;
+  }
+  if (['disabled', 'waiting_state', 'waiting_finish_loading', 'unsupported_state',
+    'unsequenced_state', 'stale_state', 'sending', 'awaiting_confirmation', 'already_awake',
+    'awake_observed', 'unconfirmed', 'interrupted', 'send_failed'].includes(result.wakeState)) {
+    clean.wakeState = result.wakeState;
   }
   if (result.respawnSent === true && result.respawnAliveObserved === true
       && typeof result.respawnAliveAfterSeconds === 'number'
