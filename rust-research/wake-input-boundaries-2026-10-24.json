@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "scope": "Read-only static follow-up. Current local managed assemblies were read as metadata and IL using dnlib; installed client PE/metadata bytes were read as data. No game DLL execution, network observation, account/server operation, configuration change, PlayerTick transmission or test-suite run occurred in this subtask.",
+  "status": "The ordinary wake-input sequence is not ready to implement from the available evidence. This is not a browser player-count repair.",
+  "managedSources": [
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601"
+    },
+    {
+      "file": "Rust.Data.dll",
+      "sha256": "1d62baef9b339f0416e6529618365c1ecad01791a833e77e76eb6c8464406104"
+    },
+    {
+      "file": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833"
+    },
+    {
+      "file": "Facepunch.Console.dll",
+      "sha256": "506fd361956ffe128d3fd40eb608f9d7c5e6cb57c73c33879faa6d55d0ddc340"
+    }
+  ],
+  "clientStaticReference": "client-tick-static-followup-2026-10-24.json",
+  "clientPeSource": {
+    "file": "GameAssembly.dll",
+    "sha256": "e7156192c3773f1f07cd58f0a7817b35705683bab4f40cd4b14599bc0a4f954f",
+    "rvasRelativeToImageBase": "0x180000000"
+  },
+  "verifiedBoundaries": [
+    {
+      "id": "delta-merge",
+      "module": "Facepunch.Network.dll",
+      "method": "Network.NetRead.ProtoDelta<T>(T)",
+      "token": "060000CD",
+      "observation": "Copies the supplied previous object into a pooled object, then calls ReadFromStream with delta=true. Absent fields retain the copied baseline.",
+      "tokenLimit": "The token is bound to the file hash above. An older ignored excerpt labels an equivalent method 060000D3; that token must not be used for this current hash."
+    },
+    {
+      "id": "empty-child-messages",
+      "module": "Rust.Data.dll",
+      "methods": [
+        {
+          "method": "InputMessage.Deserialize(BufferStream,InputMessage,bool)",
+          "token": "06000085"
+        },
+        {
+          "method": "ModelState.DeserializeLengthDelimited(BufferStream,ModelState,bool)",
+          "token": "0600004D"
+        },
+        {
+          "method": "UnityEngine.Vector3Serialized.DeserializeLengthDelimited(BufferStream,ref Vector3,bool)",
+          "token": "0600012A"
+        }
+      ],
+      "observation": "InputMessage and ModelState do not reset their whole destination at entry; only parsed fields are assigned. Nested vectors receive the delta flag. Vector3 explicitly skips clearing x/y/z when delta=true, so an empty vector submessage also preserves the old components.",
+      "consequence": "A complete serializer that omits zero-valued fields, or an empty Input/ModelState/vector submessage, is not proof that an unknown previous tick has been completely overridden."
+    },
+    {
+      "id": "model-pool-defaults",
+      "module": "Rust.Data.dll",
+      "methods": [
+        {
+          "method": "ModelState..ctor()",
+          "token": "06000014"
+        },
+        {
+          "method": "ModelState.ResetToPool(ModelState)",
+          "token": "0600003C"
+        }
+      ],
+      "observation": "The constructor initializes flags to 4, while ResetToPool writes flags=0. Pool reuse and a copied baseline prevent interpreting an empty ModelState as an invariant flags=4 value."
+    },
+    {
+      "id": "processing-order",
+      "module": "Assembly-CSharp.dll",
+      "method": "BasePlayer.OnReceivedTick(Network.NetRead)",
+      "token": "06001B67",
+      "observation": "ProtoDelta decoding is followed by RecordPacket at IL_004B, copying lastReceivedTick at IL_0080 and OnReceiveTick at IL_00A5. RecordPacket can serialize the reconstructed tick before the sleep branch is reached.",
+      "requiredObjects": {
+        "module": "Rust.Data.dll",
+        "method": "PlayerTick.Serialize(BufferStream,PlayerTick)",
+        "token": "060000A1",
+        "observation": "Throws if inputState or modelState is null. A packet is not complete merely because the sleep branch does not use its position."
+      }
+    },
+    {
+      "id": "sleep-branch-and-race",
+      "module": "Assembly-CSharp.dll",
+      "method": "BasePlayer.OnReceiveTick(PlayerTick,bool)",
+      "token": "06001B6D",
+      "observation": "After the receiving-snapshot, transfer, spectator and dead checks, the sleeping branch tests WasJustPressed for the accepted wake buttons. It calls EndSleeping at IL_00CE, immediately sends a network update, and returns at IL_00E8 after updating the active item. An already-awake path reaches UpdatePositionFromTick at IL_01C8.",
+      "inputEdgeMethods": [
+        {
+          "method": "InputState.WasJustPressed(BUTTON)",
+          "token": "060069CB"
+        },
+        {
+          "method": "InputState.Flip(InputMessage)",
+          "token": "060069D0"
+        }
+      ],
+      "consequence": "The same first packet may enter the awake path if the server state changes before it arrives; a release packet following a successful wake also enters that path. The local early return does not justify omitting actual position, eyes and model state from a complete sequence."
+    },
+    {
+      "id": "wakeup-is-not-an-ordinary-command",
+      "module": "Assembly-CSharp.dll",
+      "method": "ConVar.Player.wakeup(ConsoleSystem.Arg)",
+      "token": "0600A243",
+      "observation": "Registered ServerAdmin=true, ServerUser=false (ConsoleGen .cctor 06000203), with an outer permission check requiring RCON or a valid admin connection. The body then obtains the calling player and requires admin/developer or cinematic before locating the argument-selected sleeping target. Cinematic does not bypass the outer ServerAdmin check. FromConnection (current Facepunch.Console token 06000076) sets FromRcon=false; a real player connection does not acquire admin rights. This is not an ordinary own-player equivalent of respawn, and no RCON replacement or privilege change was attempted."
+    }
+  ],
+  "remainingGaps": [
+    "The actual retained tick/input/model baseline for a reused player object has not been established as cleared on each connection. The inspected PlayerInit and ResetPlayerState do not establish such a reset.",
+    "The worker does not yet derive a complete fresh own local transform, parent-relative state, model/pose and real eye vector. The existing client report shows localPosition plus a camera/PlayerEyes vector; constant zero or unconditional world position is unsupported.",
+    "The client SendInfo-to-final-RakNet dispatch, actual active caller, cadence and loading/sleeping gates are not closed. The identity-message send helper is not evidence of PlayerTick reliability, priority or channel.",
+    "Additional static reading located the NETSND_Send resolver wrapper at RVA 0x7840c10, Facepunch.Raknet.dll token 060003AD. It confirms the import resolver, but does not close the PlayerTick-to-wrapper call chain or reveal the required transport settings.",
+    "No causal evidence connects waking, sending Tick or these parser changes to Facepunch browser trusted counts."
+  ],
+  "nextSteps": [
+    "Add passive own-state observations for transform, parent and model/pose with sequence/freshness handling before sending Tick.",
+    "Close the actual client transport mapping and full baseline override semantics using static evidence or an authorized normal-client comparison.",
+    "Only then perform a bounded ordinary lifecycle trial on the local server if the existing protected transport requirements are supported; do not lower security settings to make the trial possible."
+  ],
+  "privateEvidence": [
+    {
+      "file": "work/wake-followup/wakeup-permission.il.txt",
+      "sha256": "6fdfdb2003679da8d796e7c994fd4eb524e923aff0145ff979a72bed80659dff"
+    },
+    {
+      "file": "work/wake-followup/current-boundaries.il.txt",
+      "sha256": "2962b5c9729eecbbdfb77f96648536b3fdb684f078144c7ae02d5abc7545d4b2"
+    },
+    {
+      "file": "work/wake-followup/current-boundaries-methods.json",
+      "sha256": "be6cff6e5308978e7af14fa4d44115dbff7c3fd1d0404f981fcd7342464f1f8e"
+    },
+    {
+      "file": "work/wake-followup/inspect-current.ps1",
+      "sha256": "34359bacd894b9a303d0bdaaa957d6ee18ae80706f0e30ff02bac0e7df1e38f4"
+    },
+    {
+      "file": "work/wake-followup/selected-7840c10-77b86f0-7797ad0.asm.txt",
+      "sha256": "606db8884c10c5bca7117a2749e2b2a92f73e9f233911a19959106a9df4d0318"
+    },
+    {
+      "file": "work/wake-followup/literal-xrefs.json",
+      "sha256": "0bf789f9911fef1852e696f2c21aa677e17e2d95a2c3716d80fe0405f08efcc3"
+    },
+    {
+      "file": "work/wake-followup/trace-extra.py",
+      "sha256": "7074acea3b17d252b7dab5390c68f1c55b2f29fba2329fc1e54e35294563a52e"
+    }
+  ],
+  "privacy": "The report contains no real account/player/entity identities, coordinate values, authentication material, administrative endpoints or full IL. Raw excerpts remain ignored.",
+  "runtimeCleanupRequired": false
+}

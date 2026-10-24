@@ -117,6 +117,8 @@ CountDiagnostics当前0.1.2新增Steam后台登录状态字段，17个本地引�
 
 下午新一轮自身诊断和31份只读观察已完成，详见 `resume-own-state-2026-10-24.md`。三个连接的快照为 Dead，不能由 Sleeping=false 推断已醒；随后它们全部断开。可信人数后来增加时研究连接已为0、其他玩家在变化，不能算作修复证据。
 
+随后实现默认关闭、每连接最多一次的普通自身 `respawnOnDead`。本地要求受保护加密时正常停止，未发命令；原目标单账号发送后收到自身alive/正生命值/sleeping快照，另有只读playerlist的当前正生命值观察。该连接累计663.734秒后正常关闭并清理票据。公开可信人数形成8→9→8关联，但另一账号曾短暂离服再返回，资格及后台延迟仍可能混杂。本轮没有启动RustClient或人工刷新列表，不能称作游戏UI实测或已修复。首轮全部129份会话、20份旁路RCON、22+11份离服观察及回溯身份集合比较见 `respawn-observation-2026-10-24.md` 和同名JSON。后续安排第2账号独立重复，不覆盖首轮证据。
+
 本轮没有新增或运行测试套件。运行中的网络查询与连接观察属于上述研究记录；语法检查不代表列表人数问题已修复。
 
 静态与公开来源证据见 `player-count-display-2026-10-24.json`、`trusted-count-public-evidence-2026-10-24.json`、`steam-auth-validation-evidence-2026-10-24.json`；脱敏运行快照见 `player-count-live-evidence-2026-10-24.json`。原始本机观察保存在忽略的 `work/`，凭据和票据不随报告提交。
