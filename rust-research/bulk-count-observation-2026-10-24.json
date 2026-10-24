@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-24T10:29:24.345Z",
+  "conclusion": {
+    "publicListRepairVerified": false,
+    "fullTwentyMinutesInWorldVerified": false,
+    "attributionToResearchAccountsVerified": false
+  },
+  "runtime": {
+    "startedUtc": "2026-10-24T10:03:14.232Z",
+    "driverCompletedUtc": "2026-10-24T10:26:47.772Z",
+    "driverError": null,
+    "timerPhases": [
+      {
+        "phase": "scheduling",
+        "startedAt": "2026-10-24T10:03:15.419Z",
+        "completedAt": "2026-10-24T10:06:10.810Z"
+      },
+      {
+        "phase": "settling",
+        "startedAt": "2026-10-24T10:06:10.810Z",
+        "maximumSeconds": 120,
+        "completedAt": "2026-10-24T10:06:41.965Z"
+      },
+      {
+        "phase": "connected_observation",
+        "startedAt": "2026-10-24T10:06:41.965Z",
+        "requestedSeconds": 1200,
+        "completedAt": "2026-10-24T10:26:47.734Z",
+        "elapsedSeconds": 1205.772807
+      }
+    ],
+    "sampleCount": 49,
+    "sourceTaskRejections": [
+      12,
+      0,
+      0
+    ],
+    "providerAvailability": {
+      "rconRosterSamples": 37,
+      "apiReadAll39Samples": 49,
+      "a2sOkSamples": 45,
+      "facepunchOkSamples": 43
+    }
+  },
+  "connections": {
+    "researchAccounts": 39,
+    "preexistingPreservedAtStart": 3,
+    "newAttempts": 36,
+    "maximumEntered": 38,
+    "maximumResearchRoster": 38,
+    "firstMatching38SampleUtc": "2026-10-24T10:06:41.153Z",
+    "lastMatching38SampleUtc": "2026-10-24T10:10:12.304Z",
+    "matching38Samples": 9,
+    "matching38SampleSpanSeconds": 211.151,
+    "spanIsNotContinuousConnectionProof": true,
+    "nonResearchRosterChanged": true
+  },
+  "publicBatches": [
+    {
+      "publishedLastModified": "Sat, 24 Oct 2026 10:02:01 GMT",
+      "firstObservedUtc": "2026-10-24T10:03:15.146Z",
+      "sampleStartedUtc": "2026-10-24T10:03:14.323Z",
+      "players": 12,
+      "researchAtSample": 3,
+      "nonResearchAtSample": 14
+    },
+    {
+      "publishedLastModified": "Sat, 24 Oct 2026 10:07:01 GMT",
+      "firstObservedUtc": "2026-10-24T10:07:14.052Z",
+      "sampleStartedUtc": "2026-10-24T10:07:12.940Z",
+      "players": 13,
+      "researchAtSample": 38,
+      "nonResearchAtSample": 14
+    },
+    {
+      "publishedLastModified": "Sat, 24 Oct 2026 10:12:05 GMT",
+      "firstObservedUtc": "2026-10-24T10:12:43.444Z",
+      "sampleStartedUtc": "2026-10-24T10:12:42.426Z",
+      "players": 13,
+      "researchAtSample": null,
+      "nonResearchAtSample": null
+    },
+    {
+      "publishedLastModified": "Sat, 24 Oct 2026 10:17:08 GMT",
+      "firstObservedUtc": "2026-10-24T10:17:14.286Z",
+      "sampleStartedUtc": "2026-10-24T10:17:12.174Z",
+      "players": 14,
+      "researchAtSample": 0,
+      "nonResearchAtSample": 14
+    },
+    {
+      "publishedLastModified": "Sat, 24 Oct 2026 10:22:03 GMT",
+      "firstObservedUtc": "2026-10-24T10:22:14.357Z",
+      "sampleStartedUtc": "2026-10-24T10:22:12.647Z",
+      "players": 15,
+      "researchAtSample": 0,
+      "nonResearchAtSample": 15
+    }
+  ],
+  "uiObservations": [
+    {
+      "source": "user_report_after_manual_refresh",
+      "players": 13,
+      "receivedUtc": "2026-10-24T10:08:47.652Z",
+      "exactRefreshUtcKnown": false
+    }
+  ],
+  "disruption": {
+    "steamReconnectingFirstUtc": "2026-10-24T10:10:40.490Z",
+    "steamReconnectingLastUtc": "2026-10-24T10:10:40.507Z",
+    "simultaneousResearchAccountCount": 39,
+    "firstStoppingSampleUtc": "2026-10-24T10:10:42.587Z",
+    "userConfirmedLocalWifiWithoutInternet": true,
+    "exactWifiOutageUtcMeasured": false,
+    "serverApplicationKickProven": false,
+    "temporaryLimitAsCauseProven": false
+  },
+  "rollback": {
+    "independentRestoreUtc": "2026-10-24T10:20:15.817Z",
+    "independentBefore": 50,
+    "independentAfter": 5,
+    "independentVerified": true,
+    "driverRollbackRequired": false,
+    "driverRollbackPending": false,
+    "driverRollbackResult": "already_original",
+    "finalReadback": {
+      "observedUtc": "2026-10-24T10:27:14.757Z",
+      "value": 5,
+      "originalRestored": true
+    }
+  },
+  "finalReadOnlyVerification": {
+    "completedUtc": "2026-10-24T10:27:14.880Z",
+    "sourcesOk": [
+      true,
+      true,
+      true
+    ],
+    "error": null,
+    "roster": {
+      "observedUtc": "2026-10-24T10:27:14.880Z",
+      "rows": 15,
+      "research": 0,
+      "preservedResearchIdentityPresent": 0,
+      "experimentResearchIdentityPresent": 0,
+      "nonResearch": 15
+    },
+    "steam": {
+      "observedUtc": "2026-10-24T10:27:14.639Z",
+      "researchAccountRecords": 39,
+      "unknownAccountRecords": 0,
+      "states": {
+        "online": 39
+      }
+    },
+    "rustApi": {
+      "observedUtc": "2026-10-24T10:27:14.654Z",
+      "read": 39,
+      "failed": 0,
+      "states": {
+        "error": 39
+      },
+      "enteredAtTarget": 0,
+      "nativeWrapperClosed": 39,
+      "ticketAvailable": 39,
+      "ticketUnavailable": 0,
+      "ticketAvailabilityMissing": 0,
+      "ticketActive": 0,
+      "ticketFalseWhenAvailable": 39,
+      "ticketFalseWhenUnavailable": 0,
+      "exactNewStartTerminalAvailableInactive": 36,
+      "exactNewStartTerminalTicketUnobservable": 0,
+      "exactNewStartNonterminal": 0,
+      "newStartedAtChanged": 0,
+      "newStartReplacementEnteredAtTarget": 0
+    }
+  },
+  "offlineReceiveCandidate": {
+    "integrated": false,
+    "deployed": false,
+    "sendingEnabled": false,
+    "syntheticTestGroupsPassed": 13,
+    "randomInputsChecked": 500,
+    "liveSnapshotCompatibilityVerified": false,
+    "knownNegativeResult": "The candidate rejects normal alive snapshots when their default-valued life-state field is omitted; synthetic tests do not demonstrate live compatibility."
+  },
+  "boundaries": [
+    "The timed controller can finish after transports have stopped; its phase name does not prove a 20-minute connected observation.",
+    "Steam authentication available=false with active=false is unavailable observation, not a confirmed cancellation receipt.",
+    "Even a later available/inactive snapshot does not prove an earlier cancellation acknowledgement.",
+    "Other players changed during the experiment; small public count changes cannot be attributed to research accounts.",
+    "No second bulk connection experiment or false player-count reporting plugin was started.",
+    "Follow-up is limited to genuine player-count consistency and failure diagnostics."
+  ],
+  "sources": [
+    {
+      "file": "work/probe-bulk-cycle-state.json",
+      "sha256": "9c405b54a18e2eadaa6480e6a727a3933647c601e2adfd2978365adbccaf1b4e"
+    },
+    {
+      "file": "work/probe-bulk-cycle-ownership-private.json",
+      "sha256": "dac173a64857c4f8b08da665005a53fb518565007f9f91039b80bf418f1aa75f"
+    },
+    {
+      "file": "work/bulk-restore-guard-safe.json",
+      "sha256": "91bcd6cacb52858558f1c13903fa36e1ed7cb6fd3bd0964eacdadb7b763a47a9"
+    },
+    {
+      "file": "work/bulk-count-review/final-check-safe.json",
+      "sha256": "ebdbdc6185ec4ca7cffd509ab11cdd274c30c4b9c96f27d5a292d236937fb7bf"
+    },
+    {
+      "file": "work/probe-bulk-ui-observations-safe.json",
+      "sha256": "7ea28237a4747135a80a92fbcef88ad1a20489f2d996ca0144f919e1beaa5a00"
+    },
+    {
+      "file": "work/bulk-count-review/second-review-safe.json",
+      "sha256": "106d5047af0099a7101ac212eedc9d774d7f44f154b803e27717c52f0d3f6a74"
+    },
+    {
+      "file": "work/wake-tick-candidate/receive-candidate-audit-safe.json",
+      "sha256": "3b248d1bedd2522291de002579eecbfb084904dc7e415341749d795e3b1f437e"
+    }
+  ]
+}

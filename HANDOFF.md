@@ -2,6 +2,28 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
+## 最新已完成：批量观察中断收尾，上限 5、研究 Rust 连接 0
+
+本批结果见 `rust-research/bulk-count-observation-2026-10-24.md`。用户明确回复 Rust 列表显示 **13 人**，与同期公共接口一致；不是 38 个研究连接被计入的证据。3 个原有连接保留、另 36 个正常单次尝试，35 个成功、1 个认证拒绝后停止。满 38 在服的首末有效采样为 10:06:41.153–10:10:12.304 UTC，跨度 211.151 秒；10:10:42 开始全部停止，不能声称完成 20 分钟在服窗口。
+
+39 个 Steam 账号在 10:10:40.490–10:10:40.507 同步进入 reconnecting，游戏传输和管理通道也失联，没有新应用层拒绝原因消息。用户随后确认当时电脑 Wi-Fi 断网，与共同失联一致；不要归因于服务器踢人或连接上限，精确网络事件先后未测。其他玩家身份集合变化，公共 12→13→14→15 不可归因研究账号，后两次变化时研究连接已为零。原 Probe.other 混有研究账号，全研究人数以私有 39 身份集合核对 RCON。
+
+**10:20:15.817 UTC 独立工具已将连接上限 50 恢复 5 并读回确认。** driver 于 10:26:47.772 自然结束、49样本、退出0，finally读回原值，rollbackRequired/rollbackPending均false。10:27:14独立一次只读复核再次确认真实上限5、RCON研究0/其他15、API entered0、39原生封装已关闭。Steam39均已恢复online，39票据available=true/active=false；36个本轮新startedAt精确匹配、无替换或活动会话。不存在待恢复的临时配置或本轮活动Rust连接。证据在 ignored `work/bulk-restore-guard-safe.json`、`work/bulk-count-review/final-check-safe.json`，公开聚合与SHA见本报告JSON。不要为公共列表人数再次执行批量入服、补造活跃或认证/人数上报。
+
+票据审计注意：`activeSessionStatus()` 在离线时返回 available=false、active=false；原 driver 的 ticketInactive/closed_ticket_inactive 未检查 available，因此不能把这些旧字段当作每张票据取消已确认。补充核验必须分别记录可观测性；当前可读且为空也不是过去取消回执。Rust传输已停止与本地票据取消确认是不同证据。
+
+Steam层有自动恢复，Rust层没有自动重连；不要为核验票据强制重登或重启服务。网页保持运行，正常Rust客户端及本地测试服未改动。后续仅排查真实玩家统计一致性、共同断线与诊断准确性，不伪装虚拟连接为真实玩家来放大公开人数。原始资料不公开；本批报告完成后按仓库要求提交、推送并核对远端SHA。
+
+并行离线接收候选归档在 ignored `work/wake-tick-candidate/receive-candidate-audit.md` 与 safe JSON，13组合成/500随机通过，但不兼容正常Alive快照默认字段省略，当前实际不可用。未接入worker、部署或发送；不能把该候选当作正常输入/人数资格的已验证功能。公开报告只记录负面结论和证据哈希。
+
+## 历史：用户授权临时 50 后的批量观察启动记录
+
+用户已明确回复“允许临时改为50，结束恢复5”，这是当前授权，不再询问。10:03:14 UTC（北京时间18:03）开始运行私有 `work/probe-bulk-cycle.mjs --approved-temporary-limit-50`，已读回初值5及临时50；**目前有恢复5与本轮新连接清理义务**。原有3个用户连接保留，其他账号5秒间隔单次正常连接，连接settle后完整观察1200秒，主流程上限1800秒。不要把下方旧“待确认/未执行”记录当作当前状态。
+
+活动记录 `work/probe-bulk-cycle-state.json` 与 `work/probe-bulk-cycle-ownership-private.json` 均被忽略；后者含每账号精确startedAt归属和rollbackRequired。若接续时进程已退出，先读这些记录并确认真实RCON上限；仍需恢复时按已批准的5进行，不重新索取许可。只清理本轮owned且当前startedAt一致的会话，用户替换和原有3会话保留。脚本finally先恢复5并读回，再清理本轮会话；最终还需独立只读RCON名单与API核对，不能只凭driver.completedAt宣告成功。
+
+初始完整基线：研究3、非研究14、公共trusted12。Probe仍只focus原3身份，其他36研究账号也在probe.other中；完整研究人数按私有39身份集合匹配RCON。当前sourceOk[0]同时涵盖Probe和RCON，API还须核read39/failed0，公开批次时间与查询时间分别记录。主观UI显示尚待核对，不能把公共API读数写成已看到游戏截图。结束后固定证据、更新本节为实际结果并提交推送Gitee。
+
 ## 最新：目标 Probe 已运行；批量拒绝错误已修复，同 IP 上限变更待确认
 
 用户已上传 `PlayerCountProbe.cs`，08:52:00 UTC 真正返回 version0.1.0/monitoring=true/sample成功；08:53私有配置原3研究身份。实际目标 secure=false/encryption0、Steam登录后台、EAC接口false；初始13连接均缓存已认证及原raw速率>0，真实可选输入hook有观测。不能再把本地hook未观察推广远端，也不能把EAC缓存值当受保护会话。详见 `rust-research/playercount-probe-target-2026-10-24.md/.json`。
