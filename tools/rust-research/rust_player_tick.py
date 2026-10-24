@@ -7,10 +7,32 @@ DUCK, neutral. No attacks, console wake command, replay or periodic idle input.
 """
 import math
 import struct
+import hashlib
 
 INTERVAL = 0.05
 MAX_STATE_AGE = 2.0
 CONFIRM_SECONDS = 5.0
+# RPC dispatch checks isStalled before calling the owner handler. The observed
+# target uses rpcstallthreshold=0.8s: even a 2s keepalive cannot renew it.
+KEEP_ALIVE_INTERVAL = 0.1
+KEEP_ALIVE_MAX_GAP = 0.5
+# StringEx.ManifestHash("ClientKeepConnectionAlive"). Server handler is
+# [RPC_Server.FromOwner], reads no arguments and updates lastTickTime only.
+KEEP_ALIVE_RPC_ID = 935768323
+
+
+def _rpc_id(name):
+    return struct.unpack("<I", hashlib.md5(name.lower().encode("utf-8")).digest()[:4])[0]
+
+
+FORCE_VIEW_RPC = _rpc_id("ForceViewAnglesTo")
+# These server-emitted calls update UI/pet metadata, not the owned body pose.
+# Names and call sites were checked in the current BasePlayer managed source.
+STATELESS_OWN_RPCS = frozenset(_rpc_id(name) for name in (
+    "SetHostileLength", "CLIENT_SetPetPrefabID", "CLIENT_SetPetPetLoadedStateIndex",
+    "OnRespawnInformation", "UpdateRichPresenceState", "CLIENT_ReceiveTeamInfo",
+    "CLIENT_ClearTeam", "CLIENT_PendingInvite", "Client_ReceiveMarkers", "Client_ReceivePings",
+))
 ZERO = (0.0, 0.0, 0.0)
 MODEL_VECTORS = {10, 13, 15, 16, 21, 22}
 MODEL_FLOATS = {4, 20}
@@ -20,6 +42,43 @@ WAKE_STATES = frozenset({
     "unsequenced_state", "stale_state", "sending", "awaiting_confirmation",
     "already_awake", "awake_observed", "unconfirmed", "interrupted", "send_failed",
 })
+INTERRUPTION_REASONS = frozenset({"state_changed", "unsupported_snapshot", "entity_changed",
+                                  "self_rpc", "position_update", "base_flags", "destroyed",
+                                  "stale_snapshot", "scheduler_stalled", "shutdown"})
+
+
+class ConnectionKeepAlive:
+    """Maintain an owned connection after its first tick, independently of wake.
+
+    This uses the server's ordinary no-argument owner RPC, not fabricated pose,
+    input, EAC authentication or public player-count reporting.
+    """
+    def __init__(self, enabled):
+        self.enabled = enabled
+        self._next = None
+        self._last = None
+        self.sent = 0
+
+    def step(self, now, uid, started_ticks, sender):
+        if not self.enabled or not uid or not started_ticks:
+            return None
+        # A delayed RPC cannot recover an already stalled player. Close this
+        # connection instead of replaying a burst or fabricating a fresh tick.
+        if self._last is not None and now - self._last > KEEP_ALIVE_MAX_GAP:
+            return "connection_keepalive_stalled"
+        if self._next is not None and now < self._next:
+            return None
+        payload = bytearray(b"\x95" + struct.pack("<QI", uid, KEEP_ALIVE_RPC_ID))
+        try:
+            sent = sender(payload)
+        finally:
+            payload[:] = b"\0" * len(payload)
+        if not sent:
+            return "connection_keepalive_send_failed"
+        self.sent += 1
+        self._last = now
+        self._next = now + KEEP_ALIVE_INTERVAL
+        return None
 
 
 def _selected(data, schema, fields, *, reject_unknown=False):
@@ -50,7 +109,7 @@ def _vector(data, fields):
 
 def _state(packet, observed, fields, now):
     entity = _selected(memoryview(packet)[5:], {2: 2, 3: 2, 10: 2}, fields)
-    base = _selected(entity[2], {1: 2, 2: 2, 4: 5}, fields)
+    base = _selected(entity[2], {1: 2, 2: 2, 3: 0, 4: 5}, fields)
     player = _selected(entity[3], {6: 2, 8: 0, 22: 0}, fields)
     parent = _selected(entity.get(10, b""), {1: 0, 2: 0}, fields)
     if player.get(22, 0) or any(parent.values()) or 6 not in player or 4 not in base:
@@ -91,7 +150,8 @@ def _state(packet, observed, fields, now):
     eye = (position[0], position[1] + 1.5 - 0.6 * values[20], position[2])
     values[11] &= ~8  # Client is awake; server still owns its Sleeping flag.
     return {"uid": observed["uid"], "position": position, "angles": angles,
-            "model": values, "eye": eye, "received": now, "time": server_time}
+            "model": values, "eye": eye, "received": now, "time": server_time,
+            "base_flags": base.get(3, 0) & 0xffffffff}
 
 
 def _varint(value):
@@ -157,9 +217,12 @@ class WakeController:
     def _status(self, status):
         self.metadata["wakeState"] = status
 
-    def invalidate(self):
+    def invalidate(self, reason="state_changed", rpc_id=None):
         self._private = None
         if self._phase in (1, 2) and not self._terminal:
+            self.metadata["wakeInterruptionReason"] = reason if reason in INTERRUPTION_REASONS else "state_changed"
+            if reason == "self_rpc" and isinstance(rpc_id, int) and 0 <= rpc_id < 2**32:
+                self.metadata["wakeInterruptionRpc"] = rpc_id
             self._terminal = True
             self._status("interrupted")
             self._events.append("wake_interrupted")
@@ -173,7 +236,7 @@ class WakeController:
             return True
         seq = struct.unpack_from("<I", packet, 1)[0]
         if seq == 0xffffffff:
-            self.invalidate()
+            self.invalidate("unsupported_snapshot")
             if not self.metadata["wakeAttempted"]:
                 self._status("unsequenced_state")
             return True  # Diagnostic state only; never authorizes a tick.
@@ -181,7 +244,7 @@ class WakeController:
             return False
         self._seq = seq
         if self._uid is not None and observed["uid"] != self._uid:
-            self.invalidate()
+            self.invalidate("entity_changed")
             self._finish = None
             if self.metadata["wakeAttempted"]:
                 self._terminal = True
@@ -198,7 +261,7 @@ class WakeController:
             self._private = state
             self._sleeping = bool(observed["flags"] & 16)
         except (ValueError, KeyError, struct.error):
-            self.invalidate()
+            self.invalidate("unsupported_snapshot")
             if not self.metadata["wakeAttempted"]:
                 self._status("unsupported_state")
             return True
@@ -217,6 +280,41 @@ class WakeController:
     def finish_loading(self, uid):
         self._finish = uid
 
+    def receive_own_rpc(self, packet):
+        if len(packet) < 13 or packet[0] != 0x95 or struct.unpack_from("<Q", packet, 1)[0] != self._uid:
+            return False
+        rpc = struct.unpack_from("<I", packet, 9)[0]
+        if rpc in STATELESS_OWN_RPCS:
+            return True
+        if rpc == FORCE_VIEW_RPC and len(packet) == 25 and self._private is not None:
+            angles = struct.unpack_from("<fff", packet, 13)
+            if all(math.isfinite(component) for component in angles):
+                self._private["angles"] = angles
+                return True
+        return False
+
+    def receive_position_echo(self, packet):
+        state = self._private
+        if (state is None or len(packet) not in (37, 45) or packet[0] != 0x96
+                or struct.unpack_from("<Q", packet, 1)[0] != self._uid):
+            return False
+        position = struct.unpack_from("<fff", packet, 9)
+        angles = struct.unpack_from("<fff", packet, 21)
+        server_time = struct.unpack_from("<f", packet, 33)[0]
+        parent = struct.unpack_from("<Q", packet, 37)[0] if len(packet) == 45 else 0
+        if (parent or position != state["position"] or not math.isfinite(server_time)
+                or not all(math.isfinite(v) for v in angles)):
+            return False
+        # Same position is an echo, not a correction. Do not refresh full-state
+        # age or model/health from a position-only message.
+        state["angles"] = angles
+        return True
+
+    def receive_flags_echo(self, packet):
+        return (self._private is not None and len(packet) == 13 and packet[0] == 0xA3
+                and struct.unpack_from("<Q", packet, 1)[0] == self._uid
+                and struct.unpack_from("<I", packet, 9)[0] == self._private["base_flags"])
+
     def step(self, now, sender):
         if not self.enabled or self._terminal:
             return self._close_reason
@@ -230,7 +328,7 @@ class WakeController:
         if state is None:
             return None
         if not 0 <= now - state["received"] <= MAX_STATE_AGE:
-            self.invalidate()
+            self.invalidate("stale_snapshot")
             if not self.metadata["wakeAttempted"]:
                 self._status("stale_state")
             return self._close_reason
@@ -245,7 +343,7 @@ class WakeController:
             return None
         # Do not replay a delayed press/release after a stalled worker.
         if self._next is not None and now - self._next > 0.25:
-            self.invalidate()
+            self.invalidate("scheduler_stalled")
             return self._close_reason
         buttons = 64 if self._phase == 1 else 0  # BUTTON.DUCK, no attack.
         payload = encode_tick(state, buttons)
@@ -285,7 +383,7 @@ class WakeController:
         return events
 
     def shutdown(self):
-        self.invalidate()
+        self.invalidate("shutdown")
         if self._phase == 3 and not self._terminal:
             self._status("unconfirmed")
             self._events.append("wake_unconfirmed")

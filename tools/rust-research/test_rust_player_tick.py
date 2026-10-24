@@ -256,6 +256,66 @@ class WakeTests(unittest.TestCase):
         self.assertNotIn("angles", controller.metadata)
         self.assertIn(controller.metadata["wakeState"], tick.WAKE_STATES)
 
+    def test_recognized_owner_metadata_and_view_rpc_do_not_interrupt_wake(self):
+        controller = self.ready()
+        _, send = self.sender()
+        controller.step(0, send)
+        pet_rpc = b"\x95" + struct.pack("<QI", 9, tick._rpc_id("CLIENT_SetPetPrefabID")) + bytes(12)
+        self.assertTrue(controller.receive_own_rpc(pet_rpc))
+        view_rpc = b"\x95" + struct.pack("<QIfff", 9, tick.FORCE_VIEW_RPC, 10, 20, 30)
+        self.assertTrue(controller.receive_own_rpc(view_rpc))
+        self.assertEqual(controller._private["angles"], (10, 20, 30))
+        self.assertFalse(controller.receive_own_rpc(b"\x95" + struct.pack("<QI", 10, tick.FORCE_VIEW_RPC) + bytes(12)))
+        self.assertFalse(controller.receive_own_rpc(b"\x95" + struct.pack("<QI", 9, 12345)))
+        self.assertFalse(controller.receive_own_rpc(view_rpc[:-1]))
+        self.assertEqual(controller.metadata["wakeState"], "sending")
+
+    def test_position_and_base_flags_echo_are_not_a_correction_or_full_state_refresh(self):
+        controller = self.ready()
+        initial_received = controller._private["received"]
+        echo = b"\x96" + struct.pack("<Qfffffff", 9, 0, 20, 0, 0, 90, 0, 20)
+        self.assertTrue(controller.receive_position_echo(echo))
+        self.assertEqual(controller._private["received"], initial_received)
+        self.assertTrue(controller.receive_flags_echo(b"\xa3" + struct.pack("<QI", 9, 0)))
+        self.assertFalse(controller.receive_flags_echo(b"\xa3" + struct.pack("<QI", 9, 1)))
+        self.assertFalse(controller.receive_position_echo(b"\x96" + struct.pack("<Qfffffff", 9, 1, 20, 0, 0, 90, 0, 20)))
+        self.assertFalse(controller.receive_position_echo(echo + struct.pack("<Q", 1)))
+
+
+class ConnectionKeepAliveTests(unittest.TestCase):
+    def test_requires_own_entity_and_first_tick(self):
+        controller = tick.ConnectionKeepAlive(True)
+        sent = []
+        sender = lambda payload: sent.append(bytes(payload)) or True
+        controller.step(0, 9, False, sender)
+        controller.step(0, None, True, sender)
+        tick.ConnectionKeepAlive(False).step(0, 9, True, sender)
+        self.assertEqual(sent, [])
+        controller.step(0, 9, True, sender)
+        self.assertEqual(sent, [b"\x95" + struct.pack("<QI", 9, 935768323)])
+
+    def test_cadence_stays_below_server_stall_threshold(self):
+        controller = tick.ConnectionKeepAlive(True)
+        packets = []
+        sender = lambda payload: packets.append(bytes(payload)) or True
+        for now in (0, 0.04, 0.10, 0.14, 0.21, 0.50, 0.51):
+            self.assertIsNone(controller.step(now, 9, True, sender))
+        self.assertEqual(len(packets), 4)
+        self.assertEqual(controller.sent, 4)
+
+    def test_stalled_scheduler_stops_without_catchup_packets(self):
+        controller = tick.ConnectionKeepAlive(True)
+        packets = []
+        sender = lambda payload: packets.append(bytes(payload)) or True
+        controller.step(0, 9, True, sender)
+        self.assertEqual(controller.step(1, 9, True, sender), "connection_keepalive_stalled")
+        self.assertEqual(len(packets), 1)
+
+    def test_send_failure_is_explicit(self):
+        controller = tick.ConnectionKeepAlive(True)
+        self.assertEqual(controller.step(0, 9, True, lambda payload: False), "connection_keepalive_send_failed")
+        self.assertEqual(controller.sent, 0)
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 3 and sys.argv[1] == "--write-interop":

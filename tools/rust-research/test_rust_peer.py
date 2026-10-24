@@ -66,6 +66,10 @@ class FakeApi:
         self.send_calls = 0
         self.payloads = []
         self.send_args = []
+        self.last_player_response = None
+        self.sleeping = True
+        self.keepalives_accepted = 0
+        self.keepalives_stalled = 0
         self.NET_Create = Function(lambda: 1)
         self.NET_StartClient = Function(lambda *args: 0)
         self.NET_Receive = Function(self.receive)
@@ -73,7 +77,7 @@ class FakeApi:
         self.NETRCV_RawData = Function(lambda peer: ctypes.addressof(self.current))
         self.NETRCV_GUID = Function(lambda peer: 1)
         self.NETSND_Start = Function(lambda peer: None)
-        self.NETSND_WriteBytes = Function(lambda peer, data, length: self.payloads.append(bytes(data[:length])))
+        self.NETSND_WriteBytes = Function(self.write_bytes)
         self.NETSND_Send = Function(self.send)
         self.NET_Close = Function(self.close)
 
@@ -81,9 +85,34 @@ class FakeApi:
         packet = next(self.packets)
         if packet is None:
             self.clock[0] += 0.05
+            if self.last_player_response is not None and self.clock[0] - self.last_player_response > 60:
+                packet = rejected("Unresponsive")
+                self.current = ctypes.create_string_buffer(packet, len(packet))
+                return True
             return False
+        if packet[0] == 0x91:
+            state = worker.self_entity_snapshot(packet, 1)
+            if state is not None:
+                self.sleeping = bool(state["flags"] & 16)
         self.current = ctypes.create_string_buffer(packet, len(packet))
         return True
+
+    def write_bytes(self, peer, data, length):
+        payload = bytes(data[:length])
+        self.payloads.append(payload)
+        if payload[0] == 0x9b:
+            self.last_player_response = self.clock[0]
+        elif (payload[0] == 0x95 and len(payload) == 13
+              and struct.unpack_from("<I", payload, 9)[0] == worker.player_tick.KEEP_ALIVE_RPC_ID):
+            # BaseEntity.SV_RPCMessage drops a stalled player's RPC before
+            # ClientKeepConnectionAlive can update lastTickTime. Sleeping
+            # players are exempt; the awake case must be tested separately.
+            if (not self.sleeping and self.last_player_response is not None
+                    and self.clock[0] - self.last_player_response > 0.8):
+                self.keepalives_stalled += 1
+            else:
+                self.keepalives_accepted += 1
+                self.last_player_response = self.clock[0]
 
     def send(self, *args):
         self.send_calls += 1
@@ -145,6 +174,8 @@ class WorkerExitTests(unittest.TestCase):
             ("Server is full", "server_full"),
             ("Wrong connection protocol", "protocol_mismatch"),
             ("You are banned", "banned"),
+            ("Unresponsive", "player_timeout"),
+            ("Steam Auth Error: AuthTicketAlreadyUsed", "steam_ticket_reused"),
             ("synthetic-unrecognised-private-rejection", "unknown"),
         ]
         for reason, category in cases:
@@ -195,13 +226,14 @@ class WorkerExitTests(unittest.TestCase):
             b"\x10", b"\x9d", b"\x8f", entity(), finish, None,
             entity(seq=2, flags=256), None, b"\x15",
         ], wake=True, entered=True)
-        self.assertEqual([p[0] for p in api.payloads], [0x9e, 0x90, 0x9b, 0x9b, 0x9b])
+        self.assertEqual([p[0] for p in api.payloads], [0x9e, 0x90, 0x9b, 0x95, 0x9b, 0x9b, 0x95])
         self.assertTrue(all(args[2:] == (2, 3, 0) for args in api.send_args[2:]))
         self.assertEqual(final["tickPacketsSent"], 3)
         self.assertTrue(final["wakeAwakeObserved"])
         self.assertTrue(final["wakeReleaseSent"])
         self.assertEqual(final["wakeState"], "awake_observed")
-        self.assertEqual(final["sentPackets"], 5)
+        self.assertEqual(final["sentPackets"], 7)
+        self.assertEqual(final["connectionKeepAliveSent"], 2)
 
     def test_enabled_worker_stops_on_own_position_change_while_pressed(self):
         finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
@@ -220,6 +252,61 @@ class WorkerExitTests(unittest.TestCase):
             self.assertEqual(final["tickPacketsSent"], 0)
             self.assertFalse(any(p[0] == 0x9b for p in api.payloads))
             self.assertFalse(final["readySent"])
+
+    def test_connection_maintenance_survives_interrupted_wake_beyond_server_timeout(self):
+        finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
+        own_rpc = b"\x95" + struct.pack("<QI", 9, 12345)
+        final, _, api = self.run_worker([
+            b"\x10", b"\x9d", b"\x8f", entity(), finish, own_rpc,
+            *([None] * 1700), b"\x15",
+        ], wake=True, entered=True)
+        self.assertGreater(final["elapsedSeconds"], 80)
+        self.assertNotIn("disconnect_reason_received", final["stages"])
+        self.assertGreater(final["connectionKeepAliveSent"], 35)
+        self.assertEqual(final["tickPacketsSent"], 1)
+        self.assertEqual(final["wakeInterruptionReason"], "self_rpc")
+        self.assertEqual(final["wakeInterruptionRpc"], 12345)
+        self.assertFalse(final["wakeAwakeObserved"])
+
+    def test_expected_owner_metadata_and_position_echo_allow_wake_cycle_to_finish(self):
+        tick = worker.player_tick
+        finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
+        pet = b"\x95" + struct.pack("<QI", 9, tick._rpc_id("CLIENT_SetPetPrefabID")) + bytes(12)
+        view = b"\x95" + struct.pack("<QIfff", 9, tick.FORCE_VIEW_RPC, 0, 90, 0)
+        position = b"\x96" + struct.pack("<Qfffffff", 9, 0, 20, 0, 0, 90, 0, 10)
+        flags = b"\xa3" + struct.pack("<QI", 9, 0)
+        final, _, _ = self.run_worker([
+            b"\x10", b"\x9d", b"\x8f", entity(), finish, pet, view, position,
+            None, flags, None, entity(seq=2, flags=256), b"\x15",
+        ], wake=True, entered=True)
+        self.assertEqual(final["tickPacketsSent"], 3)
+        self.assertTrue(final["wakeAwakeObserved"])
+        self.assertNotIn("wake_interrupted", final["stages"])
+
+    def test_awake_connection_maintenance_prevents_sixty_second_timeout(self):
+        final, _, api = self.run_worker(self.awake_packets(), wake=True, entered=True)
+        self.assertGreater(final["elapsedSeconds"], 80)
+        self.assertEqual(final["wakeState"], "awake_observed")
+        self.assertEqual(final["tickPacketsSent"], 3)
+        self.assertGreater(api.keepalives_accepted, 400)
+        self.assertEqual(api.keepalives_stalled, 0)
+        self.assertNotIn("disconnect_reason_received", final["stages"])
+
+    def test_two_second_rpc_interval_reproduces_stall_then_timeout(self):
+        # Disable the new local gap guard to reproduce the old proposal. Native
+        # sends succeed, but the server ignores them and kicks after 60s.
+        with patch.object(worker.player_tick, "KEEP_ALIVE_INTERVAL", 2.0), \
+                patch.object(worker.player_tick, "KEEP_ALIVE_MAX_GAP", 3.0):
+            final, _, api = self.run_worker(self.awake_packets(), wake=True, entered=True)
+        self.assertEqual(final["disconnectCategory"], "player_timeout")
+        self.assertGreater(api.keepalives_stalled, 20)
+        self.assertLess(final["elapsedSeconds"], 62)
+
+    @staticmethod
+    def awake_packets():
+        finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
+        return [b"\x10", b"\x9d", b"\x8f", entity(), finish, None, None,
+                entity(seq=2, flags=256), *([None] * 1700), b"\x15"]
 
 
 if __name__ == "__main__":

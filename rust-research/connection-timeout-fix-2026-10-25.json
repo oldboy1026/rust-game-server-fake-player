@@ -1,0 +1,86 @@
+{
+  "recordedDate": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "baselineCommit": "0d5fd653afc3d8801ce02e6bbdeb7e042298e155",
+  "problem": "First PlayerTick starts response timeout; a finite wake cycle needs independent connection maintenance.",
+  "serverReadOnlySettings": {
+    "playerTimeoutSeconds": 60,
+    "rpcStallMode": 1,
+    "rpcStallThresholdSeconds": 0.8,
+    "rpcStallFadeSeconds": 2.5
+  },
+  "implementation": {
+    "keepAliveIntervalSeconds": 0.1,
+    "localGapCloseSeconds": 0.5,
+    "tickLimit": 3,
+    "tickEncodingChanged": false,
+    "ownerRpc": "ClientKeepConnectionAlive",
+    "ownerRpcId": 935768323
+  },
+  "checks": {
+    "pythonWakeAndMaintenance": 21,
+    "pythonWorker": 12,
+    "node": 40,
+    "realDecoder": {
+      "frames": 3,
+      "assertions": 81,
+      "passedBeforeCadenceOnlyChange": true
+    }
+  },
+  "live": {
+    "startedAt": "2026-10-24T17:39:53.959Z",
+    "finishedAt": "2026-10-24T17:41:20.204Z",
+    "observedTickWindowSeconds": 80.187,
+    "samples": 18,
+    "firstEnteredElapsed": 2.156,
+    "lastObservedElapsed": 82.156,
+    "lastObservedState": "entered_game",
+    "tickPacketsSent": 3,
+    "sentPackets": 738,
+    "wakeState": "awake_observed",
+    "awakeObserved": true,
+    "lastSnapshotSleeping": false,
+    "closed": true,
+    "ticketAvailable": true,
+    "ticketActive": false,
+    "cleanupOwnership": "exact startedAt",
+    "passed": true
+  },
+  "failedCandidate": {
+    "intervalSeconds": 2,
+    "finishedAt": "2026-10-24T17:33:51.931Z",
+    "elapsed": 62.266,
+    "state": "closed",
+    "observedTickWindowSeconds": null,
+    "closed": true,
+    "ticketInactive": true,
+    "passed": false
+  },
+  "postCheck": {
+    "steamOnline": 39,
+    "rustActive": 0
+  },
+  "deployment": {
+    "newPythonWorkersUseFix": true,
+    "existingWorkersUpdated": false,
+    "nodeRestartExecuted": false,
+    "nodeProcessId": 13504,
+    "nodeNewMessagesLoaded": false,
+    "restartBlock": "Automatic approval rejected the restart command before execution: rejected: blocked by policy. No specific reason supplied."
+  },
+  "limits": [
+    "Original three historical unknown rejections lack their original rejection text.",
+    "A single bounded live connection, not an unlimited-duration or multi-account test.",
+    "Last observed sleep/life flags retain their own snapshot age.",
+    "No valid EAC session or public-player-count claim.",
+    "No server security, timeout, or connection-limit changes."
+  ],
+  "evidenceSha256": {
+    "serverManagedModule": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+    "thresholdsPrivate": "658427a71e9c1f2614a8eae3041565bc656a5ee9639bb8d406acb199e5a09a51",
+    "failedCandidatePrivate": "54af25a24bdc00a6caf4ed46730fbf6fda95888c81ed3a883077b83d0a37aac7",
+    "passedCandidatePrivate": "e03038f3580be536f98b8ba272c34db2b164ef10bc3828f273a21ac0693db4b1",
+    "worker": "05ca79a8bd3843b5097f83a84e5bc2dd31196fea669ad6f31e307d9084122d5e",
+    "wakeAndMaintenance": "37ff1da42960b052d6809de2c38bb1c97f8ba639afd69a4139f1f57263505031"
+  }
+}

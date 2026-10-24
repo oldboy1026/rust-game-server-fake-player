@@ -150,6 +150,8 @@ def emit(stage, **metadata):
                 "account_or_server_ban": "banned",
                 "protocol_or_build_mismatch": "protocol_mismatch",
                 "server_full": "server_full",
+                "player_unresponsive": "player_timeout",
+                "steam_ticket_reused": "steam_ticket_reused",
                 "unspecified_server_rejection": "unknown",
             }.get(metadata["category"], "other")
             if RESULT["disconnectCategory"] == "eac_required" and "eac_required" not in RESULT["stages"]:
@@ -474,6 +476,8 @@ def rejection_category(data):
     except UnicodeError:
         return "unspecified_server_rejection"
     rules = [
+        (("unresponsive",), "player_unresponsive"),
+        (("authticketalreadyused", "auth ticket already used"), "steam_ticket_reused"),
         (("eac", "easyanticheat", "easy anti", "anticheat", "anti-cheat", "eos"), "eac_or_eos_requirement"),
         (("steam auth", "auth ticket", "authentication ticket", "invalid ticket", "steam token"), "steam_authentication_rejected"),
         (("banned", "ban evasion"), "account_or_server_ban"),
@@ -527,7 +531,9 @@ def run(args, identity, auth, ready):
     respawn_self_id = None
     respawn_sent_at = None
     wake = player_tick.WakeController(getattr(args, "wake_on_connect", False), proto_fields)
+    maintenance = player_tick.ConnectionKeepAlive(wake.enabled)
     RESULT.update(wake.metadata)
+    RESULT["connectionKeepAliveSent"] = 0
     RESULT["respawnOnDeadEnabled"] = args.respawn_on_dead
     stop_reason = "receive_deadline_reached"
     started = time.monotonic()
@@ -548,6 +554,18 @@ def run(args, identity, auth, ready):
         previous = wake.metadata["tickPacketsSent"]
         reason = wake.step(time.monotonic(), lambda payload: send(api, peer, server_guid, payload))
         RESULT["sentPackets"] += wake.metadata["tickPacketsSent"] - previous
+        RESULT.update(wake.metadata)
+        # A first tick starts ServerKickUnresponsivePlayers' timer. Even when
+        # pose input is interrupted, maintain the ordinary owned connection.
+        # This owner-only no-argument RPC does not submit model/input/EAC data.
+        if not reason and finish_loading_self_id == self_id:
+            previous_maintenance = maintenance.sent
+            reason = maintenance.step(time.monotonic(), self_id, wake.metadata["tickPacketsSent"] > 0,
+                                      lambda payload: send(api, peer, server_guid, payload))
+            RESULT["sentPackets"] += maintenance.sent - previous_maintenance
+            RESULT["connectionKeepAliveSent"] = maintenance.sent
+            if previous_maintenance == 0 and maintenance.sent > 0:
+                emit("connection_keepalive_started")
         tick_progress()
         return reason
 
@@ -701,7 +719,7 @@ def run(args, identity, auth, ready):
                     observed = None
                     RESULT["entityParseFailures"] += 1
                     if wake.enabled:
-                        wake.invalidate()
+                        wake.invalidate("unsupported_snapshot")
                 if observed is not None and not wake.observe(packet, observed, time.monotonic()):
                     observed = None
                 if observed is not None:
@@ -763,13 +781,20 @@ def run(args, identity, auth, ready):
                 elif len(packet) >= 9 and struct.unpack_from("<Q", packet, 1)[0] == self_id:
                     # Unknown own RPCs may move/parent/transfer the player.
                     # Wait for a new full own state, or close if release is unsafe.
-                    wake.invalidate()
+                    if not wake.receive_own_rpc(packet):
+                        wake.invalidate("self_rpc", struct.unpack_from("<I", packet, 9)[0] if len(packet) >= 13 else None)
             elif first in {0x92, 0x96, 0xA3} and sent_ready and self_id is not None:
                 # Destroy/position/base-entity flags begin with the target EntityID.
                 # Full position/correction simulation is outside this feature.
                 packet = ctypes.string_at(pointer, min(bits // 8, 9))
                 if len(packet) >= 9 and struct.unpack_from("<Q", packet, 1)[0] == self_id:
-                    wake.invalidate()
+                    packet = ctypes.string_at(pointer, bits // 8)
+                    echo = (first == 0x96 and wake.receive_position_echo(packet)
+                            or first == 0xA3 and wake.receive_flags_echo(packet))
+                    if not echo:
+                        wake.invalidate({0x92: "destroyed", 0x96: "position_update", 0xA3: "base_flags"}[first])
+                    if first == 0x92:
+                        finish_loading_self_id = None
             tick_error = maybe_tick()
             if tick_error:
                 stop_reason = tick_error

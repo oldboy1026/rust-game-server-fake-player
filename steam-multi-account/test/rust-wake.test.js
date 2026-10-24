@@ -64,4 +64,49 @@ test('wake metadata excludes untrusted values and private state', () => {
   assert.equal(filtered.privateState, undefined);
   for (const invalid of [-1, 4, NaN, '3']) assert.equal(safeMetadata({ tickPacketsSent: invalid }).tickPacketsSent, undefined);
   assert.equal(safeMetadata({ wakeState: 'private text' }).wakeState, undefined);
+  assert.equal(safeMetadata({ connectionKeepAliveSent: 42 }).connectionKeepAliveSent, 42);
+  assert.equal(safeMetadata({ connectionKeepAliveSent: -1 }).connectionKeepAliveSent, undefined);
+  assert.equal(safeMetadata({ wakeInterruptionReason: 'self_rpc', wakeInterruptionRpc: 12345 }).wakeInterruptionRpc, 12345);
+  assert.equal(safeMetadata({ wakeInterruptionReason: 'private text', wakeInterruptionRpc: 12345 }).wakeInterruptionRpc, undefined);
+});
+
+test('post-entry disconnect messages distinguish response timeout from unknown rejection', async () => {
+  for (const [category, expected] of [
+    ['player_timeout', '服务器因玩家响应超时（Unresponsive）断开连接。'],
+    ['unknown', '服务器已断开连接，当前未识别具体原因。'],
+    ['steam_ticket_reused', '服务器报告 Steam 票据已被使用，请等待原会话清理后再连接。'],
+  ]) {
+    const child = new EventEmitter();
+    child.stdin = new PassThrough(); child.stdout = new PassThrough(); child.stderr = new PassThrough();
+    const session = new RustSession({ spawnWorker: () => child });
+    const auth = { async withSessionTicket(consume) {
+      await consume({ sessionTicket: Buffer.from('synthetic'), steamId: '1', signal: new AbortController().signal });
+    } };
+    session.start(auth, { host: '127.0.0.1', port: 1 }, 'Test', env);
+    child.stdout.write(`${JSON.stringify({ type: 'progress', selfEntityObserved: true, finishLoadingObserved: true })}\n`);
+    child.stdout.write(`${JSON.stringify({ type: 'final', closed: true, disconnectCategory: category })}\n`);
+    child.emit('close', 0);
+    await setImmediate();
+    assert.equal(session.snapshot().lastError, expected);
+  }
+});
+
+test('maintenance failures remain explicit through metadata filtering and worker cleanup', async () => {
+  for (const [stage, expected] of [
+    ['connection_keepalive_send_failed', '连接维护消息发送失败，连接已关闭。'],
+    ['connection_keepalive_stalled', '本机连接维护停顿过长，已关闭连接，请重新连接。'],
+  ]) {
+    const child = new EventEmitter();
+    child.stdin = new PassThrough(); child.stdout = new PassThrough(); child.stderr = new PassThrough();
+    const session = new RustSession({ spawnWorker: () => child });
+    const auth = { async withSessionTicket(consume) {
+      await consume({ sessionTicket: Buffer.from('synthetic'), steamId: '1', signal: new AbortController().signal });
+    } };
+    session.start(auth, { host: '127.0.0.1', port: 1 }, 'Test', env);
+    child.stdout.write(`${JSON.stringify({ type: 'final', closed: true, stages: [stage] })}\n`);
+    child.emit('close', 0);
+    await setImmediate();
+    assert.equal(session.snapshot().lastError, expected);
+    assert.equal(session.isActive(), false);
+  }
 });

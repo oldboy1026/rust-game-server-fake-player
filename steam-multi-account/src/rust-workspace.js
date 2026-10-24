@@ -21,6 +21,9 @@ const STAGES = {
   wake_interrupted: '角色状态改变，唤醒尝试已停止。',
   tick_native_send_failed: '唤醒输入发送失败，连接已关闭。',
   wake_release_unavailable: '无法安全释放唤醒按键，连接已关闭。',
+  connection_keepalive_started: '已开始维护玩家连接。',
+  connection_keepalive_send_failed: '连接维护消息发送失败，连接已关闭。',
+  connection_keepalive_stalled: '本机连接维护停顿过长，已关闭连接。',
 };
 const STEAM_STATES = { online: 'Steam 已登录。', connecting: '正在登录 Steam。', reconnecting: 'Steam 正在重连。',
   guard_required: '此账号需要验证码。', offline: 'Steam 已退出。', error: 'Steam 登录或连接失败。' };

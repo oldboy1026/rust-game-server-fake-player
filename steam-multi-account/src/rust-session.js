@@ -6,6 +6,8 @@ const MAX_LINE_BYTES = 65536;
 const STOP_GRACE_MS = 5000;
 const REJECTION_MESSAGES = {
   steam_auth: '服务器未接受该账号的 Steam 认证。',
+  steam_ticket_reused: '服务器报告 Steam 票据已被使用，请等待原会话清理后再连接。',
+  player_timeout: '服务器因玩家响应超时（Unresponsive）断开连接。',
   eac_required: '服务器要求当前独立连接尚未建立的 EAC 会话，已停止连接。',
   eos_identity_required: '服务器要求当前独立连接尚未取得的 EOS 身份，已停止连接。',
   protocol_mismatch: '服务器未接受当前连接使用的协议或版本。',
@@ -34,6 +36,8 @@ const STAGE_ERRORS = [
   ['ready_native_send_failed', '独立 Rust 网络实例发送就绪消息失败。'],
   ['tick_native_send_failed', '唤醒输入发送失败，连接已关闭。'],
   ['wake_release_unavailable', '角色状态已改变，无法安全释放唤醒输入，连接已关闭。'],
+  ['connection_keepalive_send_failed', '连接维护消息发送失败，连接已关闭。'],
+  ['connection_keepalive_stalled', '本机连接维护停顿过长，已关闭连接，请重新连接。'],
   ['transport_connection_attempt_failed', '无法与该服务器建立网络连接。'],
   ['transport_no_free_incoming_connections', '服务器当前没有可用连接位置。'],
   ['transport_connection_banned', '服务器拒绝了本次网络连接。'],
@@ -159,7 +163,9 @@ export class RustSession {
     const { metadata } = this.#status;
     if (!run.workerStarted) return { state: 'closed', lastError: null };
     const rejection = REJECTION_MESSAGES[metadata.disconnectCategory];
-    if (rejection) return { state: 'error', lastError: rejection };
+    if (rejection) return { state: 'error', lastError: run.reachedEnteredGame
+      && ['other', 'unknown'].includes(metadata.disconnectCategory)
+      ? '服务器已断开连接，当前未识别具体原因。' : rejection };
     for (const [stage, message] of STAGE_ERRORS) {
       if (metadata.stages?.includes(stage)) return { state: 'error', lastError: message };
     }

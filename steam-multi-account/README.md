@@ -244,11 +244,13 @@ await api.stopIdling('account1');
 
 启用后，只在已批准的无加密连接、同一自身实体的 FinishLoading、两秒内有序完整自身快照、存活且有正健康值、已连接且不在接收快照/旁观/受伤/转移状态时，尝试一次普通 `PlayerTick` 唤醒。初版只支持有接地模型状态、静止、无父实体/坐骑、非水中及非特殊移动姿态；从自身完整快照取得位置、视角和模型，按无父实体的直立/蹲伏眼位构造完整输入。未支持状态等待后续快照，不猜测坐标或执行管理员唤醒命令。
 
-一次尝试最多三帧，间隔设计为 50 毫秒：中立 → 蹲伏键 `64` → 中立释放。按可靠有序通道 0 发送，每一帧显式写出所有 Tick、Input、ModelState 和向量分量，包括零值，覆盖服务端旧 ProtoDelta 基线。该过程收起活动物品，不发送攻击。自身未知 RPC、销毁、位置或基础实体 flags 消息使保留状态失效；按下后不能安全释放时关闭本账号连接，发送失败也关闭，不重试。它是一次唤醒功能，不是持续 Tick 保活、走路、地形碰撞或完整 Rust 客户端。
+一次尝试最多三帧，间隔设计为 50 毫秒：中立 → 蹲伏键 `64` → 中立释放。按可靠有序通道 0 发送，每一帧显式写出所有 Tick、Input、ModelState 和向量分量，包括零值，覆盖服务端旧 ProtoDelta 基线。该过程收起活动物品，不发送攻击。自身未知 RPC、销毁、真实位置改变或基础实体 flags 改变使保留状态失效；已核对的 UI/宠物元数据 RPC 和位置未变的同步回包允许继续，单独的视角回包不刷新完整状态年龄。按下后不能安全释放时关闭本账号连接，发送失败也关闭，不重试。
+
+第一帧 Tick 会启动服务端的玩家响应计时。启用唤醒且已发送 Tick 后，独立发送普通无参数 owner RPC `ClientKeepConnectionAlive`，设计间隔 100 毫秒，独立于唤醒成功或中断状态；不循环发送旧坐标或按键。已核对目标 `server.playertimeout=60`，RPC 接收先检查 `antihack.rpcstallthreshold=0.8`，因此每两秒才发送维护消息仍会超时。本机维护间隔超过 500 毫秒则关闭自己的连接并提示重新连接，不突发补发、不更改服务端门槛。维护原生发送失败也关闭。此功能不包含持续 PlayerTick、走路、地形碰撞或完整 Rust 客户端；自定义门槛、网络或调度停顿仍可能导致断开。
 
 `metadata.tickWakeEnabled`、`tickPacketsSent`、`wakeAttempted`、`wakePressSent`、`wakeReleaseSent`、`wakeAwakeObserved`、`wakeState` 区分开关、尝试、发送、释放与观察结果。仅在按下后五秒内收到同一实体、更大有序序号、可用完整自身状态且 Sleeping 已清除时记录 `wakeAwakeObserved=true`；三帧完成但没有该快照时为 `awaiting_confirmation`，超时为 `unconfirmed`。`awake_observed` 同时要求释放帧已发送。发送成功不等于服务端处理成功，也不是唤醒因果或公共列表计数证明。坐标、实体 ID、完整 flags 和输入内容均不进入状态 API。
 
-离线验证：`python -B tools/rust-research/test_rust_player_tick.py` 和 `python -B tools/rust-research/test_rust_peer.py` 从仓库根目录运行；Node 验证在本目录运行 `npm.cmd test`。可使用 .NET 10 SDK 执行 `tools/rust-research/Test-PlayerTickInterop.ps1 -ServerDirectory <Rust服务端目录>`，用本机真实 Rust.Data 解码器验证三帧覆盖非零旧状态并可重新完整序列化；输出在 ignored work 中，不启动游戏或网络。真实服务器唤醒尚未实测。
+离线验证：`python -B tools/rust-research/test_rust_player_tick.py` 和 `python -B tools/rust-research/test_rust_peer.py` 从仓库根目录运行；Node 验证在本目录运行 `npm.cmd test`。可使用 .NET 10 SDK 执行 `tools/rust-research/Test-PlayerTickInterop.ps1 -ServerDirectory <Rust服务端目录>`，用本机真实 Rust.Data 解码器验证三帧覆盖非零旧状态并可重新完整序列化；输出在 ignored work 中，不启动游戏或网络。2026-10-25 已实际观察到三帧完成后自身 Sleeping 清除；留服回归结果见 `../rust-research/connection-timeout-fix-2026-10-25.md`。
 
 持续会话开始后会报告实际 Rust 游戏活动；传输连接后附上真实游戏地址，结束清理后恢复保存的挂机配置。账号在其他 Steam 会话游戏时，活动报告继续遵守暂停规则。此报告不保证外部可信人数或游戏列表人数更新。
 
@@ -256,7 +258,7 @@ await api.stopIdling('account1');
 
 `metadata.ownPlayerState` 观察本账号完整实体快照中的生命与玩家标志。`observed=false` 表示未知；观察成功后提供 `sleeping`、`receivingSnapshot`、`lifeState`（alive/dead/unknown）、`healthPositive`（布尔或未显式观察时的 null）、观战/受伤/连接/切换加载标志、字段是否出现、快照和状态变化计数、`ageSeconds`。Sleeping=false 不能单独证明角色存活或已醒；entered_game 也只表示此前确认入服。年龄以最近一次 worker 报告时刻计算，解析失败时保留旧状态并继续增加年龄；目前未核对消息序号，不能把旧快照当作当前服务器状态。`entityParseFailures` 统计所有 Entity 的解析失败。诊断不输出玩家 ID、坐标、生命值数值或原始标志，也不发送唤醒或移动输入。
 
-历史研究已在当时目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；2026-10-25 新增可选的一次 PlayerTick 唤醒流程，完成离线验证，尚未取得真实服务器唤醒结果。有效 EAC 受保护会话仍未实现，遇到 EAC 或非零加密要求继续停止，不能保证其他服务器兼容或无限期留服。历史实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
+历史研究已在当时目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；2026-10-25 新增的一次 PlayerTick 已实际观察到唤醒，随后补上唤醒后的连接维护。有效 EAC 受保护会话仍未实现，遇到 EAC 或非零加密要求继续停止，不能保证其他服务器兼容或无限期留服。历史实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
 
 ## 检查
 

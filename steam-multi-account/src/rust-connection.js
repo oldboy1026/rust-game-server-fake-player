@@ -27,9 +27,10 @@ const STAGES = new Set([
   'respawn_sent', 'respawn_native_send_failed', 'respawn_alive_observed',
   'wake_neutral_sent', 'wake_press_sent', 'wake_release_sent', 'wake_awake_observed',
   'wake_unconfirmed', 'wake_interrupted', 'tick_native_send_failed', 'wake_release_unavailable',
+  'connection_keepalive_started', 'connection_keepalive_send_failed', 'connection_keepalive_stalled',
 ]);
 const CATEGORIES = new Set(['steam_auth', 'eac_required', 'eos_identity_required',
-  'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown']);
+  'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown', 'player_timeout', 'steam_ticket_reused']);
 export function safeMetadata(result) {
   const clean = { dllSha256: RUST_DLL_SHA256, abi: 'windows-x64' };
   for (const key of ['created', 'closed', 'transportConnected', 'identitySent', 'approved',
@@ -40,6 +41,17 @@ export function safeMetadata(result) {
   }
   if (Number.isSafeInteger(result.tickPacketsSent) && result.tickPacketsSent >= 0 && result.tickPacketsSent <= 3) {
     clean.tickPacketsSent = result.tickPacketsSent;
+  }
+  if (Number.isSafeInteger(result.connectionKeepAliveSent) && result.connectionKeepAliveSent >= 0 && result.connectionKeepAliveSent <= 1e12) {
+    clean.connectionKeepAliveSent = result.connectionKeepAliveSent;
+  }
+  if (['state_changed', 'unsupported_snapshot', 'entity_changed', 'self_rpc', 'position_update',
+    'base_flags', 'destroyed', 'stale_snapshot', 'scheduler_stalled', 'shutdown'].includes(result.wakeInterruptionReason)) {
+    clean.wakeInterruptionReason = result.wakeInterruptionReason;
+  }
+  if (result.wakeInterruptionReason === 'self_rpc' && Number.isSafeInteger(result.wakeInterruptionRpc)
+      && result.wakeInterruptionRpc >= 0 && result.wakeInterruptionRpc < 2 ** 32) {
+    clean.wakeInterruptionRpc = result.wakeInterruptionRpc;
   }
   if (['disabled', 'waiting_state', 'waiting_finish_loading', 'unsupported_state',
     'unsequenced_state', 'stale_state', 'sending', 'awaiting_confirmation', 'already_awake',

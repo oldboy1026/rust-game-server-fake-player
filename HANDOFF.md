@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25：已修复首帧后的超时回归，单账号超过原62秒断开点
+
+用户反馈新唤醒后约一分钟提示拒绝连接。原因是第一帧Tick启动 `lastTickTime` 超时，而原三帧后无维护。目标只读确认 `server.playertimeout=60`，另有RPC接收门槛 `rpcstallmode=1/rpcstallthreshold=0.8/rpcstallfade=2.5`。最初每2秒owner维护仍因stall门槛失败，唤醒成功也62.266秒断开；该失败没有当作通过。最终设计100毫秒发送普通无参数 `ClientKeepConnectionAlive`，与唤醒中断/完成独立，本机间隔超过500毫秒或发送失败正常关闭，不补burst、不循环旧坐标/按键。
+
+真实回归17:39:53.959–17:41:20.204 UTC：一个已有在线Steam账号正常连接，2.156秒观察到3帧完成与Sleeping清除，82.156秒仍entered_game；首次观测Tick后保持80.187秒，未再62秒断开。finally只按自己startedAt清理，closed且票据available=true/active=false。结束只读39Steam online、0活动Rust连接，没有本批清理或配置回滚义务。Python21+12、Node40项通过；早前本轮真实Rust.Data互操作3帧/81断言通过，之后未改Tick编码。报告 `rust-research/connection-timeout-fix-2026-10-25.md/.json`。
+
+同时允许已核对的UI/pet RPC、位置不变回显继续三帧；真正校正、未知自身变化仍停止或关闭。新增玩家响应超时、AuthTicketAlreadyUsed和维护中断的固定错误分类。原三次62秒记录中一次已清醒，并非全部只有1帧；另有认证占用属于独立原因。原unknown记录无对应原始拒绝文本，不能宣称逐条从管理日志确认Unresponsive。没有有效EAC、公共人数或全账号压力验证，不改服务端反作弊/超时/IP上限。
+
+**部署限制：Python新建worker已生效。Node后端重启被自动审批拦截（仅返回rejected: blocked by policy，无具体原因），整条未执行，当前3210仍PID13504。不得通过替代命令绕过同一被拒动作。新版Node分类/维护计数/日志提示尚未加载，旧UI仍可能显示笼统信息。** 不要把旧Node丢弃的新分类字段当作正常断开的证据。下方初次实现“没有真实唤醒实测”为历史状态。后续如需服务重启，须按当时授权与阻拦处理，不能宣称本轮已重启。
+
 ## 2026-10-25：用户重新启动独立程序开发，新增一次 PlayerTick 唤醒
 
 本轮直接指示优先于下方归档停止记录。用户已选择“保持独立程序，先完成 PlayerTick 与唤醒”，本轮不实现官方客户端模式或 EAC。新增 worker `--wake-on-connect`、API 严格布尔 `wakeOnConnect`（默认关闭）、两个页面的“入服后尝试唤醒一次”与过滤后的进度状态。
