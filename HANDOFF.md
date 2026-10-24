@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25：14个用户连接已持续复核，下一步只读返回值诊断包待上传
+
+用户要求继续研究公共8。02:24–02:37北京时间只读检查；14个研究账号均在服，原startedAt不变、票据active且验证已观察。Steam CM auth_players初21末22，等于真实服务端人数；不是Steam只认证8。18:27:07–18:37:08 UTC完成601.194秒/11样本/33来源全部成功：研究14恒定，其他7→8，活跃/cp21→22，rawTickRatePositive7→8；公共文件新批次18:23:06为8、18:28:07为7、18:33:07为8。仅一个其他身份自然加入，无研究身份增减。18:32的cp少1下一份恢复，符合发布周期。公共与其他/raw/IP数相等仍是相关性，不是后台公式。
+
+研究worker仍只发入服1–3帧：5个wake awake_observed、9个interrupted；末次累计帧不变。owner保活只更新lastTickTime、不增加raw tick，持续普通输入缺口是线索，未证明“发Tick即可被计数”，不要循环旧姿态/按键补造活跃或上报。历史12自然样本uniqueIP10/11而公共7/9，无逐份相等；不能宣称按IP简单去重。上报stats增加5事件/857 Uploaded Bytes、队列0、dryrun false，但不等于后台逐账号采纳。没有改配置/Flush/创建或停止连接；当前IP上限50为只读看到的用户状态，不擅自恢复5。
+
+完整报告 `rust-research/fourteen-session-count-investigation-2026-10-25.md/.json`。本次诊断工具中目标已有PlayerCountProbe，尚无返回值观察器和桥。重新编译已有ReportingObserverFocused DLL与ObserverStateBridge，成功且输入未变；Steamworks MVID守卫匹配，仍未部署/加载或验证Mono。用户输出在 `C:/Users/Administrator/Documents/Codex/2026-10-24/new-chat/outputs/人数差异诊断-20261025.zip`（7文件哈希已校验，含20身份私有配置，不入Git）。RCON无文件上传能力，需用户把包内3个部署文件按说明上传，再继续；不得把准备包当已安装。
+
+用户回复上传后：先读取当前14会话与bridge状态，官方load ReportingObserverFocused，最多180秒观察BUpdateUserData原始bool；必要时仅用私有 `work/count-feed-observer-candidates-private.json` 中一个当时确无活动会话的账号正常新建，精确startedAt清理本轮连接，保留所有用户既有连接。然后官方unload并核对同一startedUtc unloaded=true/patchInstalled=false，移出本次DLL/私有配置。源码及详细流程见报告/输出说明；180秒不自动卸载。当前没有已加载观察器或待清理测试连接/配置义务，Node未重启。
+
 ## 2026-10-25：三个用户连接已计入cp，DLL重写cp不能解释公共差异
 
 用户询问能否编DLL按 `mp{maxplayers},cp{activePlayerList.Count}` 更新真实在线人数。本批仅只读分析，没有实现/部署DLL、改配置、创建或停止玩家连接。01:55:32–01:56:49北京时间：本机3个entered已持续422–432秒；服务端两份名单12人，三个账号全部存在、其他9人，身份集合不变。真实Probe active/alive/connected/networkConnected/networkAuthenticated各12，sleeping1、ReceivingSnapshot0。两次相隔35秒A2S均players14/cp12/bots0，Facepunch公共人数均8且为同一Last-Modified=17:53:06 UTC缓存批次，不能称新后台独立刷新。

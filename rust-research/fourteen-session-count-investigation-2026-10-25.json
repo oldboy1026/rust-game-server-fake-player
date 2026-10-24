@@ -1,0 +1,1419 @@
+{
+  "date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "subject": "Read-only investigation of fourteen existing independent connections versus Facepunch public count",
+  "window": {
+    "startedAt": "2026-10-24T18:27:07.069Z",
+    "readOnly": true,
+    "requestedSamples": 11,
+    "intervalSeconds": 60,
+    "samples": [
+      {
+        "index": 0,
+        "at": "2026-10-24T18:27:07.071Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:27:07.198Z",
+          "players": 21,
+          "rosterRows": 21,
+          "research": 14,
+          "other": 7,
+          "uniqueIPv4": 7,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:27:06.7946841Z",
+          "totals": {
+            "active": 21,
+            "alive": 21,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 21,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 7,
+            "networkConnected": 21,
+            "networkAuthenticated": 21,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:27:07.775Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:27:07.882Z",
+            "ok": true,
+            "players": 23,
+            "cp": 21,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:27:08.381Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:27:07 GMT",
+              "age": "240",
+              "last-modified": "Sat, 24 Oct 2026 18:23:06 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 1,
+        "at": "2026-10-24T18:28:07.075Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:28:07.201Z",
+          "players": 21,
+          "rosterRows": 21,
+          "research": 14,
+          "other": 7,
+          "uniqueIPv4": 7,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:28:06.7889491Z",
+          "totals": {
+            "active": 21,
+            "alive": 21,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 21,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 7,
+            "networkConnected": 21,
+            "networkAuthenticated": 21,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:28:07.791Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:28:07.884Z",
+            "ok": true,
+            "players": 23,
+            "cp": 21,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:28:08.357Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:28:07 GMT",
+              "age": null,
+              "last-modified": "Sat, 24 Oct 2026 18:28:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 2,
+        "at": "2026-10-24T18:29:07.090Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:29:07.197Z",
+          "players": 21,
+          "rosterRows": 21,
+          "research": 14,
+          "other": 7,
+          "uniqueIPv4": 7,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:29:06.7868517Z",
+          "totals": {
+            "active": 21,
+            "alive": 21,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 21,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 7,
+            "networkConnected": 21,
+            "networkAuthenticated": 21,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:29:07.796Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:29:07.917Z",
+            "ok": true,
+            "players": 23,
+            "cp": 21,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:29:08.415Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:29:07 GMT",
+              "age": "60",
+              "last-modified": "Sat, 24 Oct 2026 18:28:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 3,
+        "at": "2026-10-24T18:30:07.103Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:30:07.134Z",
+          "players": 21,
+          "rosterRows": 21,
+          "research": 14,
+          "other": 7,
+          "uniqueIPv4": 7,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:30:06.7306494Z",
+          "totals": {
+            "active": 21,
+            "alive": 21,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 21,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 7,
+            "networkConnected": 21,
+            "networkAuthenticated": 21,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:30:07.800Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:30:07.898Z",
+            "ok": true,
+            "players": 23,
+            "cp": 21,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:30:08.304Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:30:07 GMT",
+              "age": "120",
+              "last-modified": "Sat, 24 Oct 2026 18:28:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 4,
+        "at": "2026-10-24T18:31:07.111Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:31:07.240Z",
+          "players": 21,
+          "rosterRows": 21,
+          "research": 14,
+          "other": 7,
+          "uniqueIPv4": 7,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:31:06.8238109Z",
+          "totals": {
+            "active": 21,
+            "alive": 21,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 21,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 7,
+            "networkConnected": 21,
+            "networkAuthenticated": 21,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:31:07.816Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:31:07.939Z",
+            "ok": true,
+            "players": 23,
+            "cp": 21,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:31:08.351Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:31:07 GMT",
+              "age": "180",
+              "last-modified": "Sat, 24 Oct 2026 18:28:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 5,
+        "at": "2026-10-24T18:32:07.118Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:32:07.232Z",
+          "players": 22,
+          "rosterRows": 22,
+          "research": 14,
+          "other": 8,
+          "uniqueIPv4": 8,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:32:06.8212345Z",
+          "totals": {
+            "active": 22,
+            "alive": 22,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 22,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 8,
+            "networkConnected": 22,
+            "networkAuthenticated": 22,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:32:07.654Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:32:07.744Z",
+            "ok": true,
+            "players": 24,
+            "cp": 21,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:32:08.172Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:32:07 GMT",
+              "age": "240",
+              "last-modified": "Sat, 24 Oct 2026 18:28:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 6,
+        "at": "2026-10-24T18:33:07.126Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:33:07.232Z",
+          "players": 22,
+          "rosterRows": 22,
+          "research": 14,
+          "other": 8,
+          "uniqueIPv4": 8,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:33:06.8194193Z",
+          "totals": {
+            "active": 22,
+            "alive": 22,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 22,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 8,
+            "networkConnected": 22,
+            "networkAuthenticated": 22,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:33:07.828Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:33:07.951Z",
+            "ok": true,
+            "players": 24,
+            "cp": 22,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:33:08.386Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:33:07 GMT",
+              "age": "0",
+              "last-modified": "Sat, 24 Oct 2026 18:33:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 7,
+        "at": "2026-10-24T18:34:07.140Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:34:07.229Z",
+          "players": 22,
+          "rosterRows": 22,
+          "research": 14,
+          "other": 8,
+          "uniqueIPv4": 8,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:34:06.8187020Z",
+          "totals": {
+            "active": 22,
+            "alive": 22,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 22,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 8,
+            "networkConnected": 22,
+            "networkAuthenticated": 22,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:34:07.837Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:34:07.924Z",
+            "ok": true,
+            "players": 24,
+            "cp": 22,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:34:08.338Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:34:07 GMT",
+              "age": "60",
+              "last-modified": "Sat, 24 Oct 2026 18:33:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 8,
+        "at": "2026-10-24T18:35:07.150Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:35:07.231Z",
+          "players": 22,
+          "rosterRows": 22,
+          "research": 14,
+          "other": 8,
+          "uniqueIPv4": 8,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:35:06.8173892Z",
+          "totals": {
+            "active": 22,
+            "alive": 22,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 22,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 8,
+            "networkConnected": 22,
+            "networkAuthenticated": 22,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:35:07.844Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:35:07.928Z",
+            "ok": true,
+            "players": 24,
+            "cp": 22,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:35:08.718Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:35:07 GMT",
+              "age": "120",
+              "last-modified": "Sat, 24 Oct 2026 18:33:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 9,
+        "at": "2026-10-24T18:36:07.151Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:36:07.231Z",
+          "players": 22,
+          "rosterRows": 22,
+          "research": 14,
+          "other": 8,
+          "uniqueIPv4": 8,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:36:06.8140498Z",
+          "totals": {
+            "active": 22,
+            "alive": 22,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 22,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 8,
+            "networkConnected": 22,
+            "networkAuthenticated": 22,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:36:07.850Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:36:07.948Z",
+            "ok": true,
+            "players": 24,
+            "cp": 22,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:36:08.355Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:36:07 GMT",
+              "age": "180",
+              "last-modified": "Sat, 24 Oct 2026 18:33:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 10,
+        "at": "2026-10-24T18:37:07.152Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 14,
+          "entered": 14
+        },
+        "server": {
+          "at": "2026-10-24T18:37:07.228Z",
+          "players": 22,
+          "rosterRows": 22,
+          "research": 14,
+          "other": 8,
+          "uniqueIPv4": 8,
+          "addressGroupSizes": [
+            15,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-24T18:37:06.8165568Z",
+          "totals": {
+            "active": 22,
+            "alive": 22,
+            "dead": 0,
+            "sleeping": 9,
+            "connected": 22,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 8,
+            "networkConnected": 22,
+            "networkAuthenticated": 22,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-24T18:37:07.697Z",
+          "a2s": {
+            "observedAt": "2026-10-24T18:37:07.785Z",
+            "ok": true,
+            "players": 24,
+            "cp": 22,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-24T18:37:08.230Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sat, 24 Oct 2026 18:37:07 GMT",
+              "age": "240",
+              "last-modified": "Sat, 24 Oct 2026 18:33:07 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      }
+    ],
+    "interrupted": false,
+    "completedAt": "2026-10-24T18:37:08.263Z"
+  },
+  "rosterChanges": [
+    {
+      "from": 0,
+      "to": 1,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 3,
+      "to": 4,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "added": 1,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 6,
+      "to": 7,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 7,
+      "to": 8,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 8,
+      "to": 9,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    },
+    {
+      "from": 9,
+      "to": 10,
+      "added": 0,
+      "removed": 0,
+      "researchAdded": 0,
+      "researchRemoved": 0
+    }
+  ],
+  "batches": [
+    {
+      "lastModified": "Sat, 24 Oct 2026 18:23:06 GMT",
+      "players": 8
+    },
+    {
+      "lastModified": "Sat, 24 Oct 2026 18:28:07 GMT",
+      "players": 7
+    },
+    {
+      "lastModified": "Sat, 24 Oct 2026 18:33:07 GMT",
+      "players": 8
+    }
+  ],
+  "steam": {
+    "initial": {
+      "status": "ok",
+      "authPlayers": 21,
+      "observedAt": "2026-10-24T18:25:37.395Z"
+    },
+    "final": {
+      "status": "ok",
+      "authPlayers": 22,
+      "observedAt": "2026-10-24T18:36:51.752Z",
+      "serverListStatus": "not_found"
+    }
+  },
+  "existingSessionContinuity": {
+    "at": "2026-10-24T18:36:51.960Z",
+    "originalSessions": 14,
+    "stillEntered": 14,
+    "startedAtUnchanged": true,
+    "allTicketsActiveAndValidated": true,
+    "tickCountsUnchanged": true,
+    "steam": {
+      "status": "ok",
+      "authPlayers": 22,
+      "observedAt": "2026-10-24T18:36:51.752Z",
+      "serverListStatus": "not_found"
+    }
+  },
+  "analytics": {
+    "initial": {
+      "at": "2026-10-24T18:28:05.677Z",
+      "stats": {
+        "Total Events": 13554,
+        "Total Bytes": 1106298,
+        "Uploaded Bytes": 1102619,
+        "Queue Count": 0,
+        "Max Queue Count": 134
+      },
+      "analytics.tablestats": "Table Name           Uploader Name Compressed Upload interval Total Events Total Bytes Avg Event/s Avg Bytes/s \r\nplayer_ticks_release Azure         True       00:01:00        0            0           0.00        0.00        \r\ngameplay_events      FPApi(server) True       00:05:00        13554        1106298     0.12        9.41        \r\n",
+      "analytics.uploaderstats": "Uploader Name        Is Enabled Compressed Total Events Total Bytes Avg Event/s Avg Bytes/s \r\nNull                 True       False      0            0           0.00        0.00        \r\nFPApi(server)        True       True       13554        1106298     0.12        9.41        \r\nAzure                False      True       0            0           0.00        0.00        \r\nAzure->FPApi(server) True       False      0            0           0.00        0.00        \r\n",
+      "analytics.dryrun": false,
+      "analytics.gameplay_analytics": false,
+      "analytics.gameplay_tick_analytics": false,
+      "analytics.performance_analytics": true,
+      "server.eac_gameplay_data": true
+    },
+    "final": {
+      "at": "2026-10-24T18:36:51.225Z",
+      "stats": {
+        "Total Events": 13559,
+        "Total Bytes": 1107155,
+        "Uploaded Bytes": 1103476,
+        "Queue Count": 0,
+        "Max Queue Count": 134
+      },
+      "analytics.tablestats": "Table Name           Uploader Name Compressed Upload interval Total Events Total Bytes Avg Event/s Avg Bytes/s \r\nplayer_ticks_release Azure         True       00:01:00        0            0           0.00        0.00        \r\ngameplay_events      FPApi(server) True       00:05:00        13559        1107155     0.11        9.38        \r\n",
+      "analytics.uploaderstats": "Uploader Name        Is Enabled Compressed Total Events Total Bytes Avg Event/s Avg Bytes/s \r\nNull                 True       False      0            0           0.00        0.00        \r\nFPApi(server)        True       True       13559        1107155     0.11        9.38        \r\nAzure                False      True       0            0           0.00        0.00        \r\nAzure->FPApi(server) True       False      0            0           0.00        0.00        \r\n",
+      "analytics.dryrun": false,
+      "analytics.gameplay_analytics": false,
+      "analytics.gameplay_tick_analytics": false,
+      "analytics.performance_analytics": true,
+      "server.eac_gameplay_data": true
+    },
+    "delta": {
+      "Total Events": 5,
+      "Total Bytes": 857,
+      "Uploaded Bytes": 857,
+      "Queue Count": 0,
+      "Max Queue Count": 0
+    },
+    "limit": "Uploaded Bytes is an aggregate normal-upload counter, not a per-account backend inclusion acknowledgement."
+  },
+  "identityHypothesisCrosscheck": {
+    "samples": [
+      {
+        "index": 0,
+        "at": "2026-10-24T07:49:36.935Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 7,
+        "batch": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 1,
+        "at": "2026-10-24T07:50:06.938Z",
+        "players": 12,
+        "uniqueIPv4": 11,
+        "cp": 12,
+        "public": 7,
+        "batch": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 2,
+        "at": "2026-10-24T07:50:36.945Z",
+        "players": 12,
+        "uniqueIPv4": 11,
+        "cp": 12,
+        "public": 7,
+        "batch": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 3,
+        "at": "2026-10-24T07:51:06.957Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 7,
+        "batch": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 4,
+        "at": "2026-10-24T07:51:36.965Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 7,
+        "batch": "Sat, 24 Oct 2026 07:46:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 5,
+        "at": "2026-10-24T07:52:06.967Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 6,
+        "at": "2026-10-24T07:52:36.971Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 7,
+        "at": "2026-10-24T07:53:06.980Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 8,
+        "at": "2026-10-24T07:53:36.993Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 9,
+        "at": "2026-10-24T07:54:07.004Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 10,
+        "at": "2026-10-24T07:54:37.010Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      },
+      {
+        "index": 11,
+        "at": "2026-10-24T07:55:07.021Z",
+        "players": 11,
+        "uniqueIPv4": 10,
+        "cp": 11,
+        "public": 9,
+        "batch": "Sat, 24 Oct 2026 07:51:44 GMT",
+        "researchConnections": 0
+      }
+    ],
+    "uniqueIpEqualsPublic": 0,
+    "raw": 12,
+    "conclusion": "Distinct game-connection IP count is not identical to the public count in these historical paired samples; asynchronous batching also prevents treating mismatches as a complete backend rule."
+  },
+  "historicalIndependentOnlyControl": {
+    "observations": 31,
+    "serverCounts": [
+      3,
+      2
+    ],
+    "researchCounts": [
+      3,
+      2
+    ],
+    "otherCounts": [
+      0
+    ],
+    "publicCounts": [
+      0
+    ],
+    "publicBatches": [
+      "Fri, 23 Oct 2026 20:25:21 GMT",
+      "Fri, 23 Oct 2026 20:30:25 GMT",
+      "Fri, 23 Oct 2026 20:35:30 GMT",
+      "Fri, 23 Oct 2026 20:40:34 GMT",
+      "Fri, 23 Oct 2026 20:45:40 GMT"
+    ],
+    "firstAt": "2026-10-23T20:29:51.323Z",
+    "lastAt": "2026-10-23T20:45:49.477Z"
+  },
+  "conclusions": {
+    "serverCountsAllFourteen": true,
+    "cpPublicationMatchesServerAfterNormalCadence": true,
+    "steamAuthCountMatchesInternalCountAtQueries": true,
+    "publicResponseObservedToChangeOnTwoNewBatches": true,
+    "publicCountSequence": [
+      8,
+      7,
+      8
+    ],
+    "publicMatchesNonResearchAndPositiveRawTickCountAfterNewBatches": false,
+    "backendInputOrEligibilityRuleProven": false,
+    "constantNativeInputsSent": false,
+    "publicCountRepairVerified": false
+  },
+  "controls": {
+    "newRustConnections": 0,
+    "existingConnectionsStopped": 0,
+    "configurationChanged": false,
+    "remoteDllDeployed": false,
+    "remotePluginDeployed": false,
+    "nodeRestarted": false,
+    "diagnosticFocusChanged": false,
+    "rollbackRequired": false
+  },
+  "nextDiagnostic": {
+    "packagePrepared": true,
+    "packageFilename": "人数差异诊断-20261025.zip",
+    "packageSha256": "8ffd02bc46c918fcbdb0ad4d6ea491b17db68361a8e92e7dfb44e4cd7682dd39",
+    "observerBuild": {
+      "startedUtc": "2026-10-24T18:33:31.7555278Z",
+      "completedUtc": "2026-10-24T18:33:32.5489665Z",
+      "compileOnly": true,
+      "success": true,
+      "exitCode": 0,
+      "inputsUnchanged": true,
+      "sdk": "10.0.201",
+      "source": {
+        "file": "tools/rust-research/ReportingObserverFocused.cs",
+        "sha256": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b"
+      },
+      "references": [
+        {
+          "file": "mscorlib.dll",
+          "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df"
+        },
+        {
+          "file": "netstandard.dll",
+          "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3"
+        },
+        {
+          "file": "System.dll",
+          "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc"
+        },
+        {
+          "file": "System.Core.dll",
+          "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de"
+        },
+        {
+          "file": "System.Runtime.dll",
+          "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427"
+        },
+        {
+          "file": "Rust.Harmony.dll",
+          "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5"
+        },
+        {
+          "file": "0Harmony.dll",
+          "sha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0"
+        },
+        {
+          "file": "UnityEngine.CoreModule.dll",
+          "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9"
+        },
+        {
+          "file": "Facepunch.Steamworks.Win64.dll",
+          "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72"
+        }
+      ],
+      "output": {
+        "file": "ReportingObserverFocused.dll",
+        "sha256": "023ee062850493c12fc5915cf8267e8f4487d6ef403b2155b8b8d6ca1b17d36e"
+      }
+    },
+    "bridgeBuild": {
+      "startedUtc": "2026-10-24T18:33:32.6176113Z",
+      "completedUtc": "2026-10-24T18:33:33.4266854Z",
+      "compileOnly": true,
+      "success": true,
+      "exitCode": 0,
+      "inputsUnchanged": true,
+      "sdk": "10.0.201",
+      "source": {
+        "file": "tools/rust-research/ObserverStateBridge.cs",
+        "sha256": "b842211586a773db0a6b6883b3013970208eeaff650fc40b8ed2331939f6f252"
+      },
+      "references": [
+        {
+          "file": "mscorlib.dll",
+          "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df"
+        },
+        {
+          "file": "netstandard.dll",
+          "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3"
+        },
+        {
+          "file": "System.dll",
+          "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc"
+        },
+        {
+          "file": "System.Core.dll",
+          "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de"
+        },
+        {
+          "file": "System.Runtime.dll",
+          "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427"
+        },
+        {
+          "file": "UnityEngine.CoreModule.dll",
+          "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9"
+        },
+        {
+          "file": "Assembly-CSharp.dll",
+          "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601"
+        },
+        {
+          "file": "Assembly-CSharp-firstpass.dll",
+          "sha256": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77"
+        },
+        {
+          "file": "Facepunch.System.dll",
+          "sha256": "e697f08a2e081a90c3287733b85ae2a6d2c5e9a2955b9df988d7098975b7801e"
+        },
+        {
+          "file": "Facepunch.UnityEngine.dll",
+          "sha256": "b460f7dc8d48be7db72fd2fe5d5d7178ae5b0be63f903e1550d4cae641b79a43"
+        },
+        {
+          "file": "Facepunch.Network.dll",
+          "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833"
+        },
+        {
+          "file": "Facepunch.Console.dll",
+          "sha256": "506fd361956ffe128d3fd40eb608f9d7c5e6cb57c73c33879faa6d55d0ddc340"
+        },
+        {
+          "file": "Facepunch.Steamworks.Win64.dll",
+          "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72"
+        },
+        {
+          "file": "Oxide.Core.dll",
+          "sha256": "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05"
+        },
+        {
+          "file": "Oxide.CSharp.dll",
+          "sha256": "b64977609a31fbe0c462626d966bc7c6818a06725d085f7cc2d2951fbc2b9094"
+        },
+        {
+          "file": "Oxide.Rust.dll",
+          "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423"
+        },
+        {
+          "file": "Oxide.Unity.dll",
+          "sha256": "3a86e95fa770759459d05efccbd8c1977191babeb8fd47615fbf125aa0d5d1d8"
+        }
+      ],
+      "output": {
+        "file": "ObserverStateBridge.dll",
+        "sha256": "f522a7120948ad707c6af15452c7a7e0b4c239489dac72fde8f87fbdb92522cc"
+      }
+    },
+    "focusCount": 20,
+    "remoteSteamMvidMatchesGuard": true,
+    "deployed": false,
+    "purpose": "Observe the original managed BUpdateUserData bool result without modifying auth, count, input or return value.",
+    "requiredUserAction": "Upload the prepared three files through the server file-management channel; available RCON cannot transfer them.",
+    "futureProcedure": "Verify bridge/loader, load observer with official command, observe at most 180 seconds; only then consider one otherwise idle preconfigured account normal admission with exact startedAt cleanup; unload observer and verify patchInstalled=false/unloaded=true. Do not stop the fourteen existing sessions."
+  },
+  "limitations": [
+    "Public count matching other players and raw-tick-positive players is correlation, not proof of the backend formula.",
+    "The IP-count hypothesis is confounded in this window and does not match the twelve historical natural samples.",
+    "No per-account backend receipt, origin algorithm or game-browser screenshot was obtained.",
+    "New Last-Modified values confirm updated public responses, not their exact input sampling times.",
+    "Aggregate upload byte growth does not prove ingestion or per-account acceptance.",
+    "Same MVID does not prove identical remote bytes or successful future Mono execution.",
+    "Search requests produced unrelated results and supplied no usable backend algorithm evidence."
+  ],
+  "sourceSha256": {
+    "window": "346e74909965febbc10c5e4970cfb9d199279ee66ac53f494d68b59e6316bb4a",
+    "analyticsBaseline": "a5eb119d51fb4f0003a1b76110e97fe2989cd892eea5e5e9e606d7f4beeec684",
+    "analyticsFinal": "f87c504590a93b9c86473e9765a631ebff9659f71a1411280a83dae85e0f2c18",
+    "steamBaseline": "1b6f8c4033b641d8157d7f185ee9e0663e11475bed5b67ff7ecfeb27f882585d",
+    "finalSessions": "aefaece40f2ea1048378baa31dad504e832455acc2c3018a8e617086f5564f7f",
+    "observerSource": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b",
+    "bridgeSource": "b842211586a773db0a6b6883b3013970208eeaff650fc40b8ed2331939f6f252"
+  },
+  "privateSourceHashes": [
+    {
+      "sample": 0,
+      "rconAndLocalSha256": "0fcf8debdb1da5f4c5a838b7bd8580377ecb90198a7b428e7ec8aac93111b300",
+      "publicSha256": "c81f2ba19c3ff02de16ef0638137534c194270aa8d57ffdf2468bfca8bd3d916"
+    },
+    {
+      "sample": 1,
+      "rconAndLocalSha256": "caa878a7fe591ab279ea43e8f3b8e012630c1be84f2edadcea7d0d6dbfa61810",
+      "publicSha256": "d5c391db09b8b7d082ba06e2401bcf3eef56faf5164f8fa9d2617a5a21e0430c"
+    },
+    {
+      "sample": 2,
+      "rconAndLocalSha256": "16a24652477d3203dfe7544a78cd7b11870b11c0574a3162a98eb084a3b116f5",
+      "publicSha256": "7926578846ce4e3108d43fc8c9f47f1fc79739f7f2cc35505c008c2849a56cb1"
+    },
+    {
+      "sample": 3,
+      "rconAndLocalSha256": "a6cda0c77ed16406c78a449a4fb453cd955bacf516d6576cec3759e2a00a2c86",
+      "publicSha256": "1bb9c4e5025e29b9de77446a5c549df2a87a12b45641e0d5b5f5d1301d93c8da"
+    },
+    {
+      "sample": 4,
+      "rconAndLocalSha256": "e5a21966f92a5dc7abbd1b7aeca3e3bb851d0ab708b4bb446280f485d0b24460",
+      "publicSha256": "f60775149ccdcd04c790adb92ee736a033e14816afda511b7481b6db43746022"
+    },
+    {
+      "sample": 5,
+      "rconAndLocalSha256": "d42112ab30d06c21f795c1e3f2254f0008aee48e68ded2dc97eca8af65754716",
+      "publicSha256": "ee751f01387b30553402bfb9e7619cb5c62cdd76de2486a0b7c16a0c1e556b5f"
+    },
+    {
+      "sample": 6,
+      "rconAndLocalSha256": "2fd95b2f0c07d19c972e4814611ec8dec91705409d42c3ebf026ba8d59d03535",
+      "publicSha256": "4597a9312dfc1caa62578c2483c1fe32ad396ef2b245b99c1b6baae4184276b5"
+    },
+    {
+      "sample": 7,
+      "rconAndLocalSha256": "acc0ededea534483bf7c89e57bcd62df424cc70a498539ed05876c2f74e01543",
+      "publicSha256": "531bdc9356ff79ff25f5bc9ee5418e5841b684018b0a8e5f156166e213276e2a"
+    },
+    {
+      "sample": 8,
+      "rconAndLocalSha256": "621bcde96abb805270e79307140b1ee0ded4fa174f40c4d787c8db39e3e0870b",
+      "publicSha256": "2ce7c52795e6efaf77e654b4569a1d4bb2b59ff3317d4260b2c1e3ab6ff74344"
+    },
+    {
+      "sample": 9,
+      "rconAndLocalSha256": "9c36dea2c8448a31a3ac79f1b45bf5325b20cbfdced8e1f9ee53e29b988e1f38",
+      "publicSha256": "cb0128c9e652114ec8299944ea315430a00f50f5bceca69dcd493516e00577a4"
+    },
+    {
+      "sample": 10,
+      "rconAndLocalSha256": "c02c4286c8b0106d668bda588afd4536c9166a172f21cb9ee983ac341c9d9c7c",
+      "publicSha256": "bc00a938448468a00db42bfc49088f9b5869c37ea3ee0b7c4e5b6abba04619e2"
+    }
+  ]
+}
