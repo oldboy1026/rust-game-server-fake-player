@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-24，Asia/Shanghai。
 
+## 最新：用户已能上传两种插件，第一阶段源码已准备
+
+用户新确认可上传 `oxide/plugins` 与 `HarmonyMods`。不要继续把“仅RCON、不能上传”作为当前限制；但截至本批记录，实际远端文件尚未上传/加载。已向用户提供outputs/目标服只读诊断包中的 `PlayerCountProbe.cs`，请先只上传此源码到 `oxide/plugins/`，无需重启；用户回复已上传后由我们通过已有私有RCON确认 `playercountprobe.snapshot`，不要求用户提供管理ID。
+
+源码、构建与文档在tools/rust-research，报告 `playercount-probe-preparation-2026-10-24.md/.json`。Probe按内存focus/other/unclassified分组，读取真实安全/Steam/EAC/活跃与网络/生命和睡眠、原raw tick速率及可选输入hook。other不自动是真人，inputHookObserved=false不证明没发输入。focus仅RCON、最多20身份、改变会创建新epoch，参数不由插件落盘/回显但外围RCON审计可能记录。独立静态复核、真实17引用编译及同源stub13组339断言（38回复扫描）通过；尚无真实目标运行或人数效果。
+
+另备独立 `ReportingObserverFocused.cs`：原BUpdateUserData返回按actor身份分类，180秒截止，拒绝既有补丁，精确卸载，坏/无配置全部unclassified；真实引用编译与官方Harmony/CLR4同源11组219断言通过。先取得目标信息再决定第二阶段部署，不能把本机MVID/SHA与真实Mono效果当已验证；旧Observer与证据未改。
+
+私有后续控制工具 `work/playercount-probe-control.mjs snapshot|focus` 已语法复核、未执行；focus模式先验证真实probe运行，再从当前本机在线账号读取身份配置分组，不输出身份，原始回包仅ignored。08:27:48 UTC只读基线目标version及Oxide响应（2.0.7839），尚未匹配probe命令。当前无新玩家连接、配置改变或远端插件卸载义务。下一步先等待实际上传状态，不把准备包当已部署。
+
 ## 最新：公共人数查询/上报深扫与本地实际安全状态
 
 当前仍未验证修复公共游戏列表人数。先读 `rust-research/count-query-reporting-deep-2026-10-24.md`，它整合本批新增证据与下一阶段条件。客户端已补齐成功映射→integration通知→已启用列表应用/dirty链，不能再用“没有刷新通知”解释；请求前门槛为PublicKey，与ApiUrl getter分离，已修正旧显示证据JSON的措辞。后台资格算法不在已取得的本地文件中。

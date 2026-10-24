@@ -1,0 +1,824 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "subject": "Read-only target-server diagnostic artifacts prepared after user confirmed both plugin upload directories",
+  "deployment": {
+    "userCanUploadOxideSource": true,
+    "userCanUploadHarmonyDll": true,
+    "targetPluginUploaded": false,
+    "targetPluginLoaded": false,
+    "normalPlayerOperations": false,
+    "configurationChanged": false
+  },
+  "oxideProbe": {
+    "source": {
+      "file": "tools/rust-research/PlayerCountProbe.cs",
+      "sha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e"
+    },
+    "build": {
+      "startedUtc": "2026-10-24T08:19:33.8445595Z",
+      "completedUtc": "2026-10-24T08:19:34.4827389Z",
+      "compileOnly": true,
+      "success": true,
+      "exitCode": 0,
+      "inputsUnchanged": true,
+      "sdk": "10.0.201",
+      "source": {
+        "sha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e",
+        "file": "tools/rust-research/PlayerCountProbe.cs"
+      },
+      "references": [
+        {
+          "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df",
+          "file": "mscorlib.dll"
+        },
+        {
+          "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3",
+          "file": "netstandard.dll"
+        },
+        {
+          "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc",
+          "file": "System.dll"
+        },
+        {
+          "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de",
+          "file": "System.Core.dll"
+        },
+        {
+          "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427",
+          "file": "System.Runtime.dll"
+        },
+        {
+          "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9",
+          "file": "UnityEngine.CoreModule.dll"
+        },
+        {
+          "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+          "file": "Assembly-CSharp.dll"
+        },
+        {
+          "sha256": "0082b49ab07d8a21c740348baeb902e7173b966e53d9b21dd56928556307ba77",
+          "file": "Assembly-CSharp-firstpass.dll"
+        },
+        {
+          "sha256": "e697f08a2e081a90c3287733b85ae2a6d2c5e9a2955b9df988d7098975b7801e",
+          "file": "Facepunch.System.dll"
+        },
+        {
+          "sha256": "b460f7dc8d48be7db72fd2fe5d5d7178ae5b0be63f903e1550d4cae641b79a43",
+          "file": "Facepunch.UnityEngine.dll"
+        },
+        {
+          "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+          "file": "Facepunch.Network.dll"
+        },
+        {
+          "sha256": "506fd361956ffe128d3fd40eb608f9d7c5e6cb57c73c33879faa6d55d0ddc340",
+          "file": "Facepunch.Console.dll"
+        },
+        {
+          "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+          "file": "Facepunch.Steamworks.Win64.dll"
+        },
+        {
+          "sha256": "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05",
+          "file": "Oxide.Core.dll"
+        },
+        {
+          "sha256": "b64977609a31fbe0c462626d966bc7c6818a06725d085f7cc2d2951fbc2b9094",
+          "file": "Oxide.CSharp.dll"
+        },
+        {
+          "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+          "file": "Oxide.Rust.dll"
+        },
+        {
+          "sha256": "3a86e95fa770759459d05efccbd8c1977191babeb8fd47615fbf125aa0d5d1d8",
+          "file": "Oxide.Unity.dll"
+        }
+      ],
+      "output": {
+        "sha256": "907d5326c586f59190c6c89c8b309e7bf431ab0a7d4238251eb4f55f62a5e13c",
+        "file": "PlayerCountProbe.dll"
+      }
+    },
+    "stubIsolation": {
+      "startedUtc": "2026-10-24T08:22:02.2659889Z",
+      "completedUtc": "2026-10-24T08:22:02.3787027Z",
+      "success": true,
+      "compileExitCode": 0,
+      "executionExitCode": 0,
+      "sourceFile": "tools/rust-research/PlayerCountProbe.cs",
+      "sourceSha256Before": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e",
+      "sourceSha256After": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e",
+      "sourceUnchanged": true,
+      "harnessSha256": "a0db8836466bf6346f1e9230b397f440b9e0570325d66df3fc5f13332d279ac0",
+      "stubsSha256": "2cdd613d0b4262ee9789f414a4ac84cd183eea7382cbb338424339ec5e7438d5",
+      "result": {
+        "success": true,
+        "groups": [
+          "permissions precede input parsing and game reads",
+          "idempotent subscriptions and unconfigured classification",
+          "focus and separate active connection denominators",
+          "invalid focus is atomic bounded and does not sample",
+          "stub callback classification uses user not owner and is thread safe",
+          "optional input hook is void and leaves input and players unchanged",
+          "focus replacement resets classification epoch and clear unclassifies",
+          "nonsecure cached EAC status is not rewritten into protection",
+          "fresh failures replace good sample without private error text",
+          "missing lists remain distinguishable from measured empty lists",
+          "unload removes listeners timer focus and future observations",
+          "responses contain no identity payload or exception marker",
+          "no game Steam Oxide or unknown binaries loaded"
+        ],
+        "assertions": 339,
+        "gameOrOxideBinariesLoaded": false,
+        "unknownDllLoaded": false,
+        "networkOperations": 0,
+        "responsesChecked": 38
+      },
+      "sourceAudit": {
+        "method": "Read-only source review and conservative explicit active-API reference scan; not a native runtime interceptor",
+        "prohibitedApiReferenceMatches": 0
+      },
+      "references": "Microsoft.NETCore.App.Ref only; no game, Oxide, Steamworks or unknown binaries",
+      "stubLimit": "Arg.Args uses a self-authored Facepunch.StringView[] stub; actual API compatibility must be established by separate real-reference compilation",
+      "limits": [
+        "Self-authored stub testing only; does not establish real hook delivery or real Steam callback provenance.",
+        "No network, RCON, deployment or game state operations performed.",
+        "No input identities or raw callback payloads appear in this record."
+      ]
+    },
+    "staticReview": {
+      "reviewedUtc": "2026-10-24T08:23:04.7403422Z",
+      "source": {
+        "file": "tools/rust-research/PlayerCountProbe.cs",
+        "sha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e"
+      },
+      "staticReviewOnly": true,
+      "gameAssemblyExecuted": false,
+      "deployment": false,
+      "blockingFindings": [],
+      "observations": [
+        {
+          "area": "authorization",
+          "result": "Snapshot allows RCON, local server console or authLevel>=2; Focus is RCON-only and validates 17 decimal digits, <=20, no duplicates. Error replies do not echo input."
+        },
+        {
+          "area": "state_mutations",
+          "result": "No writes to game population, BasePlayer/input, authentication, configuration, report metadata or outgoing network. rawTickCount is getter-only. Writes are limited to plugin counters, epoch, timer/events and sample cache."
+        },
+        {
+          "area": "threads",
+          "result": "Steam event handlers access only immutable window, primitive identity classification and atomic counters/string references. Sampling game objects is confined to normal Oxide timer or admin command; this assumes the framework schedules them on main thread. Focus swaps an immutable epoch, so in-flight callbacks complete against old counters."
+        },
+        {
+          "area": "output",
+          "result": "Explicit aggregate shape excludes focus IDs, usernames, coordinates/input contents, callback owner/user identities, reasons and tokens. Module MVIDs and boolean EAC/Steam state remain distinct; no EAC success or trusted-count receipt claim follows."
+        },
+        {
+          "area": "freshness",
+          "result": "rawTickRatePositive counts active players whose cached raw rate estimate is positive. No cumulative difference or ambiguous last-tick age is used; optional inputHookObserved=false explicitly means no observed callback since window start."
+        },
+        {
+          "area": "input_callback_small_change",
+          "result": "OnPlayerInput atomically stores UTC DateTime ticks rather than formatting a string. WithCallbacks reads input count once for both inputHookCalls and inputHookObserved and formats one timestamp during sampling. The reviewed change retains the void hook, epoch classification, read-only game access and aggregate-only output."
+        }
+      ],
+      "nonblockingNotes": [
+        {
+          "id": "callback_snapshot_coherence",
+          "detail": "Validation/ok/nonOk and input count/timestamp are independent atomic reads/writes. A concurrent callback can yield a transient non-transactional tuple; do not treat one snapshot as exact accounting equality or last timestamp proof."
+        },
+        {
+          "id": "scope_of_counts",
+          "detail": "Grouped counters reset with focus epoch; Steam connected/disconnected counters are plugin lifetime counters. State active/network/EAC metrics are separate aggregates, not a cross-joined claim about one player unless group cardinality and actual identity match are independently established."
+        },
+        {
+          "id": "framework_audit_logging",
+          "detail": "The plugin itself does not persist/echo focus IDs. RCON transport, existing server audit logs, management tools and shell history are outside this source review; documentation should not promise those layers never retain the submitted focus command."
+        },
+        {
+          "id": "lifecycle_coverage",
+          "detail": "Only Steam validation/lifecycle callbacks and optional OnPlayerInput are subscribed in this reviewed source. It does not yet count optional Connected/Disconnected/Respawned/SleepEnded hooks. Do not describe those as runtime-verified."
+        }
+      ],
+      "verificationPending": [
+        "Real target framework load, command identity/permissions, hook observation and safe unload.",
+        "Remote binary/API compatibility and actual trusted-count relationship."
+      ],
+      "externalVerificationRecordsRead": [
+        {
+          "kind": "real_reference_compile",
+          "file": "work/playercount-probe-build/build-safe.json",
+          "sha256": "f4268a2cb7d68d919dc5faed2c8da9f11a6ab7b61ddb633c476e50187cab1b0a",
+          "success": true,
+          "sourceSha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e",
+          "reviewerReran": false,
+          "boundary": "Record produced by root; this reviewer only read and matched source identity. Offline compile only, not deployment or a runtime compatibility proof."
+        },
+        {
+          "kind": "stub_isolation",
+          "file": "work/playercount-probe-test/result-safe.json",
+          "sha256": "cafc369bb479a6760511703dd74b0dd4f0857db03c9d2508a7060c4c51e1d5c5",
+          "success": true,
+          "groups": 13,
+          "assertions": 339,
+          "sourceSha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e",
+          "reviewerReran": false,
+          "boundary": "Record produced by test agent; this reviewer only read and matched source identity. Self-authored stubs do not establish hook delivery or real callback provenance."
+        }
+      ]
+    },
+    "staticDesign": {
+      "sourceSha256": "f513edf96f71713955d76f54e8c6a55dbc3583ac52982f3b7c50dc1465bae2bd",
+      "modules": [
+        {
+          "file": "Assembly-CSharp.dll",
+          "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+          "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+          "assembly": "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        },
+        {
+          "file": "Oxide.Rust.dll",
+          "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+          "mvid": "cfda664a-335e-470a-9404-e150d3f84ba0",
+          "assembly": "Oxide.Rust, Version=2.0.7839.0, Culture=neutral, PublicKeyToken=null"
+        },
+        {
+          "file": "Facepunch.Network.dll",
+          "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+          "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480",
+          "assembly": "Facepunch.Network, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+      ],
+      "minimumPublicReads": [
+        {
+          "module": "Assembly-CSharp.dll",
+          "name": "timeSinceLastTick",
+          "type": "System.Single ()",
+          "token": "1700013E",
+          "getter": {
+            "name": "System.Single BasePlayer::get_timeSinceLastTick()",
+            "token": "06001B62",
+            "attributes": "Public, HideBySig, SpecialName",
+            "public": true,
+            "instructions": [
+              "IL_0000: ldarg.0",
+              "IL_0001: ldfld System.Single BasePlayer::lastTickTime",
+              "IL_0006: ldc.r4 0",
+              "IL_000B: bne.un.s IL_0013",
+              "IL_000D: ldc.r4 0",
+              "IL_0012: ret",
+              "IL_0013: call System.Single UnityEngine.Time::get_time()",
+              "IL_0018: ldarg.0",
+              "IL_0019: ldfld System.Single BasePlayer::lastTickTime",
+              "IL_001E: sub",
+              "IL_001F: ret"
+            ]
+          },
+          "setter": null
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "name": "IdleTime",
+          "type": "System.Single ()",
+          "token": "17000140",
+          "getter": {
+            "name": "System.Single BasePlayer::get_IdleTime()",
+            "token": "06001B64",
+            "attributes": "Public, HideBySig, SpecialName",
+            "public": true,
+            "instructions": [
+              "IL_0000: ldarg.0",
+              "IL_0001: ldfld System.Single BasePlayer::lastInputTime",
+              "IL_0006: ldc.r4 0",
+              "IL_000B: bne.un.s IL_0013",
+              "IL_000D: ldc.r4 0",
+              "IL_0012: ret",
+              "IL_0013: call System.Single UnityEngine.Time::get_time()",
+              "IL_0018: ldarg.0",
+              "IL_0019: ldfld System.Single BasePlayer::lastInputTime",
+              "IL_001E: sub",
+              "IL_001F: ret"
+            ]
+          },
+          "setter": null
+        },
+        {
+          "module": "Assembly-CSharp.dll",
+          "name": "rawTickCount",
+          "type": "System.UInt64 ()",
+          "token": "17000147",
+          "getter": {
+            "name": "System.UInt64 BasePlayer::get_rawTickCount()",
+            "token": "06001B7D",
+            "attributes": "Public, HideBySig, SpecialName",
+            "public": true,
+            "instructions": [
+              "IL_0000: ldarg.0",
+              "IL_0001: ldfld System.UInt64 BasePlayer::<rawTickCount>k__BackingField",
+              "IL_0006: ret"
+            ]
+          },
+          "setter": {
+            "name": "System.Void BasePlayer::set_rawTickCount(System.UInt64)",
+            "token": "06001B7E",
+            "attributes": "Public, HideBySig, SpecialName",
+            "public": true
+          }
+        }
+      ],
+      "freshnessSemantics": [
+        {
+          "finding": "timeSinceLastTick returns 0 when lastTickTime is 0; otherwise Time.time-lastTickTime. It uses scaled Unity time, not a monotonic wall-clock receipt timestamp.",
+          "evidence": {
+            "module": "Assembly-CSharp.dll",
+            "method": "System.Single BasePlayer::get_timeSinceLastTick()",
+            "token": "06001B62",
+            "attributes": "Public, HideBySig, SpecialName",
+            "instructions": [
+              "IL_0000: ldarg.0",
+              "IL_0001: ldfld System.Single BasePlayer::lastTickTime",
+              "IL_0006: ldc.r4 0",
+              "IL_000B: bne.un.s IL_0013",
+              "IL_000D: ldc.r4 0",
+              "IL_0012: ret",
+              "IL_0013: call System.Single UnityEngine.Time::get_time()",
+              "IL_0018: ldarg.0",
+              "IL_0019: ldfld System.Single BasePlayer::lastTickTime",
+              "IL_001E: sub",
+              "IL_001F: ret"
+            ]
+          },
+          "limitation": "Age 0 alone is ambiguous between never-ticked/reset and a recent update. Read on the server main thread."
+        },
+        {
+          "finding": "PlayerInit and RespawnAt reset lastTickTime to 0. ClientKeepConnectionAlive also writes Time.time to lastTickTime, so it is not exclusively a PlayerTick timestamp.",
+          "evidence": [
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Void BasePlayer::PlayerInit(Network.Connection)",
+              "token": "06001AA1",
+              "attributes": "Public, HideBySig",
+              "instructions": [
+                "IL_0163: ldarg.0",
+                "IL_0164: ldc.r4 0",
+                "IL_0169: stfld System.Single BasePlayer::lastTickTime",
+                "IL_016E: ldarg.0",
+                "IL_016F: ldc.r4 0",
+                "IL_0174: stfld System.Single BasePlayer::lastInputTime"
+              ]
+            },
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Void BasePlayer::RespawnAt(UnityEngine.Vector3,UnityEngine.Quaternion,BaseEntity)",
+              "token": "06001AC2",
+              "attributes": "Public, HideBySig",
+              "instructions": [
+                "IL_00E4: ldarg.0",
+                "IL_00E5: ldc.r4 0",
+                "IL_00EA: stfld System.Single BasePlayer::lastTickTime",
+                "IL_00EF: ldarg.0",
+                "IL_00F0: ldc.r4 0",
+                "IL_00F5: stfld System.Single BasePlayer::lastStallTime"
+              ]
+            },
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Void BasePlayer::ClientKeepConnectionAlive(BaseEntity/RPCMessage)",
+              "token": "06001A9E",
+              "attributes": "Private, HideBySig",
+              "instructions": [
+                "IL_0000: ldarg.0",
+                "IL_0001: call System.Single UnityEngine.Time::get_time()",
+                "IL_0006: stfld System.Single BasePlayer::lastTickTime",
+                "IL_000B: ret"
+              ]
+            }
+          ],
+          "limitation": "A small age cannot independently establish receipt or processing of an input tick."
+        },
+        {
+          "finding": "OnReceivedTick deserializes/copies the delta tick, calls OnReceiveTick, then writes lastTickTime=Time.time and increments rawTicksPerSecond.",
+          "evidence": {
+            "module": "Assembly-CSharp.dll",
+            "method": "System.Void BasePlayer::OnReceivedTick(Network.NetRead)",
+            "token": "06001B67",
+            "attributes": "Public, HideBySig",
+            "instructions": [
+              "IL_0018: ldarg.1",
+              "IL_0019: ldarg.0",
+              "IL_001A: ldfld PlayerTick BasePlayer::lastReceivedTick",
+              "IL_001F: callvirt PlayerTick Network.NetRead::ProtoDelta<PlayerTick>(PlayerTick)",
+              "IL_0024: stloc.1",
+              "IL_009D: ldarg.0",
+              "IL_009E: ldloc.1",
+              "IL_009F: ldarg.0",
+              "IL_00A0: call System.Boolean BasePlayer::get_wasStalled()",
+              "IL_00A5: call System.Void BasePlayer::OnReceiveTick(PlayerTick,System.Boolean)",
+              "IL_00AA: leave.s IL_00B6",
+              "IL_00AC: ldloc.2",
+              "IL_00AD: brfalse.s IL_00B5",
+              "IL_00AF: ldloc.2",
+              "IL_00B0: callvirt System.Void System.IDisposable::Dispose()",
+              "IL_00B5: endfinally",
+              "IL_00B6: ldarg.0",
+              "IL_00B7: call System.Single UnityEngine.Time::get_time()",
+              "IL_00BC: stfld System.Single BasePlayer::lastTickTime",
+              "IL_00C1: ldarg.0",
+              "IL_00C2: ldfld Network.TimeAverageValue BasePlayer::rawTicksPerSecond",
+              "IL_00C7: callvirt System.Void Network.TimeAverageValue::Increment()"
+            ]
+          },
+          "limitation": "The timestamp is written after OnReceiveTick returns. It is not an input-content, successful movement or EAC validation result."
+        },
+        {
+          "finding": "rawTickCount is the cached result of rawTicksPerSecond.Calculate assigned in ServerPreFinalize. The underlying TimeAverageValueData.Calculate refreshes a rate estimate at one-second boundaries and clears counterNext, rather than returning a lifetime monotonically increasing count.",
+          "evidence": [
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Void BasePlayer::ServerPreFinalize(BasePlayer/PlayerServerStates&,Unity.Collections.NativeArray`1/ReadOnly<System.Int32>)",
+              "token": "06001B87",
+              "attributes": "Private, Static, HideBySig",
+              "instructions": [
+                "IL_003B: call BasePlayer& modreq(System.Runtime.InteropServices.InAttribute) System.ReadOnlySpan`1<BasePlayer>::get_Item(System.Int32)",
+                "IL_0040: ldind.ref",
+                "IL_0041: dup",
+                "IL_0042: dup",
+                "IL_0043: ldfld Network.TimeAverageValue BasePlayer::rawTicksPerSecond",
+                "IL_0048: callvirt System.UInt64 Network.TimeAverageValue::Calculate()",
+                "IL_004D: callvirt System.Void BasePlayer::set_rawTickCount(System.UInt64)",
+                "IL_0052: dup",
+                "IL_0053: ldarg.0",
+                "IL_0054: callvirt System.Void BasePlayer::CheckModelState(BasePlayer/PlayerServerStates&)"
+              ]
+            },
+            {
+              "module": "Facepunch.Network.dll",
+              "method": "System.UInt64 Network.TimeAverageValueData::Calculate()",
+              "token": "06000080",
+              "attributes": "Public, HideBySig",
+              "instructions": [
+                "IL_0000: call System.Double Network.TimeEx::get_realtimeSinceStartup()",
+                "IL_0005: stloc.0",
+                "IL_0006: ldloc.0",
+                "IL_0007: ldarg.0",
+                "IL_0008: ldfld System.Double Network.TimeAverageValueData::refreshTime",
+                "IL_000D: sub",
+                "IL_000E: stloc.1",
+                "IL_000F: ldloc.1",
+                "IL_0010: ldc.r8 1",
+                "IL_0019: blt.un.s IL_004F",
+                "IL_001B: ldarg.0",
+                "IL_001C: ldarg.0",
+                "IL_001D: ldfld System.UInt64 Network.TimeAverageValueData::counterNext",
+                "IL_0022: conv.r.un",
+                "IL_0023: conv.r8",
+                "IL_0024: ldloc.1",
+                "IL_0025: div",
+                "IL_0026: ldc.r8 0.5",
+                "IL_002F: add",
+                "IL_0030: conv.u8",
+                "IL_0031: stfld System.UInt64 Network.TimeAverageValueData::counterPrev",
+                "IL_0036: ldarg.0",
+                "IL_0037: ldc.i4.0",
+                "IL_0038: conv.i8",
+                "IL_0039: stfld System.UInt64 Network.TimeAverageValueData::counterNext",
+                "IL_003E: ldarg.0",
+                "IL_003F: ldloc.0",
+                "IL_0040: stfld System.Double Network.TimeAverageValueData::refreshTime",
+                "IL_0045: ldc.r8 0",
+                "IL_004E: stloc.1",
+                "IL_004F: ldarg.0",
+                "IL_0050: ldfld System.UInt64 Network.TimeAverageValueData::counterPrev",
+                "IL_0055: conv.r.un",
+                "IL_0056: conv.r8",
+                "IL_0057: ldc.r8 1",
+                "IL_0060: ldloc.1",
+                "IL_0061: sub",
+                "IL_0062: mul",
+                "IL_0063: conv.u8",
+                "IL_0064: ldarg.0",
+                "IL_0065: ldfld System.UInt64 Network.TimeAverageValueData::counterNext",
+                "IL_006A: add",
+                "IL_006B: ret"
+              ]
+            }
+          ],
+          "limitation": "Read the getter only as a snapshot rate estimate. Do not subtract consecutive values as a packet total, and do not call Calculate from the diagnostics plugin because Calculate mutates the accumulator."
+        },
+        {
+          "finding": "IdleTime has the same zero sentinel/time subtraction shape for lastInputTime. OnReceiveTick calls ResetInputIdleTime when current and previous button masks differ; ResetInputIdleTime writes Time.time.",
+          "evidence": [
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Single BasePlayer::get_IdleTime()",
+              "token": "06001B64",
+              "attributes": "Public, HideBySig, SpecialName",
+              "instructions": [
+                "IL_0000: ldarg.0",
+                "IL_0001: ldfld System.Single BasePlayer::lastInputTime",
+                "IL_0006: ldc.r4 0",
+                "IL_000B: bne.un.s IL_0013",
+                "IL_000D: ldc.r4 0",
+                "IL_0012: ret",
+                "IL_0013: call System.Single UnityEngine.Time::get_time()",
+                "IL_0018: ldarg.0",
+                "IL_0019: ldfld System.Single BasePlayer::lastInputTime",
+                "IL_001E: sub",
+                "IL_001F: ret"
+              ]
+            },
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Void BasePlayer::OnReceiveTick(PlayerTick,System.Boolean)",
+              "token": "06001B6D",
+              "attributes": "Private, HideBySig",
+              "instructions": [
+                "IL_0019: ldarg.0",
+                "IL_001A: call InputState BasePlayer::get_serverInput()",
+                "IL_001F: ldfld InputMessage InputState::current",
+                "IL_0024: ldfld System.Int32 InputMessage::buttons",
+                "IL_0029: ldarg.0",
+                "IL_002A: call InputState BasePlayer::get_serverInput()",
+                "IL_002F: ldfld InputMessage InputState::previous",
+                "IL_0034: ldfld System.Int32 InputMessage::buttons",
+                "IL_0039: beq.s IL_0041",
+                "IL_003B: ldarg.0",
+                "IL_003C: call System.Void BasePlayer::ResetInputIdleTime()",
+                "IL_0041: ldarg.0"
+              ]
+            },
+            {
+              "module": "Assembly-CSharp.dll",
+              "method": "System.Void BasePlayer::ResetInputIdleTime()",
+              "token": "06001B69",
+              "attributes": "Public, HideBySig",
+              "instructions": [
+                "IL_0000: ldarg.0",
+                "IL_0001: call System.Single UnityEngine.Time::get_time()",
+                "IL_0006: stfld System.Single BasePlayer::lastInputTime",
+                "IL_000B: ret"
+              ]
+            }
+          ],
+          "limitation": "IdleTime is not a general network freshness or movement timestamp; zero can represent no reset history. The public reset method must not be called by the diagnostic."
+        }
+      ],
+      "currentHookScan": {
+        "moduleScope": [
+          "Assembly-CSharp.dll",
+          "Oxide.Rust.dll"
+        ],
+        "hookNamesSearched": [
+          "OnPlayerInput",
+          "IOnPlayerConnected",
+          "OnPlayerConnected",
+          "IOnPlayerDisconnected",
+          "OnPlayerDisconnected",
+          "OnPlayerRespawned",
+          "OnPlayerSleepEnded"
+        ],
+        "matches": [
+          {
+            "module": "Oxide.Rust.dll",
+            "method": "System.Void Oxide.Game.Rust.RustCore::IOnPlayerConnected(BasePlayer)",
+            "token": "0600003B",
+            "hook": "OnPlayerConnected",
+            "offset": "IL_007C",
+            "instructions": [
+              "IL_0065: ldloc.0",
+              "IL_0066: stfld Oxide.Core.Libraries.Covalence.IPlayer BasePlayer::IPlayer",
+              "IL_006B: ldstr \"OnUserConnected\"",
+              "IL_0070: ldloc.0",
+              "IL_0071: call System.Object Oxide.Core.Interface::CallHook(System.String,System.Object)",
+              "IL_0076: pop",
+              "IL_0077: call Oxide.Core.OxideMod Oxide.Core.Interface::get_Oxide()",
+              "IL_007C: ldstr \"OnPlayerConnected\"",
+              "IL_0081: ldc.i4.1",
+              "IL_0082: newarr System.Object",
+              "IL_0087: dup",
+              "IL_0088: ldc.i4.0",
+              "IL_0089: ldarg.1",
+              "IL_008A: stelem.ref",
+              "IL_008B: callvirt System.Object Oxide.Core.OxideMod::CallHook(System.String,System.Object[])",
+              "IL_0090: pop",
+              "IL_0091: ret"
+            ]
+          }
+        ],
+        "finding": "The current local Assembly-CSharp is the original unpatched module and has no matching Oxide hook string callsites. Oxide.Rust 2.0.7839 contains IOnPlayerConnected(BasePlayer) forwarding one BasePlayer argument to the public OnPlayerConnected hook.",
+        "limitation": "Having the forwarding method on disk does not establish that the game invokes it, that Oxide is loaded in the local process, or that the remote instance uses matching patch hooks."
+      },
+      "hookDesign": [
+        {
+          "name": "OnPlayerConnected",
+          "handler": "private void OnPlayerConnected(BasePlayer player)",
+          "signatureEvidence": "Current Oxide.Rust RustCore.IOnPlayerConnected 0x0600003B IL_007C..IL_0090 forwards exactly one BasePlayer.",
+          "gameInjectionCurrent": false,
+          "historicalEvidence": {
+            "source": "work/native-peer/installed-counts.il.txt",
+            "gameAssemblySha256": "04fb89520f18a1920c1b1a350b82dd24a4258f31d97b82496971a9cc7a49dcb7",
+            "method": "BasePlayer.PlayerInit",
+            "metadataToken": "0x06001AA1",
+            "instructions": [
+              "IL_02E7: ldstr \"IOnPlayerConnected\"",
+              "IL_02EC: ldarg.0",
+              "IL_02ED: call System.Object Oxide.Core.Interface::CallHook(System.String,System.Object)",
+              "IL_02F2: pop",
+              "IL_02F3: ldarg.0",
+              "IL_02F4: call System.Boolean BasePlayer::get_IsAdmin()"
+            ]
+          },
+          "runtimeAvailability": "unobserved until invoked after this plugin load"
+        },
+        {
+          "name": "OnPlayerSleepEnded",
+          "handler": "private void OnPlayerSleepEnded(BasePlayer player)",
+          "signatureEvidence": "Historical patched EndSleeping excerpt invokes Interface.CallHook(string, object) with this BasePlayer; current game injection is absent.",
+          "gameInjectionCurrent": false,
+          "historicalEvidence": {
+            "source": "work/steam-ticket-review/end-sleep-hooks.il.txt",
+            "method": "BasePlayer.EndSleeping",
+            "metadataToken": "0x06001AB3",
+            "instructions": [
+              "IL_0199: ldstr \"OnPlayerSleepEnded\"",
+              "IL_019E: ldarg.0",
+              "IL_019F: call System.Object Oxide.Core.Interface::CallHook(System.String,System.Object)",
+              "IL_01A4: pop",
+              "IL_01A5: ldarg.0",
+              "IL_01A6: call System.Void EACServer::LogPlayerSpawn(BasePlayer)"
+            ],
+            "provenanceBoundary": "Historical excerpt has no module-hash header. Keep its file SHA and existing lifecycle report; do not label it as a current or remote binary match."
+          },
+          "runtimeAvailability": "unobserved until invoked after this plugin load"
+        },
+        {
+          "name": "OnPlayerInput",
+          "handler": "private void OnPlayerInput(BasePlayer player, InputState input)",
+          "signatureEvidence": "Optional conventional signature only; no current local hook dispatch callsite was found in this bounded scan.",
+          "gameInjectionCurrent": false,
+          "verifiedDispatchSignature": false,
+          "runtimeAvailability": "unknown/unobserved; a zero counter does not prove zero input"
+        },
+        {
+          "name": "OnPlayerDisconnected",
+          "handler": "private void OnPlayerDisconnected(BasePlayer player, string reason)",
+          "signatureEvidence": "Optional conventional signature only; no current local hook dispatch callsite was found in this bounded scan.",
+          "gameInjectionCurrent": false,
+          "verifiedDispatchSignature": false,
+          "runtimeAvailability": "unknown/unobserved; do not record reason values"
+        },
+        {
+          "name": "OnPlayerRespawned",
+          "handler": "private void OnPlayerRespawned(BasePlayer player)",
+          "signatureEvidence": "Optional conventional signature only; no current local hook dispatch callsite was found in this bounded scan.",
+          "gameInjectionCurrent": false,
+          "verifiedDispatchSignature": false,
+          "runtimeAvailability": "unknown/unobserved"
+        }
+      ]
+    }
+  },
+  "focusedObserver": {
+    "source": {
+      "file": "tools/rust-research/ReportingObserverFocused.cs",
+      "sha256": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b"
+    },
+    "build": {
+      "startedUtc": "2026-10-24T08:27:17.0223987Z",
+      "completedUtc": "2026-10-24T08:27:17.6450925Z",
+      "compileOnly": true,
+      "success": true,
+      "exitCode": 0,
+      "inputsUnchanged": true,
+      "sdk": "10.0.201",
+      "source": {
+        "sha256": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b",
+        "file": "tools/rust-research/ReportingObserverFocused.cs"
+      },
+      "references": [
+        {
+          "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df",
+          "file": "mscorlib.dll"
+        },
+        {
+          "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3",
+          "file": "netstandard.dll"
+        },
+        {
+          "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc",
+          "file": "System.dll"
+        },
+        {
+          "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de",
+          "file": "System.Core.dll"
+        },
+        {
+          "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427",
+          "file": "System.Runtime.dll"
+        },
+        {
+          "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5",
+          "file": "Rust.Harmony.dll"
+        },
+        {
+          "sha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0",
+          "file": "0Harmony.dll"
+        },
+        {
+          "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9",
+          "file": "UnityEngine.CoreModule.dll"
+        },
+        {
+          "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+          "file": "Facepunch.Steamworks.Win64.dll"
+        }
+      ],
+      "output": {
+        "sha256": "023ee062850493c12fc5915cf8267e8f4487d6ef403b2155b8b8d6ca1b17d36e",
+        "file": "ReportingObserverFocused.dll"
+      }
+    },
+    "stubIsolation": {
+      "startedUtc": "2026-10-24T08:25:59.1172315Z",
+      "completedUtc": "2026-10-24T08:26:00.2620841Z",
+      "success": true,
+      "compileExitCode": 0,
+      "executionExitCode": 0,
+      "sourceSha256": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b",
+      "currentSourceSha256": "7dba2c748a21f2bf93ec4fcc63875b7098094806c3d3b0768067fc167cf2af3b",
+      "sourceUnchanged": true,
+      "officialHarmonySha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0",
+      "harnessSha256": "da56b8d4b8892ea44abc3f8c2c9064095cbd44c11ee92857b8f6b8a2dd9e4806",
+      "stubsSha256": "c2ce551030f748cfc419f8bf57591d1091b9a9666b39730948a84c4702ece311",
+      "result": {
+        "success": true,
+        "assertions": 219,
+        "groups": 11,
+        "completed": [
+          "unsupported_module_and_monotonic_window",
+          "focus_missing_empty_and_valid_boundaries",
+          "strict_invalid_config_boundaries",
+          "actual_source_existing_patch_predicate",
+          "typed_postfix_actor_classification_and_results",
+          "malformed_focus_stays_unclassified_and_original_exception",
+          "real_harmony_skipped_original_categories",
+          "concurrent_consistent_aggregate_snapshots",
+          "deadline_stops_postfix_without_timer",
+          "exact_unpatch_keeps_foreign_and_async_final_state",
+          "isolation_and_output_audit"
+        ],
+        "invalidConfigCases": 25,
+        "harmonyVersion": "2.3.1.1",
+        "runtime": "4.0.30319.42000",
+        "noGameAssembliesLoaded": true,
+        "loadedAssemblies": [
+          "0Harmony",
+          "FocusedIsolation.Framework",
+          "HarmonySharedState",
+          "MonoMod.Utils.Cil.ILGeneratorProxy",
+          "mscorlib",
+          "mscorlib.resources",
+          "System",
+          "System.Configuration",
+          "System.Core",
+          "System.Web",
+          "System.Web.Extensions",
+          "System.Xml"
+        ],
+        "syntheticIdentityOrNameInState": false,
+        "concurrentOriginalResultCalls": 600,
+        "limitations": [
+          "Current runtime is Windows CLR4, not Rust Mono",
+          "Toy target is explicitly NoInlining",
+          "Actual game target success discovery and native execution were not run",
+          "Existing patch rejection predicate was exercised; unsupported real-game discovery is separate",
+          "Deadline tested by reflecting it into the past, not waiting the full window",
+          "No deployment or network use"
+        ]
+      }
+    },
+    "phase": "Prepared only; acquire target runtime/module information via Oxide probe before considering deployment. Not loaded on actual Rust Mono or target."
+  },
+  "readOnlyTargetBaseline": {
+    "observedAt": "2026-10-24T08:27:48.235Z",
+    "rawSha256": "eab1211eddec8a30c31680057f17b3271dc21668ef4d2e830f0e9579341d136a",
+    "versionResponded": true,
+    "oxideVersionResponded": true,
+    "oxideNumericVersions": [
+      "2.0.7839"
+    ],
+    "probeCommandMatched": false
+  },
+  "limits": [
+    "Offline compilation and self-authored isolation do not prove actual target load, hook delivery, EAC final authentication or public count qualification.",
+    "Nonfocus is not automatically a human; no focus means unclassified. Focus is an identity selection and does not prove which client uses that account.",
+    "Original rawTickCount is a cached rate, not a cumulative counter. Optional input hook zero observations remain unknown/unobserved.",
+    "MVID matching alone does not establish complete binary hash equality. Focused Harmony target/runtime compatibility is pending.",
+    "Focus input is not echoed/persisted by the plugin; surrounding RCON/audit software may retain commands.",
+    "No population, identity authentication, event upload, client input, config or publication result was changed by these artifacts."
+  ],
+  "privacy": "Only source/reference hashes, aggregate validation records and public module metadata. No account identities, credentials, tickets, management endpoints or actual focus configuration."
+}
