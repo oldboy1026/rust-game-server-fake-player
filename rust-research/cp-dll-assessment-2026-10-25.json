@@ -1,0 +1,165 @@
+{
+  "date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "scope": "Read-only review of an optional count-publishing DLL; no DLL implemented or deployed.",
+  "local": {
+    "at": "2026-10-24T17:55:32.444Z",
+    "entered": 3,
+    "wakeStates": [
+      "awake_observed",
+      "awake_observed",
+      "interrupted"
+    ],
+    "ownSnapshotAges": [
+      429.297,
+      424.125,
+      258.313
+    ]
+  },
+  "initialRcon": {
+    "at": "2026-10-24T17:55:40.286Z",
+    "serverInfo": {
+      "players": 12,
+      "joining": 0,
+      "queued": 0,
+      "maxPlayers": 200
+    },
+    "rosterRows": 12,
+    "selectedConnections": 3,
+    "selectedPresent": 3,
+    "allResearchPresent": 3,
+    "otherPlayers": 9,
+    "selected": [
+      {
+        "index": 1,
+        "present": true,
+        "wakeState": "awake_observed",
+        "tickPacketsSent": 3,
+        "elapsed": 432.219
+      },
+      {
+        "index": 2,
+        "present": true,
+        "wakeState": "awake_observed",
+        "tickPacketsSent": 3,
+        "elapsed": 426.969
+      },
+      {
+        "index": 3,
+        "present": true,
+        "wakeState": "interrupted",
+        "tickPacketsSent": 1,
+        "elapsed": 421.891
+      }
+    ]
+  },
+  "secondRcon": {
+    "at": "2026-10-24T17:56:49.310Z",
+    "players": 12,
+    "joining": 0,
+    "queued": 0,
+    "rosterRows": 12,
+    "selectedPresent": 3,
+    "researchPresent": 3,
+    "otherPlayers": 9,
+    "sameIdentitySet": true
+  },
+  "probe": {
+    "sampleUtc": "2026-10-24T17:56:49.0614292Z",
+    "status": "sampled",
+    "totals": {
+      "active": 12,
+      "alive": 12,
+      "dead": 0,
+      "sleeping": 1,
+      "connected": 12,
+      "receivingSnapshot": 0,
+      "networkConnected": 12,
+      "networkAuthenticated": 12
+    },
+    "effectiveSecure": false,
+    "effectiveEncryption": 0,
+    "eacInterfaceAvailable": false
+  },
+  "public": [
+    {
+      "sample": 1,
+      "observedAt": "2026-10-24T17:55:57.633Z",
+      "a2s": {
+        "observedAt": "2026-10-24T17:55:57.741Z",
+        "ok": true,
+        "players": 14,
+        "cp": 12,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-24T17:55:58.345Z",
+        "ok": true,
+        "players": 8,
+        "status": 200,
+        "headers": {
+          "date": "Sat, 24 Oct 2026 17:55:57 GMT",
+          "age": "174",
+          "last-modified": "Sat, 24 Oct 2026 17:53:06 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "sample": 2,
+      "observedAt": "2026-10-24T17:56:32.648Z",
+      "a2s": {
+        "observedAt": "2026-10-24T17:56:32.742Z",
+        "ok": true,
+        "players": 14,
+        "cp": 12,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-24T17:56:33.142Z",
+        "ok": true,
+        "players": 8,
+        "status": 200,
+        "headers": {
+          "date": "Sat, 24 Oct 2026 17:56:32 GMT",
+          "age": "209",
+          "last-modified": "Sat, 24 Oct 2026 17:53:06 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    }
+  ],
+  "conclusion": {
+    "cpAlreadyMatchesInternalPlayers": true,
+    "threeSelectedPlayersPresent": true,
+    "dllWouldRepeatCurrentCp": true,
+    "clientApplicableCapFormula": "max(0, min(cp, trusted))",
+    "predictedDisplayWhenCapApplies": 8,
+    "currentGameBrowserUiObserved": false,
+    "backendPerAccountEligibilityKnown": false
+  },
+  "actions": {
+    "newRustConnections": 0,
+    "existingSessionsStopped": 0,
+    "serverConfigurationChanges": false,
+    "dllBuilt": false,
+    "dllDeployed": false,
+    "serviceRestarted": false
+  },
+  "privateEvidenceSha256": {
+    "sessions": "ce3a0ef64f8b623667ee50afef4238a4ea4c62789cdfb20dde3fcd1055ab1440",
+    "firstRcon": "9325731ed512105ad5f8a3ee93bbd274d7af32a91c4cd64f372520306436e1c5",
+    "secondRcon": "3bc3d448e5f74f2dd5ac6d1c8774ae43077c98183ae60555016649a15acb3186",
+    "public": "6e555a37a459a877d9517b1d5733bbf5e9e31799e2026f5147c34904cd2368f9"
+  },
+  "limits": [
+    "Samples are close in time, not atomic; cp publication has a 30s schedule.",
+    "Public HTTP response is cached; two requests share one last-modified batch.",
+    "No claim that all three accounts are individually included in the trusted total.",
+    "No game-browser screenshot or current client runtime flag inspection.",
+    "A2S players minus cp is 2 in these samples; the source of that difference is unknown.",
+    "Sleeping state and missing EAC do not establish the backend rejection rule."
+  ]
+}

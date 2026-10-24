@@ -2,6 +2,12 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25：三个用户连接已计入cp，DLL重写cp不能解释公共差异
+
+用户询问能否编DLL按 `mp{maxplayers},cp{activePlayerList.Count}` 更新真实在线人数。本批仅只读分析，没有实现/部署DLL、改配置、创建或停止玩家连接。01:55:32–01:56:49北京时间：本机3个entered已持续422–432秒；服务端两份名单12人，三个账号全部存在、其他9人，身份集合不变。真实Probe active/alive/connected/networkConnected/networkAuthenticated各12，sleeping1、ReceivingSnapshot0。两次相隔35秒A2S均players14/cp12/bots0，Facepunch公共人数均8且为同一Last-Modified=17:53:06 UTC缓存批次，不能称新后台独立刷新。
+
+原版本来每30秒发布活跃数，当前cp已等于服务端真实人数。普通列表可信上限适用时 `max(0,min(cp,trusted))`，这些输入为8；本轮未观察真实游戏屏幕或运行时开关。DLL单纯写同一cp12不能指定公共返回值。A2S额外2人原因、Facepunch逐账号资格及上报与采纳因果仍未知；不要把睡眠/EAC直接当唯一原因，或宣称三个账号都没被采纳。详见 `rust-research/cp-dll-assessment-2026-10-25.md/.json`。保留三个用户已有连接，本批无回滚义务。
+
 ## 2026-10-25：已修复首帧后的超时回归，单账号超过原62秒断开点
 
 用户反馈新唤醒后约一分钟提示拒绝连接。原因是第一帧Tick启动 `lastTickTime` 超时，而原三帧后无维护。目标只读确认 `server.playertimeout=60`，另有RPC接收门槛 `rpcstallmode=1/rpcstallthreshold=0.8/rpcstallfade=2.5`。最初每2秒owner维护仍因stall门槛失败，唤醒成功也62.266秒断开；该失败没有当作通过。最终设计100毫秒发送普通无参数 `ClientKeepConnectionAlive`，与唤醒中断/完成独立，本机间隔超过500毫秒或发送失败正常关闭，不补burst、不循环旧坐标/按键。
