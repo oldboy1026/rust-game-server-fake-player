@@ -3,15 +3,16 @@ import { createAccountDetails } from './details.js';
 const $ = selector => document.querySelector(selector);
 let apiKey = '';
 let refreshing = false;
+let knownAccounts = [], editingAccountId = null;
 const cards = new Map();
 const accountDetails = createAccountDetails({ request, notice, changed: () => refresh() });
 const stateNames = { offline: '已退出', connecting: '正在登录', guard_required: '等待验证', online: '在线', reconnecting: '正在重连', error: '连接失败' };
 const messages = {
   'A valid Bearer API key is required.': '访问密钥不正确，请重新连接。',
   'This account already has a connection or pending login; logout first.': '这个账号已有连接或正在登录，请先退出该账号。',
-  'This Steam account is already registered under another id.': '这个 Steam 账号已使用其他管理 ID 添加。',
+  'This Steam account is already registered under another id.': '这个 Steam 账号已经添加，请刷新账号列表后重新登录。',
   'No saved login; provide accountName and password.': '没有可用的登录令牌，请使用账号密码重新登录。',
-  'This id belongs to a different account; use a new id or delete the old one.': '这个管理 ID 已属于另一个账号，请更换 ID。',
+  'This id belongs to a different account; use a new id or delete the old one.': '账号记录发生冲突，请刷新账号列表后重试。',
   'No pending Steam Guard request.': '当前没有等待提交的验证码，请刷新账号状态。',
   'InvalidPassword': '账号名或密码不正确，请重新登录。',
   'AccountDisabled': 'Steam 账号已被停用。',
@@ -89,15 +90,14 @@ function addAction(parent, label, className, action) {
 }
 function resetLoginForm() {
   $('#login-form').reset();
-  $('#account-id').readOnly = false;
+  editingAccountId = null;
   $('#account-name').readOnly = false;
   $('#login-title').textContent = '添加账号';
   $('#reset-form').hidden = true;
 }
 function editLogin(account) {
-  $('#account-id').value = account.id;
+  editingAccountId = account.id;
   $('#account-name').value = account.accountName;
-  $('#account-id').readOnly = true;
   $('#account-name').readOnly = true;
   $('#account-password').value = '';
   $('#login-title').textContent = '重新登录';
@@ -110,7 +110,6 @@ function renderCard(account) {
   const identity = element('div');
   identity.append(element('h3', 'account-name', account.accountName));
   if (account.nickname) identity.append(element('div', 'account-meta', `昵称 · ${account.nickname}`));
-  identity.append(element('div', 'account-meta', `管理 ID · ${account.id}`));
   if (account.steamId) identity.append(element('div', 'account-meta', `Steam ID · ${account.steamId}`));
   top.append(identity, element('span', `badge ${account.state}`, stateNames[account.state] || account.state));
   card.append(top);
@@ -155,7 +154,7 @@ function renderCard(account) {
   addAction(actions, '删除账号', 'danger', async () => {
     if (!confirm(`删除 ${account.accountName}？这会断开连接，并删除本服务保存的登录令牌。`)) return;
     await request(`/v1/accounts/${account.id}`, 'DELETE'); notice('已删除本服务中保存的账号资料。');
-    if ($('#account-id').value === account.id) resetLoginForm();
+    if (editingAccountId === account.id) resetLoginForm();
   });
   card.append(actions);
   if (account.state === 'reconnecting') card.append(element('p', 'card-note', '连接暂时中断，服务会自动尝试重连。'));
@@ -163,6 +162,7 @@ function renderCard(account) {
   return card;
 }
 function render(accounts) {
+  knownAccounts = accounts;
   $('#total-count').textContent = accounts.length;
   $('#online-count').textContent = accounts.filter(account => account.state === 'online').length;
   $('#pending-count').textContent = accounts.filter(account => ['connecting', 'reconnecting', 'guard_required'].includes(account.state)).length;
@@ -227,8 +227,14 @@ $('#login-form').addEventListener('submit', async event => {
   const password = $('#account-password').value;
   $('#account-password').value = '';
   try {
-    await request(`/v1/accounts/${$('#account-id').value}/login`, 'POST', {
-      accountName: $('#account-name').value.trim(), password,
+    const accountName = $('#account-name').value.trim();
+    const existing = knownAccounts.find(account => account.accountName.toLowerCase() === accountName.toLowerCase());
+    let internalId = editingAccountId || existing?.id || accountName;
+    if (!editingAccountId && !existing && knownAccounts.some(account => account.id === internalId)) {
+      internalId = `${accountName.slice(0, 55)}_${crypto.randomUUID().slice(0, 8)}`;
+    }
+    await request(`/v1/accounts/${encodeURIComponent(internalId)}/login`, 'POST', {
+      accountName, password,
     });
     resetLoginForm(); notice('已发起登录，需要验证码时会显示在账号卡片中。'); await refresh();
   } catch (error) { notice(message(error), true); }

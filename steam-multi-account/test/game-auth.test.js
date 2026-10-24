@@ -210,7 +210,7 @@ test('AccountFeatures routes diagnostic state through disconnect without changin
 
 test('HTTP Rust diagnostic requires authentication, accepts only {}, and exposes only its result', async t => {
   let checks = 0;
-  const manager = { features(id) { assert.equal(id, 'one'); return { async rustAuthCheck() { checks++; return { appId: APP_ID, status: 'issued_and_canceled', playerConnected: false }; } }; } };
+  const manager = { accounts: new Map(), features(id) { assert.equal(id, 'one'); return { async rustAuthCheck() { checks++; return { appId: APP_ID, status: 'issued_and_canceled', playerConnected: false }; } }; } };
   const server = createApiServer({ manager, apiKey: 'test-api-key' });
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   t.after(() => { server.closeAllConnections(); server.close(); });

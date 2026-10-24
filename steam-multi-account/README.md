@@ -11,6 +11,18 @@
 
 直接访问 `http://127.0.0.1:3210/` 也会显示管理页面；首次访问时，粘贴 `data/api-key.txt` 中的密钥，或点击“读取密钥文件”选择该文件。访问密钥只保存在当前标签页的会话中。锁定页面或关闭浏览器页面不会退出 Steam 账号。
 
+## Rust 挂机页面
+
+打开 `http://127.0.0.1:3210/rust`，或点击顶部“Rust 挂机”。页面直接显示 Steam 登录账号名，不需要填写管理 ID。
+
+- 每行按 `账号:密码` 批量导入并登录，每批最多 200 个。密码中可以包含冒号；提交后输入区立即清空，密码不进入任务结果、账号日志或账号存储。
+- 新账号需要邮箱/手机验证码、登录失败或超时会自动停止并移出；逐行显示原因。已有账号记录保留，已经在线的账号保留当前连接。本页不提交验证码。
+- 勾选多个账号，批量登录 Steam、连接指定 IPv4 和游戏端口，或正常断开。查询端口可选填，默认游戏端口加一。账号会错开连接，已有活动 Rust 连接会跳过并保留。
+- 服务器分组显示名称及本系统已入服、连接中账号数；可选择本组或筛选账号。名称通过公开 A2S 查询取得，失败时显示 IP 和端口。本系统人数独立于 Rust 公共游戏列表人数。
+- 每个账号可查看最近 200 条连接事件与错误摘要。任务及日志仅保存在服务内存中；关闭网页仍继续，重启服务会清空记录。服务重启后 Steam 按原有设置恢复，Rust 连接需重新发起。
+
+“死亡时尝试重生一次”默认关闭，只在观察到自己的死亡快照与完成加载后发送一次普通请求。入服完成、角色存活和公共列表收录分别判断；当前连接方式不支持要求额外 EAC 或受保护加密会话的服务器，遇到这些要求会停止。
+
 也可以使用 PowerShell 脚本：打开另一个 PowerShell 窗口，进入本目录，执行以下命令。
 
 ```powershell
@@ -24,7 +36,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 login ac
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 list
 ```
 
-`account1` / `account2` 是自定义的管理 ID；登录时输入的 `accountName` 必须是 Steam 登录账号名。每个 Steam 账号使用一个管理 ID。
+上面脚本的 `account1` / `account2` 是脚本使用的内部标识；网页会自动处理，用户只需填写 Steam 登录账号名和密码。
 
 ## 账号详情、库存、免费入库与挂机
 
@@ -71,6 +83,12 @@ Content-Type: application/json
 |---|---|---|---|
 | GET | `/health` | 无 | 无需鉴权的存活检查 |
 | GET | `/` | 无 | 管理页面，操作账号前需验证访问密钥 |
+| GET | `/rust` | 无 | Rust 批量连接页面 |
+| GET | `/v1/rust/overview` | 无 | 账号、服务器分组、本系统人数及近期任务 |
+| POST | `/v1/rust/import` | `{"text":"账号:密码\\n另一个账号:密码"}` | 创建导入及登录任务，返回 202 |
+| POST | `/v1/rust/actions` | `{"action":"login","accountIds":["内部标识"]}` | 对所选账号批量操作；action 支持 login/connect/disconnect |
+| GET | `/v1/rust/jobs/{job}` | 无 | 查询本批次每账号的结果 |
+| GET | `/v1/rust/accounts/{id}/logs` | 无 | 当前服务内存中的单账号日志 |
 | POST | `/v1/service/shutdown` | `{}` | 停止整个服务并保留自动恢复设置 |
 | GET | `/v1/accounts` | 无 | 列出所有账号状态 |
 | GET | `/v1/accounts/{id}` | 无 | 查询单个账号状态 |
@@ -94,6 +112,8 @@ Content-Type: application/json
 库存参数：`appId` 默认 753，`contextId` 默认 6，`startAssetId` 为上一页返回的 `nextAssetId`；`refresh=1` 强制刷新。每次最多返回 100 件物品。免费游戏列表返回 `nextStart`，可作为下一页 `start`；没有下一页时为 `null`。
 
 `login` 和 `guard` 返回 HTTP **202**，表示已受理。继续查询状态，直到得到 `online`、`guard_required` 或 `error`。登录请求也可带 `authCode`（邮件验证码）或 `twoFactorCode`（手机验证码）。
+
+Rust 批量 `connect` 还需要 `target: {host, port, queryPort?}`，可选 `respawnOnDead` 必须为布尔值。批量接口每次选择 1–200 个账号；导入接口 JSON 请求体上限为 128 KiB，其余接口仍为 16 KiB。`started` 仅表示连接/断开已发起，最终状态见 overview；验证码与错误结果不会包含原始密码行。内部标识由 overview 提供，仅供程序调用，网页不显示。
 
 需要验证码时的查询示例：
 
@@ -213,6 +233,8 @@ await api.stopIdling('account1');
 持续连接使用 `POST /v1/accounts/{id}/rust-session`，请求体为 `{"host":"目标IPv4","port":28015}`；立即返回 202。`GET` 同一路径查询状态，`DELETE` 优雅断开。`entered_game` 表示已经确认本账号的玩家实体和 FinishLoading。网页“账号详情 → Rust 服务器连接”提供相同操作；关闭页面后连接继续，停止服务或退出 Steam 账号会断开。
 
 请求可选严格布尔值 `respawnOnDead`，默认 `false`。设为 `true` 时，仅在同一自身实体的精确 FinishLoading 已观察到、最新完整自身快照不超过 10 秒且 `lifeState=dead` 后，经已认证游戏连接尝试一次固定 `respawn`；发送失败也不重试。自身实体变化会清除该实体的 FinishLoading 门控。服务端仍检查死亡状态及重生冷却；此选项不发送 PlayerTick、唤醒或移动，也不改变遇到 EAC 或受保护加密时停止的行为。
+
+网页连接区提供“死亡时尝试重生一次”复选框，打开账号详情时默认不选。连接期间显示该会话实际启用的设置并禁止修改；选择后在下次连接提交，未提交的选择不会被状态刷新覆盖。进度显示最近角色快照的存活/死亡/未知状态及采样时快照年龄；连接结束后明确标为历史记录，不代表当前在线状态。
 
 `metadata.respawnOnDeadEnabled`、`respawnAttempted` 和 `respawnSent` 分别记录开关、尝试及原生发送结果。只有发送后收到同一自身实体的完整 `alive` 快照，`respawnAliveObserved` 才为 `true`，并附 `respawnAliveAfterSeconds`；未观察到时保持 `false`。实体消息序号尚未核对，因此这只表示发送之后接收到 alive，不是服务端命令确认或因果证明，也不能证明已计入游戏列表人数。
 

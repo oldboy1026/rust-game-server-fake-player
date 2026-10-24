@@ -61,8 +61,8 @@ export function createAccountDetails({ request, notice, changed }) {
   }
   function paint(data) {
     latest = data;
-    $('#detail-name').textContent = data.profile.nickname || data.accountName;
-    $('#detail-identity').textContent = `${data.accountName} · ${data.steamId || 'Steam ID 待获取'} · ${data.id}`;
+    $('#detail-name').textContent = data.accountName;
+    $('#detail-identity').textContent = `${data.accountName} · ${data.steamId || 'Steam ID 待获取'}`;
     $('#detail-state').className = `badge ${data.state}`;
     $('#detail-state').textContent = states[data.state] || data.state;
     $('#detail-web-state').textContent = data.webReady ? 'Steam 网页会话已就绪' : 'Steam 网页会话未就绪';
@@ -128,7 +128,21 @@ export function createAccountDetails({ request, notice, changed }) {
     if (!$('#rust-host').value && session.host) { $('#rust-host').value = session.host; $('#rust-port').value = session.port; }
     $('#rust-target').textContent = session.host ? `${session.host}:${session.port}${session.startedAt ? ` · 开始于 ${date(session.startedAt)}` : ''}` : '尚未建立服务器连接。';
     const metadata = session.metadata || {};
-    $('#rust-progress').textContent = session.startedAt ? `已接收 ${Number(metadata.receivedPackets || 0).toLocaleString('zh-CN')} 条消息 · 运行 ${Math.floor(metadata.elapsedSeconds || 0)} 秒${metadata.finishLoadingObserved ? ' · 服务器已完成入服流程' : metadata.selfEntityObserved ? ' · 已确认本账号玩家实体' : ''}` : '';
+    const progress = [];
+    if (session.startedAt) {
+      if (!active) progress.push('连接已结束，以下为历史记录');
+      progress.push(`已接收 ${Number(metadata.receivedPackets || 0).toLocaleString('zh-CN')} 条消息`, `运行 ${Math.floor(metadata.elapsedSeconds || 0)} 秒`);
+      if (metadata.finishLoadingObserved) progress.push('已观察到入服完成');
+      else if (metadata.selfEntityObserved) progress.push('已确认本账号玩家实体');
+      const ownState = metadata.ownPlayerState;
+      if (ownState?.observed === true) {
+        const lifeState = { alive: '存活', dead: '死亡', unknown: '未知' }[ownState.lifeState] || '未知';
+        const age = typeof ownState.ageSeconds === 'number' && Number.isFinite(ownState.ageSeconds) && ownState.ageSeconds >= 0
+          ? `${ownState.ageSeconds.toLocaleString('zh-CN', { maximumFractionDigits: 1 })} 秒` : '未知';
+        progress.push(`最近角色快照：${lifeState}（采样时快照年龄 ${age}）`);
+      } else progress.push('尚未观察到角色快照');
+    }
+    $('#rust-progress').textContent = progress.join(' · ');
     $('#rust-error').textContent = typeof session.lastError === 'string' ? session.lastError : '';
   }
   function renderRustControls() {
@@ -137,6 +151,12 @@ export function createAccountDetails({ request, notice, changed }) {
     $('#rust-disconnect').disabled = rustPending || !active || rustSessionView?.state === 'stopping';
     $('#rust-host').disabled = rustPending || !rustSessionView || active;
     $('#rust-port').disabled = rustPending || !rustSessionView || active;
+    $('#rust-respawn-on-dead').disabled = rustPending || !rustSessionView || active;
+    // Active settings come from the running session. Closed-session refreshes
+    // leave the user's next connection choice intact.
+    if (active && typeof rustSessionView.metadata?.respawnOnDeadEnabled === 'boolean') {
+      $('#rust-respawn-on-dead').checked = rustSessionView.metadata.respawnOnDeadEnabled;
+    }
   }
   async function rustAction(operation) {
     if (!currentId || rustPending || !rustSessionView) return;
@@ -262,6 +282,7 @@ export function createAccountDetails({ request, notice, changed }) {
     $('#library-list').replaceChildren(); $('#inventory-list').replaceChildren(); $('#free-list').replaceChildren();
     $('#library-search').value = ''; $('#idle-apps').value = ''; $('#free-search').value = ''; freeTerm = '';
     $('#rust-host').value = ''; $('#rust-port').value = '28015';
+    $('#rust-respawn-on-dead').checked = false;
     rustRevision++; rustPending = false; rustSessionView = null;
     $('#rust-state').textContent = '正在读取'; $('#rust-state').className = 'badge';
     $('#rust-target').textContent = ''; $('#rust-progress').textContent = ''; $('#rust-error').textContent = '';
@@ -299,7 +320,7 @@ export function createAccountDetails({ request, notice, changed }) {
   $('#rust-form').addEventListener('submit', event => {
     event.preventDefault();
     rustAction(async ctx => {
-      await ctx.api('rust-session', 'POST', { host: $('#rust-host').value.trim(), port: Number($('#rust-port').value) });
+      await ctx.api('rust-session', 'POST', { host: $('#rust-host').value.trim(), port: Number($('#rust-port').value), respawnOnDead: $('#rust-respawn-on-dead').checked === true });
       if (ctx.valid()) notice('已开始连接 Rust 服务器。');
     });
   });

@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-24",
+  "purpose": "Read-only verification of local test-server source-plugin framework availability",
+  "loopbackTargetOnly": true,
+  "observedFromUtc": "2026-10-24T07:06:26.053Z",
+  "completedUtc": "2026-10-24T07:08:28.367Z",
+  "protocol": "2635.289.1",
+  "directQueries": [
+    {
+      "command": "oxide.version",
+      "status": "timeout"
+    },
+    {
+      "command": "oxide.plugins",
+      "status": "timeout"
+    },
+    {
+      "command": "version",
+      "status": "response"
+    }
+  ],
+  "nativeCommandIndexQueries": [
+    {
+      "command": "find oxide",
+      "status": "response",
+      "emptyNativeIndex": true,
+      "requestedDefinitionPresent": false
+    },
+    {
+      "command": "find countdiag",
+      "status": "response",
+      "emptyNativeIndex": true,
+      "requestedDefinitionPresent": false
+    },
+    {
+      "command": "find server.encryption",
+      "status": "response",
+      "emptyNativeIndex": false,
+      "requestedDefinitionPresent": true
+    }
+  ],
+  "currentStartupLog": {
+    "readSucceeded": true,
+    "oxideMentioned": false,
+    "contentsPublished": false
+  },
+  "conclusion": "The live local server responds to native queries, but the queried native command index has no oxide or countdiag entries. oxide.version and oxide.plugins did not yield correlated replies. A working loaded Oxide source-plugin framework is not established for the current process.",
+  "deploymentState": {
+    "ReportingDiagnosticsInstalled": false,
+    "pluginRuntimeCompatibilityVerified": false,
+    "frameworkInstalledOrChanged": false,
+    "serverRestarted": false,
+    "configurationChanged": false,
+    "playerConnectionsChanged": false,
+    "remoteTargetContacted": false
+  },
+  "sourceRecords": [
+    {
+      "file": "work/reportingdiag-build/local-framework-private.json",
+      "sha256": "7988e27acb118bd9e40c491cad5d944f418e6485a49662c0538cb4c0099f1794",
+      "ignored": true
+    },
+    {
+      "file": "work/reportingdiag-build/local-framework-registration-private.json",
+      "sha256": "5aac659f541249cf860427bbed7d264c655a7be54bc0ee5c1cc3ecdfc13cc26b",
+      "ignored": true
+    }
+  ],
+  "limits": [
+    "The presence of Oxide files on disk and an offline compilation against them does not prove that the live server loaded them.",
+    "The absence of commands and startup-log mentions is evidence against assuming a working Oxide plugin runtime; no process memory or managed assembly loading was inspected.",
+    "Deploying ReportingDiagnostics requires a compatible, actually loaded Oxide source-plugin framework and verification of its real load result; this observation performs no installation."
+  ]
+}

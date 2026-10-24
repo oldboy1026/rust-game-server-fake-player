@@ -1,0 +1,337 @@
+{
+  "date": "2026-10-24",
+  "scope": {
+    "method": "Read-only dnlib metadata and IL inspection of the current local Managed directory after reviewing existing reports.",
+    "localOnly": true,
+    "sampleDllExecuted": false,
+    "serverAssembliesExecuted": false,
+    "pluginInstalledOrRun": false,
+    "configurationChanged": false,
+    "networkRequestsMade": false,
+    "ongoingExperimentTouched": false,
+    "privacy": "No runtime credentials, tickets, player identifiers, names, IPs, payloads or private network destinations are included."
+  },
+  "conclusion": "Normal Steam player-data publication, server-tag publication and scheduling of existing genuine analytics batches are available to inspect or conditionally invoke. No plugin entry point guaranteeing public trusted-player-count inclusion was found or validated.",
+  "currentModules": [
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+      "assembly": "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Platform.Steam.dll",
+      "sha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11",
+      "mvid": "8488aab9-560d-4a1e-a7e2-84abf4312be5",
+      "assembly": "Rust.Platform.Steam, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Platform.Common.dll",
+      "sha256": "748eefb285bdedf3e181d3a2590aa3211a7e9ef2df1db337dd40c7662102bd1d",
+      "mvid": "5e189cb5-e999-4e7c-a8f1-b8353f8deed3",
+      "assembly": "Rust.Platform.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Rust.Platform.dll",
+      "sha256": "f30c52f576f3f4bd2983e9dcf1a9fb38f2852dc398f095e15770f17c14789d57",
+      "mvid": "17435d2e-146b-492c-b54b-2bfe638acd5b",
+      "assembly": "Rust.Platform, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "assembly": "Facepunch.Steamworks.Win64, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Facepunch.Network.dll",
+      "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+      "mvid": "c7a69bdc-e8e7-47b6-a5a2-f9e0fec10480",
+      "assembly": "Facepunch.Network, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+    },
+    {
+      "file": "Oxide.Rust.dll",
+      "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+      "mvid": "cfda664a-335e-470a-9404-e150d3f84ba0",
+      "assembly": "Oxide.Rust, Version=2.0.7839.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "priorEvidenceReviewed": [
+    "trusted-count-reporting-evidence-2026-10-24.json",
+    "player-count-diagnosis.md",
+    "rcon-player-count-observation.md",
+    "gameplay-analytics-control-2026-10-24.json",
+    "fakeplayers-static-2026-10-24.json",
+    "count-diagnostics-build-0.1.2-2026-10-24.json"
+  ],
+  "normalPaths": [
+    {
+      "id": "authenticated-steam-user-data",
+      "path": [
+        "Auth_Steam successful authentication",
+        "PlatformService.Instance / IPlatformService.UpdatePlayerSession",
+        "SteamPlatform.UpdatePlayerSession",
+        "SteamServer.UpdatePlayer",
+        "ISteamGameServer.BUpdateUserData",
+        "native Steam SDK"
+      ],
+      "evidence": [
+        "Assembly-CSharp.dll:060078AF IL_02BF..IL_02D0",
+        "Rust.Platform.Steam.dll:0600004B IL_0008",
+        "Facepunch.Steamworks.Win64.dll:060009B1 IL_0008/IL_000D",
+        "Facepunch.Steamworks.Win64.dll:06000220 IL_0017/IL_002D",
+        "Facepunch.Steamworks.Win64.dll:0600021F PinvokeImpl"
+      ],
+      "finding": "The internal managed BUpdateUserData wrapper returns a bool. SteamServer.UpdatePlayer discards it with pop; UpdatePlayerSession returns void. The current game-level call-site scan finds UpdatePlayerSession only in Auth_Steam success, not EndSleeping or respawn.",
+      "limit": "A missing observed return value is not evidence of an actual failure. Native acceptance does not acknowledge public trusted-count eligibility."
+    },
+    {
+      "id": "actual-active-count-to-cp",
+      "path": [
+        "PlayerInit adds to activePlayerList",
+        "StartSteamServer schedules normal publication",
+        "UpdateServerInformation reads actual active count",
+        "SteamServer.GameTags cp"
+      ],
+      "evidence": [
+        "Assembly-CSharp.dll:06001AA1 IL_003D..IL_0043",
+        "Assembly-CSharp.dll:06007AB2 IL_0011..IL_0020",
+        "Assembly-CSharp.dll:06007AC0 IL_0000..IL_0007/IL_01A1..IL_01AB/IL_022A"
+      ],
+      "initialDelaySeconds": 2,
+      "repeatSeconds": 30,
+      "finding": "SteamServer.IsValid gates publication. cp directly uses activePlayerList.Count without a per-player sleep, first-tick or EAC filter in that count expression.",
+      "limit": "No direct A2S_INFO players assignment occurs in this path. Native Steam count formulas and public trusted counts remain separate."
+    },
+    {
+      "id": "genuine-lifecycle-and-aggregate-analytics",
+      "path": [
+        "Steam validation / actual ClientReady / actual disconnect / normal aggregate and performance loops",
+        "EventRecord.Submit",
+        "GameplayEventsTableServer.Append"
+      ],
+      "evidence": [
+        "Rust.Platform.Steam.dll:0600005D IL_0025",
+        "Assembly-CSharp.dll:0600783E IL_0004",
+        "Assembly-CSharp.dll:06009288 IL_0054..IL_0063/IL_009A",
+        "Assembly-CSharp.dll:06007A9D IL_00C2",
+        "Assembly-CSharp.dll:06009272 IL_005C",
+        "Assembly-CSharp.dll:06007AC1 IL_0002",
+        "Assembly-CSharp.dll:060093D6 IL_0008..IL_000E",
+        "Assembly-CSharp.dll:060092F2 IL_003E..IL_006B",
+        "Assembly-CSharp.dll:060092F8 IL_0057/IL_02F4..IL_030E",
+        "Assembly-CSharp.dll:060093E2 IL_0285..IL_0294"
+      ],
+      "finding": "Real callbacks and scheduled loops produce the normal server events. The shared event table is not itself a public trusted-player admission API.",
+      "limit": "Replaying OnSteamAuth or OnPlayerConnected would create synthetic lifecycle records rather than diagnose the original callback. It is not a proposed repair."
+    },
+    {
+      "id": "existing-batch-scheduling-and-upload",
+      "path": [
+        "GameplayEventsTableServer existing records",
+        "manager accumulation and due time",
+        "selected enabled uploader",
+        "normal HTTP or Blob upload"
+      ],
+      "evidence": [
+        "Assembly-CSharp.dll:0600931B IL_0000..IL_001A",
+        "Assembly-CSharp.dll:06009382",
+        "Assembly-CSharp.dll:0600938C",
+        "Assembly-CSharp.dll:0600938D",
+        "Assembly-CSharp.dll:06009318",
+        "Assembly-CSharp.dll:06009363 IL_027B..IL_0305",
+        "Assembly-CSharp.dll:06009373"
+      ],
+      "defaultBatchSeconds": 300,
+      "flushSemantics": "AnalyticsTable.Flush is public and only sets nextUploadStamp to DateTime.Now. It makes the existing batch eligible on a later manager check; it creates no event and performs no HTTP itself.",
+      "limit": "Enabled, DryRun, current queue/accumulator and manager behavior still apply. HTTP success and uploaded bytes do not acknowledge individual event ingestion or trusted-count inclusion."
+    },
+    {
+      "id": "real-eac-status-and-finish-loading",
+      "path": [
+        "genuine EAC SDK callback",
+        "OnClientAuthStatusChanged",
+        "OnAuthenticatedLocal or OnAuthenticatedRemote",
+        "status dictionary plus separate VerifyIdToken",
+        "IsAuthenticated status query"
+      ],
+      "evidence": [
+        "Assembly-CSharp.dll:060078E4 IL_0000..IL_0012",
+        "Assembly-CSharp.dll:060078E5",
+        "Assembly-CSharp.dll:060078E6",
+        "Assembly-CSharp.dll:060078E8 IL_0039..IL_00C5",
+        "Assembly-CSharp.dll:060078E7",
+        "Assembly-CSharp.dll:060078F1",
+        "Assembly-CSharp.dll:06001A9C IL_01FE call-site record"
+      ],
+      "finding": "IsAuthenticated returns whether connection2status contains value 2. The authStatusEAC ok string is a separate admission state affected by strictauth_eac. A remote status callback additionally initiates asynchronous EOS ID token verification.",
+      "finishLoading": "For an existing interface and client handle, OnFinishLoading sets IsNetworkActive=true. It does not create authentication success or mutate the status dictionary.",
+      "limit": "Do not equate a handle, ok string, FinishLoading, SDK status and final ID-token verification. No plugin should set these states or invoke synthetic authentication callbacks."
+    }
+  ],
+  "pluginSurface": {
+    "metadata": [
+      {
+        "file": "Rust.Platform.dll",
+        "type": "PlatformService",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit",
+        "fields": [
+          {
+            "name": "IPlatformService PlatformService::Instance",
+            "attributes": "CompilerControlled, Public, Static, InitOnly",
+            "token": "04000001"
+          }
+        ],
+        "events": []
+      },
+      {
+        "file": "Facepunch.Steamworks.Win64.dll",
+        "type": "Steamworks.ISteamGameServer",
+        "attributes": "AutoLayout, AnsiClass, Class, BeforeFieldInit",
+        "fields": [],
+        "events": []
+      },
+      {
+        "file": "Facepunch.Steamworks.Win64.dll",
+        "type": "Steamworks.SteamServer",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, BeforeFieldInit",
+        "fields": [
+          {
+            "name": "System.Action`3<Steamworks.SteamId,Steamworks.SteamId,Steamworks.AuthResponse> Steamworks.SteamServer::OnValidateAuthTicketResponse",
+            "attributes": "CompilerControlled, Private, Static",
+            "token": "040008A9"
+          },
+          {
+            "name": "System.Action Steamworks.SteamServer::OnSteamServersConnected",
+            "attributes": "CompilerControlled, Private, Static",
+            "token": "040008AA"
+          },
+          {
+            "name": "System.Action`1<Steamworks.Result> Steamworks.SteamServer::OnSteamServersDisconnected",
+            "attributes": "CompilerControlled, Private, Static",
+            "token": "040008AC"
+          }
+        ],
+        "events": [
+          {
+            "name": "System.Action`3<Steamworks.SteamId,Steamworks.SteamId,Steamworks.AuthResponse> Steamworks.SteamServer::OnValidateAuthTicketResponse",
+            "add": "System.Void Steamworks.SteamServer::add_OnValidateAuthTicketResponse(System.Action`3<Steamworks.SteamId,Steamworks.SteamId,Steamworks.AuthResponse>)",
+            "remove": "System.Void Steamworks.SteamServer::remove_OnValidateAuthTicketResponse(System.Action`3<Steamworks.SteamId,Steamworks.SteamId,Steamworks.AuthResponse>)",
+            "addAttributes": "PrivateScope, ReuseSlot, Public, Static, HideBySig, SpecialName",
+            "token": "14000027"
+          },
+          {
+            "name": "System.Action Steamworks.SteamServer::OnSteamServersConnected",
+            "add": "System.Void Steamworks.SteamServer::add_OnSteamServersConnected(System.Action)",
+            "remove": "System.Void Steamworks.SteamServer::remove_OnSteamServersConnected(System.Action)",
+            "addAttributes": "PrivateScope, ReuseSlot, Public, Static, HideBySig, SpecialName",
+            "token": "14000028"
+          },
+          {
+            "name": "System.Action`1<Steamworks.Result> Steamworks.SteamServer::OnSteamServersDisconnected",
+            "add": "System.Void Steamworks.SteamServer::add_OnSteamServersDisconnected(System.Action`1<Steamworks.Result>)",
+            "remove": "System.Void Steamworks.SteamServer::remove_OnSteamServersDisconnected(System.Action`1<Steamworks.Result>)",
+            "addAttributes": "PrivateScope, ReuseSlot, Public, Static, HideBySig, SpecialName",
+            "token": "1400002A"
+          }
+        ]
+      }
+    ],
+    "additionalField": {
+      "file": "Assembly-CSharp.dll",
+      "token": "04008F1E",
+      "member": "Facepunch.Rust.AnalyticsManager.GameplayEventsTableServer",
+      "attributes": "Public, Static"
+    },
+    "status": "Static feasibility only; no new diagnostic plugin was built, installed or runtime-tested by this report."
+  },
+  "pluginCandidates": [
+    {
+      "id": "passive-steam-events",
+      "status": "Public subscription API verified; runtime observation pending",
+      "members": [
+        "SteamServer.OnValidateAuthTicketResponse",
+        "SteamServer.OnSteamServersConnected",
+        "SteamServer.OnSteamServersDisconnected"
+      ],
+      "purpose": "Observe actual authentication and Steam connectivity results. Retain aggregate result categories and times; unsubscribe on unload.",
+      "doesNotDo": "Does not invoke or replay validation callbacks, create accounts or change authentication."
+    },
+    {
+      "id": "observe-native-userdata-result",
+      "status": "Design candidate; Harmony target installation and firing not tested",
+      "members": [
+        "Steamworks.ISteamGameServer.BUpdateUserData"
+      ],
+      "purpose": "A result-only postfix could observe true/false from the original call despite the public wrapper discarding it.",
+      "conditions": "Preserve original call, inputs and return value. Count result categories only. Verify that the observer actually fires for a genuine client before interpreting absence.",
+      "limit": "Method/type visibility is internal; ordinary direct public API calls cannot retrieve this bool."
+    },
+    {
+      "id": "single-real-userdata-refresh",
+      "status": "Conditional existing-API candidate, not executed and not a validated trusted-count repair",
+      "members": [
+        "PlatformService.Instance.UpdatePlayerSession"
+      ],
+      "conditions": "Only for an existing real live connection after genuine Steam validation and observed failed or missing original user-data publication. Preserve actual data and current censorplayerlist naming/privacy policy; no BeginAuthSession replay and no fake identities.",
+      "limit": "The void wrapper provides no success result; observe the native result separately. No verified public trusted-count effect."
+    },
+    {
+      "id": "normal-serverinfo-publication",
+      "status": "Private normal method verified; inspect schedule before any one-time invocation",
+      "members": [
+        "ServerMgr.UpdateServerInformation"
+      ],
+      "conditions": "Relevant only if cp is actually stale. Observe the existing 30-second path first.",
+      "limit": "This writes normal server information and actual count tags. It is not a separate authentication or trusted-count API."
+    },
+    {
+      "id": "single-existing-event-batch-flush",
+      "status": "Public scheduling API verified; conditional future controlled experiment only",
+      "members": [
+        "AnalyticsManager.GameplayEventsTableServer",
+        "AnalyticsTable.Flush"
+      ],
+      "conditions": "After passive diagnostics establish genuine queued events, active uploader and DryRun=false. Use existing events only, no artificial connect/auth events or event edits.",
+      "limit": "Sets due time only. Yesterday uploaded bytes already rose while several new trusted-count batches stayed unchanged; shortening due time alone is not an established repair."
+    },
+    {
+      "id": "aggregate-diagnostic-snapshot",
+      "status": "Existing CountDiagnostics 0.1.2 offline build available; expanded observations remain proposed",
+      "members": [
+        "BasePlayer.activePlayerList",
+        "connection.isAuthenticated",
+        "connection.authStatusSteam",
+        "EACServer.IsAuthenticated",
+        "SteamServer.IsValid",
+        "SteamServer.LoggedOn"
+      ],
+      "purpose": "Compare actual states and observer counters without outputting player records.",
+      "limit": "Current disk Oxide libraries and a successful offline compile do not prove the current server process has loaded Oxide or this plugin."
+    }
+  ],
+  "excludedApproaches": [
+    "Changing active-player collections, player counts, query responses or backend reports to claim extra players.",
+    "Synthetic calls to OnSteamAuth, OnPlayerConnected or EAC authentication callbacks to create success records.",
+    "Changing EAC status dictionaries, bypassing EOS token checks or disabling authentication.",
+    "Directly posting fabricated player/count data to a public or private backend.",
+    "Installing or executing FakePlayers.dll, contacting its embedded service or modifying its license."
+  ],
+  "comparisonToUnknownDll": {
+    "finding": "The sample visibly patches Update, administrator chat and Ping. Its background HTTP initiation and substantive operations remain resource-protected. No complete call chain from that sample to normal Steam player-data publication or the trusted-count backend has been established.",
+    "capacityLimit": "Its verified IList mismatch affects a visible administrator chat-command branch. It does not establish failure of the periodic path or provide a trusted-count repair."
+  },
+  "nextEvidenceNeeded": [
+    "Exact remote running modules and runtime patches, separate from current local disk evidence.",
+    "A genuine normal-client connection timeline observed by the authorized diagnostic plugin, after the current independent experiment completes.",
+    "Original Steam validation result and original native BUpdateUserData return categories, plus actual active count and normal cp publication.",
+    "Actual EAC remote status and final EOS ID-token result, observed without exposing tokens or modifying states.",
+    "Genuine lifecycle event creation, queueing, selected uploader, DryRun and transport outcome, without replaying events.",
+    "Backend eligibility/ingestion acknowledgement or policy information connecting those normal operations to public trusted-player counts. This is not visible in the analyzed managed code."
+  ],
+  "interpretation": "A true BUpdateUserData return or successful HTTP is evidence for its own layer only. No per-account public trusted-count acknowledgement was identified. All listed active invocations are unexecuted conditional candidates, to be separated from the currently running finite experiment.",
+  "privateEvidence": [
+    "work/server-reporting-paths/current-inventory-private.json",
+    "work/server-reporting-paths/current-paths-private.il.txt"
+  ]
+}

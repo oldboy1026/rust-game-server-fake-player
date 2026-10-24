@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rust 挂机 · Steam 多账号管理</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/rust.css">
+  <script src="/rust.js" type="module"></script>
+</head>
+<body class="rust-page">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Steam 多账号管理首页"><span class="brand-icon">S</span><span>Steam <strong>多账号管理</strong></span></a>
+    <nav class="page-nav" aria-label="管理页面"><a href="/">Steam 账号</a><a href="/rust" aria-current="page">Rust 挂机</a></nav>
+    <span class="local-label"><span class="dot"></span>本地服务</span>
+  </header>
+  <main class="rust-shell">
+    <div class="heading rust-heading"><div><p class="eyebrow">RUST CONNECTIONS</p><h1>Rust 挂机</h1><p class="subtitle">管理账号登录、服务器连接与每个账号的连接记录。</p></div><div class="toolbar"><a id="import-shortcut" class="button secondary" href="#import-panel" hidden>导入账号</a><button id="lock-button" class="button secondary" type="button" hidden>锁定页面</button></div></div>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <section id="unlock-panel" class="panel unlock-panel">
+      <div class="section-icon">↗</div><h2>连接本地管理服务</h2><p class="muted">使用项目中的访问密钥，读取和管理 Rust 连接。</p>
+      <form id="unlock-form"><label for="api-key">访问密钥</label><div class="inline"><input id="api-key" type="password" autocomplete="off" placeholder="粘贴 data/api-key.txt 中的密钥" required><button class="button primary" type="submit">连接服务</button></div></form>
+      <div class="unlock-help"><span>也可以选择项目中的密钥文件：</span><label class="file-button" for="key-file">读取密钥文件<input id="key-file" type="file" accept=".txt" hidden></label></div>
+      <p class="fineprint">与 Steam 账号页面共享当前标签页的访问密钥。</p>
+    </section>
+    <div id="rust-dashboard" hidden>
+      <section class="rust-metrics" aria-label="本系统连接概览">
+        <div class="metric"><p>全部账号</p><strong id="count-total">0</strong><span>已添加至本地服务</span></div>
+        <div class="metric"><p>Steam 在线</p><strong id="count-steam">0</strong><span>可使用当前登录连接</span></div>
+        <div class="metric emphasized"><p>本系统已入服</p><strong id="count-connected">0</strong><span>已观察到入服完成</span></div>
+        <div class="metric"><p>正在连接</p><strong id="count-connecting">0</strong><span>等待进入服务器</span></div>
+      </section>
+      <section class="panel server-panel" aria-labelledby="servers-title">
+        <div class="section-heading"><div><h2 id="servers-title">服务器分组</h2><p class="muted">人数只统计本系统账号；Rust 游戏公共列表人数需在游戏内核对。</p></div><span id="sync-status" class="sync-status" role="status">正在读取</span></div>
+        <div id="server-groups" class="server-groups"></div>
+      </section>
+      <section class="panel account-panel" aria-labelledby="accounts-title">
+        <div class="section-heading"><div><h2 id="accounts-title">账号与连接</h2><p id="selection-summary" class="muted">选择账号后，批量登录或连接服务器。</p></div><div class="toolbar"><button id="clear-selection" class="button secondary small" type="button" disabled>取消选择</button><button id="refresh-button" class="button secondary small" type="button">刷新状态</button></div></div>
+        <form id="connect-form" class="connect-target">
+          <div class="target-field grow"><label for="target-host">服务器 IP</label><input id="target-host" type="text" placeholder="目标 IPv4 地址" autocomplete="off" required></div>
+          <div class="target-field"><label for="target-port">游戏端口</label><input id="target-port" type="number" min="1" max="65535" value="28015" required></div>
+          <div class="target-field"><label for="target-query-port">查询端口 <span class="optional">选填</span></label><input id="target-query-port" type="number" min="1" max="65535" placeholder="默认游戏端口 + 1"></div>
+          <label class="checkbox-option target-option" for="target-respawn"><input id="target-respawn" type="checkbox"><span>死亡时尝试重生一次</span></label>
+          <div class="bulk-actions toolbar"><button id="batch-login" class="button secondary" type="button" disabled>批量登录 Steam</button><button id="batch-connect" class="button primary" type="submit" disabled>连接所选账号</button><button id="batch-disconnect" class="button danger" type="button" disabled>断开所选账号</button></div>
+        </form>
+        <div class="table-filters"><input id="account-search" type="search" placeholder="搜索账号、昵称或服务器" aria-label="搜索账号、昵称或服务器"><select id="account-filter" aria-label="按连接状态筛选"><option value="all">全部状态</option><option value="connected">已入服</option><option value="connecting">正在入服</option><option value="not-connected">未入服</option><option value="steam-online">Steam 在线</option><option value="steam-offline">Steam 未在线</option></select><span id="server-filter" class="filter-chip" hidden><span id="server-filter-name"></span><button id="clear-server-filter" type="button" aria-label="取消服务器筛选">×</button></span></div>
+        <div class="account-table-wrap"><table class="account-table"><thead><tr><th class="check-cell"><input id="select-all" type="checkbox" aria-label="选择当前筛选下的全部账号"></th><th scope="col">账号</th><th scope="col">Steam 状态</th><th scope="col">Rust 状态</th><th scope="col">连接服务器</th><th scope="col">最近角色快照</th><th scope="col">记录</th></tr></thead><tbody id="account-rows"></tbody></table></div>
+        <div id="accounts-empty" class="compact-empty" hidden>还没有账号。可在下方批量导入，或前往 Steam 账号页面添加。</div>
+      </section>
+      <section class="panel jobs-panel" aria-labelledby="jobs-title"><div class="section-heading"><div><h2 id="jobs-title">任务进度</h2><p class="muted">逐个显示登录、连接、断开和导入的处理结果。</p></div><span id="jobs-running" class="badge"></span></div><div id="job-list" class="job-list"></div></section>
+      <section id="import-panel" class="panel import-panel" aria-labelledby="import-title"><div><p class="eyebrow">ACCOUNT IMPORT</p><h2 id="import-title">批量导入账号</h2><p class="muted">每行填写一个 <code>账号:密码</code>，每批最多 200 个。需要 Steam 验证的账号会跳过，本页不会弹出验证码输入。</p><p class="fineprint">新账号登录失败、超时或需要验证时会移出；已有账号记录保留。提交后立即清空密码输入区，成功、失败及跳过结果显示在任务进度中。</p></div><form id="import-form"><label for="import-text">账号与密码</label><textarea id="import-text" rows="5" maxlength="100000" placeholder="账号:密码&#10;另一个账号:密码" autocomplete="off" autocapitalize="off" spellcheck="false" required></textarea><div class="import-footer"><span id="import-count" class="muted">尚未输入账号</span><button id="import-submit" class="button primary" type="submit">导入并登录</button></div></form></section>
+      <p class="footer-note">关闭页面后，本地服务中的连接继续运行。角色状态是最近收到的快照，历史快照不表示当前在线或已计入公共列表。</p>
+    </div>
+  </main>
+  <dialog id="logs-dialog" class="logs-dialog" aria-labelledby="logs-title"><div class="section-heading"><div><p class="eyebrow">CONNECTION LOG</p><h2 id="logs-title">账号连接日志</h2></div><button id="logs-close" class="button secondary small" type="button">关闭</button></div><p id="logs-status" class="muted" role="status"></p><div id="logs-list" class="logs-list"></div><div class="logs-footer"><span class="fineprint">显示本系统保存的连接事件。</span><button id="logs-refresh" class="button secondary small" type="button">刷新日志</button></div></dialog>
+</body>
+</html>

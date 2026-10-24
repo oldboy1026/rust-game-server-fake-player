@@ -3,6 +3,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { ApiError } from './accounts.js';
 import { FreeCatalog } from './catalog.js';
+import { RustWorkspace } from './rust-workspace.js';
 
 function send(response, status, body) {
   response.writeHead(status, {
@@ -13,7 +14,7 @@ function send(response, status, body) {
   response.end(JSON.stringify(body));
 }
 
-function readJson(request) {
+function readJson(request, maximumBytes = 16384) {
   if (!/^application\/json(?:\s*;|$)/i.test(request.headers['content-type'] || '')) {
     request.resume();
     throw new ApiError(415, 'Use Content-Type: application/json.');
@@ -23,14 +24,14 @@ function readJson(request) {
     const chunks = [];
     request.on('data', chunk => {
       size += chunk.length;
-      if (size > 16384) {
+      if (size > maximumBytes) {
         chunks.length = 0;
-        reject(new ApiError(413, 'Request body exceeds 16 KiB.'));
+        reject(new ApiError(413, maximumBytes === 16384 ? 'Request body exceeds 16 KiB.' : '导入内容超过 128 KiB。'));
       } else chunks.push(chunk);
     });
     request.on('error', () => reject(new ApiError(400, 'Could not read request body.')));
     request.on('end', () => {
-      if (size > 16384) return;
+      if (size > maximumBytes) return;
       try {
         const input = JSON.parse(Buffer.concat(chunks).toString('utf8'));
         if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error();
@@ -40,13 +41,19 @@ function readJson(request) {
   });
 }
 
-export function createApiServer({ manager, apiKey, onShutdown, catalog = new FreeCatalog(), log = () => {} }) {
+export function createApiServer({ manager, apiKey, onShutdown, catalog = new FreeCatalog(), log = () => {}, rustWorkspaceOptions = {} }) {
   const expected = Buffer.from(`Bearer ${apiKey}`);
+  const rustWorkspace = new RustWorkspace(manager, rustWorkspaceOptions);
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
     ['/details.js', ['details.js', 'text/javascript; charset=utf-8']],
     ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
+    ['/rust', ['rust.html', 'text/html; charset=utf-8']],
+    ['/rust/', ['rust.html', 'text/html; charset=utf-8']],
+    ['/rust.html', ['rust.html', 'text/html; charset=utf-8']],
+    ['/rust.js', ['rust.js', 'text/javascript; charset=utf-8']],
+    ['/rust.css', ['rust.css', 'text/css; charset=utf-8']],
   ].map(([path, [file, type]]) => [path, { type, body: readFileSync(new URL(`../public/${file}`, import.meta.url)) }]));
   const server = createServer(async (request, response) => {
     try {
@@ -89,6 +96,15 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
       if (path === '/v1/accounts' && request.method === 'GET') {
         return send(response, 200, { accounts: manager.list() });
       }
+      if (path === '/v1/rust/overview' && request.method === 'GET') return send(response, 200, rustWorkspace.overview());
+      if (path === '/v1/rust/import' && request.method === 'POST')
+        return send(response, 202, rustWorkspace.startImport(await readJson(request, 128 * 1024)));
+      if (path === '/v1/rust/actions' && request.method === 'POST')
+        return send(response, 202, rustWorkspace.startActions(await readJson(request)));
+      const rustJob = path.match(/^\/v1\/rust\/jobs\/([a-f0-9-]{36})$/);
+      if (rustJob && request.method === 'GET') return send(response, 200, rustWorkspace.getJob(rustJob[1]));
+      const rustLogs = path.match(/^\/v1\/rust\/accounts\/([a-zA-Z0-9_-]{1,64})\/logs$/);
+      if (rustLogs && request.method === 'GET') return send(response, 200, rustWorkspace.accountLogs(rustLogs[1]));
       if (path === '/v1/free-games' && request.method === 'GET') {
         return send(response, 200, await catalog.search(url.searchParams.get('term') || '', Number(url.searchParams.get('start') || 0)));
       }
@@ -154,6 +170,7 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
     }
   });
   server.requestTimeout = 15000;
+  server.once('close', () => rustWorkspace.close());
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
   return server;

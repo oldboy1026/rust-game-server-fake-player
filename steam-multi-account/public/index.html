@@ -10,6 +10,7 @@
 <body>
   <header class="topbar">
     <a class="brand" href="/" aria-label="Steam 多账号管理首页"><span class="brand-icon">S</span><span>Steam <strong>多账号管理</strong></span></a>
+    <nav class="page-nav" aria-label="管理页面"><a href="/" aria-current="page">Steam 账号</a><a href="/rust">Rust 挂机</a></nav>
     <span class="local-label"><span class="dot"></span>本地服务</span>
   </header>
   <main>
@@ -44,6 +45,7 @@
             <div><label for="rust-port">游戏端口</label><input id="rust-port" type="number" min="1" max="65535" value="28015" required></div>
             <button id="rust-connect" class="button primary" type="submit">连接服务器</button>
             <button id="rust-disconnect" class="button secondary" type="button" disabled>断开连接</button>
+            <label class="checkbox-option" for="rust-respawn-on-dead"><input id="rust-respawn-on-dead" type="checkbox" disabled><span>死亡时尝试重生一次</span></label>
           </form>
           <p id="rust-target" class="muted">尚未建立服务器连接。</p>
           <p id="rust-progress" class="muted" role="status" aria-live="polite"></p>
@@ -54,7 +56,6 @@
       <div class="workspace">
         <section class="accounts-section"><div class="section-heading"><h2>我的账号</h2><button id="refresh-button" class="button secondary small">刷新状态</button></div><div id="account-list" class="account-list"></div><div id="empty-state" class="empty-state"><span>＋</span><h3>添加你的第一个账号</h3><p>登录成功后，服务会保存令牌并保持在线。</p></div></section>
         <aside class="panel add-panel"><h2 id="login-title">添加账号</h2><p class="muted">每个账号会建立独立连接。</p><form id="login-form">
-          <label for="account-id">管理 ID</label><input id="account-id" name="id" placeholder="例如 account1" pattern="[A-Za-z0-9_-]{1,64}" maxlength="64" required><span class="field-help">用于区分账号，支持字母、数字、下划线和短横线。</span>
           <label for="account-name">Steam 账号名</label><input id="account-name" name="accountName" placeholder="输入登录账号名" autocomplete="off" maxlength="64" required>
           <label for="account-password">密码</label><input id="account-password" name="password" type="password" autocomplete="off" maxlength="512" required>
           <button class="button primary full" type="submit">登录并保持在线</button><button id="reset-form" class="button text full" type="button" hidden>取消重新登录</button>
