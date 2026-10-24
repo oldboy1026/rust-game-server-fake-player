@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-24",
+  "status": "passed_on_existing_windows_clr4_with_dotnet10_incompatibility_recorded",
+  "success": true,
+  "scope": {
+    "offlineOnly": true,
+    "officialLocalHarmonyOnly": true,
+    "selfAuthoredStubsAndToyTarget": true,
+    "publicObserverSourceModifiedByThisTest": false,
+    "gameSteamRustUnityAssembliesLoaded": false,
+    "gameAssemblyMvidSpoofed": false,
+    "networkRequestsMade": false,
+    "pluginDeployed": false,
+    "serverTouched": false,
+    "runtimeOrDependencyInstalled": false,
+    "accessControlOrLibraryPatchedToWorkAroundFailure": false
+  },
+  "startedUtc": "2026-10-24T07:28:22.7803795Z",
+  "completedUtc": "2026-10-24T07:28:23.7959023Z",
+  "compiler": {
+    "sdk": "10.0.201",
+    "referenceSource": "Installed Windows Framework64/v4.0.30319 standard libraries",
+    "restoreUsed": false,
+    "exitCode": 0
+  },
+  "runtime": "4.0.30319.42000",
+  "harmony": {
+    "assemblyVersion": "2.3.1.1",
+    "sha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0",
+    "origin": "Existing local Managed/0Harmony.dll copied to isolated work output"
+  },
+  "observerSource": {
+    "file": "tools/rust-research/ReportingObserver.cs",
+    "snapshotSha256": "8a2105b4f93b743423a621e80976b3621a0a3c9d9a106b82f05d29432a988757",
+    "currentAtRunEndSha256": "8a2105b4f93b743423a621e80976b3621a0a3c9d9a106b82f05d29432a988757",
+    "unchangedDuringRun": true
+  },
+  "harness": {
+    "file": "work/observer-isolation/ObserverHarness.Framework.cs",
+    "sha256": "d61a043755df0198a9490f7cae66130d1567b169ef9acc4d90a65cb738cd77da",
+    "stubsFile": "work/observer-isolation/ObserverStubs.cs",
+    "stubsSha256": "eadcd90c473a6d19b27b8008ee9ac20f950ae3e115b1f467393e75eb407f9d4e",
+    "exactSourcePostfixUsed": true,
+    "toyTargetNoInlining": true,
+    "privateToyTargetAndDeadlineFieldsSetForIsolation": true
+  },
+  "executionExitCode": 0,
+  "passedAssertions": 38,
+  "completedGroups": [
+    "unsupported_target_refusal",
+    "real_harmony_result_injection",
+    "original_exception_preserved",
+    "expired_deadline_disables_observation",
+    "foreign_prefix_skip",
+    "exact_observer_unpatch",
+    "unload_stops_observation_preserves_foreign",
+    "isolation_audit"
+  ],
+  "sourceObserverResult": {
+    "calls": 2,
+    "accepted": 1,
+    "rejected": 1,
+    "skippedOriginal": 1
+  },
+  "noGameAssembliesLoadedAudit": true,
+  "loadedAssemblies": [
+    "0Harmony",
+    "HarmonySharedState",
+    "MonoMod.Utils.Cil.ILGeneratorProxy",
+    "mscorlib",
+    "ObserverIsolation.Framework",
+    "System",
+    "System.Configuration",
+    "System.Core",
+    "System.Web",
+    "System.Web.Extensions",
+    "System.Xml"
+  ],
+  "verifiedBehavior": [
+    "Original OnLoaded refuses absent real target and emits a parseable refusal snapshot",
+    "True and false original results preserved with source postfix and actual Harmony",
+    "Original exception identity and finally preserved, without false-result count",
+    "Expired monotonic deadline stops postfix counts independently of Timer; toy original and finally still run",
+    "Foreign toy prefix skipping original injects runOriginal=false and increments skipped only",
+    "Source RemoveOwnPatch removes the exact Observer postfix while retaining the foreign prefix",
+    "Source OnUnloaded stops observation and removes own patch while foreign prefix remains effective",
+    "Runtime assembly audit excludes real Steam, Rust and Unity game libraries"
+  ],
+  "earlierDotnet10Attempt": {
+    "success": false,
+    "runtime": "10.0.5",
+    "sourceSha256": "dcdb2c5150a83d30b2829967553b4208457932a795097ed98591910f0ccdf14c",
+    "compileExitCode": 0,
+    "executionExitCode": 1,
+    "passedAssertions": 6,
+    "phase": "real_harmony_result_injection",
+    "rootException": "System.MethodAccessException",
+    "initializationChain": [
+      "HarmonyLib.HarmonySharedState",
+      "MonoMod.Utils.ReflectionHelper"
+    ],
+    "rootMember": "System.Reflection.Emit.SignatureHelper.GetMethodSigHelper",
+    "interpretation": "This official Harmony build failed to initialize under the installed .NET 10.0.5; the final successful CLR4 run does not establish .NET10 support."
+  },
+  "notVerified": [
+    "Real game-target discovery success and official game loader behavior",
+    "Actual server Mono compatibility or hotload/JIT coverage; toy methods explicitly disable inlining",
+    "Real normal-client connection and actual native BUpdateUserData return",
+    "Full Timer concurrency lifecycle, real 180-second elapsed window and final background-file durability",
+    "Public trusted-player-count effect or final authentication eligibility"
+  ],
+  "privateEvidence": [
+    "work/observer-isolation/build-and-run-framework.ps1",
+    "work/observer-isolation/framework-isolation.rsp",
+    "work/observer-isolation/ReportingObserver.source.cs",
+    "work/observer-isolation/framework-compiler-output-private.txt",
+    "work/observer-isolation/framework-result-private.json",
+    "work/observer-isolation/framework-test-record-private.json",
+    "work/observer-isolation/test-record-private.json",
+    "work/observer-isolation/failure-private.txt",
+    "work/observer-isolation/ReportingObserver.before-monotonic.source.cs",
+    "work/observer-isolation/framework-test-record-before-monotonic-private.json"
+  ]
+}

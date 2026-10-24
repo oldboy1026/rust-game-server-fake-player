@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-24",
+  "scope": {
+    "staticMetadataAndIlOnly": true,
+    "serverAssembliesExecuted": false,
+    "patchInstalled": false,
+    "networkRequestsMade": false,
+    "countsOrAuthenticationChanged": false
+  },
+  "modules": [
+    { "file": "Facepunch.Steamworks.Win64.dll", "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72", "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f" },
+    { "file": "Rust.Platform.Steam.dll", "sha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11", "mvid": "8488aab9-560d-4a1e-a7e2-84abf4312be5" },
+    { "file": "Assembly-CSharp.dll", "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601", "mvid": "ea5bea93-989c-4789-88b5-c1200be42811" }
+  ],
+  "target": {
+    "assembly": "Facepunch.Steamworks.Win64",
+    "type": "Steamworks.ISteamGameServer",
+    "typeVisibility": "internal",
+    "method": "BUpdateUserData",
+    "tokenForThisVersionOnly": "06000220",
+    "returnType": "System.Boolean",
+    "parameterTypes": ["Steamworks.SteamId", "System.String", "System.UInt32"],
+    "visibility": "assembly",
+    "instance": true,
+    "virtual": false,
+    "genericParameterCount": 0,
+    "pinvoke": false,
+    "hasManagedIl": true,
+    "ilBytes": 47,
+    "implAttributes": "IL",
+    "noInliningAttribute": false,
+    "aggressiveInliningAttribute": false,
+    "finally": { "tryStart": "IL_0008", "tryEndExclusive": "IL_001F", "handlerStart": "IL_001F", "handlerEndExclusive": "IL_002D" },
+    "nativeCall": "IL_0017",
+    "return": "IL_002D..IL_002E"
+  },
+  "excludedTargets": [
+    { "token": "0600021F", "method": "Steamworks.ISteamGameServer._BUpdateUserData", "reason": "Private static native import with IntPtr parameters and no managed body" },
+    { "token": "060009B1", "method": "Steamworks.SteamServer.UpdatePlayer", "reason": "Public static void wrapper discards the native-wrapper bool at IL_000D" }
+  ],
+  "discovery": {
+    "assemblySource": "Existing Steamworks.SteamServer runtime assembly",
+    "exactTypeName": "Steamworks.ISteamGameServer",
+    "bindingFlags": ["Instance", "Public", "NonPublic", "DeclaredOnly"],
+    "requireExactParameterTypesAndBoolReturn": true,
+    "requireUniqueNonAbstractNonGenericNonStaticManagedBody": true,
+    "invokeTargetDuringDiscovery": false,
+    "onMismatch": "Disable observer and report unavailable; no guessed overload or native fallback"
+  },
+  "observerDesign": {
+    "minimumSignature": "static void Postfix(bool __result)",
+    "resultByValue": true,
+    "originalArgumentsOrInstanceRequired": false,
+    "changesArgumentsResultOrControlFlow": false,
+    "counterMeaning": "Observed normal method returns, not distinct players, final admissions or trusted-count acknowledgements",
+    "runOriginalOptional": "Static loader review confirms support in local Harmony 2.3.1.1: a postfix requesting __runOriginal causes CreateReplacement to allocate/init the bool local, which EmitCallParameter reads. It does not exclude other transpilers, postfixes or detours. The minimum observer does not require this parameter.",
+    "runOriginalStaticEvidence": ["0Harmony.dll:060000D0 IL_0034..IL_0055/IL_01BA..IL_0218", "0Harmony.dll:060000D8 IL_0104..IL_011F", "work/harmony-loader-static/loader-injection-private.il.txt"],
+    "threadHandling": "Atomic counters/timestamps only, no Unity or Oxide calls, logs, IO, waiting or network",
+    "exceptions": "Do not throw observer errors into the caller or suppress original exceptions; no false result is recorded for an exceptional original exit"
+  },
+  "normalThreadPath": [
+    { "method": "ConnectionAuth/<AuthorisationRoutine>d__6.MoveNext", "token": "060078BF", "offset": "IL_003D", "operation": "Creates Auth_Steam.Run coroutine" },
+    { "method": "ConnectionAuth/<AuthorisationRoutine>d__6.MoveNext", "token": "060078BF", "offset": "IL_0042", "operation": "MonoBehaviour.StartCoroutine" },
+    { "method": "Auth_Steam/<Run>d__1.MoveNext", "token": "060078AF", "offset": "IL_02D0", "operation": "Calls UpdatePlayerSession after Steam-success branch" },
+    { "method": "ConnectionAuth/<AuthorisationRoutine>d__6.MoveNext", "token": "060078BF", "offset": "IL_0069", "operation": "Subsequent Auth_EAC coroutine is scheduled after Auth_Steam finishes" }
+  ],
+  "threadLimit": "Normal game path is Unity coroutine main-thread scheduling, but other plugin/runtime callers are not proven main-thread. Runtime thread identity has not been observed.",
+  "inliningLimit": "No NoInlining marker is present. Body size and finally do not establish actual Mono JIT behavior. Late patch installation and existing compiled/inlined callers can make a zero count inconclusive.",
+  "otherPatchesLimit": "Inspect known Harmony patches before/after install. Skipping prefixes, transpilers and postfix order may change the observed value. Patch enumeration cannot exclude all non-Harmony detours.",
+  "unloadDesign": [
+    "Set an atomic stopping flag before removal",
+    "Unpatch only this exact postfix on this exact target",
+    "Do not globally unpatch or remove other owners",
+    "Verify no own patch remains; retain explicit cleanup failure state",
+    "Keep in-flight observer references safe and no-op after stopping",
+    "Unsubscribe existing events and destroy timers without blocking the game thread"
+  ],
+  "runtimeVerificationStillRequired": [
+    "Harmony target installation on the actual runtime",
+    "Observer firing for a genuine normal-client connection",
+    "Return categories versus separate Steam, EAC and final admission timeline",
+    "Reload/unload cleanup with no residual own patch",
+    "Independent public trusted-count observation; no causal connection is established by a bool alone"
+  ],
+  "privateEvidence": [
+    { "file": "work/bupdate-observation-design/metadata-private.json", "sha256": "f4c3e9342e60b00fde190c7fe21f7d3dd586e11853df832f02744ef34d2621fd" },
+    { "file": "work/bupdate-observation-design/selected-private.il.txt", "sha256": "fa70fe1d600e3cdf551798ca9d6af9a321617f9dd6a8b47f5ac3b30a953a824e" }
+  ],
+  "conclusion": "The precise internal managed bool target is statically verified. This report is an observation design, not an installed observer or a trusted-player-count repair."
+}

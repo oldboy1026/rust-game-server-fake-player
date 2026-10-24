@@ -1,0 +1,214 @@
+{
+  "date": "2026-10-24",
+  "scope": "Current local disk metadata and IL read as data using dnlib; no game, Harmony or unknown DLL loaded or executed in this analysis process",
+  "modules": [
+    {
+      "file": "Rust.Harmony.dll",
+      "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5",
+      "unchangedDuringRead": true,
+      "assemblyName": "Rust.Harmony",
+      "version": "0.0.0.0",
+      "mvid": "73879866-567b-46a3-bc02-56fd12987d12"
+    },
+    {
+      "file": "0Harmony.dll",
+      "sha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0",
+      "unchangedDuringRead": true,
+      "assemblyName": "0Harmony",
+      "version": "2.3.1.1",
+      "mvid": "6c906b4f-1de4-40f3-a86c-b0ebb3f48ea6"
+    },
+    {
+      "file": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "unchangedDuringRead": true,
+      "assemblyName": "Assembly-CSharp",
+      "version": "0.0.0.0",
+      "mvid": "ea5bea93-989c-4789-88b5-c1200be42811"
+    },
+    {
+      "file": "Facepunch.Steamworks.Win64.dll",
+      "sha256": "8113c24e3d6b8821903beb5f5d337f343631b216f3550fd2db6633c79baf0a72",
+      "unchangedDuringRead": true,
+      "assemblyName": "Facepunch.Steamworks.Win64",
+      "version": "1.0.0.0",
+      "mvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f"
+    }
+  ],
+  "loader": {
+    "assembly": "Rust.Harmony.dll",
+    "startup": {
+      "method": "HarmonyLoader.LoadHarmonyMods",
+      "token": "06000008",
+      "attribute": "UnityEngine.RuntimeInitializeOnLoadMethodAttribute",
+      "argument": "BeforeSceneLoad = 1",
+      "enumCrossCheck": "UnityEngine.CoreModule.dll:UnityEngine.RuntimeInitializeLoadType"
+    },
+    "modDirectory": {
+      "formula": "Path.Combine(Application.dataPath, \"..\", \"HarmonyMods\")",
+      "localTestPath": "D:\\RustServer\\rustds\\HarmonyMods",
+      "topLevelPattern": "*.dll",
+      "recursive": false,
+      "automaticFileWatcherFound": false,
+      "missingDirectoryBehavior": "CreateDirectory is attempted, then this scan returns",
+      "evidence": [
+        "06000008:IL_000B..001A",
+        "06000008:IL_004C..0057",
+        "06000008:IL_005C..0078",
+        "06000008:IL_0108..0117"
+      ]
+    },
+    "harmonyLibrary": {
+      "pathFormula": "Path.Combine(Application.dataPath, \"Managed\", \"0Harmony.dll\")",
+      "pathMethodToken": "06000006",
+      "loadMethodToken": "06000007",
+      "readMode": "File.ReadAllBytes followed by Assembly.Load(byte[])",
+      "reflectedSignatures": [
+        "HarmonyLib.Harmony.PatchAll(Assembly)",
+        "HarmonyLib.Harmony.UnpatchAll(string)",
+        "HarmonyLib.Harmony.DEBUG",
+        "HarmonyLib.FileLog.Reset()",
+        "HarmonyLib.FileLog.FlushBuffer()"
+      ]
+    },
+    "hookInterface": {
+      "fullName": "IHarmonyModHooks",
+      "token": "02000002",
+      "methods": [
+        "void OnLoaded(OnHarmonyModLoadedArgs)",
+        "void OnUnloaded(OnHarmonyModUnloadedArgs)"
+      ],
+      "argsAreEmptyPublicReferenceTypes": true,
+      "construction": "IsAssignableFrom followed by Activator.CreateInstance(Type)",
+      "suitableEntry": "One public non-abstract class with a public parameterless constructor; no Unity or Oxide base class required",
+      "evidence": [
+        "06000009:IL_00E9..0103",
+        "06000009:IL_01BA..01C1"
+      ]
+    },
+    "loadingOrder": [
+      "TryUnloadMod with the same basename",
+      "LoadAssembly and construct hook instances",
+      "Create loader owner com.facepunch.rust_dedicated.<basename>",
+      "PatchAll(assembly)",
+      "Invoke OnLoaded callbacks",
+      "Add to loadedMods"
+    ],
+    "patchAllBeforeOnLoaded": {
+      "patchAll": "06000009:IL_0178",
+      "onLoaded": "06000009:IL_01C1",
+      "loadedListAdd": "06000009:IL_0204",
+      "callbackFailureLimit": "OnLoaded exceptions are caught and the mod may still be added as loaded; verify a separate success state and target patch info"
+    },
+    "loadAssembly": {
+      "token": "0600000D",
+      "evidence": [
+        "IL_005F..0094 creates an in-memory assembly name with a GUID suffix",
+        "IL_00AD writes to MemoryStream",
+        "IL_00D3 calls Assembly.Load(byte[])"
+      ],
+      "diskAssemblyRewrittenByThisMethod": false,
+      "assemblyLocationSuitableForOutputDirectory": false
+    },
+    "unload": {
+      "callback": "0600000A:IL_0042",
+      "ownerCleanup": "0600000B:IL_001C",
+      "loadedListRemove": "0600000B:IL_0027",
+      "appDomainAssemblyUnloadPresent": false,
+      "limit": "Only loader-owned patches and its loaded list are cleaned automatically; timers and separately owned patches require plugin cleanup"
+    },
+    "skippedStartupFileNamePrefixes": [
+      "System.",
+      "Microsoft.",
+      "Newtonsoft.",
+      "UnityEngine."
+    ]
+  },
+  "hotLoadCommands": [
+    {
+      "command": "harmony.load",
+      "wrapper": "ConVar.Harmony.Load",
+      "wrapperToken": "Assembly-CSharp.dll:0600A150",
+      "forwardsTo": "HarmonyLoader.TryLoadMod",
+      "nativeRegistration": "Assembly-CSharp.dll:06000203:IL_190A8",
+      "serverAdmin": true,
+      "serverAdminEvidence": "06000203:IL_190B3..190B4",
+      "descriptionSaysNoRestartRequired": true
+    },
+    {
+      "command": "harmony.unload",
+      "wrapper": "ConVar.Harmony.Unload",
+      "wrapperToken": "Assembly-CSharp.dll:0600A151",
+      "forwardsTo": "HarmonyLoader.TryUnloadMod",
+      "nativeRegistration": "Assembly-CSharp.dll:06000203:IL_19106",
+      "serverAdmin": true,
+      "serverAdminEvidence": "06000203:IL_19111..19112"
+    }
+  ],
+  "passiveDiagnosticDesign": {
+    "compilationOrDeploymentPerformedThisBatch": false,
+    "target": {
+      "assembly": "Facepunch.Steamworks.Win64.dll",
+      "type": "Steamworks.ISteamGameServer",
+      "method": "BUpdateUserData",
+      "token": "06000220",
+      "instance": true,
+      "visibility": "Assembly",
+      "returnType": "System.Boolean",
+      "parameters": [
+        "Steamworks.SteamId",
+        "System.String",
+        "System.UInt32"
+      ],
+      "hasManagedBody": true
+    },
+    "automaticPatchAttributes": false,
+    "patchInstallation": "OnLoaded performs exact-target and competing-patch checks, then manually installs one void postfix with a by-value bool __result; installation success is verified independently",
+    "ownership": "Prefer a fixed filename and its unique loader-derived owner for loader fallback cleanup, or explicitly remove a separate unique owner in OnUnloaded",
+    "observation": "Interlocked aggregate true/false counts of normal returns only; no original invocation, argument capture, replacement return, prefix, transpiler or finalizer",
+    "reporting": "Optional bounded timer uses only standard-library atomic counter reads, timestamps and a fixed local aggregate JSON path captured at load time; no game or network API call",
+    "unloadRequirements": [
+      "Gate callbacks and stop/drain owned file writes",
+      "Remove only the own exact target/postfix or own explicit owner",
+      "Verify unloading and no owned resources remain; a disabled counter is not proof of patch removal"
+    ],
+    "evidenceLimit": "A true returned bool does not establish Rust player-list refresh, EAC final authentication, or Facepunch public trusted-count inclusion"
+  },
+  "optionalRunOriginalInjection": {
+    "currentHarmonyVersion": "2.3.1.1",
+    "staticallySupported": true,
+    "injectionMethod": "0Harmony.dll:060000D8:IL_00FD..0139",
+    "parameterNamePredicate": "0Harmony.dll:060000E8",
+    "requestDetection": "0Harmony.dll:060000E7",
+    "combinedPatchList": "0Harmony.dll:060000D0:IL_0034..0055",
+    "anyRequestCheck": "0Harmony.dll:060000D0:IL_01BA..01DF",
+    "booleanLocalAndTrueInitialization": "0Harmony.dll:060000D0:IL_01E1..0218",
+    "localPassedToPostfixes": [
+      "0Harmony.dll:060000D0:IL_03E0..03E3",
+      "0Harmony.dll:060000D0:IL_0415..0418"
+    ],
+    "conclusion": "A postfix requesting bool __runOriginal itself causes the tracking local to exist; the no-local false fallback is not expected for that case in this exact version",
+    "limit": "This flag does not exclude another postfix modifying __result and was not runtime-tested in this batch"
+  },
+  "actionsNotTaken": [
+    "Unknown DLL load or execution",
+    "Plugin compilation or installation",
+    "Harmony load/unload command execution",
+    "RCON or remote network query",
+    "Server restart",
+    "Configuration or player-state mutation",
+    "Player-data resubmission or analytics Flush"
+  ],
+  "limits": [
+    "Static command registration and loader code do not establish that the current live process accepted or executed a load command",
+    "Current local hashes and signatures cannot establish remote installation or runtime patch compatibility",
+    "No replacement for FakePlayers.dll or browser-count repair was produced"
+  ],
+  "privateEvidence": [
+    "work/harmony-loader-static/loader-inventory-private.json",
+    "work/harmony-loader-static/loader-private.il.txt",
+    "work/harmony-loader-static/loader-attributes-private.json",
+    "work/harmony-loader-static/loader-console-private.il.txt",
+    "work/harmony-loader-static/loader-injection-private.il.txt"
+  ]
+}

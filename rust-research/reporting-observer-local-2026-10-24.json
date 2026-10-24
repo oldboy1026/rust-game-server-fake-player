@@ -1,0 +1,353 @@
+{
+  "date": "2026-10-24",
+  "scope": {
+    "selfAuthoredObserverRunOnLocalServer": true,
+    "unknownFakePlayersDllExecuted": false,
+    "remotePluginDeployed": false,
+    "restartPerformed": false,
+    "configurationChanged": false,
+    "userDataCaptured": false,
+    "credentialsPublished": false
+  },
+  "source": {
+    "file": "tools/rust-research/ReportingObserver.cs",
+    "sha256": "8a2105b4f93b743423a621e80976b3621a0a3c9d9a106b82f05d29432a988757"
+  },
+  "compileOnlyBuild": {
+    "startedUtc": "2026-10-24T07:27:21.7055128Z",
+    "completedUtc": "2026-10-24T07:27:22.3029538Z",
+    "compileOnly": true,
+    "success": true,
+    "exitCode": 0,
+    "inputsUnchanged": true,
+    "sdk": "10.0.201",
+    "source": {
+      "file": "tools/rust-research/ReportingObserver.cs",
+      "sha256": "8a2105b4f93b743423a621e80976b3621a0a3c9d9a106b82f05d29432a988757"
+    },
+    "references": [
+      {
+        "file": "mscorlib.dll",
+        "sha256": "315e5c27a4345ba769af2a5b538dae363ced8ef830b74522aa14369ef26228df"
+      },
+      {
+        "file": "netstandard.dll",
+        "sha256": "75a6ebac836f7aee88d6f78da114e94ab5f78cefd4952371a7d97ba9b20aaef3"
+      },
+      {
+        "file": "System.dll",
+        "sha256": "719545fdf0cba1fc701f461d32f19d9506a8c568bf3334f0935fd8b5b49c2ebc"
+      },
+      {
+        "file": "System.Core.dll",
+        "sha256": "038b2834a19dee876b41e73961b54a660106a7307f50fed04a48781fd19726de"
+      },
+      {
+        "file": "System.Runtime.dll",
+        "sha256": "05eac331138ecf1b263329bfae5490ec464ba0ac2c32d54f10ce12e6aa925427"
+      },
+      {
+        "file": "Rust.Harmony.dll",
+        "sha256": "a748be3b52b10cad0095a2d8b77f3e3d033285f9d040a3faae26e8c68ffa50d5"
+      },
+      {
+        "file": "0Harmony.dll",
+        "sha256": "adfd4565ef7409881e25602e0d0876247422bbcde8b137ad2c23b0f41d3097d0"
+      },
+      {
+        "file": "UnityEngine.CoreModule.dll",
+        "sha256": "6b971445185b5f71834c4bccd7ceaa6264cfb27841e8ea8364fcd15188e246e9"
+      }
+    ],
+    "output": {
+      "file": "ReportingObserver.dll",
+      "sha256": "60d78f83eed6d76be6db6555184dad3f7f3177be42661943825ded33a1a1ec20"
+    }
+  },
+  "experiment": {
+    "startedAt": "2026-10-24T07:28:44.555Z",
+    "localOnly": true,
+    "unknownDllExecuted": false,
+    "copiesExistingFile": false,
+    "loadAttempted": true,
+    "unloadRequired": false,
+    "stopRequired": false,
+    "configurationChanged": false,
+    "samples": [
+      {
+        "state": "connecting",
+        "active": true,
+        "serverValidationObserved": false
+      },
+      {
+        "state": "connecting",
+        "active": true,
+        "serverValidationObserved": false,
+        "stages": [
+          "input_validated",
+          "native_wrapper_created",
+          "transport_connect_started",
+          "transport_connection_request_accepted",
+          "identity_requested",
+          "identity_sent"
+        ],
+        "elapsedSeconds": 0.203
+      },
+      {
+        "state": "connecting",
+        "active": false,
+        "serverValidationObserved": false,
+        "stages": [
+          "input_validated",
+          "native_wrapper_created",
+          "transport_connect_started",
+          "transport_connection_request_accepted",
+          "identity_requested",
+          "identity_sent",
+          "approved",
+          "protected_or_unsupported_encryption_required",
+          "native_wrapper_closed"
+        ],
+        "elapsedSeconds": 1.61
+      },
+      {
+        "state": "error",
+        "active": false,
+        "serverValidationObserved": false,
+        "stages": [
+          "input_validated",
+          "native_wrapper_created",
+          "transport_connect_started",
+          "transport_connection_request_accepted",
+          "identity_requested",
+          "identity_sent",
+          "approved",
+          "protected_or_unsupported_encryption_required",
+          "native_wrapper_closed"
+        ],
+        "elapsedSeconds": 1.61
+      }
+    ],
+    "copiedHash": "60d78f83eed6d76be6db6555184dad3f7f3177be42661943825ded33a1a1ec20",
+    "loaded": {
+      "version": "0.1.0",
+      "windowSeconds": 180,
+      "startedUtc": "2026-10-24T07:28:44.6802379Z",
+      "observedUtc": "2026-10-24T07:28:44.8548297Z",
+      "status": "observing",
+      "patchInstalled": true,
+      "unloaded": false,
+      "calls": 0,
+      "accepted": 0,
+      "rejected": 0,
+      "skippedOriginal": 0,
+      "writeErrors": 0
+    },
+    "baseline": {
+      "version": "0.1.0",
+      "windowSeconds": 180,
+      "startedUtc": "2026-10-24T07:28:44.6802379Z",
+      "observedUtc": "2026-10-24T07:28:47.8550344Z",
+      "status": "observing",
+      "patchInstalled": true,
+      "unloaded": false,
+      "calls": 0,
+      "accepted": 0,
+      "rejected": 0,
+      "skippedOriginal": 0,
+      "writeErrors": 0
+    },
+    "after": {
+      "state": "error",
+      "active": false,
+      "serverValidationObserved": false,
+      "stages": [
+        "input_validated",
+        "native_wrapper_created",
+        "transport_connect_started",
+        "transport_connection_request_accepted",
+        "identity_requested",
+        "identity_sent",
+        "approved",
+        "protected_or_unsupported_encryption_required",
+        "native_wrapper_closed"
+      ],
+      "elapsedSeconds": 1.61
+    },
+    "beforeUnload": {
+      "version": "0.1.0",
+      "windowSeconds": 180,
+      "startedUtc": "2026-10-24T07:28:44.6802379Z",
+      "observedUtc": "2026-10-24T07:28:52.8553113Z",
+      "status": "observing",
+      "patchInstalled": true,
+      "unloaded": false,
+      "calls": 1,
+      "accepted": 1,
+      "rejected": 0,
+      "skippedOriginal": 0,
+      "writeErrors": 0
+    },
+    "final": {
+      "version": "0.1.0",
+      "windowSeconds": 180,
+      "startedUtc": "2026-10-24T07:28:44.6802379Z",
+      "observedUtc": "2026-10-24T07:28:53.5707563Z",
+      "status": "unloaded",
+      "patchInstalled": false,
+      "unloaded": true,
+      "calls": 1,
+      "accepted": 1,
+      "rejected": 0,
+      "skippedOriginal": 0,
+      "writeErrors": 0
+    },
+    "copiedDllRemoved": true,
+    "completedAt": "2026-10-24T07:28:53.786Z"
+  },
+  "interpretation": {
+    "officialHotLoadSucceeded": true,
+    "postfixObservedNormalReturn": true,
+    "windowNormalReturns": 1,
+    "windowTrueReturns": 1,
+    "windowFalseReturns": 0,
+    "playerEnteredWorld": false,
+    "protectedEncryptionRequirementRespected": true,
+    "publicTrustedCountFixVerified": false,
+    "perAccountCallbackIdentityNotRecorded": true
+  },
+  "limitations": [
+    "The observer counts return callbacks, not distinct accounts; it does not capture arguments or identities.",
+    "The local test server is not the public target and was already occupied by a non-research connection.",
+    "The normal protected-session stop remains unchanged; the window does not establish an EAC session or successful player admission.",
+    "True is the managed wrapper return, not an acknowledgement of public trusted-count eligibility.",
+    "The timer was observed only during this short actual window; a full 180-second runtime expiry was not exercised.",
+    "Unload removes the exact observer patch and timer; the loader does not unload its assembly from the AppDomain."
+  ],
+  "sources": [
+    {
+      "file": "work/reporting-observer-local-window-safe.json",
+      "sha256": "6a83b773683b1e14f5e396acf358f1fee128652127b6ac085862d3c5252c39df"
+    },
+    {
+      "file": "work/reporting-observer-build/build-safe.json",
+      "sha256": "117891d33e93c2971dcfab6cdc97937611637d3eeec71e969692de075fb0664e"
+    },
+    {
+      "file": "work/reporting-observer-load-private.json",
+      "sha256": "b4aaff07d716b5cd34b1776f2d179870c71f526e81afa1b7ad4acbb5b1abd645"
+    },
+    {
+      "file": "work/reporting-observer-unload-private.json",
+      "sha256": "b76fdd0a8c7c34cbf2fe9877ddc96f72c564b5cf673a2f78d416784b3d0c14bf"
+    }
+  ],
+  "rosterControl": {
+    "observedAt": "2026-10-24T07:30:24.286Z",
+    "statusObservedAt": "2026-10-24T07:30:24.431Z",
+    "source": {
+      "file": "work/local-hotload-followup-20261024-private.json",
+      "sha256": "215db32a2ad1ebb1c19d3111bb7828ace643f4a8c8acf57a0a155f6130b6002b"
+    },
+    "readOnlyCommandsExecuted": [
+      "global.serverinfo",
+      "global.status --json"
+    ],
+    "server": {
+      "Players": 1,
+      "Joining": 0,
+      "Queued": 0,
+      "MaxPlayers": 200
+    },
+    "statusRows": 1,
+    "knownResearchIdentityMatches": 0,
+    "otherIdentityConnections": 1,
+    "classificationBasis": {
+      "source": {
+        "file": "work/local-baseline-20261024-1518-safe.json",
+        "sha256": "ae3c02f8fc50045b577affaad87caa8ca1325b87ec355c847c8186316285db11"
+      },
+      "exactSetMatchesClassifiedBaseline": true
+    },
+    "windowFromParentExecutionRecord": {
+      "startedAt": "2026-10-24T07:28:44.680Z",
+      "endedAt": "2026-10-24T07:28:53.570Z",
+      "durationSeconds": 8.89
+    },
+    "baselineComparisons": [
+      {
+        "baselineSource": {
+          "file": "work/local-baseline-20261024-1515-private.json",
+          "sha256": "6f2640a25677b147917b77dc0ebc49b4190676166958cd4cff3db2c366eb46c3"
+        },
+        "baselineStatusObservedAt": "2026-10-24T07:15:54.425Z",
+        "baselineRowCount": 1,
+        "currentRowCount": 1,
+        "exactIdentitySetUnchanged": true,
+        "addedIdentityCount": 0,
+        "removedIdentityCount": 0,
+        "matchedDurationComparisons": [
+          {
+            "baselineDurationSeconds": 2508.26,
+            "currentDurationSeconds": 3378.339,
+            "baselineParser": "explicit_seconds_suffix",
+            "currentParser": "explicit_seconds_suffix",
+            "reportedDurationIncreaseSeconds": 870.079,
+            "wallElapsedSeconds": 870.006,
+            "advanceDifferenceSeconds": 0.073,
+            "advanceConsistentWithinTwoSeconds": true
+          }
+        ]
+      },
+      {
+        "baselineSource": {
+          "file": "work/local-baseline-20261024-1518-private.json",
+          "sha256": "6360f00833152346e15c78997c74b39e1292abdbb6e0ca6e5cd7c42cbc88aa6d"
+        },
+        "baselineStatusObservedAt": "2026-10-24T07:18:52.406Z",
+        "baselineRowCount": 1,
+        "currentRowCount": 1,
+        "exactIdentitySetUnchanged": true,
+        "addedIdentityCount": 0,
+        "removedIdentityCount": 0,
+        "matchedDurationComparisons": [
+          {
+            "baselineDurationSeconds": 2686.26,
+            "currentDurationSeconds": 3378.339,
+            "baselineParser": "explicit_seconds_suffix",
+            "currentParser": "explicit_seconds_suffix",
+            "reportedDurationIncreaseSeconds": 692.079,
+            "wallElapsedSeconds": 692.025,
+            "advanceDifferenceSeconds": 0.054,
+            "advanceConsistentWithinTwoSeconds": true
+          }
+        ]
+      }
+    ],
+    "durationCoverage": [
+      {
+        "reportedDurationSeconds": 3378.339,
+        "parser": "explicit_seconds_suffix",
+        "requiredSecondsToCoverWindowStart": 99.751,
+        "durationMarginSeconds": 3278.588,
+        "safetyMarginSeconds": 2,
+        "statusObservedAfterWindowEnd": true,
+        "reportedDurationCoversWholeWindowWithTwoSecondMargin": true
+      }
+    ],
+    "summary": {
+      "sameIdentityAsBothPriorBaselines": true,
+      "allMatchedDurationAdvancesConsistentWithinTwoSeconds": true,
+      "nonResearchConnectionPresentAndReportedDurationCoversWindow": true,
+      "callbackCanBeUniquelyAttributedToResearchAttempt": false
+    },
+    "limitations": [
+      "Connected字段只按显式秒后缀做严格语法解析，没有输出原始字符串；若格式不支持则不判断覆盖。",
+      "该判断依赖服务端connected表示当前连接持续秒数的通常语义；未在本轮重新静态核验该字段生成方法。",
+      "身份集合相同本身不能证明同一连接；基线到当前时长增长与墙钟一致提供额外支持，仍不是连续抓包。",
+      "时间来自RCON接收时刻，含查询生成和传输延迟；采用2秒裕量，但无法独立证明所有服务器时钟语义。",
+      "这些记录支持既存非研究连接覆盖短窗，足以形成回调归因混杂；没有回调身份标记，不能确认单次true来自哪一连接。",
+      "本次未加载/卸载DLL、改配置、重启或操作账号；仅执行两条本地只读RCON命令。"
+    ]
+  }
+}
