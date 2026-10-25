@@ -1,0 +1,4172 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-25T09:50:05.415151+00:00",
+  "subject": "Public-source survey of Rust game population reporting and candidate implementations",
+  "result": "no_verified_public_population_repair_found_in_inspected_material",
+  "populationRepairVerified": false,
+  "runtimeCodeChanged": false,
+  "operations": {
+    "steamLogins": 0,
+    "gameConnectionsCreated": 0,
+    "existingGameConnectionsStopped": 0,
+    "serverChanges": 0,
+    "dllsLoaded": 0,
+    "downloadedProjectExecutions": 0,
+    "messagesSent": 0
+  },
+  "stats": {
+    "requests": 127,
+    "httpStatuses": {
+      "200": 103,
+      "409": 1,
+      "404": 5,
+      "fetch_failed": 14,
+      "429": 1,
+      "403": 3
+    },
+    "githubRepositorySearches": 22,
+    "githubIssueSearches": 7,
+    "githubCommitSearches": 2,
+    "githubPinnedFilesRetrieved": 16,
+    "projectsReviewedInDetail": 13
+  },
+  "findings": [
+    {
+      "id": "gamedig_cp_is_query_source",
+      "status": "source_verified",
+      "finding": "GameDig uses Valve queries for Rust and overwrites numplayers from cp tags.",
+      "implication": "A GameDig-based monitor can display cp14 while a Rust browser applying the Facepunch public cap displays3.",
+      "limit": "This is an explanation of source differences, not evidence of Facepunch backend rules or a population fix.",
+      "references": [
+        {
+          "sourceId": "gamedig-pin-0",
+          "url": "https://github.com/gamedig/node-gamedig/blob/41f3773cc46fceb433931cfea4bb8b9001d678f5/protocols/valve.js#L145",
+          "commit": "41f3773cc46fceb433931cfea4bb8b9001d678f5",
+          "lineStart": 140,
+          "lineEnd": 150,
+          "quote": "            const value = parseInt(tag.replace('mp', ''))\n            if (!isNaN(value)) {\n              state.maxplayers = value\n            }\n          }\n          if (tag.startsWith('cp')) {\n            const value = parseInt(tag.replace('cp', ''))\n            if (!isNaN(value)) {\n              state.numplayers = value\n            }\n          }",
+          "rawSha256": "f9c467cf0439d59d127ff3aa4ec354b8caebbe64076b0bff1968c298e964dc5c"
+        },
+        {
+          "sourceId": "gamedig-pin-1",
+          "url": "https://github.com/gamedig/node-gamedig/blob/41f3773cc46fceb433931cfea4bb8b9001d678f5/lib/games.js#L2603",
+          "commit": "41f3773cc46fceb433931cfea4bb8b9001d678f5",
+          "lineStart": 2596,
+          "lineEnd": 2610,
+          "quote": "    release_year: 2000,\n    options: {\n      port: 7777,\n      port_query_offset: 1,\n      protocol: 'gamespy1'\n    }\n  },\n  rust: {\n    name: 'Rust',\n    release_year: 2013,\n    options: {\n      port: 28015,\n      protocol: 'valve'\n    }\n  },",
+          "rawSha256": "64b658d5eb294ed652f370e3c5b1e20e94f49a1e9421440326f3d13bc7d3fd65"
+        }
+      ]
+    },
+    {
+      "id": "upstream_not_missing_upgrade",
+      "status": "source_verified",
+      "finding": "The four retrieved Steam-user HEAD files equal installed files after newline normalization; serverQuery still maps auth_players and has the old endpoint mappings.",
+      "implication": "No population repair is supplied by these fetched upstream files; retain the existing exact-endpoint diagnostic adapter.",
+      "limit": "This checks selected HEAD files, not every branch, pull request, private fork or release.",
+      "references": [
+        {
+          "sourceId": "steam-pin-0",
+          "url": "https://github.com/DoctorMcKay/node-steam-user/blob/02818bd08090b58ff54f1d9ce0073319b8e1eef7/components/gameservers.js#L39",
+          "commit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+          "lineStart": 35,
+          "lineEnd": 43,
+          "quote": "\t\t\t\t\tservers: (body.servers || []).filter(server => server.server_ip && server.server_ip.v4).map((server) => {\n\t\t\t\t\t\treturn {\n\t\t\t\t\t\t\tip: StdLib.IPv4.intToString(server.server_ip),\n\t\t\t\t\t\t\tport: server.server_port,\n\t\t\t\t\t\t\tplayers: server.auth_players\n\t\t\t\t\t\t};\n\t\t\t\t\t})\n\t\t\t\t});\n\t\t\t});",
+          "rawSha256": "c86a0739a11244fbde7e43fb9666ff1c321c563097645d5ddf5b5f2360cb6bac"
+        },
+        {
+          "sourceId": "steam-pin-2",
+          "url": "https://github.com/DoctorMcKay/node-steam-user/blob/02818bd08090b58ff54f1d9ce0073319b8e1eef7/components/apps.js#L75",
+          "commit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+          "lineStart": 72,
+          "lineEnd": 78,
+          "quote": "\t\t\t\treturn app;\n\t\t\t});\n\n\t\t\tthis._send(EMsg.ClientGamesPlayedWithDataBlob, {games_played: processedApps});\n\n\t\t\tprocessedApps.forEach((app) => {\n\t\t\t\tif (app.game_id > Math.pow(2, 32)) {",
+          "rawSha256": "79abc2530e8896dff57d8630c5461c7209d3e6c2c74e05997747512999743399"
+        }
+      ],
+      "comparison": [
+        {
+          "path": "components/gameservers.js",
+          "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+          "equalAfterCrLfNormalization": true,
+          "normalizedSha256": "c86a0739a11244fbde7e43fb9666ff1c321c563097645d5ddf5b5f2360cb6bac"
+        },
+        {
+          "path": "components/appauth.js",
+          "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+          "equalAfterCrLfNormalization": true,
+          "normalizedSha256": "3fae720822216b20fc010e14cc5b0b552d1c0ea3ae968307a556b3502feb1fcb"
+        },
+        {
+          "path": "components/apps.js",
+          "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+          "equalAfterCrLfNormalization": true,
+          "normalizedSha256": "79abc2530e8896dff57d8630c5461c7209d3e6c2c74e05997747512999743399"
+        },
+        {
+          "path": "README.md",
+          "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+          "equalAfterCrLfNormalization": true,
+          "normalizedSha256": "fbbe434a3d403904ed04f6da672258d08cd19831bef8d7cd3afc38049b43a768"
+        }
+      ]
+    },
+    {
+      "id": "cm_count_fields_are_distinct",
+      "status": "source_verified",
+      "finding": "The September2026 schema defines auth_players=3, players=8, query_port=2 and game_port=9 separately.",
+      "implication": "Do not use any field named players as a universal authenticated or Facepunch public count.",
+      "limit": "Schema names and numbers do not specify the Facepunch data pipeline.",
+      "references": [
+        {
+          "sourceId": "protobufs-pinned-server",
+          "url": "https://github.com/SteamDatabase/Protobufs/blob/f5b0600750b2d5634c78f654845b6d5954f700db/steam/steammessages_clientserver_gameservers.proto#L95",
+          "commit": "f5b0600750b2d5634c78f654845b6d5954f700db",
+          "lineStart": 88,
+          "lineEnd": 102,
+          "quote": "\toptional string sdr_ping_location = 6;\n}\n\nmessage CMsgGMSClientServerQueryResponse {\n\tmessage Server {\n\t\toptional uint32 deprecated_server_ip = 1;\n\t\toptional uint32 query_port = 2;\n\t\toptional uint32 auth_players = 3;\n\t\toptional .CMsgIPAddress server_ip = 4;\n\t\toptional fixed64 steam_id = 6 [(allow_field_named_steam_id) = true];\n\t\toptional uint32 revision = 7;\n\t\toptional uint32 players = 8;\n\t\toptional uint32 game_port = 9;\n\t\toptional fixed32 sdr_popid = 10;\n\t\toptional string sdr_ping_location = 32;",
+          "rawSha256": "9e8f8235a9481a7d4260e94a2d2b0cef959424a807425707052fe2b7125533a9"
+        }
+      ]
+    },
+    {
+      "id": "third_party_browser_sources",
+      "status": "source_verified",
+      "finding": "K4RLis uses BattleMetrics plus optional Steam GetServerList; rust-servers-io fetches BattleMetrics.",
+      "implication": "Preserve source and cache age when comparing a third-party page to the in-game browser.",
+      "limit": "No deployed UI, Steam key or third-party token was used.",
+      "references": [
+        {
+          "sourceId": "browser-source-html",
+          "url": "https://github.com/K4RLis/rust-server-browser/blob/aad7d3b4ea036339874610404d2a7bb0ec2e7221/index.html#L334",
+          "commit": "aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+          "lineStart": 332,
+          "lineEnd": 336,
+          "quote": "\n<script>\nconst API = \"https://api.battlemetrics.com/servers\";\nconst STEAM_PROXY = \"https://rust.krutoukirill.workers.dev\";  // второй источник: Steam master-server\n",
+          "rawSha256": "05b4c08ee790281206c5ae0e61ffe785471fed57bdb783aed4f6a9be756fac92"
+        },
+        {
+          "sourceId": "browser-source-html",
+          "url": "https://github.com/K4RLis/rust-server-browser/blob/aad7d3b4ea036339874610404d2a7bb0ec2e7221/index.html#L713",
+          "commit": "aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+          "lineStart": 710,
+          "lineEnd": 716,
+          "quote": "  const port = (s.gameport || (i>0?+addr.slice(i+1):0)) || 0;\n  const tags = (s.gametype||\"\").split(\",\");\n  return { id:\"steam:\"+addr, attributes:{\n    id:\"steam:\"+addr, name:s.name||\"\", players:s.players||0, maxPlayers:s.max_players||0,\n    ip:ip, port:port, country:\"\", rank:null, _source:\"steam\", _tags:tags,\n    details:{ map:s.map||\"\", rust_type:(/modded/i.test(s.gametype||\"\")?\"modded\":\"\"),\n      official:false, pve:/\\bpve\\b/i.test(s.name||\"\"), rust_description:\"\" }",
+          "rawSha256": "05b4c08ee790281206c5ae0e61ffe785471fed57bdb783aed4f6a9be756fac92"
+        },
+        {
+          "sourceId": "browser-source-1",
+          "url": "https://github.com/K4RLis/rust-server-browser/blob/aad7d3b4ea036339874610404d2a7bb0ec2e7221/cloudflare-worker.js#L42",
+          "commit": "aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+          "lineStart": 39,
+          "lineEnd": 45,
+          "quote": "      for (const code of codes) {\n        let filter = `\\\\appid\\\\${APPID}`;\n        if (code !== null) filter += `\\\\region\\\\${code}`;\n        const api = \"https://api.steampowered.com/IGameServersService/GetServerList/v1/\"\n          + `?key=${key}&limit=${limit}&filter=${encodeURIComponent(filter)}`;\n        const r = await fetch(api);\n        if (!r.ok) continue;",
+          "rawSha256": "a75092f73bd4238c0446464d7da1b730e8a06db34df0b3156109fae76832f988"
+        },
+        {
+          "sourceId": "browserio-source-0",
+          "url": "https://github.com/zachrynewycz/rust-servers-io/blob/1e70151b83d0bda970a0ce0df0831001743c4090/app/api/getPopularRustServers.ts#L10",
+          "commit": "1e70151b83d0bda970a0ce0df0831001743c4090",
+          "lineStart": 6,
+          "lineEnd": 14,
+          "quote": "        \"page[size]\": \"4\",\n        \"fields[server]\": \"name, ip, players, maxPlayers, details\",\n    });\n\n    const url = `https://api.battlemetrics.com/servers?${params.toString()}`;\n\n    try {\n        const response = await fetch(url, {\n            headers: {",
+          "rawSha256": "145d52672e31749e118c823e4f0638005f0dd561359825fb5bf6810bfec9680b"
+        }
+      ]
+    },
+    {
+      "id": "ban_feed_not_population_feed",
+      "status": "source_verified",
+      "finding": "The blacklist monitor reads response.data.Servers.Banned.",
+      "implication": "A project consuming api.facepunch.com is not necessarily consuming playerCounts.",
+      "limit": "This was static code review; its bot and webhook were not run.",
+      "references": [
+        {
+          "sourceId": "blacklist-source-0",
+          "url": "https://github.com/NexExMachina/Paranoid.BlacklistMonitor/blob/2bcd0de0a130f00d635e4eb3a75a937707761aa6/index.js#L72",
+          "commit": "2bcd0de0a130f00d635e4eb3a75a937707761aa6",
+          "lineStart": 68,
+          "lineEnd": 76,
+          "quote": "\n    axios.get(fpBanApiUrl)\n        .then(response => {\n            console.log(\"Banned servers list fetched. Comparing with current servers...\");\n            const bannedIps = response.data.Servers.Banned;\n            const currentBannedServers = serverList.filter(server => bannedIps.includes(server.ip));\n            const newlyBannedServers = currentBannedServers.filter(server => !bannedServersList.includes(server.ip));\n            const newlyUnbannedServers = bannedServersList.filter(ip => !bannedIps.includes(ip));\n",
+          "rawSha256": "ffd574e1668f9517544fc1bcf7edabcda3ee6ca85888e3174be86aba909959b2"
+        }
+      ]
+    },
+    {
+      "id": "anti_afk_requires_existing_client",
+      "status": "source_verified",
+      "finding": "The inspected Anti-AFK program sends the D key with Windows SendKeys.",
+      "implication": "It does not provide standalone Rust authentication, EAC or public-count adoption.",
+      "limit": "No downloaded program or game-input automation was executed.",
+      "references": [
+        {
+          "sourceId": "afkrust-source-0",
+          "url": "https://github.com/pede/Anti-AFK-Rust/blob/5f18dd03fa86247cda1ffaca8be266dd67824ca3/antiafk_rust/Form1.vb#L22",
+          "commit": "5f18dd03fa86247cda1ffaca8be266dd67824ca3",
+          "lineStart": 19,
+          "lineEnd": 25,
+          "quote": "    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick\n        Dim index As Integer = 0\n        Do While index <= 100\n            SendKeys.Send(\"{D}\")\n            index += 1\n        Loop\n        If run_ctrl = False Then",
+          "rawSha256": "dc1c9698839981f094e0ac50d41d355cdfa74811e84a39aac853d4a306fd5bbb"
+        }
+      ]
+    },
+    {
+      "id": "official_advertise_game_scope",
+      "status": "official_documentation",
+      "finding": "When you are using Steam authentication system this call is never required, the auth system automatically sets the appropriate rich presence.",
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser#AdvertiseGame",
+      "sourceId": "steam-advertise",
+      "implication": "Do not diagnose an omitted manual AdvertiseGame field as the cause solely because the field exists.",
+      "limit": "This native-SDK statement does not prove every custom CM client reproduces its association or explain Facepunch qualification."
+    }
+  ],
+  "upstreamComparisons": [
+    {
+      "path": "components/gameservers.js",
+      "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "equalAfterCrLfNormalization": true,
+      "normalizedSha256": "c86a0739a11244fbde7e43fb9666ff1c321c563097645d5ddf5b5f2360cb6bac"
+    },
+    {
+      "path": "components/appauth.js",
+      "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "equalAfterCrLfNormalization": true,
+      "normalizedSha256": "3fae720822216b20fc010e14cc5b0b552d1c0ea3ae968307a556b3502feb1fcb"
+    },
+    {
+      "path": "components/apps.js",
+      "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "equalAfterCrLfNormalization": true,
+      "normalizedSha256": "79abc2530e8896dff57d8630c5461c7209d3e6c2c74e05997747512999743399"
+    },
+    {
+      "path": "README.md",
+      "upstreamCommit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "equalAfterCrLfNormalization": true,
+      "normalizedSha256": "fbbe434a3d403904ed04f6da672258d08cd19831bef8d7cd3afc38049b43a768"
+    }
+  ],
+  "projects": [
+    {
+      "repo": "gamedig/node-gamedig",
+      "depth": "pinned_source",
+      "commit": "41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "classification": "Rust A2S query implementation; cp overrides A2S player count",
+      "evidence": [
+        "gamedig-pin-0",
+        "gamedig-pin-1",
+        "gamedig-pin-2"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "DoctorMcKay/node-steam-user",
+      "depth": "pinned_source_and_installed_comparison",
+      "commit": "02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "classification": "Steam activity/authentication/CM query; four fetched files equal installed files",
+      "evidence": [
+        "steam-pin-0",
+        "steam-pin-1",
+        "steam-pin-2",
+        "steam-pin-3"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "SteamDatabase/Protobufs",
+      "depth": "pinned_schema",
+      "commit": "f5b0600750b2d5634c78f654845b6d5954f700db",
+      "classification": "CM wire schema separates auth_players, players, game_port and query_port; no Facepunch eligibility formula",
+      "evidence": [
+        "protobufs-pinned-server"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "K4RLis/rust-server-browser",
+      "depth": "pinned_source",
+      "commit": "aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "classification": "BattleMetrics browser with optional Steam GetServerList proxy; source provenance must be retained",
+      "evidence": [
+        "browser-source-html",
+        "browser-source-0",
+        "browser-source-1"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "zachrynewycz/rust-servers-io",
+      "depth": "pinned_source",
+      "commit": "1e70151b83d0bda970a0ce0df0831001743c4090",
+      "classification": "Server browser reads BattleMetrics player fields",
+      "evidence": [
+        "browserio-source-0",
+        "browserio-source-1"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "NexExMachina/Paranoid.BlacklistMonitor",
+      "depth": "pinned_source",
+      "commit": "2bcd0de0a130f00d635e4eb3a75a937707761aa6",
+      "classification": "Monitors Servers.Banned and BattleMetrics; does not determine trusted player counts",
+      "evidence": [
+        "blacklist-source-0",
+        "blacklist-readme"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "Asbra/RustInterceptor",
+      "depth": "pinned_readme_and_tree",
+      "commit": "4bc4d8ac2879e268342c1c4185d5998ecb4b9303",
+      "classification": "2016 client-server proxy and parser; README is not a current standalone Rust client or EAC/count implementation",
+      "evidence": [
+        "interceptor-pin-0",
+        "interceptor-tree"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "pede/Anti-AFK-Rust",
+      "depth": "pinned_source",
+      "commit": "5f18dd03fa86247cda1ffaca8be266dd67824ca3",
+      "classification": "Windows SendKeys into an existing game; not an independent network client",
+      "evidence": [
+        "afkrust-source-0"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "niktodrugoi/bot_rust",
+      "depth": "repository_metadata_and_readme_at_fetch",
+      "commitObserved": "004a61041c6be1cba004bdacd52b133f8e71b178",
+      "classification": "Facepunch commit notification/Telegram bot",
+      "evidence": [
+        "repo-0-meta",
+        "repo-0-readme"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "community-network/server-bot-rust",
+      "depth": "repository_metadata_and_readme_at_fetch",
+      "commitObserved": "37b7bd1d8a0eab616c90963372a088105183ebae",
+      "classification": "Battlefield Discord status bot written in Rust",
+      "evidence": [
+        "repo-1-meta",
+        "repo-1-readme"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "RELAY-CN/FakePlayer",
+      "depth": "repository_metadata_and_readme_at_fetch",
+      "commitObserved": "b4339ee9df0835a8ccad830f664f1fd36066c3aa",
+      "classification": "Rusted Warfare, a different game",
+      "evidence": [
+        "repo-2-meta",
+        "repo-2-readme"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "ProPython244/FakePlayersz",
+      "depth": "repository_metadata_empty_repository_response",
+      "classification": "Promotional description but empty repository: size 0, commits API 409, README 404",
+      "evidence": [
+        "repo-3-meta",
+        "repo-3-commit",
+        "repo-3-readme"
+      ],
+      "fixVerified": false
+    },
+    {
+      "repo": "ThatRatDev/Boiler",
+      "depth": "repository_metadata_and_readme_at_fetch",
+      "commitObserved": "d91b6387450e3d8955e676133680576baf1273b5",
+      "classification": "Native Facepunch.Steamworks loading for Godot; no demonstrated standalone Rust game admission/count fix",
+      "evidence": [
+        "repo-4-meta",
+        "repo-4-readme"
+      ],
+      "fixVerified": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "repo-0-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:33.927Z",
+      "retrievalUrl": "https://api.github.com/repos/niktodrugoi/bot_rust",
+      "bytes": 5211,
+      "sha256": "60c58fd977f551fb7c819d06c028a00c2b8fb1375584b73c58caf2a01f17843c",
+      "rawFile": "repo-0-meta.raw.txt",
+      "url": "https://api.github.com/repos/niktodrugoi/bot_rust",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-0-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:34.041Z",
+      "retrievalUrl": "https://api.github.com/repos/niktodrugoi/bot_rust/commits?per_page=1",
+      "bytes": 3327,
+      "sha256": "4226296a9631a188d999048956f175bf3975c9f4d9fe608588c11ac65135476b",
+      "rawFile": "repo-0-commit.raw.txt",
+      "url": "https://api.github.com/repos/niktodrugoi/bot_rust/commits?per_page=1",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-0-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:34.155Z",
+      "retrievalUrl": "https://api.github.com/repos/niktodrugoi/bot_rust/readme",
+      "bytes": 6291,
+      "sha256": "2396e6707888b3d87820b7befffad6a1e0430ebe7e229e10b36300e0f7ba54de",
+      "rawFile": "repo-0-readme.raw.txt",
+      "url": "https://api.github.com/repos/niktodrugoi/bot_rust/readme",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-1-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:33.964Z",
+      "retrievalUrl": "https://api.github.com/repos/community-network/server-bot-rust",
+      "bytes": 7174,
+      "sha256": "efede6c537180af7997cd168d7f26cd865b3330c307592f32f50b788b999f121",
+      "rawFile": "repo-1-meta.raw.txt",
+      "url": "https://api.github.com/repos/community-network/server-bot-rust",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-1-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:34.650Z",
+      "retrievalUrl": "https://api.github.com/repos/community-network/server-bot-rust/commits?per_page=1",
+      "bytes": 4438,
+      "sha256": "219ba0a4e50fde55868c001ab4a766c118987e4ba3b8cfe90d0949305042c357",
+      "rawFile": "repo-1-commit.raw.txt",
+      "url": "https://api.github.com/repos/community-network/server-bot-rust/commits?per_page=1",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-1-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:34.662Z",
+      "retrievalUrl": "https://api.github.com/repos/community-network/server-bot-rust/readme",
+      "bytes": 3622,
+      "sha256": "d873dcec1852afe955f8e639a917dc9beb8ebd2d6cf9094d3545512556227c0c",
+      "rawFile": "repo-1-readme.raw.txt",
+      "url": "https://api.github.com/repos/community-network/server-bot-rust/readme",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-2-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:34.560Z",
+      "retrievalUrl": "https://api.github.com/repos/RELAY-CN/FakePlayer",
+      "bytes": 6166,
+      "sha256": "82820e39a544b967f9fd4be8163d9add7837c3798b65aaaca70424ae262d1eaa",
+      "rawFile": "repo-2-meta.raw.txt",
+      "url": "https://api.github.com/repos/RELAY-CN/FakePlayer",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-2-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:34.596Z",
+      "retrievalUrl": "https://api.github.com/repos/RELAY-CN/FakePlayer/commits?per_page=1",
+      "bytes": 3220,
+      "sha256": "308c42ebad2634690e2377d5cb52f25afe3bbfb62efaf9632f4fab4943f6cb6d",
+      "rawFile": "repo-2-commit.raw.txt",
+      "url": "https://api.github.com/repos/RELAY-CN/FakePlayer/commits?per_page=1",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-2-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:35.050Z",
+      "retrievalUrl": "https://api.github.com/repos/RELAY-CN/FakePlayer/readme",
+      "bytes": 748,
+      "sha256": "f85ae8b14b1d8dcead09da637b7e4f2c6218a12968d640b3d431181d8b7f4a06",
+      "rawFile": "repo-2-readme.raw.txt",
+      "url": "https://api.github.com/repos/RELAY-CN/FakePlayer/readme",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-3-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:35.078Z",
+      "retrievalUrl": "https://api.github.com/repos/ProPython244/FakePlayersz",
+      "bytes": 5564,
+      "sha256": "305ed20c2d19938857e289852676d45cefa703f4b0df8fd4ca4329c62b9c82fd",
+      "rawFile": "repo-3-meta.raw.txt",
+      "url": "https://api.github.com/repos/ProPython244/FakePlayersz",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-3-commit",
+      "status": 409,
+      "fetchedAt": "2026-10-25T09:34:35.015Z",
+      "retrievalUrl": "https://api.github.com/repos/ProPython244/FakePlayersz/commits?per_page=1",
+      "bytes": 133,
+      "sha256": "3219c624a5654c384fdc372f69b58a3942d6e803c23f6a877a656adc805c436f",
+      "rawFile": "repo-3-commit.raw.txt",
+      "url": "https://api.github.com/repos/ProPython244/FakePlayersz/commits?per_page=1",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-3-readme",
+      "status": 404,
+      "fetchedAt": "2026-10-25T09:34:35.035Z",
+      "retrievalUrl": "https://api.github.com/repos/ProPython244/FakePlayersz/readme",
+      "bytes": 128,
+      "sha256": "cd06f5cb22929a0bc5fb340149daaab49796a37572df0b2fcb8ac3dfafbae4c9",
+      "rawFile": "repo-3-readme.raw.txt",
+      "url": "https://api.github.com/repos/ProPython244/FakePlayersz/readme",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-4-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:35.473Z",
+      "retrievalUrl": "https://api.github.com/repos/ThatRatDev/Boiler",
+      "bytes": 5134,
+      "sha256": "488254a6e429668d4bebfdac89fadcc73d6e60cd1ea11580e9416eaaa7010d5e",
+      "rawFile": "repo-4-meta.raw.txt",
+      "url": "https://api.github.com/repos/ThatRatDev/Boiler",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-4-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:35.521Z",
+      "retrievalUrl": "https://api.github.com/repos/ThatRatDev/Boiler/commits?per_page=1",
+      "bytes": 5682,
+      "sha256": "72708fd53ee163547927ec5ad5bc759165b828ab11b1a112af7c044fe2739f61",
+      "rawFile": "repo-4-commit.raw.txt",
+      "url": "https://api.github.com/repos/ThatRatDev/Boiler/commits?per_page=1",
+      "batch": "repos-a"
+    },
+    {
+      "id": "repo-4-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:35.670Z",
+      "retrievalUrl": "https://api.github.com/repos/ThatRatDev/Boiler/readme",
+      "bytes": 7917,
+      "sha256": "60be0e63e971a2794367f2e822ad6c5980842b1989907e05466282fff23cd7d5",
+      "rawFile": "repo-4-readme.raw.txt",
+      "url": "https://api.github.com/repos/ThatRatDev/Boiler/readme",
+      "batch": "repos-a"
+    },
+    {
+      "id": "blacklist-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:30.390Z",
+      "retrievalUrl": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/commits?per_page=1",
+      "bytes": 4227,
+      "sha256": "9077bb2861bea4a491e5951e92910cb6c5fa46c1f32ed81e826022d8dcac213d",
+      "rawFile": "blacklist-commit.raw.txt",
+      "url": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/commits?per_page=1",
+      "batch": "repos-b"
+    },
+    {
+      "id": "blacklist-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:30.215Z",
+      "retrievalUrl": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/readme",
+      "bytes": 1926,
+      "sha256": "341f20c91fa11ee995f2959b845424cb35f135e68e3a5c16bb6da6719f3844ab",
+      "rawFile": "blacklist-readme.raw.txt",
+      "url": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/readme",
+      "batch": "repos-b"
+    },
+    {
+      "id": "browser-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:30.537Z",
+      "retrievalUrl": "https://api.github.com/repos/K4RLis/rust-server-browser/commits?per_page=1",
+      "bytes": 3536,
+      "sha256": "b7f245695f1a777927c2456a4b3f1681d3692e75cf3fe74a929024b1f11a1a7e",
+      "rawFile": "browser-commit.raw.txt",
+      "url": "https://api.github.com/repos/K4RLis/rust-server-browser/commits?per_page=1",
+      "batch": "repos-b"
+    },
+    {
+      "id": "browser-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:30.238Z",
+      "retrievalUrl": "https://api.github.com/repos/K4RLis/rust-server-browser/readme",
+      "bytes": 1650,
+      "sha256": "57f2509b14fce898a5c2751f81ce741acd148a7ab7666c32817d35ed2a31aae8",
+      "rawFile": "browser-readme.raw.txt",
+      "url": "https://api.github.com/repos/K4RLis/rust-server-browser/readme",
+      "batch": "repos-b"
+    },
+    {
+      "id": "browserio-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:31.055Z",
+      "retrievalUrl": "https://api.github.com/repos/zachrynewycz/rust-servers-io/commits?per_page=1",
+      "bytes": 4173,
+      "sha256": "2207253df5a8b506e6ab6cfaca8797cb43e5cdb07f430eae8eaa06705e3f2778",
+      "rawFile": "browserio-commit.raw.txt",
+      "url": "https://api.github.com/repos/zachrynewycz/rust-servers-io/commits?per_page=1",
+      "batch": "repos-b"
+    },
+    {
+      "id": "browserio-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:31.024Z",
+      "retrievalUrl": "https://api.github.com/repos/zachrynewycz/rust-servers-io/readme",
+      "bytes": 874,
+      "sha256": "d5e8584936d08fb8472c957e9e2cb5ea7292829e55d2e7c4d6350ae85476c254",
+      "rawFile": "browserio-readme.raw.txt",
+      "url": "https://api.github.com/repos/zachrynewycz/rust-servers-io/readme",
+      "batch": "repos-b"
+    },
+    {
+      "id": "gh-population",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:20.411Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22rust%22%20%22player%20count%22%20%22server%22%20in%3Areadme&per_page=10",
+      "bytes": 53493,
+      "sha256": "7df9505914f8780124682e12c710c6278ff16b6404161759bfdbd12aad8bce55",
+      "rawFile": "gh-population.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22rust%22%20%22player%20count%22%20%22server%22%20in%3Areadme&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 856,
+      "returnedCandidates": [
+        {
+          "name": "feather-rs/feather",
+          "url": "https://github.com/feather-rs/feather"
+        },
+        {
+          "name": "rust-unofficial/awesome-rust",
+          "url": "https://github.com/rust-unofficial/awesome-rust"
+        },
+        {
+          "name": "pelican/plugins",
+          "url": "https://github.com/pelican/plugins"
+        },
+        {
+          "name": "Julian-adv/OpenMMO",
+          "url": "https://github.com/Julian-adv/OpenMMO"
+        },
+        {
+          "name": "liamcottle/atlas-for-rust",
+          "url": "https://github.com/liamcottle/atlas-for-rust"
+        },
+        {
+          "name": "Yepoleb/python-a2s",
+          "url": "https://github.com/Yepoleb/python-a2s"
+        },
+        {
+          "name": "oMaN-Rod/palworld-save-pal",
+          "url": "https://github.com/oMaN-Rod/palworld-save-pal"
+        },
+        {
+          "name": "shinkuan/Akagi",
+          "url": "https://github.com/shinkuan/Akagi"
+        },
+        {
+          "name": "hyperion-mc/hyperion",
+          "url": "https://github.com/hyperion-mc/hyperion"
+        },
+        {
+          "name": "ovh/game-panel",
+          "url": "https://github.com/ovh/game-panel"
+        }
+      ]
+    },
+    {
+      "id": "gh-headless",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:21.360Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22rust%22%20%22headless%22%20%22steam%22%20in%3Areadme&per_page=10",
+      "bytes": 53672,
+      "sha256": "2336596b92e9063275141ffb33f5bad257031f65b4f10031e8d0c7b396f8f679",
+      "rawFile": "gh-headless.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22rust%22%20%22headless%22%20%22steam%22%20in%3Areadme&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 1912,
+      "returnedCandidates": [
+        {
+          "name": "sindresorhus/awesome",
+          "url": "https://github.com/sindresorhus/awesome"
+        },
+        {
+          "name": "hgaiser/moonshine",
+          "url": "https://github.com/hgaiser/moonshine"
+        },
+        {
+          "name": "nomi-san/parsec-vdd",
+          "url": "https://github.com/nomi-san/parsec-vdd"
+        },
+        {
+          "name": "v3rm0n/awesome-m8",
+          "url": "https://github.com/v3rm0n/awesome-m8"
+        },
+        {
+          "name": "itchio/butler",
+          "url": "https://github.com/itchio/butler"
+        },
+        {
+          "name": "rothgar/awesome-tuis",
+          "url": "https://github.com/rothgar/awesome-tuis"
+        },
+        {
+          "name": "rust-unofficial/awesome-rust",
+          "url": "https://github.com/rust-unofficial/awesome-rust"
+        },
+        {
+          "name": "gmh5225/awesome-game-security",
+          "url": "https://github.com/gmh5225/awesome-game-security"
+        },
+        {
+          "name": "The412Banner/Bannerlator",
+          "url": "https://github.com/The412Banner/Bannerlator"
+        },
+        {
+          "name": "konsti219/frameeyeosc",
+          "url": "https://github.com/konsti219/frameeyeosc"
+        }
+      ]
+    },
+    {
+      "id": "gh-bots",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:20.504Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22rust%22%20%22bot%22%20%22raknet%22%20in%3Areadme&per_page=10",
+      "bytes": 55050,
+      "sha256": "cb215f954a922d318bdb9a628e3617c7aaf125a812b95fdc878d49ad169f75bb",
+      "rawFile": "gh-bots.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22rust%22%20%22bot%22%20%22raknet%22%20in%3Areadme&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 100,
+      "returnedCandidates": [
+        {
+          "name": "rust-unofficial/awesome-rust",
+          "url": "https://github.com/rust-unofficial/awesome-rust"
+        },
+        {
+          "name": "axolotl-stack/axolotl-stack",
+          "url": "https://github.com/axolotl-stack/axolotl-stack"
+        },
+        {
+          "name": "gmh5225/awesome-game-security",
+          "url": "https://github.com/gmh5225/awesome-game-security"
+        },
+        {
+          "name": "acacia-rs/acacia",
+          "url": "https://github.com/acacia-rs/acacia"
+        },
+        {
+          "name": "Caerind/AwesomeCppGameDev",
+          "url": "https://github.com/Caerind/AwesomeCppGameDev"
+        },
+        {
+          "name": "franklynarthurbah/bedrockbt",
+          "url": "https://github.com/franklynarthurbah/bedrockbt"
+        },
+        {
+          "name": "Newmcpe/RakClient",
+          "url": "https://github.com/Newmcpe/RakClient"
+        },
+        {
+          "name": "TrueTemm/bedrock-fingerprint",
+          "url": "https://github.com/TrueTemm/bedrock-fingerprint"
+        },
+        {
+          "name": "pistonprotection/app",
+          "url": "https://github.com/pistonprotection/app"
+        },
+        {
+          "name": "fffaraz/awesome-cpp",
+          "url": "https://github.com/fffaraz/awesome-cpp"
+        }
+      ]
+    },
+    {
+      "id": "gh-trusted",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:20.439Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22rust%22%20%22trusted%22%20%22players%22%20in%3Areadme&per_page=10",
+      "bytes": 55755,
+      "sha256": "a045e7704be25bdb6d015ad2fcf959cabec89a1424017072badda1acab36ff1e",
+      "rawFile": "gh-trusted.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22rust%22%20%22trusted%22%20%22players%22%20in%3Areadme&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 7908,
+      "returnedCandidates": [
+        {
+          "name": "pnxenopoulos/awpy",
+          "url": "https://github.com/pnxenopoulos/awpy"
+        },
+        {
+          "name": "rust-unofficial/awesome-rust",
+          "url": "https://github.com/rust-unofficial/awesome-rust"
+        },
+        {
+          "name": "collabnix/dockerlabs",
+          "url": "https://github.com/collabnix/dockerlabs"
+        },
+        {
+          "name": "ZSeven-W/openpencil",
+          "url": "https://github.com/ZSeven-W/openpencil"
+        },
+        {
+          "name": "shinkuan/Akagi",
+          "url": "https://github.com/shinkuan/Akagi"
+        },
+        {
+          "name": "HemantKArya/BloomeeTunes",
+          "url": "https://github.com/HemantKArya/BloomeeTunes"
+        },
+        {
+          "name": "opensourcecheemsburgers/RustyTube",
+          "url": "https://github.com/opensourcecheemsburgers/RustyTube"
+        },
+        {
+          "name": "mornyeapp/Mornye",
+          "url": "https://github.com/mornyeapp/Mornye"
+        },
+        {
+          "name": "pystardust/ani-cli",
+          "url": "https://github.com/pystardust/ani-cli"
+        },
+        {
+          "name": "oMaN-Rod/palworld-save-pal",
+          "url": "https://github.com/oMaN-Rod/palworld-save-pal"
+        }
+      ]
+    },
+    {
+      "id": "gh-count-issues",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:21.953Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=%22playerCounts%22%20%22rust%22&per_page=10",
+      "bytes": 32923,
+      "sha256": "0ec806d700b10cd784e6b33ff70a0daa72af61181805c393e957b8e9144f0720",
+      "rawFile": "gh-count-issues.raw.txt",
+      "url": "https://api.github.com/search/issues?q=%22playerCounts%22%20%22rust%22&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 6,
+      "returnedCandidates": [
+        {
+          "title": "Allow \"Steam Updates\" to be scheduled ",
+          "url": "https://github.com/gmc-hosting/gmcpanel-bug-reports-and-suggestions/issues/42"
+        },
+        {
+          "title": "Add compress station",
+          "url": "https://github.com/carpmosia/carpmosia/pull/337"
+        },
+        {
+          "title": "[Phase5] Primary Solver 選定 PoC を行う（OI-002）",
+          "url": "https://github.com/takumi-sano22/proj-poker/issues/76"
+        },
+        {
+          "title": "feat(ocale): restart a universe's servers and track the restart",
+          "url": "https://github.com/christopher-buss/bedrock/pull/647"
+        },
+        {
+          "title": "Add map selector dialog with player-count metadata and accessibility improvements",
+          "url": "https://github.com/YourDeveloperFriend/choochoo/pull/233"
+        },
+        {
+          "title": "Suggestion to display servers between 24 and 48 players",
+          "url": "https://github.com/SmartlyDressedGames/U3-SDK/issues/192"
+        }
+      ]
+    },
+    {
+      "id": "gh-auth-issues",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:21.835Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=repo%3ADoctorMcKay/node-steam-user%20%22serverQuery%22&per_page=10",
+      "bytes": 3121,
+      "sha256": "f78913c3bc71467ba5b635c7c160057def9a2b5b298940d8be4318844b554a8a",
+      "rawFile": "gh-auth-issues.raw.txt",
+      "url": "https://api.github.com/search/issues?q=repo%3ADoctorMcKay/node-steam-user%20%22serverQuery%22&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 1,
+      "returnedCandidates": [
+        {
+          "title": "Problem while using serverQuery method.",
+          "url": "https://github.com/DoctorMcKay/node-steam-user/issues/113"
+        }
+      ]
+    },
+    {
+      "id": "gh-browser-issues",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:22.186Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=%22rust%22%20%22player%20count%22%20%22server%20browser%22&per_page=10",
+      "bytes": 85632,
+      "sha256": "b7a7add9dab819c815abbf2b2d945387e6ca9dbc7cbfde3c116368c64fcfdf42",
+      "rawFile": "gh-browser-issues.raw.txt",
+      "url": "https://api.github.com/search/issues?q=%22rust%22%20%22player%20count%22%20%22server%20browser%22&per_page=10",
+      "batch": "search-a",
+      "searchResultCount": 97,
+      "returnedCandidates": [
+        {
+          "title": "Physics P6-C03: reconcile final-tick kick/light knockback in four-player crowd (draft)",
+          "url": "https://github.com/tehki/myaso/pull/776"
+        },
+        {
+          "title": "Combat 4D P0: rerun real four-browser Knights+KeyE World after shared outbox ACK fix",
+          "url": "https://github.com/tehki/myaso/pull/919"
+        },
+        {
+          "title": "Improve server rank calculation",
+          "url": "https://github.com/Facepunch/garrysmod/pull/2394"
+        },
+        {
+          "title": "Graphics 3A P0: four real browsers render all four original Silver Knights (draft HOLD)",
+          "url": "https://github.com/tehki/myaso/pull/742"
+        },
+        {
+          "title": "Climb the ready ladder, and read the real player count",
+          "url": "https://github.com/abspwgm/absolute-rust-server/pull/30"
+        },
+        {
+          "title": "Graphics 3C: Greyhaven outdoor visual slice — game-XY terrain, vegetation and atmosphere",
+          "url": "https://github.com/tehki/myaso/issues/415"
+        },
+        {
+          "title": "Rust Server has no options",
+          "url": "https://github.com/Shakes63/palisade/issues/116"
+        },
+        {
+          "title": "Climb the ready ladder, save before stopping, and read the real player count",
+          "url": "https://github.com/abspwgm/absolute-palworld-server/pull/16"
+        },
+        {
+          "title": "E2d Economics: SQLite atomic house settlement and crash/retry acceptance lab",
+          "url": "https://github.com/tehki/myaso/pull/385"
+        },
+        {
+          "title": "[UX Assessment] UX Assessment: Rust (Survival Game)",
+          "url": "https://github.com/codegefluester/GamesDat/issues/34"
+        }
+      ]
+    },
+    {
+      "id": "bing-trusted",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:21.920Z",
+      "retrievalUrl": "https://cn.bing.com/search?format=rss&q=Rust%20Facepunch%20trusted%20player%20count%20server%20authenticated%20players",
+      "bytes": 6097,
+      "sha256": "3cfa7536603ed22123b120fdc5b8d41cac1c9ca6a694ec8cd15e436c0ffa26b3",
+      "rawFile": "bing-trusted.raw.txt",
+      "url": "https://www.bing.com/search?format=rss&q=Rust%20Facepunch%20trusted%20player%20count%20server%20authenticated%20players",
+      "batch": "search-a"
+    },
+    {
+      "id": "bing-api",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:22.392Z",
+      "retrievalUrl": "https://cn.bing.com/search?format=rss&q=%22steamServers/playerCounts/rust%22",
+      "bytes": 6017,
+      "sha256": "ae8b804dcdceab29f67759e84c8376cd731fdecdf0ecbc1149c30eda0eaeada4",
+      "rawFile": "bing-api.raw.txt",
+      "url": "https://www.bing.com/search?format=rss&q=%22steamServers/playerCounts/rust%22",
+      "batch": "search-a"
+    },
+    {
+      "id": "bing-client",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:33:22.492Z",
+      "retrievalUrl": "https://cn.bing.com/search?format=rss&q=Rust%20headless%20standalone%20client%20Steam%20RakNet%20github",
+      "bytes": 6045,
+      "sha256": "85dd19400199b3e7ae98b364f05be12c3aafe678e8eb129abb458231c3be4fbd",
+      "rawFile": "bing-client.raw.txt",
+      "url": "https://www.bing.com/search?format=rss&q=Rust%20headless%20standalone%20client%20Steam%20RakNet%20github",
+      "batch": "search-a"
+    },
+    {
+      "id": "ddg-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://html.duckduckgo.com/html/?q=Rust%20Facepunch%20public%20trusted%20player%20count%20server",
+      "batch": "search-a"
+    },
+    {
+      "id": "gh-fakeplayers",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:03.586Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22FakePlayers%22%20%22Rust%22&per_page=12",
+      "bytes": 5567,
+      "sha256": "426560f93165bd4e3e7cf3b6a7ab0eb67fd06ba333f32806bbe6164b01a10edf",
+      "rawFile": "gh-fakeplayers.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22FakePlayers%22%20%22Rust%22&per_page=12",
+      "batch": "search-b",
+      "searchResultCount": 1,
+      "returnedCandidates": [
+        {
+          "name": "ProPython244/FakePlayersz",
+          "url": "https://github.com/ProPython244/FakePlayersz"
+        }
+      ]
+    },
+    {
+      "id": "gh-rustclient",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:03.794Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22rust-client%22%20in%3Aname&per_page=12",
+      "bytes": 68075,
+      "sha256": "600dad695d747ef0a52ad49559f818a2af88ce3b0004e2992a1c4aa8194db523",
+      "rawFile": "gh-rustclient.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22rust-client%22%20in%3Aname&per_page=12",
+      "batch": "search-b",
+      "searchResultCount": 435,
+      "returnedCandidates": [
+        {
+          "name": "qdrant/rust-client",
+          "url": "https://github.com/qdrant/rust-client"
+        },
+        {
+          "name": "rabbitmq/rabbitmq-stream-rust-client",
+          "url": "https://github.com/rabbitmq/rabbitmq-stream-rust-client"
+        },
+        {
+          "name": "F1R3FLY-io/rust-client",
+          "url": "https://github.com/F1R3FLY-io/rust-client"
+        },
+        {
+          "name": "ArkEcosystemArchive/rust-client",
+          "url": "https://github.com/ArkEcosystemArchive/rust-client"
+        },
+        {
+          "name": "peiga/rust-client",
+          "url": "https://github.com/peiga/rust-client"
+        },
+        {
+          "name": "nimiq-community/rust-client",
+          "url": "https://github.com/nimiq-community/rust-client"
+        },
+        {
+          "name": "tensor-programming/Rust_client-server_chat",
+          "url": "https://github.com/tensor-programming/Rust_client-server_chat"
+        },
+        {
+          "name": "nudibranches-tech/trino-rust-client",
+          "url": "https://github.com/nudibranches-tech/trino-rust-client"
+        },
+        {
+          "name": "heqingpan/nacos_rust_client",
+          "url": "https://github.com/heqingpan/nacos_rust_client"
+        },
+        {
+          "name": "tsou-oursler-development/rust-client",
+          "url": "https://github.com/tsou-oursler-development/rust-client"
+        },
+        {
+          "name": "wundergraph/rust-client",
+          "url": "https://github.com/wundergraph/rust-client"
+        },
+        {
+          "name": "Flagsmith/flagsmith-rust-client",
+          "url": "https://github.com/Flagsmith/flagsmith-rust-client"
+        }
+      ]
+    },
+    {
+      "id": "gh-facepunch-client",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:03.838Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22facepunch%22%20%22client%22%20%22headless%22%20in%3Areadme&per_page=12",
+      "bytes": 65092,
+      "sha256": "7142feb3c57aeb0ebee53d7e4e1fbfc5877b843ae869c9018d9784023ae1b813",
+      "rawFile": "gh-facepunch-client.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22facepunch%22%20%22client%22%20%22headless%22%20in%3Areadme&per_page=12",
+      "batch": "search-b",
+      "searchResultCount": 44,
+      "returnedCandidates": [
+        {
+          "name": "uhub/awesome-c-sharp",
+          "url": "https://github.com/uhub/awesome-c-sharp"
+        },
+        {
+          "name": "ThatRatDev/Boiler",
+          "url": "https://github.com/ThatRatDev/Boiler"
+        },
+        {
+          "name": "teli-ai-source/how_to_nut",
+          "url": "https://github.com/teli-ai-source/how_to_nut"
+        },
+        {
+          "name": "MarwanDevSpace/mcp-garry-codes",
+          "url": "https://github.com/MarwanDevSpace/mcp-garry-codes"
+        },
+        {
+          "name": "niktodrugoi/bot_rust",
+          "url": "https://github.com/niktodrugoi/bot_rust"
+        },
+        {
+          "name": "skibitsky/awesome-stars",
+          "url": "https://github.com/skibitsky/awesome-stars"
+        },
+        {
+          "name": "oracleidt/ghost-anti-exploit-course",
+          "url": "https://github.com/oracleidt/ghost-anti-exploit-course"
+        },
+        {
+          "name": "arbal/awesome-stars",
+          "url": "https://github.com/arbal/awesome-stars"
+        },
+        {
+          "name": "TacoGuyAT/NanoPackets",
+          "url": "https://github.com/TacoGuyAT/NanoPackets"
+        },
+        {
+          "name": "ewolf-studio/steam-workshop-cli",
+          "url": "https://github.com/ewolf-studio/steam-workshop-cli"
+        },
+        {
+          "name": "mleem97/gregModmanager",
+          "url": "https://github.com/mleem97/gregModmanager"
+        },
+        {
+          "name": "pranabeshsingh/rustminus",
+          "url": "https://github.com/pranabeshsingh/rustminus"
+        }
+      ]
+    },
+    {
+      "id": "gh-facepunch-count",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:04.632Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22facepunch%22%20%22playercount%22%20in%3Areadme&per_page=12",
+      "bytes": 27037,
+      "sha256": "04a0b998cff1412f2c088704834f7c4aa4534c32e0769fb6c84c71be291663b5",
+      "rawFile": "gh-facepunch-count.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22facepunch%22%20%22playercount%22%20in%3Areadme&per_page=12",
+      "batch": "search-b",
+      "searchResultCount": 5,
+      "returnedCandidates": [
+        {
+          "name": "nosoop/SM-TFBotMapRunner",
+          "url": "https://github.com/nosoop/SM-TFBotMapRunner"
+        },
+        {
+          "name": "funczone/map_metadata",
+          "url": "https://github.com/funczone/map_metadata"
+        },
+        {
+          "name": "MRoiban/SupermarketMorePlayers",
+          "url": "https://github.com/MRoiban/SupermarketMorePlayers"
+        },
+        {
+          "name": "NickShreve/MonoGameLibrary",
+          "url": "https://github.com/NickShreve/MonoGameLibrary"
+        },
+        {
+          "name": "f1zz1ec0ke/TooManyCooks",
+          "url": "https://github.com/f1zz1ec0ke/TooManyCooks"
+        }
+      ]
+    },
+    {
+      "id": "gh-server-population",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:05.364Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22rust%22%20%22fakeplayers%22%20in%3Areadme&per_page=12",
+      "bytes": 48099,
+      "sha256": "c4e1d4f3db2f1f6f76eef7b4ea5be79f850e6a24dd74294048c39c091579937f",
+      "rawFile": "gh-server-population.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22rust%22%20%22fakeplayers%22%20in%3Areadme&per_page=12",
+      "batch": "search-b",
+      "searchResultCount": 9,
+      "returnedCandidates": [
+        {
+          "name": "RELAY-CN/FakePlayer",
+          "url": "https://github.com/RELAY-CN/FakePlayer"
+        },
+        {
+          "name": "community-network/server-bot-rust",
+          "url": "https://github.com/community-network/server-bot-rust"
+        },
+        {
+          "name": "Eirom16/cine-virtual",
+          "url": "https://github.com/Eirom16/cine-virtual"
+        },
+        {
+          "name": "arkarwinee/termux-media-api",
+          "url": "https://github.com/arkarwinee/termux-media-api"
+        },
+        {
+          "name": "alphaSeclab/android-security",
+          "url": "https://github.com/alphaSeclab/android-security"
+        },
+        {
+          "name": "ModerRAS/star-vault",
+          "url": "https://github.com/ModerRAS/star-vault"
+        },
+        {
+          "name": "zhongend/bbs-block-splash",
+          "url": "https://github.com/zhongend/bbs-block-splash"
+        },
+        {
+          "name": "sqweddd/yye45y45y",
+          "url": "https://github.com/sqweddd/yye45y45y"
+        },
+        {
+          "name": "zanderson3j/dark_arts",
+          "url": "https://github.com/zanderson3j/dark_arts"
+        }
+      ]
+    },
+    {
+      "id": "grep-playercounts",
+      "status": 429,
+      "fetchedAt": "2026-10-25T09:34:04.990Z",
+      "retrievalUrl": "https://grep.app/api/search?q=steamServers/playerCounts",
+      "bytes": 34222,
+      "sha256": "3223d1686e2c00f26ec149b9d1ec3c879b61236268b77c6d907bae1d62f59469",
+      "rawFile": "grep-playercounts.raw.txt",
+      "url": "https://grep.app/api/search?q=steamServers/playerCounts",
+      "batch": "search-b"
+    },
+    {
+      "id": "sourcegraph-count",
+      "status": 403,
+      "fetchedAt": "2026-10-25T09:34:05.460Z",
+      "retrievalUrl": "https://sourcegraph.com/.api/search/stream?q=context%3Aglobal%20%22steamServers/playerCounts%22&v=V3",
+      "bytes": 17665,
+      "sha256": "7d7c0081b5bf3976875092ea575323e98c2a40ff3b304e5f9d308e1478cdb012",
+      "rawFile": "sourcegraph-count.raw.txt",
+      "url": "https://sourcegraph.com/.api/search/stream?q=context%3Aglobal%20%22steamServers/playerCounts%22&v=V3",
+      "batch": "search-b"
+    },
+    {
+      "id": "google-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://www.google.com/search?q=Facepunch%20%22trusted%22%20%22player%20count%22",
+      "batch": "search-b"
+    },
+    {
+      "id": "bing-html-count",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:34:15.984Z",
+      "retrievalUrl": "https://cn.bing.com/search?q=Facepunch%20%22player%20count%22%20%22Steam%22&cc=us&setlang=en-US",
+      "bytes": 103737,
+      "sha256": "17b9a61c1842d592f50a1e2ed1341ccec2858ae7e091c89466a5b7ffac559c4c",
+      "rawFile": "bing-html-count.raw.txt",
+      "url": "https://www.bing.com/search?q=Facepunch%20%22player%20count%22%20%22Steam%22&cc=us&setlang=en-US",
+      "batch": "search-b"
+    },
+    {
+      "id": "jina-google-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://r.jina.ai/http://www.google.com/search?q=Rust%20Facepunch%20trusted%20player%20count%20Github",
+      "batch": "search-b"
+    },
+    {
+      "id": "jina-bing-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://r.jina.ai/https://www.bing.com/search?q=Facepunch%20%22player%20count%22%20rust%20github",
+      "batch": "search-b"
+    },
+    {
+      "id": "brave-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://search.brave.com/search?q=Facepunch%20%22player%20count%22%20rust",
+      "batch": "search-c"
+    },
+    {
+      "id": "yahoo-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://search.yahoo.com/search?p=Facepunch%20%22trusted%22%20players%20rust%20server",
+      "batch": "search-c"
+    },
+    {
+      "id": "ddg-lite-count",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://lite.duckduckgo.com/lite/?q=Facepunch%20%22player%20count%22",
+      "batch": "search-c"
+    },
+    {
+      "id": "mojeek-count",
+      "status": 403,
+      "fetchedAt": "2026-10-25T09:35:05.739Z",
+      "retrievalUrl": "https://www.mojeek.com/search?q=Facepunch%20%22player%20count%22",
+      "bytes": 355,
+      "sha256": "b7dc113f37b3255d58761143b3fc4dcfc1c39ff6e6b9309fa6f0b791f855d399",
+      "rawFile": "mojeek-count.raw.txt",
+      "url": "https://www.mojeek.com/search?q=Facepunch%20%22player%20count%22",
+      "batch": "search-c"
+    },
+    {
+      "id": "fp-commits-trusted",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:15.734Z",
+      "retrievalUrl": "https://commits.facepunch.com/r/rust_reboot?q=trusted",
+      "bytes": 141139,
+      "sha256": "603b4d5fe2ad07aec40671d79039c4140baf726bc7b9fd5f9411ae96898f4227",
+      "rawFile": "fp-commits-trusted.raw.txt",
+      "url": "https://commits.facepunch.com/r/rust_reboot?q=trusted",
+      "batch": "search-c"
+    },
+    {
+      "id": "fp-commits-count",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:15.734Z",
+      "retrievalUrl": "https://commits.facepunch.com/?q=player%20count",
+      "bytes": 140368,
+      "sha256": "08d054bcb66954ec4c80bde4b5a4636bd42f002a14dfcf18c3980e4d5be6d201",
+      "rawFile": "fp-commits-count.raw.txt",
+      "url": "https://commits.facepunch.com/?q=player%20count",
+      "batch": "search-c"
+    },
+    {
+      "id": "fp-support-count",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:17.812Z",
+      "retrievalUrl": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=player%20count&locale=en-us",
+      "bytes": 85236,
+      "sha256": "76950a0a46ef23a058f73f1f02086890642798fe557f4fa9f20edc5a7c55a493",
+      "rawFile": "fp-support-count.raw.txt",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=player%20count&locale=en-us",
+      "batch": "search-c"
+    },
+    {
+      "id": "fp-wiki-browser",
+      "status": 404,
+      "fetchedAt": "2026-10-25T09:35:16.588Z",
+      "retrievalUrl": "https://wiki.facepunch.com/rust/Server_Browser",
+      "bytes": 222604,
+      "sha256": "1c2fe93464dc64e560cbc49c20ad1fe105b1921f6ebc20de94729930703c9ce8",
+      "rawFile": "fp-wiki-browser.raw.txt",
+      "url": "https://wiki.facepunch.com/rust/Server_Browser",
+      "batch": "search-c"
+    },
+    {
+      "id": "fp-wiki-stats",
+      "status": 404,
+      "fetchedAt": "2026-10-25T09:35:18.339Z",
+      "retrievalUrl": "https://wiki.facepunch.com/rust/Server_Statistics",
+      "bytes": 222621,
+      "sha256": "06d01e4524cc3212b8d2841dc0ca0fd7e126264dd14e7f10772da5d5caa94e5a",
+      "rawFile": "fp-wiki-stats.raw.txt",
+      "url": "https://wiki.facepunch.com/rust/Server_Statistics",
+      "batch": "search-c"
+    },
+    {
+      "id": "gh-facepunch-clientless",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:47.847Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=facepunch%20clientless%20in%3Areadme&per_page=12",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f",
+      "rawFile": "gh-facepunch-clientless.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=facepunch%20clientless%20in%3Areadme&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 0,
+      "returnedCandidates": []
+    },
+    {
+      "id": "gh-rust-botname",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:48.735Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust%20bot%20steam%20in%3Aname%2Cdescription%20-language%3ARust&per_page=12",
+      "bytes": 54935,
+      "sha256": "90bc35fc518971224df1ec6acd1a981c073a6000831162042d5b9f8f68313f36",
+      "rawFile": "gh-rust-botname.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust%20bot%20steam%20in%3Aname%2Cdescription%20-language%3ARust&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 10,
+      "returnedCandidates": [
+        {
+          "name": "joeberlucchi/RustBot",
+          "url": "https://github.com/joeberlucchi/RustBot"
+        },
+        {
+          "name": "andysit1/RustSteamBot",
+          "url": "https://github.com/andysit1/RustSteamBot"
+        },
+        {
+          "name": "Polaxob/rust-telegram-bot",
+          "url": "https://github.com/Polaxob/rust-telegram-bot"
+        },
+        {
+          "name": "NathanGracia/ZiSteamBot",
+          "url": "https://github.com/NathanGracia/ZiSteamBot"
+        },
+        {
+          "name": "sealldeveloper/rust-stalker",
+          "url": "https://github.com/sealldeveloper/rust-stalker"
+        },
+        {
+          "name": "etr-dev/Rust-Data",
+          "url": "https://github.com/etr-dev/Rust-Data"
+        },
+        {
+          "name": "JWootts/RustStatistics-DiscordBot",
+          "url": "https://github.com/JWootts/RustStatistics-DiscordBot"
+        },
+        {
+          "name": "KovalDenys1/Steam-trade-bot",
+          "url": "https://github.com/KovalDenys1/Steam-trade-bot"
+        },
+        {
+          "name": "mitchelloswald/SteamServerDiscordTracker",
+          "url": "https://github.com/mitchelloswald/SteamServerDiscordTracker"
+        },
+        {
+          "name": "Ren0X1/RGL-Discord-BOT",
+          "url": "https://github.com/Ren0X1/RGL-Discord-BOT"
+        }
+      ]
+    },
+    {
+      "id": "gh-rust-fakename",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:48.423Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust%20fake%20in%3Aname%2Cdescription%20-language%3ARust&per_page=12",
+      "bytes": 64851,
+      "sha256": "5724ca9232910c32cdcd97cb0efd9d0d8391abc7274d6f102f6c33e819712c78",
+      "rawFile": "gh-rust-fakename.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust%20fake%20in%3Aname%2Cdescription%20-language%3ARust&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 46,
+      "returnedCandidates": [
+        {
+          "name": "peheader1337/rust_dma",
+          "url": "https://github.com/peheader1337/rust_dma"
+        },
+        {
+          "name": "Dowwie/pyfakers",
+          "url": "https://github.com/Dowwie/pyfakers"
+        },
+        {
+          "name": "allureluoli/FakeListRoomCureVersion",
+          "url": "https://github.com/allureluoli/FakeListRoomCureVersion"
+        },
+        {
+          "name": "RELAY-CN/FakeListRoom",
+          "url": "https://github.com/RELAY-CN/FakeListRoom"
+        },
+        {
+          "name": "RELAY-CN/FakePlayer",
+          "url": "https://github.com/RELAY-CN/FakePlayer"
+        },
+        {
+          "name": "aidancully/fakeCargo",
+          "url": "https://github.com/aidancully/fakeCargo"
+        },
+        {
+          "name": "chorman0773/rust-fake-enum",
+          "url": "https://github.com/chorman0773/rust-fake-enum"
+        },
+        {
+          "name": "GirirajMannayee/QIO_Rust_Rust_Python_Qiskit_FakeManila_Package",
+          "url": "https://github.com/GirirajMannayee/QIO_Rust_Rust_Python_Qiskit_FakeManila_Package"
+        },
+        {
+          "name": "alpha7bet/fakeai-rust",
+          "url": "https://github.com/alpha7bet/fakeai-rust"
+        },
+        {
+          "name": "hnefatl/rustup-faker",
+          "url": "https://github.com/hnefatl/rustup-faker"
+        },
+        {
+          "name": "rustjn/rust-fakeai",
+          "url": "https://github.com/rustjn/rust-fakeai"
+        },
+        {
+          "name": "hkfe/rust-wipe-enhancer",
+          "url": "https://github.com/hkfe/rust-wipe-enhancer"
+        }
+      ]
+    },
+    {
+      "id": "gh-rust-authplayers",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:48.382Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust%20%22auth_players%22%20in%3Areadme&per_page=12",
+      "bytes": 60600,
+      "sha256": "be611f1f9aa79655471c51c13bbda888f5e2fc10ffbeac7d5242d616d94bfb6f",
+      "rawFile": "gh-rust-authplayers.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust%20%22auth_players%22%20in%3Areadme&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 11,
+      "returnedCandidates": [
+        {
+          "name": "shnlfriberg/csgofriberg",
+          "url": "https://github.com/shnlfriberg/csgofriberg"
+        },
+        {
+          "name": "morosanmihail/gathers_rank",
+          "url": "https://github.com/morosanmihail/gathers_rank"
+        },
+        {
+          "name": "scout-off/scout-off-contracts",
+          "url": "https://github.com/scout-off/scout-off-contracts"
+        },
+        {
+          "name": "AndreyPividori/Polytech_Tours_TP_QLOG",
+          "url": "https://github.com/AndreyPividori/Polytech_Tours_TP_QLOG"
+        },
+        {
+          "name": "scout-off/scout-off-backend",
+          "url": "https://github.com/scout-off/scout-off-backend"
+        },
+        {
+          "name": "lcdr/sso_auth",
+          "url": "https://github.com/lcdr/sso_auth"
+        },
+        {
+          "name": "emulation376-bit/galfriberg",
+          "url": "https://github.com/emulation376-bit/galfriberg"
+        },
+        {
+          "name": "blanklabel/meldworld",
+          "url": "https://github.com/blanklabel/meldworld"
+        },
+        {
+          "name": "hzp123-comment/naruto-guess-game",
+          "url": "https://github.com/hzp123-comment/naruto-guess-game"
+        },
+        {
+          "name": "UCCPR/ToaruCharacterGuess",
+          "url": "https://github.com/UCCPR/ToaruCharacterGuess"
+        },
+        {
+          "name": "Clickist/mousedle",
+          "url": "https://github.com/Clickist/mousedle"
+        }
+      ]
+    },
+    {
+      "id": "gh-trusted-issues",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:49.641Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=%22trusted%20players%22%20%22rust%22&per_page=12",
+      "bytes": 176785,
+      "sha256": "54e3f5e805d2754678fc2fc98eba63a8dcb22ebaf64bdf92735d297520d6b84e",
+      "rawFile": "gh-trusted-issues.raw.txt",
+      "url": "https://api.github.com/search/issues?q=%22trusted%20players%22%20%22rust%22&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 24,
+      "returnedCandidates": [
+        {
+          "title": "Pre-Alpha 0.1 integration: Silver Knights + merged R4 sound/UI + partial Combat authority + complete package gate",
+          "url": "https://github.com/tehki/myaso/pull/707"
+        },
+        {
+          "title": "Graphics 3A: authentic Silver Dash 140ms in four-player arena (review-only)",
+          "url": "https://github.com/tehki/myaso/pull/1034"
+        },
+        {
+          "title": "E2d Economics: SQLite atomic house settlement and crash/retry acceptance lab",
+          "url": "https://github.com/tehki/myaso/pull/385"
+        },
+        {
+          "title": "[Pre-Alpha / Graphics 3A] Qualify authentic Silver Knight for all human arena fighters",
+          "url": "https://github.com/tehki/myaso/issues/699"
+        },
+        {
+          "title": "P0 Operation Pre-Alpha 0.1 — existing combat arena, instant light, hold-release heavy, 2–4 humans",
+          "url": "https://github.com/tehki/myaso/issues/695"
+        },
+        {
+          "title": "Moon Games Integration R1 — ten-department CI, PR and release gate",
+          "url": "https://github.com/tehki/myaso/issues/360"
+        },
+        {
+          "title": "docs(engine): multiplayer target is co-op for up to 4 players; per-slot tick input before the split",
+          "url": "https://github.com/WrackedFella/moho/pull/588"
+        },
+        {
+          "title": "fix(pairing): Navigation ≠ ZCM2, trust on the paired adapter, keep host BT registrations (#1442, #1445, #1443)",
+          "url": "https://github.com/WatchMeJoustMyFlags/JoustMania/pull/1473"
+        },
+        {
+          "title": "feat(server): gap 1 trusted observer and cross-peer visibility",
+          "url": "https://github.com/chenyang-zz/mornlea/pull/24"
+        },
+        {
+          "title": "[Task X3] Implement single-host spectator sessions",
+          "url": "https://github.com/Ambiguous-Interactive/fortress-rollback-godot/issues/47"
+        },
+        {
+          "title": "Enable public Scrabble sessions launched via moenarch.com",
+          "url": "https://github.com/moritzbrantner/scrabble/issues/80"
+        },
+        {
+          "title": "📊 AI CLI Tools Digest 2026-08-18",
+          "url": "https://github.com/kky-wollu/agents-radar/issues/559"
+        }
+      ]
+    },
+    {
+      "id": "gh-spoof-issues",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:49.633Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=%22rust%22%20%22spoofed%22%20%22players%22&per_page=12",
+      "bytes": 129528,
+      "sha256": "207b7ef7523d108dacb6d6c7cc81a97c3f6536df7dc4c67886a5fcd1d9b8c1c5",
+      "rawFile": "gh-spoof-issues.raw.txt",
+      "url": "https://api.github.com/search/issues?q=%22rust%22%20%22spoofed%22%20%22players%22&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 67,
+      "returnedCandidates": [
+        {
+          "title": "Core 8A P0 M1: four native Chrome/Firefox shared-world players",
+          "url": "https://github.com/tehki/myaso/pull/507"
+        },
+        {
+          "title": "Graphics 3A P0: four real browsers render all four original Silver Knights (draft HOLD)",
+          "url": "https://github.com/tehki/myaso/pull/742"
+        },
+        {
+          "title": "Core8 P0: native QUIC verifies BUSY KeyE cannot strand LMB or create heavy",
+          "url": "https://github.com/tehki/myaso/pull/867"
+        },
+        {
+          "title": "[IDR / Core 8C + Physics 6] Trusted introductions, line-of-sight evidence and disguise witnesses",
+          "url": "https://github.com/tehki/myaso/issues/655"
+        },
+        {
+          "title": "CI: preserve genuine M121 strafe and speed M159 punish release without relaxing gates",
+          "url": "https://github.com/tehki/myaso/pull/301"
+        },
+        {
+          "title": "Graphics 3A: authentic Silver Dash 140ms in four-player arena (review-only)",
+          "url": "https://github.com/tehki/myaso/pull/1034"
+        },
+        {
+          "title": "P0 First Playable: click real rack swords without attacking, authoritative four-player armory",
+          "url": "https://github.com/tehki/myaso/issues/488"
+        },
+        {
+          "title": "[Pre-Alpha / Graphics 3A] Qualify authentic Silver Knight for all human arena fighters",
+          "url": "https://github.com/tehki/myaso/issues/699"
+        },
+        {
+          "title": "P0 First Playable Alpha — authoritative multiplayer, Combat, World and visual integration gate",
+          "url": "https://github.com/tehki/myaso/issues/480"
+        },
+        {
+          "title": "UI Pre-Alpha P0: genuine History Back returns fresh Silver+Chat actor #8 in short viewport",
+          "url": "https://github.com/tehki/myaso/pull/787"
+        },
+        {
+          "title": "Security: authenticate PvP guesses (players can guess on opponent's behalf)",
+          "url": "https://github.com/bh2smith/word-circles/issues/139"
+        },
+        {
+          "title": "[P0 Pre-Alpha] Resolve incompatible v2 Combat gesture wire before real instant LMB activation",
+          "url": "https://github.com/tehki/myaso/issues/723"
+        }
+      ]
+    },
+    {
+      "id": "gh-playercounts-code",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:49.174Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=%22steamServers/playerCounts%22&per_page=12",
+      "bytes": 79,
+      "sha256": "c9938edecb99d754b2d039ac9eec320a94c769b6a6417921e2dcbef9e2fe01a0",
+      "rawFile": "gh-playercounts-code.raw.txt",
+      "url": "https://api.github.com/search/issues?q=%22steamServers/playerCounts%22&per_page=12",
+      "batch": "search-d",
+      "searchResultCount": 0,
+      "returnedCandidates": []
+    },
+    {
+      "id": "fp-server-browser-rules",
+      "status": 404,
+      "fetchedAt": "2026-10-25T09:35:50.007Z",
+      "retrievalUrl": "https://wiki.facepunch.com/rust/Community_Server_and_Hosting_Guidelines",
+      "bytes": 222739,
+      "sha256": "4a4302994c012fdc6165f1074f5102f69a9d8e34535fa14af9f804796976fabb",
+      "rawFile": "fp-server-browser-rules.raw.txt",
+      "url": "https://wiki.facepunch.com/rust/Community_Server_and_Hosting_Guidelines",
+      "batch": "search-d"
+    },
+    {
+      "id": "umod-fakeplayers",
+      "status": 403,
+      "fetchedAt": "2026-10-25T09:35:51.287Z",
+      "retrievalUrl": "https://umod.org/plugins/fake-players",
+      "bytes": 5519,
+      "sha256": "74340fb6e55513d155908d6da2e831393bfaa50719761f72e9970f44a03d5aa3",
+      "rawFile": "umod-fakeplayers.raw.txt",
+      "url": "https://umod.org/plugins/fake-players",
+      "batch": "search-d"
+    },
+    {
+      "id": "codefling-search",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:51.912Z",
+      "retrievalUrl": "https://codefling.com/search/?q=Fake%20Players&quick=1&type=downloads_file",
+      "bytes": 360595,
+      "sha256": "8ea3dca8ca9092eae689165f33a031de1f72c1c5427849c935a6b3de4c438305",
+      "rawFile": "codefling-search.raw.txt",
+      "url": "https://codefling.com/search/?q=Fake%20Players&quick=1&type=downloads_file",
+      "batch": "search-d"
+    },
+    {
+      "id": "gh-rustinterceptor-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:35:50.385Z",
+      "retrievalUrl": "https://api.github.com/repos/Asbra/RustInterceptor",
+      "bytes": 5276,
+      "sha256": "9998f8deb80e4ad76543e2b7d7d5df2d902e09a85fa5da4b38b27ca255f2593a",
+      "rawFile": "gh-rustinterceptor-meta.raw.txt",
+      "url": "https://api.github.com/repos/Asbra/RustInterceptor",
+      "batch": "search-d"
+    },
+    {
+      "id": "gh-appid-headless",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:36:34.135Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=252490%20headless%20in%3Areadme&per_page=15",
+      "bytes": 37805,
+      "sha256": "8cd1640a738a35af1665ef98730ae008bd0535a1dc61586ebf640b721bca8b12",
+      "rawFile": "gh-appid-headless.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=252490%20headless%20in%3Areadme&per_page=15",
+      "batch": "search-e",
+      "searchResultCount": 7,
+      "returnedCandidates": [
+        {
+          "name": "Danhik/ParserRust",
+          "url": "https://github.com/Danhik/ParserRust"
+        },
+        {
+          "name": "RelaxerR/check-steam-game-upd",
+          "url": "https://github.com/RelaxerR/check-steam-game-upd"
+        },
+        {
+          "name": "doodooapp/Settinger",
+          "url": "https://github.com/doodooapp/Settinger"
+        },
+        {
+          "name": "Kr1s68/Custom-Steam-Api",
+          "url": "https://github.com/Kr1s68/Custom-Steam-Api"
+        },
+        {
+          "name": "earentir/earapi",
+          "url": "https://github.com/earentir/earapi"
+        },
+        {
+          "name": "ChocoData-com/youtube-shorts-scraper",
+          "url": "https://github.com/ChocoData-com/youtube-shorts-scraper"
+        },
+        {
+          "name": "assetpaygg/steam-mobile",
+          "url": "https://github.com/assetpaygg/steam-mobile"
+        }
+      ]
+    },
+    {
+      "id": "gh-appid-bots",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:36:34.735Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=252490%20bot%20client%20in%3Areadme&per_page=15",
+      "bytes": 67978,
+      "sha256": "a84f1dc839b31b101800cebef43d842358e53f2942003d86a8b46e03678d2854",
+      "rawFile": "gh-appid-bots.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=252490%20bot%20client%20in%3Areadme&per_page=15",
+      "batch": "search-e",
+      "searchResultCount": 13,
+      "returnedCandidates": [
+        {
+          "name": "gabrielbacich/AutoTrades",
+          "url": "https://github.com/gabrielbacich/AutoTrades"
+        },
+        {
+          "name": "RobinPlay-2025/rust-update-bot",
+          "url": "https://github.com/RobinPlay-2025/rust-update-bot"
+        },
+        {
+          "name": "WoozyMasta/discord-a2s-bot",
+          "url": "https://github.com/WoozyMasta/discord-a2s-bot"
+        },
+        {
+          "name": "juan-echevarria/rustbot",
+          "url": "https://github.com/juan-echevarria/rustbot"
+        },
+        {
+          "name": "brkNx/STEAM-IDLE-BOT",
+          "url": "https://github.com/brkNx/STEAM-IDLE-BOT"
+        },
+        {
+          "name": "manerovv/hboost",
+          "url": "https://github.com/manerovv/hboost"
+        },
+        {
+          "name": "Ivanosat/houuseboost",
+          "url": "https://github.com/Ivanosat/houuseboost"
+        },
+        {
+          "name": "Brentuzi/sih_buy",
+          "url": "https://github.com/Brentuzi/sih_buy"
+        },
+        {
+          "name": "degiuo/steamBot",
+          "url": "https://github.com/degiuo/steamBot"
+        },
+        {
+          "name": "assetpaygg/steam-mobile",
+          "url": "https://github.com/assetpaygg/steam-mobile"
+        },
+        {
+          "name": "MqWaree/Forhud",
+          "url": "https://github.com/MqWaree/Forhud"
+        },
+        {
+          "name": "Talhabhurgri/vaultmark-app",
+          "url": "https://github.com/Talhabhurgri/vaultmark-app"
+        },
+        {
+          "name": "nekonection-org/jhs-lp",
+          "url": "https://github.com/nekonection-org/jhs-lp"
+        }
+      ]
+    },
+    {
+      "id": "gh-rust-raknet",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:36:34.559Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust%20raknet%20in%3Adescription&per_page=15",
+      "bytes": 76860,
+      "sha256": "0387d52e7c0cf89fbc848427473d9993eb3f485ee711b66286a14b8d830c4e71",
+      "rawFile": "gh-rust-raknet.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust%20raknet%20in%3Adescription&per_page=15",
+      "batch": "search-e",
+      "searchResultCount": 17,
+      "returnedCandidates": [
+        {
+          "name": "NetrexMC/RakNet",
+          "url": "https://github.com/NetrexMC/RakNet"
+        },
+        {
+          "name": "MemoriesOfTime/raknet-rs",
+          "url": "https://github.com/MemoriesOfTime/raknet-rs"
+        },
+        {
+          "name": "mcbe-rs/raknet-rust",
+          "url": "https://github.com/mcbe-rs/raknet-rust"
+        },
+        {
+          "name": "b23r0/raknet-node",
+          "url": "https://github.com/b23r0/raknet-node"
+        },
+        {
+          "name": "b23r0/raknet-python",
+          "url": "https://github.com/b23r0/raknet-python"
+        },
+        {
+          "name": "GreenMine/raklib-rs",
+          "url": "https://github.com/GreenMine/raklib-rs"
+        },
+        {
+          "name": "LUDevNet/raknet-rs",
+          "url": "https://github.com/LUDevNet/raknet-rs"
+        },
+        {
+          "name": "rust-mc/raknet",
+          "url": "https://github.com/rust-mc/raknet"
+        },
+        {
+          "name": "obaqq/rust-raknet",
+          "url": "https://github.com/obaqq/rust-raknet"
+        },
+        {
+          "name": "360tetsu360/ucp-1",
+          "url": "https://github.com/360tetsu360/ucp-1"
+        },
+        {
+          "name": "pmmp-rs/raknet-rs",
+          "url": "https://github.com/pmmp-rs/raknet-rs"
+        },
+        {
+          "name": "360tetsu360/raknet-rs",
+          "url": "https://github.com/360tetsu360/raknet-rs"
+        },
+        {
+          "name": "Felipe-Devr/raknet-rs",
+          "url": "https://github.com/Felipe-Devr/raknet-rs"
+        },
+        {
+          "name": "raidmx/raknet",
+          "url": "https://github.com/raidmx/raknet"
+        },
+        {
+          "name": "cinnabar-mc/raknet",
+          "url": "https://github.com/cinnabar-mc/raknet"
+        }
+      ]
+    },
+    {
+      "id": "gh-rust-afk",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:36:34.533Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust-afk%20in%3Aname&per_page=15",
+      "bytes": 80118,
+      "sha256": "30bac31f70004ada417578139080faea147d53b28073ecf4cd0bdd6ec6092297",
+      "rawFile": "gh-rust-afk.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust-afk%20in%3Aname&per_page=15",
+      "batch": "search-e",
+      "searchResultCount": 42,
+      "returnedCandidates": [
+        {
+          "name": "nekowinston/rust-afk",
+          "url": "https://github.com/nekowinston/rust-afk"
+        },
+        {
+          "name": "pede/Anti-AFK-Rust",
+          "url": "https://github.com/pede/Anti-AFK-Rust"
+        },
+        {
+          "name": "Nidala96/RustAntiAfk",
+          "url": "https://github.com/Nidala96/RustAntiAfk"
+        },
+        {
+          "name": "juance20/rust_gta_afk",
+          "url": "https://github.com/juance20/rust_gta_afk"
+        },
+        {
+          "name": "jlaiii/RUST-BM-AFK",
+          "url": "https://github.com/jlaiii/RUST-BM-AFK"
+        },
+        {
+          "name": "SefsGit/AntiAFK-Rust",
+          "url": "https://github.com/SefsGit/AntiAFK-Rust"
+        },
+        {
+          "name": "levk02011/Rust-1afk-makros",
+          "url": "https://github.com/levk02011/Rust-1afk-makros"
+        },
+        {
+          "name": "duma152006yan-afk/RUST",
+          "url": "https://github.com/duma152006yan-afk/RUST"
+        },
+        {
+          "name": "imunholyaf-afk/rust",
+          "url": "https://github.com/imunholyaf-afk/rust"
+        },
+        {
+          "name": "Hiper22821-AFK/rust-nexus",
+          "url": "https://github.com/Hiper22821-AFK/rust-nexus"
+        },
+        {
+          "name": "rishabh-afk/rust-learning",
+          "url": "https://github.com/rishabh-afk/rust-learning"
+        },
+        {
+          "name": "Undertaker-afk/Rust-anonchat",
+          "url": "https://github.com/Undertaker-afk/Rust-anonchat"
+        },
+        {
+          "name": "berdmemory-afk/Rust-HiRAG",
+          "url": "https://github.com/berdmemory-afk/Rust-HiRAG"
+        },
+        {
+          "name": "fserradilla65-afk/mandelbrot-rust",
+          "url": "https://github.com/fserradilla65-afk/mandelbrot-rust"
+        },
+        {
+          "name": "quentinsmith3006-afk/Rust-Network",
+          "url": "https://github.com/quentinsmith3006-afk/Rust-Network"
+        }
+      ]
+    },
+    {
+      "id": "gh-rust-gameclient",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:36:35.241Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust%20headless%20client%20in%3Adescription%20-language%3ARust&per_page=15",
+      "bytes": 16551,
+      "sha256": "5b8f569621d484c47c81d0b485d2acb062944f6dbaa857d9809e0452c3f3ac89",
+      "rawFile": "gh-rust-gameclient.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust%20headless%20client%20in%3Adescription%20-language%3ARust&per_page=15",
+      "batch": "search-e",
+      "searchResultCount": 3,
+      "returnedCandidates": [
+        {
+          "name": "hhhbwc/VRCX-0-Android",
+          "url": "https://github.com/hhhbwc/VRCX-0-Android"
+        },
+        {
+          "name": "mattvalentine/ros_client_cef",
+          "url": "https://github.com/mattvalentine/ros_client_cef"
+        },
+        {
+          "name": "liyinyang0/rw-chat-headless",
+          "url": "https://github.com/liyinyang0/rw-chat-headless"
+        }
+      ]
+    },
+    {
+      "id": "gh-fakeplayers-name",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:36:35.531Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=fakeplayers%20in%3Aname&per_page=15",
+      "bytes": 81453,
+      "sha256": "c272abd0f25f439557427818ed8b2c09b7a6441e899f22abfc705366030d48e6",
+      "rawFile": "gh-fakeplayers-name.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=fakeplayers%20in%3Aname&per_page=15",
+      "batch": "search-e",
+      "searchResultCount": 44,
+      "returnedCandidates": [
+        {
+          "name": "herby2212/FakePlayers",
+          "url": "https://github.com/herby2212/FakePlayers"
+        },
+        {
+          "name": "Prim69-PM/FakePlayers",
+          "url": "https://github.com/Prim69-PM/FakePlayers"
+        },
+        {
+          "name": "gamerforEA/IC2-FakePlayers",
+          "url": "https://github.com/gamerforEA/IC2-FakePlayers"
+        },
+        {
+          "name": "PetteriM1/FakePlayers",
+          "url": "https://github.com/PetteriM1/FakePlayers"
+        },
+        {
+          "name": "gamerforEA/AppEng-FakePlayers",
+          "url": "https://github.com/gamerforEA/AppEng-FakePlayers"
+        },
+        {
+          "name": "gamerforEA/GraviSuite-FakePlayers",
+          "url": "https://github.com/gamerforEA/GraviSuite-FakePlayers"
+        },
+        {
+          "name": "gamerforEA/BuildCraft-FakePlayers",
+          "url": "https://github.com/gamerforEA/BuildCraft-FakePlayers"
+        },
+        {
+          "name": "gamerforEA/MrCrayfishFurnitureMod-FakePlayers",
+          "url": "https://github.com/gamerforEA/MrCrayfishFurnitureMod-FakePlayers"
+        },
+        {
+          "name": "RaoMin724/FakePlayers",
+          "url": "https://github.com/RaoMin724/FakePlayers"
+        },
+        {
+          "name": "Inf1nityy/FakePlayers",
+          "url": "https://github.com/Inf1nityy/FakePlayers"
+        },
+        {
+          "name": "ExpDev07/FakePlayers",
+          "url": "https://github.com/ExpDev07/FakePlayers"
+        },
+        {
+          "name": "SixModLoader/FakePlayers",
+          "url": "https://github.com/SixModLoader/FakePlayers"
+        },
+        {
+          "name": "TinyAII/FakePlayers",
+          "url": "https://github.com/TinyAII/FakePlayers"
+        },
+        {
+          "name": "TacticalAxis/FakePlayers",
+          "url": "https://github.com/TacticalAxis/FakePlayers"
+        },
+        {
+          "name": "argamig1230984756-eng/FakePlayers",
+          "url": "https://github.com/argamig1230984756-eng/FakePlayers"
+        }
+      ]
+    },
+    {
+      "id": "gh-browser-repos",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:56.174Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=rust%20server%20browser%20in%3Aname%2Cdescription%20-language%3ARust&per_page=15",
+      "bytes": 83880,
+      "sha256": "0ec248155c5f124597721b49aef8074b4c9e03042b9d372714bca4a123ac1efd",
+      "rawFile": "gh-browser-repos.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=rust%20server%20browser%20in%3Aname%2Cdescription%20-language%3ARust&per_page=15",
+      "batch": "search-f",
+      "searchResultCount": 112,
+      "returnedCandidates": [
+        {
+          "name": "LTplus-AG/ifc-lite",
+          "url": "https://github.com/LTplus-AG/ifc-lite"
+        },
+        {
+          "name": "pamod-madubashana/TelegramFileServer",
+          "url": "https://github.com/pamod-madubashana/TelegramFileServer"
+        },
+        {
+          "name": "zachrynewycz/rust-servers-io",
+          "url": "https://github.com/zachrynewycz/rust-servers-io"
+        },
+        {
+          "name": "rootwin-project/P2P-File-Transfer",
+          "url": "https://github.com/rootwin-project/P2P-File-Transfer"
+        },
+        {
+          "name": "Priyansh6747/image_editor",
+          "url": "https://github.com/Priyansh6747/image_editor"
+        },
+        {
+          "name": "nuskey8/osc-wasm",
+          "url": "https://github.com/nuskey8/osc-wasm"
+        },
+        {
+          "name": "Potrock/blockyard",
+          "url": "https://github.com/Potrock/blockyard"
+        },
+        {
+          "name": "ashfordeOU/kshana",
+          "url": "https://github.com/ashfordeOU/kshana"
+        },
+        {
+          "name": "K4RLis/rust-server-browser",
+          "url": "https://github.com/K4RLis/rust-server-browser"
+        },
+        {
+          "name": "OneShatteredGuy/rustHTTPStaticServer",
+          "url": "https://github.com/OneShatteredGuy/rustHTTPStaticServer"
+        },
+        {
+          "name": "kieled/mcp-rustdoc",
+          "url": "https://github.com/kieled/mcp-rustdoc"
+        },
+        {
+          "name": "webtools-dotcom/Zynlex",
+          "url": "https://github.com/webtools-dotcom/Zynlex"
+        },
+        {
+          "name": "LordVasilescu/rust-server-site",
+          "url": "https://github.com/LordVasilescu/rust-server-site"
+        },
+        {
+          "name": "elstarkov/rustcraft",
+          "url": "https://github.com/elstarkov/rustcraft"
+        },
+        {
+          "name": "emdiple/wasplay",
+          "url": "https://github.com/emdiple/wasplay"
+        }
+      ]
+    },
+    {
+      "id": "gh-fpapi-repos",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:55.910Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22api.facepunch.com%22%20in%3Areadme&per_page=15",
+      "bytes": 16743,
+      "sha256": "8ef61405ac3180cfa4f3b70186c7decc0c5e9979183408b1fc968f9731849841",
+      "rawFile": "gh-fpapi-repos.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22api.facepunch.com%22%20in%3Areadme&per_page=15",
+      "batch": "search-f",
+      "searchResultCount": 3,
+      "returnedCandidates": [
+        {
+          "name": "yannours/discoBots",
+          "url": "https://github.com/yannours/discoBots"
+        },
+        {
+          "name": "NexExMachina/Paranoid.BlacklistMonitor",
+          "url": "https://github.com/NexExMachina/Paranoid.BlacklistMonitor"
+        },
+        {
+          "name": "wrefgtzweve/gmod-banned-servers",
+          "url": "https://github.com/wrefgtzweve/gmod-banned-servers"
+        }
+      ]
+    },
+    {
+      "id": "gh-countpath-repos",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:56.081Z",
+      "retrievalUrl": "https://api.github.com/search/repositories?q=%22playerCounts/rust%22%20in%3Areadme&per_page=15",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f",
+      "rawFile": "gh-countpath-repos.raw.txt",
+      "url": "https://api.github.com/search/repositories?q=%22playerCounts/rust%22%20in%3Areadme&per_page=15",
+      "batch": "search-f",
+      "searchResultCount": 0,
+      "returnedCandidates": []
+    },
+    {
+      "id": "gh-count-commits",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:55.856Z",
+      "retrievalUrl": "https://api.github.com/search/commits?q=%22steamServers/playerCounts%22&per_page=15",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f",
+      "rawFile": "gh-count-commits.raw.txt",
+      "url": "https://api.github.com/search/commits?q=%22steamServers/playerCounts%22&per_page=15",
+      "batch": "search-f",
+      "searchResultCount": 0,
+      "returnedCandidates": []
+    },
+    {
+      "id": "gh-trusted-commits",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:56.904Z",
+      "retrievalUrl": "https://api.github.com/search/commits?q=%22trusted%20player%20count%22&per_page=15",
+      "bytes": 8414,
+      "sha256": "0543ed1e1123321b859494d65210c61dd17b7e5b050b051f64b84f9b8b055bfb",
+      "rawFile": "gh-trusted-commits.raw.txt",
+      "url": "https://api.github.com/search/commits?q=%22trusted%20player%20count%22&per_page=15",
+      "batch": "search-f",
+      "searchResultCount": 1,
+      "returnedCandidates": [
+        {
+          "url": "https://github.com/tunnelsensor/IMT-technology/commit/20d2b34131fbc84810a57f33416933994f98a74b"
+        }
+      ]
+    },
+    {
+      "id": "gh-population-issues-clean",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:57.033Z",
+      "retrievalUrl": "https://api.github.com/search/issues?q=rust%20%22player%20count%22%20%22steam%22%20-repo%3Atehki/myaso%20-repo%3Arust-lang/rust&per_page=15",
+      "bytes": 113321,
+      "sha256": "36f1fa11845c5cdb6f7f5dee4f505408dd1b344b36ba03ee5e3850a1fc938b43",
+      "rawFile": "gh-population-issues-clean.raw.txt",
+      "url": "https://api.github.com/search/issues?q=rust%20%22player%20count%22%20%22steam%22%20-repo%3Atehki/myaso%20-repo%3Arust-lang/rust&per_page=15",
+      "batch": "search-f",
+      "searchResultCount": 204,
+      "returnedCandidates": [
+        {
+          "title": "[Feature Request] OBS bridge – use ArtCraft scenes, avatars and effects live in OBS",
+          "url": "https://github.com/storytold/artcraft/issues/2181"
+        },
+        {
+          "title": "[FEAT] Add native GameDig support for game server monitoring",
+          "url": "https://github.com/Rabbit-Company/UptimeMonitor-Server/issues/9"
+        },
+        {
+          "title": "Make the Steam Clock clearing the first card-table world pack",
+          "url": "https://github.com/cenetex/cosyworld/pull/1142"
+        },
+        {
+          "title": "feat: add cheater-to-player ratio analytics panel",
+          "url": "https://github.com/Pronwan/rustplus-desktop/pull/98"
+        },
+        {
+          "title": "Store library: find and launch installed games from Steam, Epic, EA, Microsoft Store, GOG, Ubisoft, Battle.net, and custom programs",
+          "url": "https://github.com/Gerbzz/GameStrike/pull/13"
+        },
+        {
+          "title": "Show estimated total players on global player list",
+          "url": "https://github.com/InterStella0/zegraph-web/pull/168"
+        },
+        {
+          "title": "Scheduled Commands can run for only some players' clips (a crosshair per player)",
+          "url": "https://github.com/ccoventry/dod-studio/pull/832"
+        },
+        {
+          "title": "Request support",
+          "url": "https://github.com/FlorianSW/discord-player-count-bot/issues/19"
+        },
+        {
+          "title": "Add JOIN_CODE_NOTIFICATIONS environment variable for broadcasting game session join codes",
+          "url": "https://github.com/arkhala/valheim-docker/pull/2"
+        },
+        {
+          "title": "Show live player count and server status for game servers",
+          "url": "https://github.com/Tombomeke-Studios/NexusInfra/pull/397"
+        },
+        {
+          "title": "Show live player count and server status for game servers",
+          "url": "https://github.com/Tombomeke-Studios/NexusInfra/issues/382"
+        },
+        {
+          "title": "Gaming telemetry adapters — bounded League, Rust, and RuneLite event reactions",
+          "url": "https://github.com/agatte/home-hub/issues/205"
+        },
+        {
+          "title": "Climb the ready ladder, and read the real player count",
+          "url": "https://github.com/abspwgm/absolute-rust-server/pull/30"
+        },
+        {
+          "title": "Complete map POIs, track save progress and fix Pal encounter navigation",
+          "url": "https://github.com/Wire15/pal-lab/pull/5"
+        },
+        {
+          "title": "[Epic] Game Shell & Diorama Menus — start, save/load, settings and quit",
+          "url": "https://github.com/milocosmopolitan/little-forge/issues/35"
+        }
+      ]
+    },
+    {
+      "id": "protobufs-pinned-server",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:56.996Z",
+      "retrievalUrl": "https://api.github.com/repositories/107001992/contents/steam/steammessages_clientserver_gameservers.proto?ref=f5b0600750b2d5634c78f654845b6d5954f700db",
+      "bytes": 4657,
+      "sha256": "9e8f8235a9481a7d4260e94a2d2b0cef959424a807425707052fe2b7125533a9",
+      "rawFile": "protobufs-pinned-server.raw.txt",
+      "url": "https://api.github.com/repos/SteamDatabase/Protobufs/contents/steam/steammessages_clientserver_gameservers.proto?ref=f5b0600750b2d5634c78f654845b6d5954f700db",
+      "batch": "search-f"
+    },
+    {
+      "id": "fp-commits-js",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:11.967Z",
+      "retrievalUrl": "https://commits.facepunch.com/script.js?v=h-eNW3oXzp4FF-BlcPV7o5h_37KOFSaVvVvvRdlhwZ8",
+      "bytes": 4084,
+      "sha256": "87e78d5b7a17ce9e0517e06570f57ba3987fdfb28e152695bd5bef45d961c19f",
+      "rawFile": "fp-commits-js.raw.txt",
+      "url": "https://commits.facepunch.com/script.js?v=h-eNW3oXzp4FF-BlcPV7o5h_37KOFSaVvVvvRdlhwZ8",
+      "batch": "sources-a"
+    },
+    {
+      "id": "gamedig-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:12.101Z",
+      "retrievalUrl": "https://api.github.com/repos/gamedig/node-gamedig",
+      "bytes": 6357,
+      "sha256": "0093a9b36ce29c6718fe2c88661c9d63e76d60ec855193aedfe7fd7aef7a8d7f",
+      "rawFile": "gamedig-meta.raw.txt",
+      "url": "https://api.github.com/repos/gamedig/node-gamedig",
+      "batch": "sources-a"
+    },
+    {
+      "id": "gamedig-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:12.121Z",
+      "retrievalUrl": "https://api.github.com/repos/gamedig/node-gamedig/commits?per_page=1",
+      "bytes": 5660,
+      "sha256": "fd519f9521a87af84c4c54e3b3d3f642e6c3a049c8f6a0a71112f01d89cf5c2f",
+      "rawFile": "gamedig-commit.raw.txt",
+      "url": "https://api.github.com/repos/gamedig/node-gamedig/commits?per_page=1",
+      "batch": "sources-a"
+    },
+    {
+      "id": "afk-meta",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:12.104Z",
+      "retrievalUrl": "https://api.github.com/repos/nekowinston/rust-afk",
+      "bytes": 5209,
+      "sha256": "6be2ad79d0bae6738b0354d8f776783147dc0c36ecc1006fe9be41fa1e863b5a",
+      "rawFile": "afk-meta.raw.txt",
+      "url": "https://api.github.com/repos/nekowinston/rust-afk",
+      "batch": "sources-a"
+    },
+    {
+      "id": "afk-readme",
+      "status": 404,
+      "fetchedAt": "2026-10-25T09:37:12.639Z",
+      "retrievalUrl": "https://api.github.com/repos/nekowinston/rust-afk/readme",
+      "bytes": 128,
+      "sha256": "cd06f5cb22929a0bc5fb340149daaab49796a37572df0b2fcb8ac3dfafbae4c9",
+      "rawFile": "afk-readme.raw.txt",
+      "url": "https://api.github.com/repos/nekowinston/rust-afk/readme",
+      "batch": "sources-a"
+    },
+    {
+      "id": "rustbot-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:12.610Z",
+      "retrievalUrl": "https://api.github.com/repos/juan-echevarria/rustbot/readme",
+      "bytes": 3441,
+      "sha256": "ce571b08f622cc161e81d0a04103c945dad3dd9a6ce22d2e84f0475d541609fc",
+      "rawFile": "rustbot-readme.raw.txt",
+      "url": "https://api.github.com/repos/juan-echevarria/rustbot/readme",
+      "batch": "sources-a"
+    },
+    {
+      "id": "codefling-fake-title",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:13.489Z",
+      "retrievalUrl": "https://codefling.com/search/?q=Fake%20Players&type=downloads_file&search_in=titles&sortby=relevancy",
+      "bytes": 137971,
+      "sha256": "3ff1da9cec548ca7a9ad288a468cdc1d4e55156617312221bbfcc6cc409116bb",
+      "rawFile": "codefling-fake-title.raw.txt",
+      "url": "https://codefling.com/search/?q=Fake%20Players&type=downloads_file&search_in=titles&sortby=relevancy",
+      "batch": "sources-a"
+    },
+    {
+      "id": "steamworks-users",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:13.615Z",
+      "retrievalUrl": "https://partner.steamgames.com/doc/features/auth",
+      "bytes": 142984,
+      "sha256": "3856ddcc7148b7789355e9aa42554740d745912504d9b44b7e0ba0feedb2f9ab",
+      "rawFile": "steamworks-users.raw.txt",
+      "url": "https://partner.steamgames.com/doc/features/auth",
+      "batch": "sources-a"
+    },
+    {
+      "id": "steamworks-server-auth",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:37:14.205Z",
+      "retrievalUrl": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "bytes": 172138,
+      "sha256": "60cef8e4ce9fc1cf87f46596e31a69c8164320bbf10e069c86d0d32953789b72",
+      "rawFile": "steamworks-server-auth.raw.txt",
+      "url": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "batch": "sources-a"
+    },
+    {
+      "id": "gamedig-tree",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:16.674Z",
+      "retrievalUrl": "https://api.github.com/repos/gamedig/node-gamedig/git/trees/c62c4e5605dcd3d1d3add07cc66a6ff40b4b3f3d?recursive=1",
+      "bytes": 31101,
+      "sha256": "f186c678adbbaa7dd4633736c8c58f000447cd1207e9371680e10ce161ea0fee",
+      "rawFile": "gamedig-tree.raw.txt",
+      "url": "https://api.github.com/repos/gamedig/node-gamedig/git/trees/c62c4e5605dcd3d1d3add07cc66a6ff40b4b3f3d?recursive=1",
+      "batch": "sources-b"
+    },
+    {
+      "id": "fp-commits-search",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:16.756Z",
+      "retrievalUrl": "https://commits.facepunch.com/?search=player%20count",
+      "bytes": 140438,
+      "sha256": "2ee5c3ec1cdff5094dfdedd1b05d36e871d2d9392adb91aa4872c064895ab1e5",
+      "rawFile": "fp-commits-search.raw.txt",
+      "url": "https://commits.facepunch.com/?search=player%20count",
+      "batch": "sources-b"
+    },
+    {
+      "id": "fp-commits-s",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:16.756Z",
+      "retrievalUrl": "https://commits.facepunch.com/?s=player%20count",
+      "bytes": 140368,
+      "sha256": "813b7491e35bf01b7727b04925db50114d8428943ddb8541ddd5dcc714898933",
+      "rawFile": "fp-commits-s.raw.txt",
+      "url": "https://commits.facepunch.com/?s=player%20count",
+      "batch": "sources-b"
+    },
+    {
+      "id": "afkrust-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:16.872Z",
+      "retrievalUrl": "https://api.github.com/repos/pede/Anti-AFK-Rust/commits?per_page=1",
+      "bytes": 2310,
+      "sha256": "f6868b27da95fe73bb9aa581f6833bf479b78b83eb5e5f62aee16b88d47957c2",
+      "rawFile": "afkrust-commit.raw.txt",
+      "url": "https://api.github.com/repos/pede/Anti-AFK-Rust/commits?per_page=1",
+      "batch": "sources-b"
+    },
+    {
+      "id": "rust-interceptor-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:17.350Z",
+      "retrievalUrl": "https://api.github.com/repos/Asbra/RustInterceptor/commits?per_page=1",
+      "bytes": 3208,
+      "sha256": "b0667f36f14b0b77b77582db9bc6e145c37af6b9eadbef9883530280decc5057",
+      "rawFile": "rust-interceptor-commit.raw.txt",
+      "url": "https://api.github.com/repos/Asbra/RustInterceptor/commits?per_page=1",
+      "batch": "sources-b"
+    },
+    {
+      "id": "steam-user-latest-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:17.250Z",
+      "retrievalUrl": "https://api.github.com/repos/DoctorMcKay/node-steam-user/commits?per_page=1",
+      "bytes": 4460,
+      "sha256": "29362d52e1eabf00ac0597c45cf814ea9a216c94850d261d308db832a20a067a",
+      "rawFile": "steam-user-latest-commit.raw.txt",
+      "url": "https://api.github.com/repos/DoctorMcKay/node-steam-user/commits?per_page=1",
+      "batch": "sources-b"
+    },
+    {
+      "id": "afkrust-readme",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:17.522Z",
+      "retrievalUrl": "https://api.github.com/repos/pede/Anti-AFK-Rust/readme",
+      "bytes": 90,
+      "sha256": "c3ca527433f5d2f943dc30341756b00304e91c50c6724524290b9d3b19abb2b9",
+      "rawFile": "afkrust-readme.raw.txt",
+      "url": "https://api.github.com/repos/pede/Anti-AFK-Rust/readme",
+      "batch": "sources-b"
+    },
+    {
+      "id": "interceptor-readme",
+      "status": "fetch_failed",
+      "reason": "TimeoutError",
+      "url": "https://raw.githubusercontent.com/Asbra/RustInterceptor/master/README.md",
+      "batch": "sources-b"
+    },
+    {
+      "id": "steam-user-readme",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/master/README.md",
+      "batch": "sources-b"
+    },
+    {
+      "id": "fp-community-guidelines",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:39:42.579Z",
+      "retrievalUrl": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/360009062817.json",
+      "bytes": 6594,
+      "sha256": "a6566afda70ec2e43cad9e1fddcc68b1391046ed52e7b76abe107f5a7903512d",
+      "rawFile": "fp-community-guidelines.raw.txt",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/360009062817.json",
+      "batch": "sources-b"
+    },
+    {
+      "id": "gamedig-src-0",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://raw.githubusercontent.com/gamedig/node-gamedig/41f3773cc46fceb433931cfea4bb8b9001d678f5/protocols/valve.js",
+      "batch": "sources-c"
+    },
+    {
+      "id": "steam-upstream-0",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/02818bd08090b58ff54f1d9ce0073319b8e1eef7/components/gameservers.js",
+      "batch": "sources-c"
+    },
+    {
+      "id": "steam-upstream-1",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/02818bd08090b58ff54f1d9ce0073319b8e1eef7/components/appauth.js",
+      "batch": "sources-c"
+    },
+    {
+      "id": "steam-upstream-2",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/02818bd08090b58ff54f1d9ce0073319b8e1eef7/components/apps.js",
+      "batch": "sources-c"
+    },
+    {
+      "id": "steam-upstream-3",
+      "status": "fetch_failed",
+      "reason": "TypeError",
+      "url": "https://raw.githubusercontent.com/DoctorMcKay/node-steam-user/02818bd08090b58ff54f1d9ce0073319b8e1eef7/README.md",
+      "batch": "sources-c"
+    },
+    {
+      "id": "fp-support-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:40:24.716Z",
+      "retrievalUrl": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=fake%20players&locale=en-us",
+      "bytes": 70363,
+      "sha256": "76cdc3c85a2cd99504df4bd0a2e9ef92149de023b1e18646faf1cd4bc28ab565",
+      "rawFile": "fp-support-0.raw.txt",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=fake%20players&locale=en-us",
+      "batch": "sources-c"
+    },
+    {
+      "id": "fp-support-1",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:40:26.094Z",
+      "retrievalUrl": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=server%20browser&locale=en-us",
+      "bytes": 162963,
+      "sha256": "ed238d370426463ea7905013cb39861b534b7c5a76502342606f020c21abb17f",
+      "rawFile": "fp-support-1.raw.txt",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=server%20browser&locale=en-us",
+      "batch": "sources-c"
+    },
+    {
+      "id": "fp-support-2",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:40:24.132Z",
+      "retrievalUrl": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=spoof&locale=en-us",
+      "bytes": 100,
+      "sha256": "b1e6ca31eba2bd9ead6af2a905a39a5bf97a1e067cbffbf826bcf1ca3abaaa33",
+      "rawFile": "fp-support-2.raw.txt",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=spoof&locale=en-us",
+      "batch": "sources-c"
+    },
+    {
+      "id": "fp-support-3",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:40:35.002Z",
+      "retrievalUrl": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=server%20guidelines&locale=en-us",
+      "bytes": 145768,
+      "sha256": "e2299bb92fbebf0a613008f4e99c52c2b3de854434c796e96dcb1495ae164c92",
+      "rawFile": "fp-support-3.raw.txt",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/articles/search.json?query=server%20guidelines&locale=en-us",
+      "batch": "sources-c"
+    },
+    {
+      "id": "gamedig-pin-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:04.918Z",
+      "retrievalUrl": "https://api.github.com/repos/gamedig/node-gamedig/contents/protocols/valve.js?ref=41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "bytes": 14551,
+      "sha256": "f9c467cf0439d59d127ff3aa4ec354b8caebbe64076b0bff1968c298e964dc5c",
+      "rawFile": "gamedig-pin-0.raw.txt",
+      "url": "https://api.github.com/repos/gamedig/node-gamedig/contents/protocols/valve.js?ref=41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "batch": "sources-d"
+    },
+    {
+      "id": "gamedig-pin-1",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:05.049Z",
+      "retrievalUrl": "https://api.github.com/repos/gamedig/node-gamedig/contents/lib/games.js?ref=41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "bytes": 61566,
+      "sha256": "64b658d5eb294ed652f370e3c5b1e20e94f49a1e9421440326f3d13bc7d3fd65",
+      "rawFile": "gamedig-pin-1.raw.txt",
+      "url": "https://api.github.com/repos/gamedig/node-gamedig/contents/lib/games.js?ref=41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "batch": "sources-d"
+    },
+    {
+      "id": "gamedig-pin-2",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:04.894Z",
+      "retrievalUrl": "https://api.github.com/repos/gamedig/node-gamedig/contents/README.md?ref=41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "bytes": 17507,
+      "sha256": "d496ace8148611c1b77f7506ae9738246299b910a1dc180c7b52f0d7e5d8054f",
+      "rawFile": "gamedig-pin-2.raw.txt",
+      "url": "https://api.github.com/repos/gamedig/node-gamedig/contents/README.md?ref=41f3773cc46fceb433931cfea4bb8b9001d678f5",
+      "batch": "sources-d"
+    },
+    {
+      "id": "steam-pin-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:04.775Z",
+      "retrievalUrl": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/components/gameservers.js?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "bytes": 3401,
+      "sha256": "c86a0739a11244fbde7e43fb9666ff1c321c563097645d5ddf5b5f2360cb6bac",
+      "rawFile": "steam-pin-0.raw.txt",
+      "url": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/components/gameservers.js?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "batch": "sources-d"
+    },
+    {
+      "id": "steam-pin-1",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:05.618Z",
+      "retrievalUrl": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/components/appauth.js?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "bytes": 15287,
+      "sha256": "3fae720822216b20fc010e14cc5b0b552d1c0ea3ae968307a556b3502feb1fcb",
+      "rawFile": "steam-pin-1.raw.txt",
+      "url": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/components/appauth.js?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "batch": "sources-d"
+    },
+    {
+      "id": "steam-pin-2",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:05.570Z",
+      "retrievalUrl": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/components/apps.js?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "bytes": 32366,
+      "sha256": "79abc2530e8896dff57d8630c5461c7209d3e6c2c74e05997747512999743399",
+      "rawFile": "steam-pin-2.raw.txt",
+      "url": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/components/apps.js?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "batch": "sources-d"
+    },
+    {
+      "id": "steam-pin-3",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:06.546Z",
+      "retrievalUrl": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/README.md?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "bytes": 133423,
+      "sha256": "fbbe434a3d403904ed04f6da672258d08cd19831bef8d7cd3afc38049b43a768",
+      "rawFile": "steam-pin-3.raw.txt",
+      "url": "https://api.github.com/repos/DoctorMcKay/node-steam-user/contents/README.md?ref=02818bd08090b58ff54f1d9ce0073319b8e1eef7",
+      "batch": "sources-d"
+    },
+    {
+      "id": "interceptor-pin-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:05.413Z",
+      "retrievalUrl": "https://api.github.com/repos/Asbra/RustInterceptor/contents/README.md?ref=4bc4d8ac2879e268342c1c4185d5998ecb4b9303",
+      "bytes": 2750,
+      "sha256": "6fd5842496e1ce2d1a63d0f82aa80b44da8aa8ccf2392d507a88f72e66a6d1ec",
+      "rawFile": "interceptor-pin-0.raw.txt",
+      "url": "https://api.github.com/repos/Asbra/RustInterceptor/contents/README.md?ref=4bc4d8ac2879e268342c1c4185d5998ecb4b9303",
+      "batch": "sources-d"
+    },
+    {
+      "id": "afkrust-tree",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:06.926Z",
+      "retrievalUrl": "https://api.github.com/repos/pede/Anti-AFK-Rust/git/trees/fc101e324419f3d1a481c551b5f51a84ac003b03?recursive=1",
+      "bytes": 10235,
+      "sha256": "17c6362499f0cf80abe2d4b49026ae2d625938998b992931c53e9fed9b1474ab",
+      "rawFile": "afkrust-tree.raw.txt",
+      "url": "https://api.github.com/repos/pede/Anti-AFK-Rust/git/trees/fc101e324419f3d1a481c551b5f51a84ac003b03?recursive=1",
+      "batch": "sources-d"
+    },
+    {
+      "id": "interceptor-tree",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:06.938Z",
+      "retrievalUrl": "https://api.github.com/repos/Asbra/RustInterceptor/git/trees/3ed3e9259d4e8942952a45e8ed99ddf5a9bf7b7c?recursive=1",
+      "bytes": 11685,
+      "sha256": "6af542d8a6dcea4e147cf18f2e804398aacba0a423bb6954c2c3878b108c38f0",
+      "rawFile": "interceptor-tree.raw.txt",
+      "url": "https://api.github.com/repos/Asbra/RustInterceptor/git/trees/3ed3e9259d4e8942952a45e8ed99ddf5a9bf7b7c?recursive=1",
+      "batch": "sources-d"
+    },
+    {
+      "id": "protobufs-commit",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:41:07.312Z",
+      "retrievalUrl": "https://api.github.com/repositories/107001992/commits?path=steam/steammessages_clientserver_gameservers.proto&per_page=1",
+      "bytes": 5568,
+      "sha256": "d63bd56fd32ff69571e8d74d2ecfc8bf87d6f309a42bdd839815b62e704b93b9",
+      "rawFile": "protobufs-commit.raw.txt",
+      "url": "https://api.github.com/repos/SteamDatabase/Protobufs/commits?path=steam/steammessages_clientserver_gameservers.proto&per_page=1",
+      "batch": "sources-d"
+    },
+    {
+      "id": "browser-source-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:43:23.983Z",
+      "retrievalUrl": "https://api.github.com/repos/K4RLis/rust-server-browser/contents/RustBrowser.cs?ref=aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "bytes": 3579,
+      "sha256": "b546bd871a98e1b9d28c0371c87c3b48af9a24183b5c92673d11c59c8e5168c1",
+      "rawFile": "browser-source-0.raw.txt",
+      "url": "https://api.github.com/repos/K4RLis/rust-server-browser/contents/RustBrowser.cs?ref=aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "batch": "sources-e"
+    },
+    {
+      "id": "browser-source-1",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:43:24.231Z",
+      "retrievalUrl": "https://api.github.com/repos/K4RLis/rust-server-browser/contents/cloudflare-worker.js?ref=aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "bytes": 2863,
+      "sha256": "a75092f73bd4238c0446464d7da1b730e8a06db34df0b3156109fae76832f988",
+      "rawFile": "browser-source-1.raw.txt",
+      "url": "https://api.github.com/repos/K4RLis/rust-server-browser/contents/cloudflare-worker.js?ref=aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "batch": "sources-e"
+    },
+    {
+      "id": "browserio-source-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:43:23.942Z",
+      "retrievalUrl": "https://api.github.com/repos/zachrynewycz/rust-servers-io/contents/app/api/getPopularRustServers.ts?ref=1e70151b83d0bda970a0ce0df0831001743c4090",
+      "bytes": 780,
+      "sha256": "145d52672e31749e118c823e4f0638005f0dd561359825fb5bf6810bfec9680b",
+      "rawFile": "browserio-source-0.raw.txt",
+      "url": "https://api.github.com/repos/zachrynewycz/rust-servers-io/contents/app/api/getPopularRustServers.ts?ref=1e70151b83d0bda970a0ce0df0831001743c4090",
+      "batch": "sources-e"
+    },
+    {
+      "id": "browserio-source-1",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:43:24.898Z",
+      "retrievalUrl": "https://api.github.com/repos/zachrynewycz/rust-servers-io/contents/app/api/getRustServersByFilter.ts?ref=1e70151b83d0bda970a0ce0df0831001743c4090",
+      "bytes": 1070,
+      "sha256": "de4e0f221bb6510789fab63282a7efec69fae7dee86096c29a4dcfef9b3903c1",
+      "rawFile": "browserio-source-1.raw.txt",
+      "url": "https://api.github.com/repos/zachrynewycz/rust-servers-io/contents/app/api/getRustServersByFilter.ts?ref=1e70151b83d0bda970a0ce0df0831001743c4090",
+      "batch": "sources-e"
+    },
+    {
+      "id": "blacklist-source-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:43:25.266Z",
+      "retrievalUrl": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/contents/index.js?ref=2bcd0de0a130f00d635e4eb3a75a937707761aa6",
+      "bytes": 4969,
+      "sha256": "ffd574e1668f9517544fc1bcf7edabcda3ee6ca85888e3174be86aba909959b2",
+      "rawFile": "blacklist-source-0.raw.txt",
+      "url": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/contents/index.js?ref=2bcd0de0a130f00d635e4eb3a75a937707761aa6",
+      "batch": "sources-e"
+    },
+    {
+      "id": "afkrust-source-0",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:43:25.262Z",
+      "retrievalUrl": "https://api.github.com/repos/pede/Anti-AFK-Rust/contents/antiafk_rust/Form1.vb?ref=5f18dd03fa86247cda1ffaca8be266dd67824ca3",
+      "bytes": 927,
+      "sha256": "dc1c9698839981f094e0ac50d41d355cdfa74811e84a39aac853d4a306fd5bbb",
+      "rawFile": "afkrust-source-0.raw.txt",
+      "url": "https://api.github.com/repos/pede/Anti-AFK-Rust/contents/antiafk_rust/Form1.vb?ref=5f18dd03fa86247cda1ffaca8be266dd67824ca3",
+      "batch": "sources-e"
+    },
+    {
+      "id": "browser-source-html",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:44:40.843Z",
+      "retrievalUrl": "https://api.github.com/repos/K4RLis/rust-server-browser/contents/index.html?ref=aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "bytes": 46813,
+      "sha256": "05b4c08ee790281206c5ae0e61ffe785471fed57bdb783aed4f6a9be756fac92",
+      "rawFile": "browser-source-html.raw.txt",
+      "url": "https://api.github.com/repos/K4RLis/rust-server-browser/contents/index.html?ref=aad7d3b4ea036339874610404d2a7bb0ec2e7221",
+      "batch": "sources-f"
+    },
+    {
+      "id": "steam-matchmaking",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:44:41.818Z",
+      "retrievalUrl": "https://partner.steamgames.com/doc/api/ISteamMatchmakingServers",
+      "bytes": 154633,
+      "sha256": "c33ffc2be135c50ea5d8f08771fcacc0774a5bc2704a3d4ec127573f95cd6ae6",
+      "rawFile": "steam-matchmaking.raw.txt",
+      "url": "https://partner.steamgames.com/doc/api/ISteamMatchmakingServers",
+      "batch": "sources-f"
+    },
+    {
+      "id": "steam-advertise",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:44:41.330Z",
+      "retrievalUrl": "https://partner.steamgames.com/doc/api/ISteamUser",
+      "bytes": 179383,
+      "sha256": "c3ebfa262a27719cc98d76d394786c05d3e8719cd474997660031050b5c0bed8",
+      "rawFile": "steam-advertise.raw.txt",
+      "url": "https://partner.steamgames.com/doc/api/ISteamUser",
+      "batch": "sources-f"
+    },
+    {
+      "id": "blacklist-tree",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:52.811Z",
+      "retrievalUrl": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/git/trees/f72be8f6cb8d9e1bb6dbad4744609d3dfd4432c8?recursive=1",
+      "bytes": 1882,
+      "sha256": "925f82cbae3a947d5b557f0ea5f80cb2d80b9fc5ccfe49e73c3fe140125a2bec",
+      "rawFile": "blacklist-tree.raw.txt",
+      "url": "https://api.github.com/repos/NexExMachina/Paranoid.BlacklistMonitor/git/trees/f72be8f6cb8d9e1bb6dbad4744609d3dfd4432c8?recursive=1",
+      "batch": "trees-b"
+    },
+    {
+      "id": "browser-tree",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:52.130Z",
+      "retrievalUrl": "https://api.github.com/repos/K4RLis/rust-server-browser/git/trees/96af1c426fb5cd38dfdcb4abaf818f276a7a3031?recursive=1",
+      "bytes": 1798,
+      "sha256": "2ed00d57ebeb65a388288bc81602a7982d9d543d7f8562c74b311a073d2e0c5d",
+      "rawFile": "browser-tree.raw.txt",
+      "url": "https://api.github.com/repos/K4RLis/rust-server-browser/git/trees/96af1c426fb5cd38dfdcb4abaf818f276a7a3031?recursive=1",
+      "batch": "trees-b"
+    },
+    {
+      "id": "browserio-tree",
+      "status": 200,
+      "fetchedAt": "2026-10-25T09:42:52.245Z",
+      "retrievalUrl": "https://api.github.com/repos/zachrynewycz/rust-servers-io/git/trees/7e8718a4698905624765426f2b5a4eaf8af92847?recursive=1",
+      "bytes": 17778,
+      "sha256": "1a7e0422647b80a8f34435e82b54f71a39977de376c28ab385e8313017f42a2e",
+      "rawFile": "browserio-tree.raw.txt",
+      "url": "https://api.github.com/repos/zachrynewycz/rust-servers-io/git/trees/7e8718a4698905624765426f2b5a4eaf8af92847?recursive=1",
+      "batch": "trees-b"
+    }
+  ],
+  "limitations": [
+    "The survey is bounded: repository results were reviewed for relevance; not every match, fork, branch or private project was inspected.",
+    "HTTP200 is retrieval success, not proof that a search returned relevant or correctly filtered results.",
+    "Bing returned unrelated results for the attempted queries; they were excluded from technical conclusions.",
+    "Google, Jina, DuckDuckGo, Brave, Yahoo and raw.githubusercontent requests had fetch failures; selected GitHub files were instead retrieved through the public contents API at exact refs.",
+    "grep.app returned429; Sourcegraph, Mojeek and uMod returned403. No challenge, authentication or rate limit was bypassed.",
+    "Four Facepunch commit URL variants displayed the same first ten changesets rather than useful filtered results; this is not evidence that the complete official commit archive lacks player-count changes.",
+    "Three guessed wiki URLs returned404; these are not supporting sources.",
+    "Codefling public title search returned0 results for this query; the broader query was noisy. This does not exclude privately distributed or differently named plugins.",
+    "The community-plugins guidelines article inspected here does not describe player-count qualification; it must not be cited as a backend algorithm specification.",
+    "The survey found no verified public repair among inspected material; it does not prove no such implementation exists."
+  ],
+  "nextResearchQueue": [
+    {
+      "priority": 1,
+      "action": "For a future authorized controlled run, record genuine Steam playingState/blocked changes and any own persona game AppID/IP/port responses from login onward.",
+      "purpose": "Address the previous association experiment visibility limitation before another field hypothesis.",
+      "acceptance": "Separate unknown/unavailable from explicit block or matching observed activity; no force/kick session or public-count repair claim."
+    },
+    {
+      "priority": 2,
+      "action": "Compare one normal official-client session to one independent session on the same registered target with stable identity rosters and multiple newer public responses.",
+      "purpose": "Obtain a real client-path difference rather than borrow behavior from A2S monitors, Discord bots or another game.",
+      "acceptance": "Use one owned account at a time; preserve existing sessions; require actual admission/auth observation and exact cleanup. EAC remains a separate unimplemented requirement."
+    },
+    {
+      "priority": 3,
+      "action": "Use backend per-account adoption evidence or an authoritative Facepunch specification if legitimately obtained to select a concrete reporting repair.",
+      "purpose": "Resolve the boundary not present in the inspected client/server/public-query sources.",
+      "acceptance": "Do not replace this missing evidence with invented players, fabricated activity/security flags, duplicated authentication or edited public counts."
+    }
+  ],
+  "relatedExperiment": "presence-association-experiment-2026-10-25.json",
+  "evidence": [
+    {
+      "path": "work/web-count-survey-20261025-0933/afk-meta.meta.json",
+      "bytes": 2778,
+      "sha256": "1ac515350bc24475d7b7682e0d6d01bcea62a32268c3abcba5cd42cd1cc4cf1d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afk-meta.raw.txt",
+      "bytes": 5209,
+      "sha256": "6be2ad79d0bae6738b0354d8f776783147dc0c36ecc1006fe9be41fa1e863b5a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afk-readme.meta.json",
+      "bytes": 535,
+      "sha256": "c798228fd66abbabc487966633e0ebd52bc40ee556571009ae80dd56a0ee9065"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afk-readme.raw.txt",
+      "bytes": 128,
+      "sha256": "cd06f5cb22929a0bc5fb340149daaab49796a37572df0b2fcb8ac3dfafbae4c9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-commit.meta.json",
+      "bytes": 1560,
+      "sha256": "8f9eeee171fb0cb70589268514da63aeb0326e694da3ceccc8600f996eff589d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-commit.raw.txt",
+      "bytes": 2310,
+      "sha256": "f6868b27da95fe73bb9aa581f6833bf479b78b83eb5e5f62aee16b88d47957c2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-readme.meta.json",
+      "bytes": 759,
+      "sha256": "153e556cd7b97700a7a1eec6c1a7b751b599c19de2e2be0ea8567fae948334d2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-readme.raw.txt",
+      "bytes": 90,
+      "sha256": "c3ca527433f5d2f943dc30341756b00304e91c50c6724524290b9d3b19abb2b9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-source-0.meta.json",
+      "bytes": 1106,
+      "sha256": "5d6088d9e3b494d6283b38bf2c08af436cc1edbef07ef32e099a8a84e7364d07"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-source-0.raw.txt",
+      "bytes": 927,
+      "sha256": "dc1c9698839981f094e0ac50d41d355cdfa74811e84a39aac853d4a306fd5bbb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-tree.meta.json",
+      "bytes": 2979,
+      "sha256": "1774cbd5e1ca897ceb31a2e7df17847fa0c764d2ee6d1c6297909cb935cab918"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/afkrust-tree.raw.txt",
+      "bytes": 10235,
+      "sha256": "17c6362499f0cf80abe2d4b49026ae2d625938998b992931c53e9fed9b1474ab"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-api.meta.json",
+      "bytes": 5149,
+      "sha256": "be4e7e2d3cefb9d65bfe8a83e0181c09d2c01a59aa24b74e666d6899a1cd6a39"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-api.raw.txt",
+      "bytes": 6017,
+      "sha256": "ae8b804dcdceab29f67759e84c8376cd731fdecdf0ecbc1149c30eda0eaeada4"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-client.meta.json",
+      "bytes": 5180,
+      "sha256": "5baa80acff9b59a5fe0950726b7fd18aa0c5d5d0c04d7462f8031dff028405b9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-client.raw.txt",
+      "bytes": 6045,
+      "sha256": "85dd19400199b3e7ae98b364f05be12c3aafe678e8eb129abb458231c3be4fbd"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-html-count.meta.json",
+      "bytes": 4396,
+      "sha256": "52a20375b1017aed226d52ac26af4b5b4dcad4c8c3a01886f0e79acf63843b01"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-html-count.raw.txt",
+      "bytes": 103737,
+      "sha256": "17b9a61c1842d592f50a1e2ed1341ccec2858ae7e091c89466a5b7ffac559c4c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-trusted.meta.json",
+      "bytes": 5213,
+      "sha256": "76072cb6be4908773b379a8737b3d4c0637d673cf69866ec300ee4a555092c18"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/bing-trusted.raw.txt",
+      "bytes": 6097,
+      "sha256": "3cfa7536603ed22123b120fdc5b8d41cac1c9ca6a694ec8cd15e436c0ffa26b3"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-commit.meta.json",
+      "bytes": 1601,
+      "sha256": "ab86facd1489fae1c8339a8bbfeead07a3db62c73c06dc5986a2be5a6d3a6c4a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-commit.raw.txt",
+      "bytes": 4227,
+      "sha256": "9077bb2861bea4a491e5951e92910cb6c5fa46c1f32ed81e826022d8dcac213d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-readme.meta.json",
+      "bytes": 4716,
+      "sha256": "fba3a0611b0ca0614a810beb6ce5b29fbd9ef5fe2674cee34e6473cdbeb5c37f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-readme.raw.txt",
+      "bytes": 1926,
+      "sha256": "341f20c91fa11ee995f2959b845424cb35f135e68e3a5c16bb6da6719f3844ab"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-source-0.meta.json",
+      "bytes": 1826,
+      "sha256": "38aa13bfd4678847d6a146d1f355264bb38548df56605682c4aba6c9c47a1df0"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-source-0.raw.txt",
+      "bytes": 4969,
+      "sha256": "ffd574e1668f9517544fc1bcf7edabcda3ee6ca85888e3174be86aba909959b2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-tree.meta.json",
+      "bytes": 1860,
+      "sha256": "56ec731b891d5834824bac22c01551c5552d83bdb6ebf9cde354b7ff72a0744a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/blacklist-tree.raw.txt",
+      "bytes": 1882,
+      "sha256": "925f82cbae3a947d5b557f0ea5f80cb2d80b9fc5ccfe49e73c3fe140125a2bec"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-commit.meta.json",
+      "bytes": 1674,
+      "sha256": "cb2a1b1b9938b78fba3dc7d7160e94bdd76c9cbf0082fc83d4e56442232dfa99"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-commit.raw.txt",
+      "bytes": 3536,
+      "sha256": "b7f245695f1a777927c2456a4b3f1681d3692e75cf3fe74a929024b1f11a1a7e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-readme.meta.json",
+      "bytes": 6577,
+      "sha256": "3c74e6d1a7e492af1f1bfe0e8bd10e4a92125db090388e97ece6bc236f2ca44a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-readme.raw.txt",
+      "bytes": 1650,
+      "sha256": "57f2509b14fce898a5c2751f81ce741acd148a7ab7666c32817d35ed2a31aae8"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-source-0.meta.json",
+      "bytes": 705,
+      "sha256": "a3d32ae32d32bae53aaa2916aab3dabe88da3876ca2a07844b6b8c28baebf79b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-source-0.raw.txt",
+      "bytes": 3579,
+      "sha256": "b546bd871a98e1b9d28c0371c87c3b48af9a24183b5c92673d11c59c8e5168c1"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-source-1.meta.json",
+      "bytes": 716,
+      "sha256": "a1e45266115be5772cb38af234c42ca1f476a3ac87eeef6215137ae065adacac"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-source-1.raw.txt",
+      "bytes": 2863,
+      "sha256": "a75092f73bd4238c0446464d7da1b730e8a06db34df0b3156109fae76832f988"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-source-html.meta.json",
+      "bytes": 7090,
+      "sha256": "e284bfbc3a2d0b6d3902bce9b3d255c7f07e73edb0dcd60c2710f2e7c8e3df03"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-source-html.raw.txt",
+      "bytes": 46813,
+      "sha256": "05b4c08ee790281206c5ae0e61ffe785471fed57bdb783aed4f6a9be756fac92"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-tree.meta.json",
+      "bytes": 1830,
+      "sha256": "53d77bbaf969121ed1633ae32ebdb13af16b0d9e5e7c4682242e2f316f5d39e2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browser-tree.raw.txt",
+      "bytes": 1798,
+      "sha256": "2ed00d57ebeb65a388288bc81602a7982d9d543d7f8562c74b311a073d2e0c5d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-commit.meta.json",
+      "bytes": 1579,
+      "sha256": "8c53806b39d7136e53c5025721bdd60937f10edb3d742d021d56dd0a3b97c3dd"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-commit.raw.txt",
+      "bytes": 4173,
+      "sha256": "2207253df5a8b506e6ab6cfaca8797cb43e5cdb07f430eae8eaa06705e3f2778"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-readme.meta.json",
+      "bytes": 4198,
+      "sha256": "efd0a72e0e9883e6cf3697bca16b734640efb96d14d85a662e5d529554a434da"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-readme.raw.txt",
+      "bytes": 874,
+      "sha256": "d5e8584936d08fb8472c957e9e2cb5ea7292829e55d2e7c4d6350ae85476c254"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-source-0.meta.json",
+      "bytes": 1403,
+      "sha256": "6ec62fbb89a71c84d963e2a0dd2bfa389576351bed14551ecc4609cfc12153b7"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-source-0.raw.txt",
+      "bytes": 780,
+      "sha256": "145d52672e31749e118c823e4f0638005f0dd561359825fb5bf6810bfec9680b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-source-1.meta.json",
+      "bytes": 1397,
+      "sha256": "8668a2783635000a30a7db62acab969c9e259c6b1dcf3e9716e4b6490deb0294"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-source-1.raw.txt",
+      "bytes": 1070,
+      "sha256": "de4e0f221bb6510789fab63282a7efec69fae7dee86096c29a4dcfef9b3903c1"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-tree.meta.json",
+      "bytes": 1841,
+      "sha256": "e48c46955547a375568e2ad57bcd43feb5d2e9c02907c7919119af10c5d19171"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/browserio-tree.raw.txt",
+      "bytes": 17778,
+      "sha256": "1a7e0422647b80a8f34435e82b54f71a39977de376c28ab385e8313017f42a2e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/codefling-fake-title.meta.json",
+      "bytes": 9960,
+      "sha256": "26fb813cd6a5a298ea67442bc6bc85b2d86a67cd62e0fdc89595e80337620b53"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/codefling-fake-title.raw.txt",
+      "bytes": 137971,
+      "sha256": "3ff1da9cec548ca7a9ad288a468cdc1d4e55156617312221bbfcc6cc409116bb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/codefling-search.meta.json",
+      "bytes": 14336,
+      "sha256": "21a8421500e162901eadeec0a651b562c5fb830dfde5d0c664264fad8f55913e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/codefling-search.raw.txt",
+      "bytes": 360595,
+      "sha256": "8ea3dca8ca9092eae689165f33a031de1f72c1c5427849c935a6b3de4c438305"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/collect.mjs",
+      "bytes": 4659,
+      "sha256": "1c4e535a8426cd1b8f334f06d8ee8c84a11d2bff5fb6938c44f7ea159bf67d75"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-count.meta.json",
+      "bytes": 721,
+      "sha256": "8eed27b293064eb33e472685c9aa037520fb95134cb6a144fe40b64626308c69"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-count.raw.txt",
+      "bytes": 140368,
+      "sha256": "08d054bcb66954ec4c80bde4b5a4636bd42f002a14dfcf18c3980e4d5be6d201"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-js.meta.json",
+      "bytes": 5032,
+      "sha256": "ef63ef35a6bf46a83508c21a0179a2c6ee344d6bdf645903ce7c1cd9c0b6ef4a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-js.raw.txt",
+      "bytes": 4084,
+      "sha256": "87e78d5b7a17ce9e0517e06570f57ba3987fdfb28e152695bd5bef45d961c19f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-s.meta.json",
+      "bytes": 709,
+      "sha256": "219c2ed42795361e8c4721b87deae67ea7e92c085c2b3fb7090ee577248edc0b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-s.raw.txt",
+      "bytes": 140368,
+      "sha256": "813b7491e35bf01b7727b04925db50114d8428943ddb8541ddd5dcc714898933"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-search.meta.json",
+      "bytes": 734,
+      "sha256": "a4175dac2916eb0da32b762ff559bd30f97d4f87c1435b7c081739011dc3d549"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-search.raw.txt",
+      "bytes": 140438,
+      "sha256": "2ee5c3ec1cdff5094dfdedd1b05d36e871d2d9392adb91aa4872c064895ab1e5"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-trusted.meta.json",
+      "bytes": 739,
+      "sha256": "5d7f49f984251ff7dab8a551daf32743e90852c1a24aab295fec8f402c8b4b6e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-commits-trusted.raw.txt",
+      "bytes": 141139,
+      "sha256": "603b4d5fe2ad07aec40671d79039c4140baf726bc7b9fd5f9411ae96898f4227"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-community-guidelines.meta.json",
+      "bytes": 7532,
+      "sha256": "d17904814dd8ff0a61cd982af19ed17eaf1781b0223fbded38e15d41ec77d848"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-community-guidelines.raw.txt",
+      "bytes": 6594,
+      "sha256": "a6566afda70ec2e43cad9e1fddcc68b1391046ed52e7b76abe107f5a7903512d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-server-browser-rules.meta.json",
+      "bytes": 7403,
+      "sha256": "191695b853291ed1fbd14c62c9b56aa0e0e11b98f0aaefe2239cbfc00b005883"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-server-browser-rules.raw.txt",
+      "bytes": 222739,
+      "sha256": "4a4302994c012fdc6165f1074f5102f69a9d8e34535fa14af9f804796976fabb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-0.meta.json",
+      "bytes": 2806,
+      "sha256": "69a4d7ff0ed1f6e4b1136562abc89b0432249e042cd550bc33e552150e0a9889"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-0.raw.txt",
+      "bytes": 70363,
+      "sha256": "76cdc3c85a2cd99504df4bd0a2e9ef92149de023b1e18646faf1cd4bc28ab565"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-1.meta.json",
+      "bytes": 2790,
+      "sha256": "19f3d25e053b2a60dfada6aeb7a7a04fdcac967931a4ac4afd7fb5daa2a85ee0"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-1.raw.txt",
+      "bytes": 162963,
+      "sha256": "ed238d370426463ea7905013cb39861b534b7c5a76502342606f020c21abb17f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-2.meta.json",
+      "bytes": 747,
+      "sha256": "c3c869d9ba04c6893dd67888d5448cce499d4cf02aceddf23bfb66ec41718a7d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-2.raw.txt",
+      "bytes": 100,
+      "sha256": "b1e6ca31eba2bd9ead6af2a905a39a5bf97a1e067cbffbf826bcf1ca3abaaa33"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-3.meta.json",
+      "bytes": 2828,
+      "sha256": "2818416d752284abac34ed55ea09673390c7386f8fbce096be3598a56285cd6c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-3.raw.txt",
+      "bytes": 145768,
+      "sha256": "e2299bb92fbebf0a613008f4e99c52c2b3de854434c796e96dcb1495ae164c92"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-count.meta.json",
+      "bytes": 6349,
+      "sha256": "84350abd0773f8efb100401298fbf571c584f4a0d450010647c57e7ad590eebc"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-support-count.raw.txt",
+      "bytes": 85236,
+      "sha256": "76950a0a46ef23a058f73f1f02086890642798fe557f4fa9f20edc5a7c55a493"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-wiki-browser.meta.json",
+      "bytes": 6201,
+      "sha256": "306b7ad6f6b33b3aa28ddaffe2e994c2ff6f0a702a466b503c64d8daf35f69d7"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-wiki-browser.raw.txt",
+      "bytes": 222604,
+      "sha256": "1c2fe93464dc64e560cbc49c20ad1fe105b1921f6ebc20de94729930703c9ce8"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-wiki-stats.meta.json",
+      "bytes": 6209,
+      "sha256": "94f022aa46c50e0359f7e9a00a849aca2ee215c5f03d0085b1050d4df9238c62"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/fp-wiki-stats.raw.txt",
+      "bytes": 222621,
+      "sha256": "06d01e4524cc3212b8d2841dc0ca0fd7e126264dd14e7f10772da5d5caa94e5a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-commit.meta.json",
+      "bytes": 1540,
+      "sha256": "bcd8d8763c1108a7194cd640715d9c5ad5dbdf94f8ba736dea5104124821db8b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-commit.raw.txt",
+      "bytes": 5660,
+      "sha256": "fd519f9521a87af84c4c54e3b3d3f642e6c3a049c8f6a0a71112f01d89cf5c2f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-meta.meta.json",
+      "bytes": 2840,
+      "sha256": "a04eff37a6fd1e561cbd507219c2f9d3a4655f59f5fe536bbc8f0e48a9880678"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-meta.raw.txt",
+      "bytes": 6357,
+      "sha256": "0093a9b36ce29c6718fe2c88661c9d63e76d60ec855193aedfe7fd7aef7a8d7f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-pin-0.meta.json",
+      "bytes": 6205,
+      "sha256": "5a42aa5c210a19b63e980ccdaa5ab50b40a4b872aa8d7fcca50f3beecb7cf6b7"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-pin-0.raw.txt",
+      "bytes": 14551,
+      "sha256": "f9c467cf0439d59d127ff3aa4ec354b8caebbe64076b0bff1968c298e964dc5c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-pin-1.meta.json",
+      "bytes": 5193,
+      "sha256": "054c96282100bcd99ab873ad40e15a2e20ce53eb63091b1480d5760b19f506fe"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-pin-1.raw.txt",
+      "bytes": 61566,
+      "sha256": "64b658d5eb294ed652f370e3c5b1e20e94f49a1e9421440326f3d13bc7d3fd65"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-pin-2.meta.json",
+      "bytes": 6036,
+      "sha256": "8721d2b675b67fada766d8890c2ee51172a35e32b88e029793288c17d1722ee2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-pin-2.raw.txt",
+      "bytes": 17507,
+      "sha256": "d496ace8148611c1b77f7506ae9738246299b910a1dc180c7b52f0d7e5d8054f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-tree.meta.json",
+      "bytes": 2987,
+      "sha256": "80873e781a2015af7179291fba63c2751a6c39dbe2d2b14b65cefbe2dd2159cf"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gamedig-tree.raw.txt",
+      "bytes": 31101,
+      "sha256": "f186c678adbbaa7dd4633736c8c58f000447cd1207e9371680e10ce161ea0fee"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-appid-bots.meta.json",
+      "bytes": 4987,
+      "sha256": "ddf752db4853ff9d130e8997981438140c0daa305510664f86ba3635359f4d5f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-appid-bots.raw.txt",
+      "bytes": 67978,
+      "sha256": "a84f1dc839b31b101800cebef43d842358e53f2942003d86a8b46e03678d2854"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-appid-headless.meta.json",
+      "bytes": 3106,
+      "sha256": "07414e9aabb3b36e43238ae77df9292a73c74e5baf575423f609fa3579aac6ef"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-appid-headless.raw.txt",
+      "bytes": 37805,
+      "sha256": "8cd1640a738a35af1665ef98730ae008bd0535a1dc61586ebf640b721bca8b12"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-auth-issues.meta.json",
+      "bytes": 1273,
+      "sha256": "ac3c479ff217ba496f2a80b85e844f2c326e9e86616473c252f2bae8f313f462"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-auth-issues.raw.txt",
+      "bytes": 3121,
+      "sha256": "f78913c3bc71467ba5b635c7c160057def9a2b5b298940d8be4318844b554a8a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-bots.meta.json",
+      "bytes": 4401,
+      "sha256": "d0e88ca2acb39e15c82dd22b94a684ca9484b4a9d8833d1476e3ca67acf41784"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-bots.raw.txt",
+      "bytes": 55050,
+      "sha256": "cb215f954a922d318bdb9a628e3617c7aaf125a812b95fdc878d49ad169f75bb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-browser-issues.meta.json",
+      "bytes": 19594,
+      "sha256": "64b8fe83ce45c5482d9c0c3563779ea6d5d7612b74cf1245aeb7e7d1a293cf41"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-browser-issues.raw.txt",
+      "bytes": 85632,
+      "sha256": "b7a7add9dab819c815abbf2b2d945387e6ca9dbc7cbfde3c116368c64fcfdf42"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-browser-repos.meta.json",
+      "bytes": 7606,
+      "sha256": "f2b8d709c09bada8c3351e8afc36fc8b4598d4971610616c043b3276df7510fe"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-browser-repos.raw.txt",
+      "bytes": 83880,
+      "sha256": "0ec248155c5f124597721b49aef8074b4c9e03042b9d372714bca4a123ac1efd"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-count-commits.meta.json",
+      "bytes": 663,
+      "sha256": "84be87080fd23f6c271925d0b2e924d0210bade9e9aa5ca79525d847d227369e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-count-commits.raw.txt",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-count-issues.meta.json",
+      "bytes": 9391,
+      "sha256": "0e469d8e683ba002ae7fb0438f0f25fef58407c8471167368c535b63f25f348c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-count-issues.raw.txt",
+      "bytes": 32923,
+      "sha256": "0ec806d700b10cd784e6b33ff70a0daa72af61181805c393e957b8e9144f0720"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-countpath-repos.meta.json",
+      "bytes": 691,
+      "sha256": "a616ba5b61aa8cbd052a9d99d6b85b41e047f906b1e2661ebced4cbc4e4f7e76"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-countpath-repos.raw.txt",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-facepunch-client.meta.json",
+      "bytes": 5149,
+      "sha256": "822bc1d6f9da7494cc93249fc5b5b6af745c089368d9cee62d90fba699fb025a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-facepunch-client.raw.txt",
+      "bytes": 65092,
+      "sha256": "7142feb3c57aeb0ebee53d7e4e1fbfc5877b843ae869c9018d9784023ae1b813"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-facepunch-clientless.meta.json",
+      "bytes": 704,
+      "sha256": "0b92de9af1f6784eb2f14fcb99d42f374f8791eeac407c40467fd6ccc69affff"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-facepunch-clientless.raw.txt",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-facepunch-count.meta.json",
+      "bytes": 2657,
+      "sha256": "d0c1bcc1a20dcc8823b51c80191e27821310e80fc2f190a9f236315c1620c1db"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-facepunch-count.raw.txt",
+      "bytes": 27037,
+      "sha256": "04a0b998cff1412f2c088704834f7c4aa4534c32e0769fb6c84c71be291663b5"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-fakeplayers-name.meta.json",
+      "bytes": 5873,
+      "sha256": "f96ba6a2c379e7a04ca6a865b1d3befdcef800e1021902d9fafa304c0fe0ec0a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-fakeplayers-name.raw.txt",
+      "bytes": 81453,
+      "sha256": "c272abd0f25f439557427818ed8b2c09b7a6441e899f22abfc705366030d48e6"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-fakeplayers.meta.json",
+      "bytes": 1184,
+      "sha256": "40b7ad69811310c6ab10a929a25045b47e486e76d1092fae1da30483cfa0610d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-fakeplayers.raw.txt",
+      "bytes": 5567,
+      "sha256": "426560f93165bd4e3e7cf3b6a7ab0eb67fd06ba333f32806bbe6164b01a10edf"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-fpapi-repos.meta.json",
+      "bytes": 1687,
+      "sha256": "15ef0113da23441cea8317004939d34fdb76ef6b39a1494330fe312b6528238f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-fpapi-repos.raw.txt",
+      "bytes": 16743,
+      "sha256": "8ef61405ac3180cfa4f3b70186c7decc0c5e9979183408b1fc968f9731849841"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-headless.meta.json",
+      "bytes": 4433,
+      "sha256": "611cd6b2ab8b9bd4c0f400ffa80510873c72f490490b0c52233b9b4af9b0c037"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-headless.raw.txt",
+      "bytes": 53672,
+      "sha256": "2336596b92e9063275141ffb33f5bad257031f65b4f10031e8d0c7b396f8f679"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-playercounts-code.meta.json",
+      "bytes": 673,
+      "sha256": "bdf01e484643862c681237261e1dc359e22dea7ecde5801952fbf7c594219c74"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-playercounts-code.raw.txt",
+      "bytes": 79,
+      "sha256": "c9938edecb99d754b2d039ac9eec320a94c769b6a6417921e2dcbef9e2fe01a0"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-population-issues-clean.meta.json",
+      "bytes": 27935,
+      "sha256": "f827491f3fbb3aea5cec94283d3d37a80ddbe4babd4d7ee1aff0a010fad9b0a8"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-population-issues-clean.raw.txt",
+      "bytes": 113321,
+      "sha256": "36f1fa11845c5cdb6f7f5dee4f505408dd1b344b36ba03ee5e3850a1fc938b43"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-population.meta.json",
+      "bytes": 4619,
+      "sha256": "5e53e6b3b0ecb6544adb34b50ec92d87297dfe4fc2e5315c5b47f701d138831c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-population.raw.txt",
+      "bytes": 53493,
+      "sha256": "7df9505914f8780124682e12c710c6278ff16b6404161759bfdbd12aad8bce55"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-afk.meta.json",
+      "bytes": 6057,
+      "sha256": "01dd6be89c3e3b4b456b35e7ba6daa62064fb155f3c058fd839c41a64a2bb5db"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-afk.raw.txt",
+      "bytes": 80118,
+      "sha256": "30bac31f70004ada417578139080faea147d53b28073ecf4cd0bdd6ec6092297"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-authplayers.meta.json",
+      "bytes": 4988,
+      "sha256": "8ec0f348dc50d220478e49594e95a38fb5b41461514dc1bcfd65b3630c24a0f7"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-authplayers.raw.txt",
+      "bytes": 60600,
+      "sha256": "be611f1f9aa79655471c51c13bbda888f5e2fc10ffbeac7d5242d616d94bfb6f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-botname.meta.json",
+      "bytes": 5136,
+      "sha256": "f6ac6bae174d204bbe537c3494f4f2ed61727396350a28ea1f9f42733164be53"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-botname.raw.txt",
+      "bytes": 54935,
+      "sha256": "90bc35fc518971224df1ec6acd1a981c073a6000831162042d5b9f8f68313f36"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-fakename.meta.json",
+      "bytes": 4844,
+      "sha256": "18ba593ece8a629064fa80dff26b46fabd7f05ec161db203e3c3b2e88bc41608"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-fakename.raw.txt",
+      "bytes": 64851,
+      "sha256": "5724ca9232910c32cdcd97cb0efd9d0d8391abc7274d6f102f6c33e819712c78"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-gameclient.meta.json",
+      "bytes": 2022,
+      "sha256": "60fca85ab839a47622bfcc0398884ba4a4dd9d55aea2f88397a3e6ec43f767d4"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-gameclient.raw.txt",
+      "bytes": 16551,
+      "sha256": "5b8f569621d484c47c81d0b485d2acb062944f6dbaa857d9809e0452c3f3ac89"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-raknet.meta.json",
+      "bytes": 5778,
+      "sha256": "8c7da0591d5c26196e9548e083ce19ecf77a3d1937a3e3086db43197c9721651"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rust-raknet.raw.txt",
+      "bytes": 76860,
+      "sha256": "0387d52e7c0cf89fbc848427473d9993eb3f485ee711b66286a14b8d830c4e71"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rustclient.meta.json",
+      "bytes": 4808,
+      "sha256": "782aabaf8929c540a39bd699c7d5597f231c66df7a0e70d51def8a3366e66265"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rustclient.raw.txt",
+      "bytes": 68075,
+      "sha256": "600dad695d747ef0a52ad49559f818a2af88ce3b0004e2992a1c4aa8194db523"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rustinterceptor-meta.meta.json",
+      "bytes": 2815,
+      "sha256": "8763defbc2b12b8669d30360740051768c94eedd6777574d1d4af49164fcb0b3"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-rustinterceptor-meta.raw.txt",
+      "bytes": 5276,
+      "sha256": "9998f8deb80e4ad76543e2b7d7d5df2d902e09a85fa5da4b38b27ca255f2593a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-server-population.meta.json",
+      "bytes": 3686,
+      "sha256": "a437ef8f96f17dbb36207d836cae8946b37ea702d0372fb82a7f72364ffe792f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-server-population.raw.txt",
+      "bytes": 48099,
+      "sha256": "c4e1d4f3db2f1f6f76eef7b4ea5be79f850e6a24dd74294048c39c091579937f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-spoof-issues.meta.json",
+      "bytes": 25380,
+      "sha256": "9f73e0e1f58fd4c030532b97255757947b9b32be8d897a862f05695357e9a208"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-spoof-issues.raw.txt",
+      "bytes": 129528,
+      "sha256": "207b7ef7523d108dacb6d6c7cc81a97c3f6536df7dc4c67886a5fcd1d9b8c1c5"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-trusted-commits.meta.json",
+      "bytes": 802,
+      "sha256": "7224a482edfb67eea1ee4f95d6182157ad9ad98a59b5a36386b7301342a8483e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-trusted-commits.raw.txt",
+      "bytes": 8414,
+      "sha256": "0543ed1e1123321b859494d65210c61dd17b7e5b050b051f64b84f9b8b055bfb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-trusted-issues.meta.json",
+      "bytes": 25398,
+      "sha256": "a43a4f93cf1866a6545c6e78e4e86aa3dccd1b08f3e8bb421d7bdaa630456796"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-trusted-issues.raw.txt",
+      "bytes": 176785,
+      "sha256": "54e3f5e805d2754678fc2fc98eba63a8dcb22ebaf64bdf92735d297520d6b84e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-trusted.meta.json",
+      "bytes": 5028,
+      "sha256": "682414a480fe4b398da12ffd9368d677a200b4738c5b71b85fb8331c00abca63"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/gh-trusted.raw.txt",
+      "bytes": 55755,
+      "sha256": "a045e7704be25bdb6d015ad2fcf959cabec89a1424017072badda1acab36ff1e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/grep-playercounts.meta.json",
+      "bytes": 677,
+      "sha256": "7283d22dc264d4d948fa3b238f03f0bd2ad6253212cf992ef390efa30642dfe2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/grep-playercounts.raw.txt",
+      "bytes": 34222,
+      "sha256": "3223d1686e2c00f26ec149b9d1ec3c879b61236268b77c6d907bae1d62f59469"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/interceptor-pin-0.meta.json",
+      "bytes": 6211,
+      "sha256": "41c2608461e48ce8a5558b109ca9df38332a46aea60e81b7a9bea9064aea6b60"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/interceptor-pin-0.raw.txt",
+      "bytes": 2750,
+      "sha256": "6fd5842496e1ce2d1a63d0f82aa80b44da8aa8ccf2392d507a88f72e66a6d1ec"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/interceptor-tree.meta.json",
+      "bytes": 3001,
+      "sha256": "c259f887d2e3eea080f2ab9dd3a833c06c7852dff2c56ac766ba43f6c6225ad5"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/interceptor-tree.raw.txt",
+      "bytes": 11685,
+      "sha256": "6af542d8a6dcea4e147cf18f2e804398aacba0a423bb6954c2c3878b108c38f0"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/mojeek-count.meta.json",
+      "bytes": 542,
+      "sha256": "591e734423e03a00e99e15d16b3fda21a84ad9f31076e8ac41f5d1601fb9c315"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/mojeek-count.raw.txt",
+      "bytes": 355,
+      "sha256": "b7dc113f37b3255d58761143b3fc4dcfc1c39ff6e6b9309fa6f0b791f855d399"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/protobufs-commit.meta.json",
+      "bytes": 1643,
+      "sha256": "c2573ecc14473fae71d088aa1e3cb80e5b08c746e8bb94c0db1f7c8042eb0a5f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/protobufs-commit.raw.txt",
+      "bytes": 5568,
+      "sha256": "d63bd56fd32ff69571e8d74d2ecfc8bf87d6f309a42bdd839815b62e704b93b9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/protobufs-pinned-server.meta.json",
+      "bytes": 6498,
+      "sha256": "8f20559af9d34fd893e5c752a6c3cf3d53120c060fa6b2ceb4216230e2aa6bfc"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/protobufs-pinned-server.raw.txt",
+      "bytes": 4657,
+      "sha256": "9e8f8235a9481a7d4260e94a2d2b0cef959424a807425707052fe2b7125533a9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-0-commit.meta.json",
+      "bytes": 1561,
+      "sha256": "dfcd3e3792e75ed9986846048e816fbe785a3fbe49730aafcf42236853937995"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-0-commit.raw.txt",
+      "bytes": 3327,
+      "sha256": "4226296a9631a188d999048956f175bf3975c9f4d9fe608588c11ac65135476b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-0-meta.meta.json",
+      "bytes": 2827,
+      "sha256": "1b2acbb3f931132d58c156b5e60cb00420d26e4bc9f5984d6fc9b5086a038c7d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-0-meta.raw.txt",
+      "bytes": 5211,
+      "sha256": "60c58fd977f551fb7c819d06c028a00c2b8fb1375584b73c58caf2a01f17843c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-0-readme.meta.json",
+      "bytes": 8693,
+      "sha256": "8842f7fc1079f69fc61986c7063dc22588d3294b373a241f7f7a7eb87c5a50c7"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-0-readme.raw.txt",
+      "bytes": 6291,
+      "sha256": "2396e6707888b3d87820b7befffad6a1e0430ebe7e229e10b36300e0f7ba54de"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-1-commit.meta.json",
+      "bytes": 1581,
+      "sha256": "94b46d85abf32d62da65d923ba4dd3e4e0dd4179bfe936926bd7e56489d32ff9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-1-commit.raw.txt",
+      "bytes": 4438,
+      "sha256": "219ba0a4e50fde55868c001ab4a766c118987e4ba3b8cfe90d0949305042c357"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-1-meta.meta.json",
+      "bytes": 2846,
+      "sha256": "909ac409ad419af2c772f4c7c671c00bf4c5a8486c9d4cc4380c5a8fa9ad4d53"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-1-meta.raw.txt",
+      "bytes": 7174,
+      "sha256": "efede6c537180af7997cd168d7f26cd865b3330c307592f32f50b788b999f121"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-1-readme.meta.json",
+      "bytes": 6051,
+      "sha256": "ba726f3a823640d3701e3b31302d30d79afe1651bb484ab98c238062ae03c47d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-1-readme.raw.txt",
+      "bytes": 3622,
+      "sha256": "d873dcec1852afe955f8e639a917dc9beb8ebd2d6cf9094d3545512556227c0c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-2-commit.meta.json",
+      "bytes": 1567,
+      "sha256": "b639abc1975e3fdee2710a590b41cf7a2ae2c69b91a2e868693ff7b02a1be9f3"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-2-commit.raw.txt",
+      "bytes": 3220,
+      "sha256": "308c42ebad2634690e2377d5cb52f25afe3bbfb62efaf9632f4fab4943f6cb6d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-2-meta.meta.json",
+      "bytes": 2835,
+      "sha256": "66b30169eeb740afc5ef24e6ffa134e465900701098d35fb6ddd8b4e4c56eee2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-2-meta.raw.txt",
+      "bytes": 6166,
+      "sha256": "82820e39a544b967f9fd4be8163d9add7837c3798b65aaaca70424ae262d1eaa"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-2-readme.meta.json",
+      "bytes": 3926,
+      "sha256": "dd763284c1c67ee03acd3951d216f5d8b5b15eac89254a65a696ff5eb1506eb0"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-2-readme.raw.txt",
+      "bytes": 748,
+      "sha256": "f85ae8b14b1d8dcead09da637b7e4f2c6218a12968d640b3d431181d8b7f4a06"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-3-commit.meta.json",
+      "bytes": 733,
+      "sha256": "9382bfc8b42e632f4c16be8ad37017243e2b365121ff187ecfca29cbb6934e4e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-3-commit.raw.txt",
+      "bytes": 133,
+      "sha256": "3219c624a5654c384fdc372f69b58a3942d6e803c23f6a877a656adc805c436f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-3-meta.meta.json",
+      "bytes": 2825,
+      "sha256": "5f71704a071baa00ee140ab6222cfdbf6692f368256beda2a3de284bc7e6cc1b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-3-meta.raw.txt",
+      "bytes": 5564,
+      "sha256": "305ed20c2d19938857e289852676d45cefa703f4b0df8fd4ca4329c62b9c82fd"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-3-readme.meta.json",
+      "bytes": 554,
+      "sha256": "0be01d7248b05c76fd3e7c8a2f1db5b2a224d237a7773111c0223cfd94e51926"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-3-readme.raw.txt",
+      "bytes": 128,
+      "sha256": "cd06f5cb22929a0bc5fb340149daaab49796a37572df0b2fcb8ac3dfafbae4c9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-4-commit.meta.json",
+      "bytes": 1531,
+      "sha256": "f5db4b8bfc876ca0c2ea3b65caf544cdd9994bf399fb236f64cc44e21a5f1b36"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-4-commit.raw.txt",
+      "bytes": 5682,
+      "sha256": "72708fd53ee163547927ec5ad5bc759165b828ab11b1a112af7c044fe2739f61"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-4-meta.meta.json",
+      "bytes": 2833,
+      "sha256": "87687c1dc9a06d2a0692315c4e2af81ffdcc68dab82959902753158c32b05c24"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-4-meta.raw.txt",
+      "bytes": 5134,
+      "sha256": "488254a6e429668d4bebfdac89fadcc73d6e60cd1ea11580e9416eaaa7010d5e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-4-readme.meta.json",
+      "bytes": 5684,
+      "sha256": "689e35e19d2d34c726b27c5c5c687c97bada73bf48cea61d2fa16d8f0c63bea0"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repo-4-readme.raw.txt",
+      "bytes": 7917,
+      "sha256": "60be0e63e971a2794367f2e822ad6c5980842b1989907e05466282fff23cd7d5"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repos-a-results.json",
+      "bytes": 46627,
+      "sha256": "be8777fd30bb1c57ff42251be09cb7b7dfca40e3842689e3e09294a572ae6006"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repos-a.json",
+      "bytes": 3185,
+      "sha256": "fd1bf78deaafa9e4f8bcd666af170fb37bbe40ec895b9ae7547ca5c3338d2ac5"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repos-b-results.json",
+      "bytes": 20581,
+      "sha256": "72190cd79a16d9f80ec75ca3dca992e83bd9a025cef511111e664c26ada48c4e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/repos-b.json",
+      "bytes": 1356,
+      "sha256": "b9f385acd0825f467f14218071d069d150902604fed46ea5fa393e69dbd6cbab"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/rust-interceptor-commit.meta.json",
+      "bytes": 1592,
+      "sha256": "485adadb34a91db3a35bfb3879bbc6fb696f6dc779f1f8f7439d0982884b13bd"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/rust-interceptor-commit.raw.txt",
+      "bytes": 3208,
+      "sha256": "b0667f36f14b0b77b77582db9bc6e145c37af6b9eadbef9883530280decc5057"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/rustbot-readme.meta.json",
+      "bytes": 4569,
+      "sha256": "4b7c8fe7b26fa5ef6c364121cebf04a51acd9d477b8f8cf0c9f61066e100428d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/rustbot-readme.raw.txt",
+      "bytes": 3441,
+      "sha256": "ce571b08f622cc161e81d0a04103c945dad3dd9a6ce22d2e84f0475d541609fc"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-a-results.json",
+      "bytes": 66071,
+      "sha256": "8abb3fcff6a6569f56194d6030d43e00716d8e590dcb091e9f0fea599ebcfb59"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-a.json",
+      "bytes": 2020,
+      "sha256": "b7edeb44e322e0cbdcba0d3d5de2afbdb20eda2159fffb99f1c754963a1da90a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-b-results.json",
+      "bytes": 24797,
+      "sha256": "d7c1fc9d21719b323606a2d6d7c62fdc41e4b610f19fbb2112dd80f6812480c6"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-b.json",
+      "bytes": 2180,
+      "sha256": "5a9097dd1603af55ee4746ef0bc4143aa33c651221c76f2263556393ac2092b7"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-c-results.json",
+      "bytes": 21344,
+      "sha256": "384de6304ed9f5d098e390bed8854cc35348f385b50e4a91a2ba35d70676484e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-c.json",
+      "bytes": 2083,
+      "sha256": "b44beed4613cba6a4f243222a3d52e71ce0ff9b5a485115cb91884eaace7b341"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-d-results.json",
+      "bytes": 94400,
+      "sha256": "9a7525c71cebf1dd02c01720b0ba62d038892dbd3c8d8ea7cb7ba95ede15831c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-d.json",
+      "bytes": 2031,
+      "sha256": "84c5a09e7fec1e90960b10a9c54896a664ca006e04bb5b6e1f9fd1609b47c185"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-e-results.json",
+      "bytes": 29437,
+      "sha256": "96619cfc32b95986d6e3680c457608414db00479b83d37d6f19efb0565dfb82b"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-e.json",
+      "bytes": 1024,
+      "sha256": "87ad762018dc324fc1e8c90e54685430dd911170662da7a1bfb79e4c0619e9f3"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-f-results.json",
+      "bytes": 46722,
+      "sha256": "43f671f1121aa34c44a59da758db55635e50b3992166d4ca4ac1e17c53f481f1"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/search-f.json",
+      "bytes": 1485,
+      "sha256": "aee7dbe3801fd5c10332c0a0dd06bb3d043c1bcd435c1eb435afa4a097e75e60"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sourcegraph-count.meta.json",
+      "bytes": 631,
+      "sha256": "97416d4e1b2f4558ec8ecda8b630644570040f6901fcd9997520b2258bc9f516"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sourcegraph-count.raw.txt",
+      "bytes": 17665,
+      "sha256": "7d7c0081b5bf3976875092ea575323e98c2a40ff3b304e5f9d308e1478cdb012"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-a-results.json",
+      "bytes": 68054,
+      "sha256": "868605f466acb2f7ce4ffac682f2d83c0d54a92995e3e977fb3fe9add29f1291"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-a.json",
+      "bytes": 1903,
+      "sha256": "b58a51faf0c9e0c98422b330d99519d4208f74d8169866a4d06179b0c1e4d42f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-b-results.json",
+      "bytes": 18007,
+      "sha256": "2877d7359324ecd81037b7d1957255023b4a97e96863e0c32ee45f723f58e272"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-b.json",
+      "bytes": 2057,
+      "sha256": "dc6666833f3d658b2dfd5e47a98517c15c6fb6d35d8f2f6e864332e04b67a379"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-c-results.json",
+      "bytes": 9795,
+      "sha256": "5902cd0c19e4396faccd1a887f410146ffc84f1b766d495af563fcb415d79596"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-c.json",
+      "bytes": 2515,
+      "sha256": "93dd5d50ef15a89b9f9feda5c68c741a394fdbadfcac3c8db67e0828194292b2"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-d-results.json",
+      "bytes": 43619,
+      "sha256": "83a858ff76f219eeb3512e817a09eb00dfa820f6dc3ffe46c7ede74db15558f6"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-d.json",
+      "bytes": 3612,
+      "sha256": "2b5a5dd20798fafb22d01c23abe02ef9905cfd52659a31abaa9230ec0aaaecaa"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-e-results.json",
+      "bytes": 7363,
+      "sha256": "a712237d8f74d229a9f4110535c4d27a7c0bada1ba30fbc53a26715111cd434e"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-e.json",
+      "bytes": 2509,
+      "sha256": "af05c4daef9c86f2cecbddd4347a484bbaae43a237ed7eca39c8c6c17db44504"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-f-results.json",
+      "bytes": 46176,
+      "sha256": "46a53f8997bd95974c79836e7860cd6d60b0734d068ad040da0baf0414b52002"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/sources-f.json",
+      "bytes": 770,
+      "sha256": "f1b7f7afe5f0c3b4924e9efa44ddc02001efe0501ed62b8c71245d712318ab19"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-advertise.meta.json",
+      "bytes": 17587,
+      "sha256": "9098e161e8657a8356a4acb7d8bccc0460aa63a081e68415112195531b8a6945"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-advertise.raw.txt",
+      "bytes": 179383,
+      "sha256": "c3ebfa262a27719cc98d76d394786c05d3e8719cd474997660031050b5c0bed8"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-matchmaking.meta.json",
+      "bytes": 19757,
+      "sha256": "bcceb2b142fbe45de2e62c75d40a8abe23f39883b09d87e0cdfb08d5c05d2ecb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-matchmaking.raw.txt",
+      "bytes": 154633,
+      "sha256": "c33ffc2be135c50ea5d8f08771fcacc0774a5bc2704a3d4ec127573f95cd6ae6"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-0.meta.json",
+      "bytes": 3181,
+      "sha256": "2f03777a78752402c08bf1ba54cee85c1faa93d746f3c58bc2ae1ff4310f7735"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-0.raw.txt",
+      "bytes": 3401,
+      "sha256": "c86a0739a11244fbde7e43fb9666ff1c321c563097645d5ddf5b5f2360cb6bac"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-1.meta.json",
+      "bytes": 707,
+      "sha256": "9a64248b005997a580eebb8df330cca181e59cbab748ac20995bff15a4994c89"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-1.raw.txt",
+      "bytes": 15287,
+      "sha256": "3fae720822216b20fc010e14cc5b0b552d1c0ea3ae968307a556b3502feb1fcb"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-2.meta.json",
+      "bytes": 1854,
+      "sha256": "68440052537f4fbba5a3f1ec156210844972060abc3e06a6d02fa4dbe75ab3f9"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-2.raw.txt",
+      "bytes": 32366,
+      "sha256": "79abc2530e8896dff57d8630c5461c7209d3e6c2c74e05997747512999743399"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-3.meta.json",
+      "bytes": 6171,
+      "sha256": "0dbb4dac58419c06739fd8a7e1857d03041ef5f7bc3346e3b1e28e5dac778d7f"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-pin-3.raw.txt",
+      "bytes": 133423,
+      "sha256": "fbbe434a3d403904ed04f6da672258d08cd19831bef8d7cd3afc38049b43a768"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-user-latest-commit.meta.json",
+      "bytes": 1602,
+      "sha256": "4fd2cf4f4caf1d8a283eea35a40b38a0c00fd94ab8e7ea0cbbb812c58de83b51"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steam-user-latest-commit.raw.txt",
+      "bytes": 4460,
+      "sha256": "29362d52e1eabf00ac0597c45cf814ea9a216c94850d261d308db832a20a067a"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steamworks-server-auth.meta.json",
+      "bytes": 19762,
+      "sha256": "72916e2c70ee8aee5864a148c0c3dfc504eed9e98b98ef4eb3e0669ad4acf638"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steamworks-server-auth.raw.txt",
+      "bytes": 172138,
+      "sha256": "60cef8e4ce9fc1cf87f46596e31a69c8164320bbf10e069c86d0d32953789b72"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steamworks-users.meta.json",
+      "bytes": 18656,
+      "sha256": "d4ef3ae83d84ff19e725d7c711d8eeacfec9946c4deed0a49d90d1b93b65c896"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/steamworks-users.raw.txt",
+      "bytes": 142984,
+      "sha256": "3856ddcc7148b7789355e9aa42554740d745912504d9b44b7e0ba0feedb2f9ab"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/trees-b-results.json",
+      "bytes": 5641,
+      "sha256": "086092d7ef29dece12fb143fdde8f49688e8824ec9d13897b29a7fe5b138d832"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/trees-b.json",
+      "bytes": 726,
+      "sha256": "b45a478f0315dc4ca9032fe7b6687c5481df632a6c1a32ccc52d670b93eba29c"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/umod-fakeplayers.meta.json",
+      "bytes": 501,
+      "sha256": "e7dc03b33b29520d47a25fae0914f9e05ec66785caebd5f2fc0b7b422420eb5d"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/umod-fakeplayers.raw.txt",
+      "bytes": 5519,
+      "sha256": "74340fb6e55513d155908d6da2e831393bfaa50719761f72e9970f44a03d5aa3"
+    },
+    {
+      "path": "work/web-count-survey-20261025-0933/write-report.py",
+      "bytes": 26193,
+      "sha256": "379442762936f1c268231f40d926605d9169a06fa7bb4b6f71ed681cb2c49230"
+    }
+  ]
+}

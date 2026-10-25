@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25 17:50：网络项目与官方资料复核已整理
+
+用户要求搜索GitHub及各种网络资料继续研究。先读 `rust-research/public-count-web-survey-2026-10-25.md/.json`：127次公开请求、103次HTTP200（并非103条有效技术来源），22组仓库/7组issue/2组提交搜索，13项目分层复核、16份固定提交源码/schema/README。未找到已验证公共人数修复，不将有限检索写成“所有公开实现都不存在”。
+
+新直接源码证据：GameDig Rust分支用cp覆盖numplayers；K4RLis浏览器读BattleMetrics且可混入Steam GetServerList.players，rust-servers-io读BattleMetrics；黑名单监控只读Servers.Banned。steam-user上游HEAD02818bd的gameservers/appauth/apps/README四份与本机换行归一化后完全相同，未取得依赖升级能修复人数的依据。2026-09-09Steam schema仍区分auth_players=3/players=8、查询/游戏端口。2016RustInterceptor为代理解析项目，Anti-AFK源码是SendKeys；三条名称误匹配及一个空宣传仓库已排除，详见项目表。
+
+ignored `work/web-count-survey-20261025-0933/`保留请求、原始响应、固定提交及复核脚本；JSON固定258项证据SHA。Bing部分结果无关、Google/Jina/DDG等连接失败；grep.app429、Sourcegraph/Mojeek/uMod403，未绕过。Facepunch提交站四种查询URL均返回同一最新列表，不能当完成官方历史搜索；三个wiki路径404。所有限制已记录。
+
+本轮只有公开网络只读检索和源码文本分析，无Steam登录/新游戏连接/现有连接停止/服务器修改/DLL加载/下载项目执行/通知发送。没有新的清理义务。后续优先补上次实验未记录的playingState/blocked及可见活动，或受控官方客户端差异/正规后台采纳依据；不要再次以第三方工具cp增长当Facepunch公共人数修复。
+
 ## 2026-10-25 17:17：真实身份关联候选已实测，未见公共人数收益，已清理
 
 最新结果先读 `rust-research/presence-association-experiment-2026-10-25.md/.json`。实验完成同一隔离账号/同一游戏连接 control6分钟→associated11分钟→restored6分钟，23样本/四组来源全部成功。关联阶段11样本真实名单/cp均14、公共均3，原研究7和其他6身份集合不变；两个晚于阶段起点的公共Last-Modified响应均3。control已4→3，发生在关联之前；还原阶段有其他玩家加入，不能把后续变化归因还原。没有已验证公共人数修复或服务端人数DLL，未将候选并入正常服务。

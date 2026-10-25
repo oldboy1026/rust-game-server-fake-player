@@ -258,6 +258,8 @@ await api.stopIdling('account1');
 
 `GET /v1/accounts/{id}/rust-session` 的 `steamAuthentication` 返回本账号 Rust 票据活动及验证观察状态，不返回票据或身份字段。`GET /v1/accounts/{id}/rust-steam-count` 通过当前 Steam 连接只读查询最近所选游戏地址的 GMS 认证人数，另在 `serverList` 保留 `GameServers.GetServerList` 的状态和人数；该 `players` 字段不保证等同于认证人数。缺失或失败保持未知值。它们与服务器 A2S、`cp` 和 Facepunch 可信人数是不同来源，不能用单个数值证明某账号已计入 Rust 列表。
 
+2026-10-25 的网络资料复核见 [公共人数项目与源码调查](../rust-research/public-count-web-survey-2026-10-25.md)。GameDig 的 Rust 人数取自 `cp`，部分第三方浏览器使用 BattleMetrics 或 Steam `GetServerList.players`；这些值不能直接作为 Facepunch 公共人数修复的验收。已核对的四份 steam-user 上游文件与本机一致，本轮尚未找到可验证的公共人数修复实现。
+
 `metadata.ownPlayerState` 观察本账号完整实体快照中的生命与玩家标志。`observed=false` 表示未知；观察成功后提供 `sleeping`、`receivingSnapshot`、`lifeState`（alive/dead/unknown）、`healthPositive`（布尔或未显式观察时的 null）、观战/受伤/连接/切换加载标志、字段是否出现、快照和状态变化计数、`ageSeconds`。Sleeping=false 不能单独证明角色存活或已醒；entered_game 也只表示此前确认入服。年龄以最近一次 worker 报告时刻计算，解析失败时保留旧状态并继续增加年龄；目前未核对消息序号，不能把旧快照当作当前服务器状态。`entityParseFailures` 统计所有 Entity 的解析失败。诊断不输出玩家 ID、坐标、生命值数值或原始标志，也不发送唤醒或移动输入。
 
 历史研究已在当时目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；2026-10-25 新增的一次 PlayerTick 已实际观察到唤醒，随后补上唤醒后的连接维护。有效 EAC 受保护会话仍未实现，遇到 EAC 或非零加密要求继续停止，不能保证其他服务器兼容或无限期留服。历史实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
