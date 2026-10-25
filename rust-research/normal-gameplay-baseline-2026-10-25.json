@@ -1,0 +1,2682 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T10:10:01.732Z",
+  "status": "baseline_complete_manual_official_trial_complete_followup_report_separate",
+  "userConfirmed": {
+    "officialClientAlreadyPlaying": true,
+    "currentAccountIsAnotherNormalAccount": true,
+    "willingToManuallySwitchToUnusedProjectAccount": true,
+    "testAccountOfficialAdmissionNotYetConfirmed": false,
+    "testAccountAdmissionConfirmedLaterAt": "2026-10-25T10:12:47.479Z",
+    "testAccountDepartedManually": true
+  },
+  "baseline": {
+    "startedAt": "2026-10-25T10:00:14.421Z",
+    "frozenThrough": "2026-10-25T10:09:14.570Z",
+    "samples": 19,
+    "observations": [
+      {
+        "index": 0,
+        "at": "2026-10-25T10:00:14.421Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:00:14.603Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16124.71s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": false,
+          "positionChangedOverPoint2": null
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:00:14.6019339Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17113276
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:00:14.951Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:00:15.050Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:00:15.568Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:00:15 GMT",
+              "age": "26",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 1,
+        "at": "2026-10-25T10:00:44.433Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:00:44.602Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16154.71s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:00:44.6000337Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17117665
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:00:44.966Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:00:45.086Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:00:45.582Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:00:45 GMT",
+              "age": "56",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 2,
+        "at": "2026-10-25T10:01:14.447Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:01:14.604Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16184.72s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:01:14.6395947Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17121974
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:01:14.966Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:01:15.089Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:01:15.617Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:01:15 GMT",
+              "age": "86",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 3,
+        "at": "2026-10-25T10:01:44.455Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:01:44.602Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16214.71s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:01:44.5941213Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17126257
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:01:44.976Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:01:45.095Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:01:45.475Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:01:45 GMT",
+              "age": "116",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 4,
+        "at": "2026-10-25T10:02:14.469Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:02:14.600Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16244.71s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:02:14.5971685Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17130709
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:02:14.996Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:02:15.116Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:02:15.680Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:02:15 GMT",
+              "age": "146",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 5,
+        "at": "2026-10-25T10:02:44.479Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:02:44.601Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16274.71s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:02:44.5967822Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17135060
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:02:45.005Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:02:45.083Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:02:45.839Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:02:45 GMT",
+              "age": "176",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 6,
+        "at": "2026-10-25T10:03:14.485Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:03:14.703Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16304.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:03:14.7072139Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17139443
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:03:15.009Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:03:15.132Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:03:15.519Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:03:15 GMT",
+              "age": "206",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 7,
+        "at": "2026-10-25T10:03:44.488Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:03:44.697Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16334.81s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:03:44.6998317Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17143743
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:03:45.015Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:03:45.109Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:03:46.322Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:03:45 GMT",
+              "age": "237",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 8,
+        "at": "2026-10-25T10:04:14.503Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:04:14.700Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16364.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:04:14.6962104Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17148046
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:04:15.035Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:04:15.124Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:04:15.739Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:04:15 GMT",
+              "age": "266",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 9,
+        "at": "2026-10-25T10:04:44.504Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:04:44.700Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16394.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": true
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:04:44.6915438Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17152729
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:04:45.239Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:04:45.367Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:04:45.891Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:04:45 GMT",
+              "age": "296",
+              "last-modified": "Sun, 25 Oct 2026 09:59:48 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 10,
+        "at": "2026-10-25T10:05:14.506Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:05:14.704Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16424.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": true
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:05:14.7003805Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17157409
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:05:15.242Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:05:15.346Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:05:15.736Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:05:15 GMT",
+              "age": "25",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 11,
+        "at": "2026-10-25T10:05:44.513Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:05:44.694Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16454.81s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:05:44.7034461Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17162010
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:05:45.207Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:05:45.290Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:05:46.076Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:05:45 GMT",
+              "age": "55",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 12,
+        "at": "2026-10-25T10:06:14.518Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:06:14.696Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16484.81s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:06:14.6944698Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17166658
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:06:15.155Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:06:15.240Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:06:16.354Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:06:15 GMT",
+              "age": "85",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 13,
+        "at": "2026-10-25T10:06:44.526Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:06:44.702Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16514.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:06:44.6946435Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17171417
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:06:45.289Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:06:45.403Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:06:46.665Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:06:46 GMT",
+              "age": "116",
+              "last-modified": "Sun, 25 Oct 2026 10:04:53 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 14,
+        "at": "2026-10-25T10:07:14.539Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:07:14.705Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16544.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:07:14.6899234Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17176139
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:07:15.282Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:07:15.406Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:07:16.137Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:07:15 GMT",
+              "age": "145",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 15,
+        "at": "2026-10-25T10:07:44.552Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:07:44.702Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16574.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:07:44.6898209Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17180918
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:07:45.311Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:07:45.442Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:07:46.041Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:07:45 GMT",
+              "age": "175",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 16,
+        "at": "2026-10-25T10:08:14.561Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:08:14.705Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16604.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:08:14.6981823Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17185620
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:08:15.336Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:08:15.457Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:08:15.876Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:08:15 GMT",
+              "age": "205",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 17,
+        "at": "2026-10-25T10:08:44.566Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:08:44.695Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16634.81s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:08:44.6904808Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17190272
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:08:45.326Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:08:45.434Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:08:45.971Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:08:45 GMT",
+              "age": "235",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      },
+      {
+        "index": 18,
+        "at": "2026-10-25T10:09:14.570Z",
+        "sourcesOk": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "entered": 7,
+          "active": 7,
+          "baselineRunsUnchanged": true,
+          "officialIdentityInProject": false,
+          "officialIdentityHasPrimaryRustSession": false
+        },
+        "roster": {
+          "at": "2026-10-25T10:09:14.695Z",
+          "total": 13,
+          "serverInfoPlayers": 13,
+          "joining": 0,
+          "queued": 0,
+          "officialIdentityPresent": true,
+          "officialConnectedSeconds": "16664.82s",
+          "officialHealthPositive": true,
+          "researchExcludingOfficial": 7,
+          "otherExcludingOfficial": 5,
+          "researchMatchesBaseline": true,
+          "otherMatchesBaseline": true
+        },
+        "healthGroups": {
+          "research": {
+            "total": 7,
+            "healthPositive": 0,
+            "healthZero": 7
+          },
+          "other": {
+            "total": 6,
+            "healthPositive": 6,
+            "healthZero": 0
+          }
+        },
+        "officialNormal": {
+          "present": true,
+          "healthPositive": true,
+          "positionCompared": true,
+          "positionChangedOverPoint2": false
+        },
+        "researchSessionLifecycle": {
+          "total": 7,
+          "respawnEnabled": 7,
+          "respawnSent": 7,
+          "ownStateDead": 7,
+          "historicalAwakeObserved": 3,
+          "tickPacketTotals": [
+            1,
+            1,
+            1,
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "probe": {
+          "at": "2026-10-25T10:09:14.6836340Z",
+          "totals": {
+            "active": 13,
+            "alive": 6,
+            "dead": 7,
+            "sleeping": 0,
+            "connected": 13,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 6,
+            "networkConnected": 13,
+            "networkAuthenticated": 13,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "steamLoggedOn": true,
+          "focusAccountCount": 3,
+          "inputHookCalls": 17194802
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T10:09:15.091Z",
+          "a2s": {
+            "observedAt": "2026-10-25T10:09:15.180Z",
+            "ok": true,
+            "players": 18,
+            "cp": 13,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T10:09:16.067Z",
+            "ok": true,
+            "players": 4,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 10:09:15 GMT",
+              "age": "265",
+              "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        },
+        "serverIdentity": {
+          "available": true,
+          "matchesBaseline": true,
+          "gamePortMatches": true
+        }
+      }
+    ],
+    "publicBatches": [
+      {
+        "lastModified": "Sun, 25 Oct 2026 09:59:48 GMT",
+        "players": 4,
+        "firstObservedAt": "2026-10-25T10:00:15.568Z",
+        "lastObservedAt": "2026-10-25T10:04:45.891Z"
+      },
+      {
+        "lastModified": "Sun, 25 Oct 2026 10:04:49 GMT",
+        "players": 4,
+        "firstObservedAt": "2026-10-25T10:05:15.736Z",
+        "lastObservedAt": "2026-10-25T10:09:16.067Z"
+      },
+      {
+        "lastModified": "Sun, 25 Oct 2026 10:04:53 GMT",
+        "players": 4,
+        "firstObservedAt": "2026-10-25T10:06:46.665Z",
+        "lastObservedAt": "2026-10-25T10:06:46.665Z"
+      }
+    ]
+  },
+  "normalClientCapture": {
+    "sourceSha256": "0bbc68aeec591fa3d36e5c12d74c0518bcc6902ba07660bb99ef101b2269fba3",
+    "scope": "Matching target IPv4/UDP and RustClient socket endpoints observed at capture start/end; no PID filter in pktmon",
+    "captureStartedAt": "2026-10-25T18:03:29.5519986+08:00",
+    "captureStoppedAt": "2026-10-25T18:04:31.3830681+08:00",
+    "captureStopConfirmed": true,
+    "captureCleanupErrors": [],
+    "packetBlocks": 96771,
+    "selectedPacketBlocks": 24166,
+    "outboundUniqueUnsplitTicks": 1082,
+    "ticksWithInputField": 1082,
+    "ticksWithExplicitButtons": 48,
+    "explicitButtonChanges": 47,
+    "ticksWithPositionField": 1074,
+    "ticksWithModelState": 1082,
+    "ticksWithEyePosition": 1082,
+    "outboundUniqueUnsplitRPC": 1,
+    "missingReliabilityFrames": 0,
+    "nonByteAlignedSkipped": 0,
+    "tickParseFailures": 0,
+    "privacy": "No identity, position, angle, item, raw button value or authentication payload is exported",
+    "limitations": [
+      "Partial mid-session capture; no initial ProtoDelta baseline, full gameplay reconstruction or causal public-count proof.",
+      "Network cadence is observed capture timing and may contain buffering and packet loss.",
+      "Explicit field presence/change only; missing delta fields are not treated as zero."
+    ],
+    "matchedRustSocketCount": 1,
+    "tickTiming": {
+      "uniqueTickSpanSeconds": 60.64,
+      "observedAverageHz": 17.826,
+      "gapMedianMs": 66.548,
+      "gapP95Ms": 67.145,
+      "gapMaxMs": 354.224
+    }
+  },
+  "frameCrossCheck": {
+    "uniqueReliableTickCountMatches": true,
+    "validDataLayouts": 12278,
+    "invalidDataLayouts": 0
+  },
+  "conclusions": [
+    "The seven project sessions were admitted but all seven had Health=0 in live server playerlist; their worker metadata also retained a dead own state.",
+    "Normal official client sent continuous real Tick frames and explicit button changes. The independent worker only implements a bounded initial wake and connection maintenance, not ongoing gameplay.",
+    "This baseline does not test an official-client run of a project test account or identify which accounts Facepunch has counted. No public count repair is established.",
+    "After the frozen baseline, all seven existing project game sessions and the original official normal account left; do not attribute that cohort change to a single account."
+  ],
+  "limitations": [
+    "Existing normal account had already been connected about 4.5 hours; no pre-join baseline for that account.",
+    "Health=0 versus positive is a correlation, not the Facepunch eligibility formula. Other live players exceed the public count as well.",
+    "Observed average Tick cadence describes this capture only and is not an implementation target or universal Rust client cadence.",
+    "The live watcher uses a nonexistent overview steamId property for officialProjectIdentityHasPrimaryGameSession; that boolean is not evidence. Resolve project account id through /v1/accounts and compare overview id instead.",
+    "Ongoing main sampler has a fixed original-normal identity; use the private identity timeline and exact rosters to attribute a later test-account run.",
+    "No per-account public adoption receipt; public refreshes and unrelated roster/eligibility changes can confound differences."
+  ],
+  "operations": {
+    "playerConnectionsCreated": 0,
+    "steamLoginsPerformed": 0,
+    "existingPlayerSessionsStopped": 0,
+    "playerInputsSent": 0,
+    "serverConfigChanges": 0,
+    "dllDeployments": 0,
+    "serviceRestarts": 0
+  },
+  "observationStatus": {
+    "mainSamplerStartedAt": "2026-10-25T10:00:14.419Z",
+    "mainRequestedSamples": 49,
+    "mainIntervalSeconds": 30,
+    "mainExpectedEndApprox": "2026-10-25T10:24:15Z",
+    "mainExecSession": 25511,
+    "localCorrelationExecSession": 43879,
+    "networkCaptureFinished": true,
+    "pktmonFiltersRemoved": true,
+    "mainCompleted": true,
+    "assistantGuiControlRequestedLater": true,
+    "assistantGuiControlUnavailable": true
+  },
+  "evidence": [
+    {
+      "path": "work/official-gameplay-20261025-1001/run-00-private.json",
+      "sha256": "f9597b8c62eb0d6213abc4333ef94de135714a198f4167c97cc51f9deb8eda40",
+      "bytes": 161836
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-00.json",
+      "sha256": "2bbbee6334c5195a15abbfebc543065490ac806a121cd65013bff13e6477332f",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-01-private.json",
+      "sha256": "b5da631d10a45ad8139383810603871453781bf7e8d9dc94a035c99184f49bc7",
+      "bytes": 161833
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-01.json",
+      "sha256": "374474de9724dd53e112cca22957575eebd08af96780c75fb128c7cc9d488de8",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-02-private.json",
+      "sha256": "e947212e25ab432951dad09a91aa61b6f991092286c2e9cdec476c4504378ace",
+      "bytes": 161842
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-02.json",
+      "sha256": "10318cf45612cbd287c28ae3ee0e9eac42eee7c9eb4d692477d9915c1bfa5f52",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-03-private.json",
+      "sha256": "0b3849ff2a67a9ca86386e5c84667c36657de669ea13cf02098be965ee0a6c30",
+      "bytes": 161851
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-03.json",
+      "sha256": "664d9fce60e2b72482d53d9cbeea2f6f6ab7d7b0fb3498be389eb2dbd780cf04",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-04-private.json",
+      "sha256": "00d07172cd74da4fe24b9f11607a5560862b16c79688a90685f0eac790a2d6d7",
+      "bytes": 161848
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-04.json",
+      "sha256": "8a01d522fb8d4112db163ad6a7e7cff205a513a67dc57c2c4296cb8118e07d9e",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-05-private.json",
+      "sha256": "c49b58452f9c5175138e801716166cafa37904e1a54f5494445f2067528b85f9",
+      "bytes": 161852
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-05.json",
+      "sha256": "429cc98042d0b1395475fb28364a1d85a86ec4ec439f84b84133fce7d405cff8",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-06-private.json",
+      "sha256": "d65c9a5dec1c1e069b5daa28b8ab5434e87b0979c29a24638f890b6f59746e11",
+      "bytes": 161842
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-06.json",
+      "sha256": "403b6948857c6f3d5797df704d08290f20ab9e250db0deb8dc54c9e45153e948",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-07-private.json",
+      "sha256": "03fe1284acc98d160c6c0d69e808c8791c0d60bfd984f622d2cb5af65b271c6f",
+      "bytes": 161850
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-07.json",
+      "sha256": "1b728563a4afe40381e5a114d145ee055fe0b910901fe181fa0cd7c9bbeb5a10",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-08-private.json",
+      "sha256": "0db4e5a959a3455c6633d69cb850d731d67750d4afb7590eeb02e1d627b40b9e",
+      "bytes": 161848
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-08.json",
+      "sha256": "6780cc560709a8553d2bef06c461e94d2fdea97c5e2ebdec29bc121ab686efc6",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-09-private.json",
+      "sha256": "ad2cf6dba660009d39c71b9e6afe32c19560df33e5ae634368f56edd1a907b8e",
+      "bytes": 161855
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-09.json",
+      "sha256": "532d8f0a90910053dba85d83fe59af7bf66efd03ad0052431e81e10a5ca6c26e",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-10-private.json",
+      "sha256": "99332c3aa234b72915b570d32fae49d84d5cd07f76ab8812236d845b66f378ba",
+      "bytes": 161854
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-10.json",
+      "sha256": "015e066ae46a8842e492c1dd6c3592c7240cd24da96904039aa6aec0ce2b0612",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-11-private.json",
+      "sha256": "957240ba8afee195f9aff16461779c5b78402f1448a4950215551599642b9574",
+      "bytes": 161852
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-11.json",
+      "sha256": "49b084c89ba2ecb44b3bf85ead41321a9496c91f97b0c952c534acf7bf2bb9b1",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-12-private.json",
+      "sha256": "b95421a24b3063f1562c18fbd51de6a94b426f6d83a59ed4b3395188a7c1a413",
+      "bytes": 161857
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-12.json",
+      "sha256": "9c4a122b1bb12d07b1336f3e433c0eb84a6b0c08e49f9a076ac4e9bf37597a28",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-13-private.json",
+      "sha256": "85c665f7dee859e7b044f8ffa8fc6d90c61a08fc3ef92d4d557d2369aabc01c0",
+      "bytes": 161866
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-13.json",
+      "sha256": "c1d55a7de0e593db7e57109f631769e5dc525da1f7484ca7b5bbb2194e560ec7",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-14-private.json",
+      "sha256": "9f24acc11f9bc8731f0c93108f3c491fd3d9a41ad6b599ce86bf0524f9a24e71",
+      "bytes": 161860
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-14.json",
+      "sha256": "123a153bfb5f7e17fcd7b849b99f011a158aa125404e4cb93d4567f06f333c1b",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-15-private.json",
+      "sha256": "97b2d9b7c3a912e476ee43286359812cf14470373d7286b84a3d643751f001e4",
+      "bytes": 161858
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-15.json",
+      "sha256": "bad5c1e643538cb8ade2c6c06a60c0e1b2b994e26f962acfa7443658d88408ac",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-16-private.json",
+      "sha256": "07e0015378cc5b9782ccac162bca4ee7e46a076500975d93cbf66b0bf91f0123",
+      "bytes": 161865
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-16.json",
+      "sha256": "ab329203c39883878fdf90b33175f8d0a0d627757e64694b0656190fa1324e07",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-17-private.json",
+      "sha256": "90963e4f6801a40224430bcde72155cb9510863de5c5759ed59fc49c2f73e032",
+      "bytes": 161858
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-17.json",
+      "sha256": "78c7fd2640e13fd057c1a605869a2ecb0e2fb46bc940c6f1c59617231c108e06",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-18-private.json",
+      "sha256": "2db1cc4ff6193eb87204c999bdb89aee60e5a7a10d25f329846ba81cbd5732c0",
+      "bytes": 161862
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-18.json",
+      "sha256": "42898e62581da6983742fe738201abdf72f9ebd65dc202a0f2cab641561ad459",
+      "bytes": 1014
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-19-private.json",
+      "sha256": "0e14ec3bb99cbc13d986b2607aa356d805e83e7df6a4320ac25392bd1f364c42",
+      "bytes": 162496
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/run-public-19.json",
+      "sha256": "e9de191544445c1630a7db1e35ffc10dfa5408dcb52be9dea21cb68377a23284",
+      "bytes": 1013
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/observe.mjs",
+      "sha256": "b0153a8f67fd77b8875754efd4362530b57f6092094e1c66a6f11ac5ad3a6ee9",
+      "bytes": 7766
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/watch.mjs",
+      "sha256": "c05bfeb6b22a402f94d88286d819ba477baf81514c2cfaba8b87e61f370dd16d",
+      "bytes": 4936
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/analyze-owned-capture.mjs",
+      "sha256": "5b22e5c4fc8f3bd351e96dfa20c85d944fd4d3239b4ee24ec0e3e70c5ff7144b",
+      "bytes": 6658
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/official-identity-private.json",
+      "sha256": "7a87340cae139d3fd86c65683c5217b429fd605a86517a4b9c5bdc156dce6cdd",
+      "bytes": 173
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/preflight-safe.json",
+      "sha256": "407001fa2c88eb6b8b09239edde6c03c184b21c3f422c04933799a782b3226dc",
+      "bytes": 3508
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/preflight-00-private.json",
+      "sha256": "b4a8487d3258e870a3b7808b5ff78017fb99a910de5f3fd006bb498f20fbf268",
+      "bytes": 161829
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/session.json",
+      "sha256": "6606e1074d0b19d4f2df6ed66bf4844b2667b3a11462beb6f0600e620d08cd8c",
+      "bytes": 1266
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/endpoints-start.json",
+      "sha256": "e1bacf1d03e8f1905a631422ef9d320b024d1d381eb53698ed53a3a5a5a8145b",
+      "bytes": 10192
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/endpoints-end.json",
+      "sha256": "8038b98af8cf057fc751a9bc3e1afa407a83a2b6a078b153e06185144318b994",
+      "bytes": 9865
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/rust1.pcapng",
+      "sha256": "0bbc68aeec591fa3d36e5c12d74c0518bcc6902ba07660bb99ef101b2269fba3",
+      "bytes": 11272388
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/owned-filtered.pcapng",
+      "sha256": "3a9b20d68bb7a706a3763bb64d0070511e48619b50f53c66b3c5a34818108574",
+      "bytes": 2803484
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/owned-behavior-safe.json",
+      "sha256": "8e005994af75389633c6f10e22f1d96cd36f64c4c8db786097e604fe54c3ada8",
+      "bytes": 1444
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/normal-capture/owned-frames-safe.json",
+      "sha256": "87ee015bd118f4fc632476fb34cc717859c453f7c6d716f5d7ab0892e289de5f",
+      "bytes": 9060
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/baseline-user-events-safe.json",
+      "sha256": "cfa6bc12ee7a50a5f22f82079db49c91ac9769ead0c825e9a19c5f491150ae3e",
+      "bytes": 410
+    }
+  ],
+  "transitions": [
+    {
+      "index": 19,
+      "at": "2026-10-25T10:09:44.581Z",
+      "sourcesOk": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "local": {
+        "steamOnline": 38,
+        "entered": 0,
+        "active": 0,
+        "baselineRunsUnchanged": false,
+        "officialIdentityInProject": false,
+        "officialIdentityHasPrimaryRustSession": false
+      },
+      "roster": {
+        "at": "2026-10-25T10:09:44.794Z",
+        "total": 5,
+        "serverInfoPlayers": 5,
+        "joining": 0,
+        "queued": 0,
+        "officialIdentityPresent": false,
+        "officialConnectedSeconds": null,
+        "officialHealthPositive": null,
+        "researchExcludingOfficial": 0,
+        "otherExcludingOfficial": 5,
+        "researchMatchesBaseline": false,
+        "otherMatchesBaseline": true
+      },
+      "healthGroups": {
+        "research": {
+          "total": 0,
+          "healthPositive": 0,
+          "healthZero": 0
+        },
+        "other": {
+          "total": 5,
+          "healthPositive": 5,
+          "healthZero": 0
+        }
+      },
+      "officialNormal": {
+        "present": false,
+        "healthPositive": null,
+        "positionCompared": false,
+        "positionChangedOverPoint2": null
+      },
+      "researchSessionLifecycle": {
+        "total": 0,
+        "respawnEnabled": 0,
+        "respawnSent": 0,
+        "ownStateDead": 0,
+        "historicalAwakeObserved": 0,
+        "tickPacketTotals": []
+      },
+      "probe": {
+        "at": "2026-10-25T10:09:44.7882350Z",
+        "totals": {
+          "active": 5,
+          "alive": 5,
+          "dead": 0,
+          "sleeping": 0,
+          "connected": 5,
+          "receivingSnapshot": 0,
+          "rawTickRatePositive": 5,
+          "networkConnected": 5,
+          "networkAuthenticated": 5,
+          "eacMapped": 0
+        },
+        "effectiveSecure": false,
+        "effectiveEncryption": 0,
+        "steamLoggedOn": true,
+        "focusAccountCount": 3,
+        "inputHookCalls": 17199088
+      },
+      "public": {
+        "sample": 1,
+        "observedAt": "2026-10-25T10:09:45.111Z",
+        "a2s": {
+          "observedAt": "2026-10-25T10:09:45.200Z",
+          "ok": true,
+          "players": 10,
+          "cp": 5,
+          "bots": 0
+        },
+        "facepunch": {
+          "observedAt": "2026-10-25T10:09:45.911Z",
+          "ok": true,
+          "players": 4,
+          "status": 200,
+          "headers": {
+            "date": "Sun, 25 Oct 2026 10:09:45 GMT",
+            "age": "295",
+            "last-modified": "Sun, 25 Oct 2026 10:04:49 GMT",
+            "cache-control": "public, max-age=86400",
+            "cf-cache-status": "HIT"
+          }
+        }
+      },
+      "serverIdentity": {
+        "available": true,
+        "matchesBaseline": true,
+        "gamePortMatches": true
+      }
+    }
+  ]
+}
