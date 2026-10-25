@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T10:52:44.910Z",
+  "purpose": "Classify prior official-client outbound RPC names without replay or handler execution",
+  "classification": {
+    "sourceCapturePeriod": "2026-10-25 18:13:00-18:14:32 Asia/Shanghai; previous manual trial",
+    "notCurrentRepeat": true,
+    "targetMvidMatches": true,
+    "uniqueMethodNamesScanned": 23895,
+    "functions": [
+      {
+        "hash": 363681694,
+        "count": 1,
+        "names": [
+          "OnProjectileAttack"
+        ],
+        "candidateDeclaringTypes": [
+          "BasePlayer"
+        ]
+      },
+      {
+        "hash": 1552640099,
+        "count": 13,
+        "names": [
+          "BroadcastSignalFromClient"
+        ],
+        "candidateDeclaringTypes": [
+          "BaseEntity"
+        ]
+      },
+      {
+        "hash": 1998170713,
+        "count": 1,
+        "names": [
+          "OnPlayerLanded"
+        ],
+        "candidateDeclaringTypes": [
+          "BasePlayer"
+        ]
+      },
+      {
+        "hash": 2324190493,
+        "count": 1,
+        "names": [
+          "OnProjectileUpdate"
+        ],
+        "candidateDeclaringTypes": [
+          "BasePlayer"
+        ]
+      },
+      {
+        "hash": 2778075470,
+        "count": 1,
+        "names": [
+          "Pickup"
+        ],
+        "candidateDeclaringTypes": [
+          "CollectibleEntity",
+          "RFTimedExplosive",
+          "WorldItem"
+        ]
+      },
+      {
+        "hash": 3168282921,
+        "count": 1,
+        "names": [
+          "CLProject"
+        ],
+        "candidateDeclaringTypes": [
+          "BaseMelee",
+          "BaseProjectile"
+        ]
+      },
+      {
+        "hash": 3418655327,
+        "count": 6,
+        "names": [
+          "RequestAnimalStats"
+        ],
+        "candidateDeclaringTypes": [
+          "ChickenCoop",
+          "Rust.Ai.Gen2.LivestockAnimal"
+        ]
+      },
+      {
+        "hash": 4088326849,
+        "count": 7,
+        "names": [
+          "PlayerAttack"
+        ],
+        "candidateDeclaringTypes": [
+          "BaseMelee"
+        ]
+      }
+    ],
+    "total": 31,
+    "capturePeriodTargetMvidMatches": true
+  },
+  "staticSource": {
+    "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+    "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+    "currentTargetMvidMatches": true,
+    "capturePeriodTargetMvidMatches": true,
+    "uniqueMethodNamesScanned": 23895
+  },
+  "matches": [
+    {
+      "token": "06001580",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/FromOwnerOrMounted"
+      ],
+      "name": "BroadcastSignalFromClient",
+      "rpcServerAttribute": true,
+      "hash": 1552640099,
+      "type": "BaseEntity",
+      "signature": "System.Void BaseEntity::BroadcastSignalFromClient(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06001795",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/FromOwner",
+        "BaseEntity/RPC_Server/IsActiveItem",
+        "BaseEntity/RPC_Server/MaxRepeatedElements"
+      ],
+      "name": "CLProject",
+      "rpcServerAttribute": true,
+      "hash": 3168282921,
+      "type": "BaseMelee",
+      "signature": "System.Void BaseMelee::CLProject(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "060017A0",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/IsActiveItem"
+      ],
+      "name": "PlayerAttack",
+      "rpcServerAttribute": true,
+      "hash": 4088326849,
+      "type": "BaseMelee",
+      "signature": "System.Void BaseMelee::PlayerAttack(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06001A3C",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/FromOwner"
+      ],
+      "name": "OnProjectileAttack",
+      "rpcServerAttribute": true,
+      "hash": 363681694,
+      "type": "BasePlayer",
+      "signature": "System.Void BasePlayer::OnProjectileAttack(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06001A3E",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/FromOwner"
+      ],
+      "name": "OnProjectileUpdate",
+      "rpcServerAttribute": true,
+      "hash": 2324190493,
+      "type": "BasePlayer",
+      "signature": "System.Void BasePlayer::OnProjectileUpdate(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06001AB9",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/FromOwner"
+      ],
+      "name": "OnPlayerLanded",
+      "rpcServerAttribute": true,
+      "hash": 1998170713,
+      "type": "BasePlayer",
+      "signature": "System.Void BasePlayer::OnPlayerLanded(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06001D18",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/FromOwner",
+        "BaseEntity/RPC_Server/IsActiveItem",
+        "BaseEntity/RPC_Server/MaxRepeatedElements"
+      ],
+      "name": "CLProject",
+      "rpcServerAttribute": true,
+      "hash": 3168282921,
+      "type": "BaseProjectile",
+      "signature": "System.Void BaseProjectile::CLProject(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06002261",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/IsVisible",
+        "BaseEntity/RPC_Server/CallsPerSecond"
+      ],
+      "name": "RequestAnimalStats",
+      "rpcServerAttribute": true,
+      "hash": 3418655327,
+      "type": "ChickenCoop",
+      "signature": "System.Void ChickenCoop::RequestAnimalStats(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "060022F9",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/MaxDistance"
+      ],
+      "name": "Pickup",
+      "rpcServerAttribute": true,
+      "hash": 2778075470,
+      "type": "CollectibleEntity",
+      "signature": "System.Void CollectibleEntity::Pickup(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "060032BD",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/IsVisible"
+      ],
+      "name": "Pickup",
+      "rpcServerAttribute": true,
+      "hash": 2778075470,
+      "type": "RFTimedExplosive",
+      "signature": "System.Void RFTimedExplosive::Pickup(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "06003BA9",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/IsVisible"
+      ],
+      "name": "Pickup",
+      "rpcServerAttribute": true,
+      "hash": 2778075470,
+      "type": "WorldItem",
+      "signature": "System.Void WorldItem::Pickup(BaseEntity/RPCMessage)"
+    },
+    {
+      "token": "0600A91C",
+      "attributes": [
+        "BaseEntity/RPC_Server",
+        "BaseEntity/RPC_Server/IsVisible",
+        "BaseEntity/RPC_Server/CallsPerSecond"
+      ],
+      "name": "RequestAnimalStats",
+      "rpcServerAttribute": true,
+      "hash": 3418655327,
+      "type": "Rust.Ai.Gen2.LivestockAnimal",
+      "signature": "System.Void Rust.Ai.Gen2.LivestockAnimal::RequestAnimalStats(BaseEntity/RPCMessage)"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "work/official-repeat-20261025T103850Z/classify-prior-rpc.mjs",
+      "sha256": "639451ccbce4d4639365bd9362e5360f62aac756829787183f73e3d680939fb4",
+      "bytes": 6670
+    },
+    {
+      "path": "work/official-repeat-20261025T103850Z/match-prior-rpc.ps1",
+      "sha256": "b180619b2e471b9e02063b707c083d97b33e338ee33ea45f73f0a5353b73f49d",
+      "bytes": 3239
+    },
+    {
+      "path": "work/official-repeat-20261025T103850Z/prior-rpc-safe.json",
+      "sha256": "49291cfeaba799b41af5a6dd8d0904c977c54f87a7f9fa05cc0e3ad740f840bf",
+      "bytes": 1644
+    },
+    {
+      "path": "work/official-repeat-20261025T103850Z/prior-rpc-name-candidates-safe.json",
+      "sha256": "10718e4c63b944b913f3def6e6875ed2b7767b08a4c38645a36efe84fb7a8cbf",
+      "bytes": 5388
+    },
+    {
+      "path": "work/official-repeat-20261025T103850Z/prior-rpc-actions-safe.json",
+      "sha256": "da2e4c27b2ab1ce624345315ee899f5039b71a8fe001065b225e81bfb11ceb67",
+      "bytes": 1774
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/test-capture/rust1.pcapng",
+      "sha256": "4ae2a3268b09899fe93665f6dd815448987846d3e2d639a968c82c8ffbfa9c28",
+      "bytes": 4010232
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/test-capture/endpoints-start.json",
+      "sha256": "123a1eaae549eeea94a0c23d39831979c4785de273d1dbbaa9d259eccea8958c",
+      "bytes": 15254
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/test-capture/endpoints-end.json",
+      "sha256": "95bdf08d58940fa761e8dd09a330098b369f90eb209685adfebc0cabd6e00144",
+      "bytes": 11394
+    },
+    {
+      "path": "work/official-gameplay-20261025-1001/test-admission-private.json",
+      "sha256": "6bb344c174c069e606621b9d695e13a097a5ceb6e8b031f70d763ad1115be7a5",
+      "bytes": 162805
+    },
+    {
+      "path": "work/native-peer/server-files/RustDedicated_Data/Managed/Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "bytes": 10515792
+    }
+  ],
+  "operations": {
+    "networkRequests": 0,
+    "playerInputsSent": 0,
+    "gameAssembliesExecuted": 0,
+    "oldEvidenceFilesModified": 0
+  },
+  "limitations": [
+    "Classification applies to the prior 18:13-18:14 manual gameplay capture, not current repeat.",
+    "Function name hash is not a server execution acknowledgement or successful attack/collection.",
+    "Multiple recipient entity types share several method names; no recipient type inferred.",
+    "No evidence these requests are Facepunch public-count eligibility conditions."
+  ]
+}
