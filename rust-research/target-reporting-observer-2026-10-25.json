@@ -1,0 +1,1799 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-25T06:49:03.362Z",
+  "timeZone": "Asia/Shanghai",
+  "result": "native_player_data_update_succeeded_public_qualification_unknown",
+  "projectStarted": true,
+  "sourceCodeChanged": false,
+  "serverSettingsChanged": false,
+  "existingPlayerSessionsStopped": false,
+  "bulkConnectionsCreated": false,
+  "baseline": {
+    "startedAt": "2026-10-25T06:34:03.524Z",
+    "local": {
+      "accounts": 39,
+      "steamOnline": 39,
+      "rustActive": 0,
+      "entered": 0
+    },
+    "bridge": {
+      "readerStatus": "observer_state_missing"
+    },
+    "plugins": {
+      "probeListed": true,
+      "bridgeListed": true,
+      "compilationErrorHint": false
+    },
+    "probe": {
+      "version": "0.1.0",
+      "monitoring": true,
+      "steamModuleMvid": "8bccf266-54c7-4aeb-9b6e-328799059d1f",
+      "effectiveSecure": false,
+      "effectiveEncryption": 0,
+      "steamLoggedOn": true,
+      "eacInterfaceAvailable": false,
+      "totals": {
+        "active": 10,
+        "alive": 10,
+        "dead": 0,
+        "sleeping": 1,
+        "connected": 10,
+        "receivingSnapshot": 0,
+        "rawTickRatePositive": 10,
+        "networkConnected": 10,
+        "networkAuthenticated": 10,
+        "eacMapped": 0
+      }
+    },
+    "server": {
+      "players": 10,
+      "joining": 0,
+      "queued": 0
+    },
+    "roster": {
+      "rows": 10,
+      "research": 0,
+      "other": 10
+    },
+    "ipLimit": 50,
+    "completedAt": "2026-10-25T06:34:04.128Z"
+  },
+  "observation": {
+    "startedUtc": "2026-10-25T06:36:17.1416593Z",
+    "unloadedUtc": "2026-10-25T06:38:18.3033999Z",
+    "durationSeconds": 121.162,
+    "testStartedAt": "2026-10-25T06:36:21.721Z",
+    "testEndedAt": "2026-10-25T06:38:17.527Z",
+    "testDurationSeconds": 115.806,
+    "numberOfTestSessions": 1,
+    "sampleCount": 9,
+    "nativeReturns": {
+      "readerStatus": "observer_state_available",
+      "snapshotAgeSeconds": 1,
+      "observedWithin15Seconds": true,
+      "version": "0.1.0",
+      "startedUtc": "2026-10-25T06:36:17.1416593Z",
+      "observedUtc": "2026-10-25T06:38:18.3033999Z",
+      "status": "unloaded",
+      "focusStatus": "ready",
+      "focusIdCount": 20,
+      "patchInstalled": false,
+      "unloaded": true,
+      "total": {
+        "calls": 1,
+        "accepted": 1,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "research": {
+        "calls": 1,
+        "accepted": 1,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "other": {
+        "calls": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "unclassified": {
+        "calls": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "writeErrors": 0
+    },
+    "sessionAfter": {
+      "state": "closed",
+      "startedAt": "2026-10-25T06:36:21.721Z",
+      "endedAt": "2026-10-25T06:38:17.527Z",
+      "ticketAvailable": true,
+      "ticketActive": false,
+      "validationObserved": false,
+      "entered": false,
+      "tickPacketsSent": 0,
+      "ownPlayerState": {
+        "observed": true,
+        "lifeState": "alive",
+        "sleeping": true
+      }
+    },
+    "samples": [
+      {
+        "at": "2026-10-25T06:36:21.333Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:36:21.1740788Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 10,
+          "rosterRows": 10,
+          "research": 0,
+          "other": 10,
+          "selectedPresent": false,
+          "totals": {
+            "active": 10,
+            "alive": 10,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 10,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 10,
+            "networkAuthenticated": 10,
+            "eacMapped": 0
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:36:36.738Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:36:36.1838982Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:36:52.132Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:36:51.1857709Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:37:07.534Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:37:07.2489368Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:37:22.931Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:37:22.2647960Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:37:38.331Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:37:38.2684868Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:37:53.722Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:37:53.2875763Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:38:09.145Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:38:08.2942333Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      },
+      {
+        "at": "2026-10-25T06:38:16.731Z",
+        "observer": {
+          "readerStatus": "observer_state_available",
+          "snapshotAgeSeconds": 0,
+          "observedWithin15Seconds": true,
+          "version": "0.1.0",
+          "startedUtc": "2026-10-25T06:36:17.1416593Z",
+          "observedUtc": "2026-10-25T06:38:16.2944450Z",
+          "status": "observing",
+          "focusStatus": "ready",
+          "focusIdCount": 20,
+          "patchInstalled": true,
+          "unloaded": false,
+          "total": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "research": {
+            "calls": 1,
+            "accepted": 1,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "other": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "unclassified": {
+            "calls": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "skippedOriginal": 0
+          },
+          "writeErrors": 0
+        },
+        "server": {
+          "players": 11,
+          "rosterRows": 11,
+          "research": 1,
+          "other": 10,
+          "selectedPresent": true,
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 2,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          }
+        },
+        "session": {
+          "state": "entered_game",
+          "startedAt": "2026-10-25T06:36:21.721Z",
+          "endedAt": null,
+          "ticketAvailable": true,
+          "ticketActive": true,
+          "validationObserved": true,
+          "entered": false,
+          "tickPacketsSent": 0,
+          "ownPlayerState": {
+            "observed": true,
+            "lifeState": "alive",
+            "sleeping": true
+          }
+        }
+      }
+    ]
+  },
+  "steamQueries": [
+    {
+      "at": "2026-10-25T06:37:28.378Z",
+      "status": "ok",
+      "authPlayers": 10,
+      "observedAt": "2026-10-25T06:37:28.278Z",
+      "eresult": 2,
+      "eresultSource": "steam_user_decoded_header",
+      "serverListStatus": "not_found"
+    },
+    {
+      "at": "2026-10-25T06:38:07.228Z",
+      "status": "ok",
+      "authPlayers": 10,
+      "observedAt": "2026-10-25T06:38:07.027Z",
+      "eresult": 2,
+      "eresultSource": "steam_user_decoded_header",
+      "serverListStatus": "not_found"
+    }
+  ],
+  "independentFinal": {
+    "startedAt": "2026-10-25T06:39:32.673Z",
+    "observer": {
+      "readerStatus": "observer_state_available",
+      "snapshotAgeSeconds": 74,
+      "observedWithin15Seconds": false,
+      "version": "0.1.0",
+      "startedUtc": "2026-10-25T06:36:17.1416593Z",
+      "observedUtc": "2026-10-25T06:38:18.3033999Z",
+      "status": "unloaded",
+      "focusStatus": "ready",
+      "focusIdCount": 20,
+      "patchInstalled": false,
+      "unloaded": true,
+      "total": {
+        "calls": 1,
+        "accepted": 1,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "research": {
+        "calls": 1,
+        "accepted": 1,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "other": {
+        "calls": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "unclassified": {
+        "calls": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "skippedOriginal": 0
+      },
+      "writeErrors": 0
+    },
+    "local": {
+      "accounts": 39,
+      "steamOnline": 39,
+      "rustActive": 0,
+      "ticketsAvailableInactive": 39
+    },
+    "server": {
+      "rosterRows": 10,
+      "research": 0,
+      "other": 10,
+      "otherAdded": 0,
+      "otherRemoved": 0,
+      "totals": {
+        "active": 10,
+        "alive": 10,
+        "dead": 0,
+        "sleeping": 1,
+        "connected": 10,
+        "receivingSnapshot": 0,
+        "rawTickRatePositive": 10,
+        "networkConnected": 10,
+        "networkAuthenticated": 10,
+        "eacMapped": 0
+      }
+    },
+    "probe": {
+      "sameWindow": true,
+      "steamConnectedCallbacksDelta": 0,
+      "steamDisconnectedCallbacksDelta": 0,
+      "validation": {
+        "focused": {
+          "steamValidationCallbacks": 1,
+          "steamValidationOk": 1,
+          "steamValidationNonOk": 0,
+          "inputHookCalls": 0
+        },
+        "other": {
+          "steamValidationCallbacks": 0,
+          "steamValidationOk": 0,
+          "steamValidationNonOk": 0,
+          "inputHookCalls": 83482
+        },
+        "unclassified": {
+          "steamValidationCallbacks": 0,
+          "steamValidationOk": 0,
+          "steamValidationNonOk": 0,
+          "inputHookCalls": 0
+        }
+      }
+    },
+    "originalConnections": {
+      "count": 0,
+      "unchanged": true
+    },
+    "ipLimit": 50,
+    "completedAt": "2026-10-25T06:39:33.123Z"
+  },
+  "passive": {
+    "startedAt": "2026-10-25T06:39:51.484Z",
+    "readOnly": true,
+    "requestedSamples": 6,
+    "intervalSeconds": 60,
+    "samples": [
+      {
+        "index": 0,
+        "at": "2026-10-25T06:39:51.485Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 0,
+          "entered": 0
+        },
+        "server": {
+          "at": "2026-10-25T06:39:51.619Z",
+          "players": 10,
+          "rosterRows": 10,
+          "research": 0,
+          "other": 10,
+          "uniqueIPv4": 10,
+          "addressGroupSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-25T06:39:51.7698512Z",
+          "totals": {
+            "active": 10,
+            "alive": 10,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 10,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 10,
+            "networkAuthenticated": 10,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:39:52.009Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:39:52.086Z",
+            "ok": true,
+            "players": 15,
+            "cp": 10,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:39:54.000Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:39:52 GMT",
+              "age": "24",
+              "last-modified": "Sun, 25 Oct 2026 06:39:29 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 1,
+        "at": "2026-10-25T06:40:51.493Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 39,
+          "rustActive": 0,
+          "entered": 0
+        },
+        "server": {
+          "at": "2026-10-25T06:40:51.618Z",
+          "players": 10,
+          "rosterRows": 10,
+          "research": 0,
+          "other": 10,
+          "uniqueIPv4": 10,
+          "addressGroupSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 1,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-25T06:40:51.7686752Z",
+          "totals": {
+            "active": 10,
+            "alive": 10,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 10,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:40:52.015Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:40:52.136Z",
+            "ok": true,
+            "players": 16,
+            "cp": 10,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:40:53.710Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:40:53 GMT",
+              "age": "85",
+              "last-modified": "Sun, 25 Oct 2026 06:39:29 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 2,
+        "at": "2026-10-25T06:41:51.497Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 0,
+          "entered": 0
+        },
+        "server": {
+          "at": "2026-10-25T06:41:51.614Z",
+          "players": 11,
+          "rosterRows": 11,
+          "research": 0,
+          "other": 11,
+          "uniqueIPv4": 11,
+          "addressGroupSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-25T06:41:51.7676703Z",
+          "totals": {
+            "active": 11,
+            "alive": 11,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 11,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 11,
+            "networkConnected": 11,
+            "networkAuthenticated": 11,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:41:52.006Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:41:52.121Z",
+            "ok": true,
+            "players": 16,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:41:53.691Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:41:53 GMT",
+              "age": "145",
+              "last-modified": "Sun, 25 Oct 2026 06:39:29 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 3,
+        "at": "2026-10-25T06:42:51.501Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 0,
+          "entered": 0
+        },
+        "server": {
+          "at": "2026-10-25T06:42:51.611Z",
+          "players": 10,
+          "rosterRows": 10,
+          "research": 0,
+          "other": 10,
+          "uniqueIPv4": 10,
+          "addressGroupSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-25T06:42:51.7598089Z",
+          "totals": {
+            "active": 10,
+            "alive": 10,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 10,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 10,
+            "networkAuthenticated": 10,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:42:52.011Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:42:52.129Z",
+            "ok": true,
+            "players": 15,
+            "cp": 10,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:42:52.888Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:42:52 GMT",
+              "age": "204",
+              "last-modified": "Sun, 25 Oct 2026 06:39:29 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 4,
+        "at": "2026-10-25T06:43:51.511Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 0,
+          "entered": 0
+        },
+        "server": {
+          "at": "2026-10-25T06:43:51.616Z",
+          "players": 10,
+          "rosterRows": 10,
+          "research": 0,
+          "other": 10,
+          "uniqueIPv4": 10,
+          "addressGroupSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-25T06:43:51.7672402Z",
+          "totals": {
+            "active": 10,
+            "alive": 10,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 10,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 10,
+            "networkAuthenticated": 10,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:43:52.020Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:43:52.122Z",
+            "ok": true,
+            "players": 15,
+            "cp": 10,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:43:53.212Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:43:52 GMT",
+              "age": "264",
+              "last-modified": "Sun, 25 Oct 2026 06:39:29 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 5,
+        "at": "2026-10-25T06:44:51.519Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 0,
+          "entered": 0
+        },
+        "server": {
+          "at": "2026-10-25T06:44:51.618Z",
+          "players": 10,
+          "rosterRows": 10,
+          "research": 0,
+          "other": 10,
+          "uniqueIPv4": 10,
+          "addressGroupSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "joining": 0,
+          "queued": 0
+        },
+        "probe": {
+          "at": "2026-10-25T06:44:51.7611436Z",
+          "totals": {
+            "active": 10,
+            "alive": 10,
+            "dead": 0,
+            "sleeping": 1,
+            "connected": 10,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 10,
+            "networkConnected": 10,
+            "networkAuthenticated": 10,
+            "eacMapped": 0
+          },
+          "effectiveSecure": false,
+          "effectiveEncryption": 0,
+          "eacInterfaceAvailable": false
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:44:52.027Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:44:52.118Z",
+            "ok": true,
+            "players": 15,
+            "cp": 10,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:44:52.844Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:44:52 GMT",
+              "age": "24",
+              "last-modified": "Sun, 25 Oct 2026 06:44:32 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      }
+    ],
+    "interrupted": false,
+    "completedAt": "2026-10-25T06:44:52.881Z",
+    "identityChanges": [
+      {
+        "index": 1,
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "index": 2,
+        "added": 1,
+        "removed": 0
+      },
+      {
+        "index": 3,
+        "added": 0,
+        "removed": 1
+      },
+      {
+        "index": 4,
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "index": 5,
+        "added": 0,
+        "removed": 0
+      }
+    ],
+    "added": 1,
+    "removed": 1
+  },
+  "cleanup": {
+    "observerUnloaded": true,
+    "observerPatchInstalled": false,
+    "bridgeInLoadedTitleRows": false,
+    "bridgeLines": [
+      {
+        "hasUnloadedMarker": true,
+        "hasErrorMarker": false
+      }
+    ],
+    "probeInLoadedTitleRows": true,
+    "officialUnloadReported": true,
+    "filesRemoved": false,
+    "remoteFileChannelAvailable": false,
+    "completedAt": "2026-10-25T06:44:07.908Z"
+  },
+  "end": {
+    "at": "2026-10-25T06:45:35.063Z",
+    "steamOnline": 38,
+    "rustActive": 0,
+    "ticketsAvailableInactive": 38,
+    "bridgeInLoadedRows": false,
+    "probeInLoadedRows": true,
+    "probeMonitoring": true
+  },
+  "serviceStatus": {
+    "at": "2026-10-25T06:47:28.566Z",
+    "accounts": 39,
+    "states": {
+      "online": 38,
+      "error": 1
+    },
+    "healthOk": true
+  },
+  "accountErrorClassification": {
+    "at": "2026-10-25T06:49:03.312Z",
+    "errors": [
+      {
+        "code": "SteamConnectionError",
+        "eresult": null
+      }
+    ]
+  },
+  "publicSources": [
+    {
+      "version": 1,
+      "startedAt": "2026-10-25T06:34:03.521Z",
+      "target": {
+        "host": "61.147.247.35",
+        "gamePort": 28015,
+        "queryPort": 28016
+      },
+      "trustedSource": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "requestedSamples": 1,
+      "intervalSeconds": 30,
+      "interrupted": false,
+      "samples": [
+        {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:34:03.981Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:34:04.072Z",
+            "ok": true,
+            "players": 15,
+            "cp": 10,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:34:04.671Z",
+            "ok": true,
+            "players": 6,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:34:04 GMT",
+              "age": "277",
+              "last-modified": "Sun, 25 Oct 2026 06:29:26 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      ],
+      "completedAt": "2026-10-25T06:34:04.672Z"
+    },
+    {
+      "version": 1,
+      "startedAt": "2026-10-25T06:37:16.159Z",
+      "target": {
+        "host": "61.147.247.35",
+        "gamePort": 28015,
+        "queryPort": 28016
+      },
+      "trustedSource": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "requestedSamples": 1,
+      "intervalSeconds": 30,
+      "interrupted": false,
+      "samples": [
+        {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:37:16.626Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:37:16.703Z",
+            "ok": true,
+            "players": 16,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:37:17.135Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:37:17 GMT",
+              "age": "170",
+              "last-modified": "Sun, 25 Oct 2026 06:34:33 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      ],
+      "completedAt": "2026-10-25T06:37:17.136Z"
+    },
+    {
+      "version": 1,
+      "startedAt": "2026-10-25T06:38:28.436Z",
+      "target": {
+        "host": "61.147.247.35",
+        "gamePort": 28015,
+        "queryPort": 28016
+      },
+      "trustedSource": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "requestedSamples": 1,
+      "intervalSeconds": 30,
+      "interrupted": false,
+      "samples": [
+        {
+          "sample": 1,
+          "observedAt": "2026-10-25T06:38:28.905Z",
+          "a2s": {
+            "observedAt": "2026-10-25T06:38:29.021Z",
+            "ok": true,
+            "players": 15,
+            "cp": 11,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T06:38:29.873Z",
+            "ok": true,
+            "players": 7,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 06:38:29 GMT",
+              "age": "242",
+              "last-modified": "Sun, 25 Oct 2026 06:34:27 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      ],
+      "completedAt": "2026-10-25T06:38:29.875Z"
+    }
+  ],
+  "officialDocumentation": {
+    "source": "https://partner.steamgames.com/doc/api/ISteamGameServer#BUpdateUserData",
+    "readAt": "2026-10-25T06:42:39.656Z",
+    "section": "BUpdateUserDatabool BUpdateUserData( CSteamID steamIDUser, const char *pchPlayerName, uint32 uScore ); NameTypeDescription steamIDUserCSteamIDThe Steam ID of the user. pchPlayerNameconst char *The name of the user. uScoreuint32The current score of the user.Update the data to be displayed in the server browser and matchmaking interfaces for a user currently connected to the server.NOTE: This is part of the old user authentication API and should not be mixed with the new API.Returns: booltrue if the call was successful; otherwise false if there was a failure (ie, steamIDUser is not a player on the current server.)See Also: User Authentication and Ownership"
+  },
+  "limitations": [
+    "The observed bool true is not a Facepunch per-account acceptance receipt.",
+    "Only one new research authentication was observed; the original fourteen connections had ended before this run.",
+    "The public increase from six to seven had a Last-Modified timestamp before the test connection.",
+    "The two short-window Steam CM counts cannot establish permanent per-account inclusion or exclusion.",
+    "Natural non-research membership changed during the passive window.",
+    "Positive input rate and distinct-IP totals are observations, not recovered backend formulas.",
+    "No protected EAC session or continuous ordinary input was implemented.",
+    "Remote diagnostic files remain on disk and must be moved out through the user file channel.",
+    "No Rust client server-browser screenshot was obtained."
+  ],
+  "checks": {
+    "noExistingResearchConnections": true,
+    "baselineModuleMatches": true,
+    "observerReady": true,
+    "oneResearchOriginalTrue": true,
+    "noOtherObservedReturns": true,
+    "observerWritesSuccessful": true,
+    "observerSameInstanceUnloaded": true,
+    "independentUnloadConfirmed": true,
+    "observationUnder180Seconds": true,
+    "ownedSessionCleaned": true,
+    "classifiedValidationOk": true,
+    "selectedPresentThroughout": true,
+    "noOtherSetChangesAcrossTest": true,
+    "noTickSent": true,
+    "noSettingsChanged": true,
+    "boundedDriverComplete": true,
+    "bridgeUnloaded": true,
+    "originalProbeStillLoaded": true,
+    "passiveAllSourcesOk": true,
+    "passiveNoResearch": true,
+    "passiveComplete": true,
+    "finalNoResearch": true,
+    "remoteFilesNotClaimedRemoved": true
+  },
+  "evidence": [
+    {
+      "file": "work/resume-count-20261025-baseline-private.json",
+      "bytes": 83038,
+      "sha256": "37eeee8372714b25f7d07735a2b16c052b7d915c1867907991a4fbe8bfa6f593"
+    },
+    {
+      "file": "work/resume-count-20261025-baseline-safe.json",
+      "bytes": 1040,
+      "sha256": "fc97222378fdf45bde2a1c1c9bee0bb549ad228b2f0b07ece3da70113083ae33"
+    },
+    {
+      "file": "work/resume-count-20261025-focused-window-private.json",
+      "bytes": 114478,
+      "sha256": "639e3fbb01acca397297e77668fb41d8735006c90e879662b50aad6009093827"
+    },
+    {
+      "file": "work/resume-count-20261025-focused-window-safe.json",
+      "bytes": 20553,
+      "sha256": "7a471ed3f4117b42219f18046b04b268b0e8c6c6113ebe5b29333f2b6400efec"
+    },
+    {
+      "file": "work/resume-count-20261025-during-sessions-private.json",
+      "bytes": 6407,
+      "sha256": "100d59ee00b8a71349fd3979e15a66c3cdb9b2ab834e3bcbf28e642da8c2d6a1"
+    },
+    {
+      "file": "work/resume-count-20261025-steam-during-private.json",
+      "bytes": 485,
+      "sha256": "47e608056677ed00e8092cab4919437cf758ebe067b14f88a18505732d48a8c8"
+    },
+    {
+      "file": "work/resume-count-20261025-steam-during-safe.json",
+      "bytes": 221,
+      "sha256": "4d7c933b9fb735e8d0c078ccee7b63dd9a904f05c733a075f8a7e44887b0d13d"
+    },
+    {
+      "file": "work/resume-count-20261025-steam-during-second-private.json",
+      "bytes": 485,
+      "sha256": "9f9d423eaf50eba5879fa137b8b78dcb1a29a55c5e95cdcad4e0e2f61251feff"
+    },
+    {
+      "file": "work/resume-count-20261025-steam-during-second-safe.json",
+      "bytes": 221,
+      "sha256": "2de6a4765f4b187234c6dd835a7a62b59cb006c257fe8c4088c6c31edbedb9f0"
+    },
+    {
+      "file": "work/resume-count-20261025-final-private.json",
+      "bytes": 70624,
+      "sha256": "52f9796de030ffb185964db0643db1ec3cd885559308c5a2269787025f48b1a0"
+    },
+    {
+      "file": "work/resume-count-20261025-final-safe.json",
+      "bytes": 2185,
+      "sha256": "84c29ccc115393adda5fd0fc49030b4fb0a45b1ea3268470d0ccd3e74f71d2a8"
+    },
+    {
+      "file": "work/resume-count-20261025-bridge-cleanup-private.json",
+      "bytes": 3672,
+      "sha256": "af41b3de6fa2bef4c6d7463705bb6fe9adbbd30ecab68e11e8b98457b3f4546b"
+    },
+    {
+      "file": "work/resume-count-20261025-bridge-cleanup-safe.json",
+      "bytes": 378,
+      "sha256": "c0fd2a2bae5d91f749d734ed47348d1de9ed5f0e5595a8022c11f7c4d38234c6"
+    },
+    {
+      "file": "work/resume-count-20261025-end-sessions-private.json",
+      "bytes": 53841,
+      "sha256": "6a3493498b5ce696a5c858dac62c63ffcf7ec5d49b390bce05d5453208fc7e4d"
+    },
+    {
+      "file": "work/resume-count-20261025-end-plugins-private.json",
+      "bytes": 2127,
+      "sha256": "dc68813b9b9e32b6b680f526212d68c8cd6cd8d669c7a9dfdbe3dd2783b908ad"
+    },
+    {
+      "file": "work/resume-count-20261025-end-probe-private.json",
+      "bytes": 3088,
+      "sha256": "7e8f4a6862832a09c0cab56258712b73b9851b133345eaa3539f7713a2feb896"
+    },
+    {
+      "file": "work/resume-count-20261025-end-safe.json",
+      "bytes": 200,
+      "sha256": "e94c2670ff0aaed8700ffa86cfdb10dbdcb73dd1eb991e66f0322924f584aba5"
+    },
+    {
+      "file": "work/resume-count-20261025-official-doc-safe.json",
+      "bytes": 809,
+      "sha256": "e6563e4662cb6b8eb89f3b9870fa343300942f2f4fd8763f2ee6f21a27e765bd"
+    },
+    {
+      "file": "work/resume-count-20261025-public-baseline.json",
+      "bytes": 1014,
+      "sha256": "54af29018a06ba4fc95fd6906e77a5ac1672ae0b9699ad30b6664d4579e3594f"
+    },
+    {
+      "file": "work/resume-count-20261025-public-during.json",
+      "bytes": 1014,
+      "sha256": "631bb4286499e2cfa92a790757eaaa69c56657f5a8e07354d2c57071619c1649"
+    },
+    {
+      "file": "work/resume-count-20261025-public-after.json",
+      "bytes": 1014,
+      "sha256": "b19fc1508c6659ace512854def197ab2353f02bfabdc321a68d311bc956abf58"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-safe.json",
+      "bytes": 11170,
+      "sha256": "b8b5b687364255b5c1d7f6e9c4eb5c9409053f2c47b5ecba588d87144b41b20e"
+    },
+    {
+      "file": "work/resume-count-20261025-service-status-safe.json",
+      "bytes": 129,
+      "sha256": "1c4728ce79e929178dabd472192357ec8d836b5e69985fb0eb2078bfc0e932a6"
+    },
+    {
+      "file": "work/resume-count-20261025-account-error-classification-safe.json",
+      "bytes": 130,
+      "sha256": "07375e686172a1701e764121732d4880490a77e4fe2859b403aefd309fc6ae6e"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-0-private.json",
+      "bytes": 64945,
+      "sha256": "95c67e5395f61c866ca014ce017d26daa9530ac9bdf92db93a6b812f64cd2c84"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-0-public.json",
+      "bytes": 1013,
+      "sha256": "2cc09bfaa432565fdc23e53026c1307aa3e6cb376ec44d0b872bab016d55e7b1"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-1-private.json",
+      "bytes": 64989,
+      "sha256": "b6db02566f68ef111b2d12440ad9f0724ffd1fc182455f82a5a42909de1e4b29"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-1-public.json",
+      "bytes": 1013,
+      "sha256": "24810ddcdc8f2f6e6e2cd5b300e4d0949f39d0c5ba1492312399912a153ca285"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-2-private.json",
+      "bytes": 65408,
+      "sha256": "9f114d82b3cf194fbabd703cc06087cbe697df5d1e6157b86b7107f7c9f039a4"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-2-public.json",
+      "bytes": 1014,
+      "sha256": "69c6135430ba40f6c338f5f51c9774118a98c884a796bc10b168f3498597a33b"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-3-private.json",
+      "bytes": 65207,
+      "sha256": "1e23089799cb9ef5ff4a8ef5fcef1d5ac6ed5dda0a5f93ceba46193642a0b36f"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-3-public.json",
+      "bytes": 1014,
+      "sha256": "25f4970ca1c1787db0cc8ebdf53d60055149052ec6e49cbf33d9d1d083c3c2ac"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-4-private.json",
+      "bytes": 65207,
+      "sha256": "682ee540b8c87cc71acb21b0403231335f5eb8dd3b5a61b9ddeae9531aaf15aa"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-4-public.json",
+      "bytes": 1014,
+      "sha256": "e1107c475fbeda2cab00f4789454fe4486aa5fdceb49051f57d69f401a6d0d7b"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-5-private.json",
+      "bytes": 65206,
+      "sha256": "545a230ee8a5d71a397389a1df13031d46aef798bffeeded076332ff0ec5973e"
+    },
+    {
+      "file": "work/resume-count-20261025-passive-5-public.json",
+      "bytes": 1013,
+      "sha256": "2bd53abe665c016791bbce3c64ccce06022b680dbfe1e6de55119b1d6310b7ca"
+    }
+  ]
+}

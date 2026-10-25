@@ -2,6 +2,18 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25下午：项目已启动，目标服原始资料更新true，诊断已卸载
+
+用户确认已上传昨夜只读包，并要求启动项目、继续研究。14:34北京时间原3210无监听，正常新启动本地服务，health及/rust成功；初始39Steam在线、0Rust活动，没有恢复昨夜14连接，也没有重启运行中的服务。新版Node代码已随本次正常启动加载；昨夜被拒绝的重启记录仍是历史事实，未绕过同一被拒动作。
+
+目标已加载上传的ObserverStateBridge，Steamworks MVID守卫匹配。06:36:17.1416593–06:38:18.3033999 UTC实际官方load/unload ReportingObserverFocused，观察121.162秒，focus配置20。只从预配置候选选一个当时idle/票据可读且空账号正常单次连接，06:36:21.721–06:38:17.527共115.806秒；8份入服后样本均entered、名单包含、票据active且验证已观察，研究1/其他10。原始BUpdateUserData研究calls1/true1/false0/skipped0，其他和未分类calls0、写盘错误0；Probe同窗口新增1次真实Steam验证OK、非OK0。不能将true当Facepunch逐账号采纳回执或推广昨夜全部14账号。
+
+新查询Steam CM在06:37:28、06:38:07均auth_players10，实际11；这是短窗口，与昨夜长窗口21/22一致不同，不能排除刷新延迟或断言永久排除。公共6→7的Last-Modified为06:34:27/33，均早于测试入服，绝不能把它算作测试账号被采纳。退出后06:39:32独立确认其他10身份与基线完全相同，研究0，原始Tick正10，公共新批次7。随后06:39:51–06:44:52被动301.397秒/6样本/18来源全部成功，研究始终0，其他10→11→10且身份新增1/消失1，cp/rawTick正/IP数均同步10/11/10，公共7→8（06:39:29、06:44:32新批次）。不能声称后台简单按Tick或IP数计数；公式仍未知。
+
+已按精确startedAt正常清理自己的测试连接，closed、票据available=true/active=false；观察器同startedUtc unloaded=true/patchInstalled=false且独立复核。随后官方oxide.unload ObserverStateBridge，插件列表确认其Unloaded、原PlayerCountProbe仍加载。无服务端设置改动（IP上限仍50）、无待卸载补丁或本轮待关闭连接。测试respawn/wake均关闭、PlayerTick0，不是唤醒实验。06:39检查39票据可读inactive；06:45结束38Steam在线/0Rust活动/38票据可读inactive，另1不在线不能据active=false宣称其票据可观测，未强制重登。
+
+**远端3个部署文件尚未移出，需要用户通过原文件通道移出**：HarmonyMods/ReportingObserverFocused.dll、HarmonyMods/ReportingObserverFocused-private.json、oxide/plugins/ObserverStateBridge.cs，防止重启/重载重新加载。我们只有RCON，不能声称已删除远端文件；不要移出PlayerCountProbe或其他文件。报告 `rust-research/target-reporting-observer-2026-10-25.md/.json`，ignored证据前缀 `work/resume-count-20261025`；23项证据一致性检查通过、36份证据哈希固定。06:47服务health成功、38在线/1error，错误是通用SteamConnectionError且无具体结果码，未强制重登。私有prepared配置和候选仍不入Git。没有进行新批量连接、官方客户端对照或有效EAC实现。下一步需要正常官方客户端受控对照或后台收录依据，单凭此true不能修复公共人数。
+
 ## 2026-10-25：14个用户连接已持续复核，下一步只读返回值诊断包待上传
 
 用户要求继续研究公共8。02:24–02:37北京时间只读检查；14个研究账号均在服，原startedAt不变、票据active且验证已观察。Steam CM auth_players初21末22，等于真实服务端人数；不是Steam只认证8。18:27:07–18:37:08 UTC完成601.194秒/11样本/33来源全部成功：研究14恒定，其他7→8，活跃/cp21→22，rawTickRatePositive7→8；公共文件新批次18:23:06为8、18:28:07为7、18:33:07为8。仅一个其他身份自然加入，无研究身份增减。18:32的cp少1下一份恢复，符合发布周期。公共与其他/raw/IP数相等仍是相关性，不是后台公式。
