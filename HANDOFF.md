@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25 17:17：真实身份关联候选已实测，未见公共人数收益，已清理
+
+最新结果先读 `rust-research/presence-association-experiment-2026-10-25.md/.json`。实验完成同一隔离账号/同一游戏连接 control6分钟→associated11分钟→restored6分钟，23样本/四组来源全部成功。关联阶段11样本真实名单/cp均14、公共均3，原研究7和其他6身份集合不变；两个晚于阶段起点的公共Last-Modified响应均3。control已4→3，发生在关联之前；还原阶段有其他玩家加入，不能把后续变化归因还原。没有已验证公共人数修复或服务端人数DLL，未将候选并入正常服务。
+
+46项Node测试已通过；源码/票据/目标匹配保持有效，Tick/wake/respawn/服务器修改/用户原会话停止均0。附加匿名persona只读在关联与还原各一次均不可得，不能作为后台接受证据；playing-block未记录、有限缓存窗口和无逐账号回执仍是限制。
+
+**本轮清理已完成。** driver仅停自己的隔离Rust，closed且worker inactive，退出隔离Steam前票据available=true/active=false，活动清空已请求。另一次只读复核测试已不在服务端名单，主程序候选原error及changedAt不变、用户原7会话全保留原startedAt、health成功。保留当前用户会话，不按下面启动记录继续或重跑旧driver；当前无本轮连接/配置回滚义务。远端旧诊断文件移出限制仍见历史段，不声称已删除。
+
+最终证据在ignored `work/presence-association-20261025/`，相邻JSON列SHA。旧16:31两份raw证据覆盖更正仍有效；勿复用旧固定输出脚本。下节“正在运行”为本轮历史启动记录。
+
 ## 2026-10-25 16:53：真实服务器身份关联实验正在运行
 
 用户要求继续实现验证。新增实验模块 `steam-multi-account/src/rust-auth-association.js`，逐租约校验真实authTicketStatus→当前独占票据→精确目标A2S服务器身份→已入服后才可构造steam_id_gs活动。没有接入常规网页/服务，没有重启主服务；46项Node测试通过。它是待验证候选，不是公共人数修复。

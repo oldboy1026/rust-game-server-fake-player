@@ -254,7 +254,7 @@ await api.stopIdling('account1');
 
 持续会话开始后会报告实际 Rust 游戏活动；传输连接后附上真实游戏地址，结束清理后恢复保存的挂机配置。账号在其他 Steam 会话游戏时，活动报告继续遵守暂停规则。此报告不保证外部可信人数或游戏列表人数更新。
 
-`src/rust-auth-association.js` 是供受控研究使用的实验模块，当前未接入网页或常规会话。它将当前独占票据的 AppID、CRC、GC token、Steam 连接代次与成功的 `authTicketStatus` 关联；验证者还须等于刚查询到的目标游戏服务器身份。只有同一真实会话已经入服时才可取得带精确 `steam_id_gs` 的活动数据，票据取消、身份不匹配或连接代次变化立即失效。模块本身只观察和构造数据，不发送活动或认证请求；实验驱动另行选择是否发送。此字段的公共人数效果仍待验证，不能据匹配成功称为修复。
+`src/rust-auth-association.js` 是供受控研究使用的实验模块，当前未接入网页或常规会话。它将当前独占票据的 AppID、CRC、GC token、Steam 连接代次与成功的 `authTicketStatus` 关联；验证者还须等于刚查询到的目标游戏服务器身份。只有同一真实会话已经入服时才可取得带精确 `steam_id_gs` 的活动数据，票据取消、身份不匹配或连接代次变化立即失效。模块本身只观察和构造数据，不发送活动或认证请求；实验驱动另行选择是否发送。2026-10-25 已完成单账号同连接的 6→11→6 分钟对照：关联阶段真实名单/cp 均为14，两个较新的公共批次均为3，未观察人数增加；还原阶段另有自然玩家变化。候选仍未接入常规服务，不是已验证修复，详见 `rust-research/presence-association-experiment-2026-10-25.md`。
 
 `GET /v1/accounts/{id}/rust-session` 的 `steamAuthentication` 返回本账号 Rust 票据活动及验证观察状态，不返回票据或身份字段。`GET /v1/accounts/{id}/rust-steam-count` 通过当前 Steam 连接只读查询最近所选游戏地址的 GMS 认证人数，另在 `serverList` 保留 `GameServers.GetServerList` 的状态和人数；该 `players` 字段不保证等同于认证人数。缺失或失败保持未知值。它们与服务器 A2S、`cp` 和 Facepunch 可信人数是不同来源，不能用单个数值证明某账号已计入 Rust 列表。
 
