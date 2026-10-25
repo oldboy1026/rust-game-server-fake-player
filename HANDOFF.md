@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25 20:51：当前官方客户端检查完成，旧服secure关闭，未验证会话转移
+
+用户要求检查当前官方账号建立的EAC连接能否复用于独立测试。结果见 `rust-research/official-eac-session-reuse-review-2026-10-25.md/.json`。只读元数据确认RustClient和EasyAntiCheat_EOS从20:39:36运行；bootstrap20:39:37明确模块初始化成功，游戏日志20:40:11开始Steam票据登录、20:40:12连 **61.147.247.35:28015旧服**，不是202.189.21.58。Steam活动身份与旧服真实名单精确匹配，但不匹配项目保存账号；身份/昵称/位置只在ignored证据。20:48与20:50在服，ConnectedSeconds496→639，末次Health100，进程PID/启动时间保持。
+
+旧服已有PlayerCountProbe0.1.0，只有读取snapshot，没有安装/重载/改focus。20:49和20:50均effectiveSecure=false、effectiveEncryption=0、eacInterfaceAvailable=false、eacMapped0，实际4人、networkAuthenticated4、eacStatusAuthenticated4。**最后这个4不是受保护后端认证证据。** 参考原版OnJoinGame显示secure关闭/editor分支直接OnAuthenticatedLocal/Remote；原版静态IL仅作解释参考，不冒充远端当前DLL一致。当前日志没有EOS Connect完成或RemoteAuthComplete；只能确认模块加载及正常入服，不能据此宣称有效EAC已建立，更没有可验证的会话转移结果。
+
+官方AntiCheatClient接口直接读取200，现有公开生命周期/消息/保护API未找到当前程序可用的会话导入导出方式；有限检索不证明所有厂商定制集成都不存在。BeginSession要求新游戏会话End后重建，消息回调限定同一成功Begin到End之间。可保留官方客户端作普通玩家对照，不能把此样本认作独立程序通过EAC；本轮没有切到启用EAC的服，没有内存读取/票据提取/注入/重放/连接转移/游戏操作/项目重启/服务端修改。
+
+原始日志快照、名单、身份和只读结果在ignored `work/official-eac-session-review-20261025/`；日志追加后按首次字节长度取前缀并核对原SHA才保存快照，没有把后续追加冒充首次内容。报告固定24项证据SHA。首个server-check驱动三命令响应和结果落盘、finally请求RCON关闭后进程仍存活，精确停该nodePID并退出1；不能称自然退出。最终复核驱动结果完整、关闭RCON后按有界退出逻辑退出0，无残留驱动/玩家清理义务。当前主项目Steam37在线、Rust error38/closed1，不按旧16连接记录恢复。继续工作前读实时状态；保留用户当前官方连接。
+
 ## 2026-10-25 20:16：官方安装配置EAC探测已实际执行，卡在缺少ClientId
 
 用户要求补齐EOS身份、受保护环境及EAC消息；先答有独立程序授权包，随后忘记路径并授权查找，最新指示改用官方游戏安装EAC配置测试。结果见 `rust-research/eac-installed-settings-test-2026-10-25.md/.json`。当前用户目录、可访问D/E/G及指定开发目录的文件名搜索和重点目录配置结构检查，未找到完整独立包/Connect凭据/SDK头文件；D/E有访问错误，未穷尽通用压缩包/内嵌配置/其他电脑，不能断言授权不存在。原始搜索路径只在ignored `work/eac-integration-20261025/`。

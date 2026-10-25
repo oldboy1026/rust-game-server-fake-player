@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T12:55:01.958Z",
+  "status": "official_module_loaded_current_server_insecure_no_validated_session_transfer",
+  "target": {
+    "host": "61.147.247.35",
+    "port": 28015
+  },
+  "client": {
+    "startedUtc": "2026-10-25T12:39:36.8909846Z",
+    "eacServiceRunning": true,
+    "currentIdentityMatchesProjectAccount": false,
+    "inServerRosterInitially": true,
+    "inServerRosterFinally": true,
+    "connectedSecondsInitially": 496,
+    "connectedSecondsFinally": 639,
+    "bootstrapModuleLoadSucceeded": true,
+    "steamTicketLoginStarted": true,
+    "eosLoginCompletionObserved": false,
+    "remoteEacAuthenticationCompletionObserved": false
+  },
+  "server": {
+    "initialAt": "2026-10-25T12:49:24.6205505Z",
+    "effectiveSecure": false,
+    "effectiveEncryption": 0,
+    "eacInterfaceAvailable": false,
+    "eacMapped": 0,
+    "eacStatusAuthenticatedCounter": 4,
+    "networkAuthenticated": 4,
+    "activePlayers": 4,
+    "final": {
+      "at": "2026-10-25T12:50:52.473Z",
+      "currentIdentityInRoster": true,
+      "own": {
+        "connectedSeconds": 639,
+        "health": 100
+      },
+      "players": 4,
+      "effectiveSecure": false,
+      "effectiveEncryption": 0,
+      "eacInterfaceAvailable": false,
+      "eacMapped": 0,
+      "eacStatusAuthenticated": 4,
+      "steamOnline": 37,
+      "rustStates": {
+        "error": 38,
+        "closed": 1
+      },
+      "probeErrors": 0
+    },
+    "probeVersion": "0.1.0",
+    "gameModuleMvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+    "interpretation": "Live diagnostic reports secure=false, encryption=0, no EAC interface or mapped handles. Authenticated counter alone is not evidence of a protected backend exchange."
+  },
+  "reuseAssessment": {
+    "officialClientAsTestSubject": "usable for ordinary admission/gameplay baseline; current target does not verify protected EAC admission",
+    "directTransferToIndependentWorker": "not established; no documented transfer/export API found in reviewed interface",
+    "sameSessionAcrossDifferentServer": "BeginSession documentation requires EndSession then BeginSession for another game session",
+    "otherTestAccounts": "current official identity is not in saved project account set; it is not evidence for any other account",
+    "crossProcessRuntimeTestPerformed": false,
+    "sessionMaterialExported": false
+  },
+  "scope": {
+    "readOnlyLocalMetadataAndLogs": true,
+    "existingReadOnlyServerDiagnostics": true,
+    "networkCapture": false,
+    "processMemoryRead": false,
+    "tokenExtraction": false,
+    "packetReplay": false,
+    "accountLogin": false,
+    "gameConnectOrDisconnect": false,
+    "pluginInstallOrReload": false,
+    "serverConfigurationChange": false
+  },
+  "sources": [
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/interfaces/anti-cheat-client",
+      "status": 200,
+      "sha256": "57defd55fcf9dae97c8a862437590736926edab78cb6668ed8dc67fb86df3daf"
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "localCopy": "work/eac-integration-20261025/doc-begin-session-compiled.txt"
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-add-notify-message-to-server",
+      "localCopy": "work/eac-integration-20261025/doc-send-callback-compiled.txt"
+    }
+  ],
+  "referenceInterpretation": "insecure/editor branch calls OnAuthenticatedLocal/Remote directly; eacStatusAuthenticated alone is not proof of backend authentication",
+  "cleanup": {
+    "at": "2026-10-25T12:55:01.955Z",
+    "initialReadOnlyDriver": {
+      "resultsSaved": true,
+      "allThreeCommandsReturned": true,
+      "closeRequestedInFinally": true,
+      "termination": "externally stopped exact matching server-check.mjs process after it remained alive with completed results",
+      "reportedExitCode": 1
+    },
+    "finalReadOnlyDriver": {
+      "resultsSaved": true,
+      "closeRequestedInFinally": true,
+      "termination": "bounded explicit exit after completed results",
+      "reportedExitCode": 0
+    },
+    "gameProcessInterrupted": false
+  },
+  "limitations": [
+    "Logs show protected-module startup and Steam-ticket login start, but not the Connect completion or EAC backend callback; no successful protected session was inferred from startup alone.",
+    "The original assembly IL is a reference, not a binary-identity assertion about the remote running module. It demonstrates why insecure-mode authenticated counters cannot independently prove remote authentication.",
+    "The reviewed documented API surface contains lifecycle/message/protection functions; finite absence of a transfer method does not exclude all possible publisher-supported integrations.",
+    "No transfer experiment was performed. The current client and connection were preserved."
+  ],
+  "evidence": [
+    {
+      "path": "work/official-eac-session-review-20261025/client-output-private.txt",
+      "sha256": "2ec72b9cc5fdb3b5c7d38778a03de7c483887c69d8ec1991612d36a7f98c2d79",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/launcher-output-private.txt",
+      "sha256": "310840e8a0de2c0186ee7102593ac82d84b40b36526752f0584579483c548b7d",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/current-private.json",
+      "sha256": "2e89dc0bd19edcd4d1c0f31eb82328a9829b288bbe7fef87a95258e324e9adab",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/identity-private.json",
+      "sha256": "fe420eb57c8723b5b9698ac1bd7ec5ea2647105fa03c90b538ae05d0174aff81",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/log-review-safe.json",
+      "sha256": "2ef5cd8d086c33e88f6730f9f18087c1588a49e49cf60df4a80a16ea9bb67396",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/server-check-private.json",
+      "sha256": "c3cc8c6dca7373838311df0c7b9920b4de9d207b769f0ac4819da632d3b9c192",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/server-check-safe.json",
+      "sha256": "9f54acc8df06de739797fc134854599f32dc06a8e65a57e46c8c49366d3a692d",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/probe-snapshot-private.json",
+      "sha256": "26dc91126d13c98e1da197655ae23d620401b2e6ec85cf6b21361c8c539d1058",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/probe-snapshot-safe.json",
+      "sha256": "ac0c6941630f7a73887bb8c618d62e8eb5c9edbe87b4d327f74e5bfef06aef70",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/client-phases-safe.json",
+      "sha256": "0a6126c86d5890106c150215e216a2de59e88ae8e92bc2dc3ce750c4a8a8242c",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/final-private.json",
+      "sha256": "ab0b9117d6b773daa0f051d8f84ba28186f97073a2c2300f364b5f693d6d0a3c",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/final-safe.json",
+      "sha256": "be260baeacd3ed404153d9ccd69e5c38938ec3d7520cd8f7745b8e24b2656418",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/static-auth-reference-corrected-safe.json",
+      "sha256": "b45056a7765ca09d0a858513f30b7aec881727e8c1d28d7bf9b7516e9c89fea4",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/interface-doc.html",
+      "sha256": "57defd55fcf9dae97c8a862437590736926edab78cb6668ed8dc67fb86df3daf",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/interface-doc-safe.json",
+      "sha256": "b5fca79fa8c0c283c2187aaa4208844df4d816e832640562db4a62103c89dc86",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/driver-cleanup-safe.json",
+      "sha256": "28a823c8eefcef7b59fc790a79b748a106844bc04b789d99e42247a744167b25",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/inspect-current.ps1",
+      "sha256": "d36477f38a1a9e0645cbdcb15665251269d9e4c405a4524563cf8e7c0b94ff53",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/read-logs.mjs",
+      "sha256": "b2a67dad9f386fc55692fb158d06c92e09330612476417963a80daeb5725ae3e",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/server-check.mjs",
+      "sha256": "ddcdea9dfb96dfd6511fd0efbe0071f0569d9c64e8f079f1fe7cde386499663c",
+      "tracked": false
+    },
+    {
+      "path": "work/official-eac-session-review-20261025/final-check.mjs",
+      "sha256": "b1f566e7648859a137f8c63627da1c6841b16cec62c7ea5f5ac1786ed6fb643d",
+      "tracked": false
+    },
+    {
+      "path": "tools/rust-research/PlayerCountProbe.cs",
+      "sha256": "8d5054222cb8c40619206c2ca84a1b7971702cb362a5320b43ba4e79c1ac0a5e",
+      "tracked": true
+    },
+    {
+      "path": "work/transport-frames/eos-eac/eos-eac.il.txt",
+      "sha256": "cd7a24a76086b4a353c84136d8d4faf4cf696e0a12e31f23cb5d388f3525b7dc",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/doc-begin-session-compiled.txt",
+      "sha256": "5ec6b71af2b56ea5ae9876ddfc3ca5e0e5313b28c5e660f50ca24d94f13e20ca",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/doc-send-callback-compiled.txt",
+      "sha256": "70293e1b86b43376b494fa2f253457e1da02a3c4f37123107ac68b3dd6cd082e",
+      "tracked": false
+    }
+  ]
+}
