@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T11:52:40.133Z",
+  "status": "single_admission_stopped_at_eac_message",
+  "target": {
+    "host": "202.189.21.58",
+    "gamePort": 30921,
+    "queryPort": 30923
+  },
+  "queryPortDiscovery": {
+    "source": "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v1/?addr=202.189.21.58",
+    "httpStatus": 200,
+    "exactTargetRegistered": true,
+    "neighborPort30922Responded": false
+  },
+  "observations": [
+    {
+      "phase": "pre_join",
+      "sample": 1,
+      "observedAt": "2026-10-25T11:50:30.362Z",
+      "a2s": {
+        "observedAt": "2026-10-25T11:50:30.487Z",
+        "ok": true,
+        "players": 154,
+        "cp": 129,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-25T11:50:31.819Z",
+        "ok": true,
+        "players": 146,
+        "status": 200,
+        "headers": {
+          "date": "Sun, 25 Oct 2026 11:50:31 GMT",
+          "age": "23",
+          "last-modified": "Sun, 25 Oct 2026 11:50:13 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    {
+      "phase": "post_attempt",
+      "sample": 1,
+      "observedAt": "2026-10-25T11:51:21.403Z",
+      "a2s": {
+        "observedAt": "2026-10-25T11:51:21.515Z",
+        "ok": true,
+        "players": 155,
+        "cp": 129,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-25T11:51:21.887Z",
+        "ok": true,
+        "players": 146,
+        "status": 200,
+        "headers": {
+          "date": "Sun, 25 Oct 2026 11:51:21 GMT",
+          "age": "74",
+          "last-modified": "Sun, 25 Oct 2026 11:50:13 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    }
+  ],
+  "attempt": {
+    "startedAt": "2026-10-25T11:50:52.163Z",
+    "completedAt": "2026-10-25T11:50:58.177Z",
+    "accountsAttempted": 1,
+    "bulkAttempted": false,
+    "workerElapsedSeconds": 1.766,
+    "state": "error",
+    "transportConnected": true,
+    "identitySent": true,
+    "firstByteCounts": {
+      "0x10": 1,
+      "0x9d": 1,
+      "0xa2": 1
+    },
+    "stages": [
+      "input_validated",
+      "native_wrapper_created",
+      "transport_connect_started",
+      "transport_connection_request_accepted",
+      "identity_requested",
+      "identity_sent",
+      "eac_required",
+      "native_wrapper_closed"
+    ],
+    "approved": false,
+    "readySent": false,
+    "selfEntityObserved": false,
+    "finishLoadingObserved": false,
+    "eacVerified": false,
+    "tickPacketsSent": 0,
+    "chatMessagesSent": 0,
+    "workerClosed": true,
+    "steamAuthentication": {
+      "available": true,
+      "active": false,
+      "serverValidationObserved": false
+    },
+    "termination": "worker stops on receiving application header 0xA2, matching protocol-map EAC enum22; no 0x9A server-rejection packet observed"
+  },
+  "final": {
+    "at": "2026-10-25T11:51:20.949Z",
+    "accounts": 39,
+    "steamOnline": 38,
+    "oldTargetActive": 16,
+    "oldSessionsAllStartedBeforePreflight": true,
+    "oldSessionsAllEntered": true,
+    "oldSessionsAllTicketActive": true,
+    "oldSessionsAllTicketValidated": true,
+    "newTargetActive": 0,
+    "autoConnectUnchanged": true
+  },
+  "changes": {
+    "productionCode": 0,
+    "serverConfiguration": 0,
+    "serverDll": 0,
+    "chatSends": 0,
+    "priorGameSessionsStopped": 0
+  },
+  "limitations": [
+    "The independent program has no valid Rust EAC session; the observed EAC message stops this implementation before approval. This does not establish what would happen if the message were ignored or prove a later server kick.",
+    "Public aggregate counts cannot identify which accounts were counted or verify other users' test-account implementations.",
+    "The two public samples share the same Last-Modified version; they do not form an independent post-admission count experiment.",
+    "No new-target administrative roster or RCON access was supplied. cp is a published server tag, not an independently verified roster."
+  ],
+  "evidence": [
+    {
+      "path": "work/server-2021892158-20261025/preflight.mjs",
+      "sha256": "91fa9aac3fcd70a9aea88902721227f30a6e0237d73bef996c43d791764c602c",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/single-admission.mjs",
+      "sha256": "c8aa416d5c89b92e20da5c3e1133104b5262f2638f17e95e56117529e6f77cae",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/preflight-private.json",
+      "sha256": "5a314a61572e11af6397aedb2459a7bdb0e1b068befef40c40b657a5978c66f8",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/discovery-private.json",
+      "sha256": "55c70fba5f0f642fb0eac469009b0c4ea6cc8fe50064025e369540812107ad90",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/target-query-private.json",
+      "sha256": "c6cd91a379870635f7580588765ecbf53417a9be76aa99a1f5ebc7763ce68fb6",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/single-private.json",
+      "sha256": "2ffd4a8828842e908c17f3467b6658d0bba4167d9b0fcc1614eceb849a336410",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/final-private.json",
+      "sha256": "422caadf5e2447a771d549b29c0905597df7abf63e97ef3bdf4b12269f98157c",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/prejoin-public.json",
+      "sha256": "847ea889905c80335ee27c0e95e2a9c79f3723fcb70fb293ade82ce5ad0bb3e5",
+      "tracked": false
+    },
+    {
+      "path": "work/server-2021892158-20261025/postattempt-public.json",
+      "sha256": "fcf107d0f5a989a1bf2f798bb831eabe1825f3e3e688d5a284ec691958da3de5",
+      "tracked": false
+    },
+    {
+      "path": "rust-research/query-server.mjs",
+      "sha256": "f186fe96955b37e6183483e695bb0867e24e47d066d570be59d525cf439aee29",
+      "tracked": true
+    },
+    {
+      "path": "rust-research/protocol-map.json",
+      "sha256": "c7836adbf895f6128b4cb6145d57ddd0bce1cfe01943e4441f055bf787926480",
+      "tracked": true
+    },
+    {
+      "path": "tools/rust-research/observe-player-counts.mjs",
+      "sha256": "edb476f6c338b91585c02be633bd26656433e0f0341629d29a7cfd553044d93a",
+      "tracked": true
+    },
+    {
+      "path": "tools/rust-research/rust-peer.py",
+      "sha256": "916f80bfc6fcfe8601a453cb2542454478d907cf4456cf48a5ebafa81679a2fe",
+      "tracked": true
+    }
+  ]
+}

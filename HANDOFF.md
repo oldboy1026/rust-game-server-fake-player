@@ -2,6 +2,14 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25 19:51：新目标公开查询完成，单账号停在EAC消息，未批量切换
+
+用户要求全部项目账号进入 `202.189.21.58:30921`，并查询其他测试账号能增加公共人数的说法。Steam GetServersAtAddress登记查询端口30923，A2S_INFO gamePort核对30921；30922本次超时。19:50:30即时入服前A2S154/cp129/公共146，公共Last-Modified11:50:13UTC；19:51:21尝试后155/129/146仍同一公共版本，不能当成两个后台批次或逐账号计入证据。详见 `rust-research/server-202-189-21-58-test-2026-10-25.md/.json`。
+
+先选一个Steam在线、无externalAppId、Rust空闲的项目账号19:50:52普通入服。传输和身份提交成功，随后收到0xA2（协议映射EAC enum22）；现有worker按既有逻辑主动停止，原生时长1.766秒。未收到Approval、未发Ready、无自身实体/FinishLoading、无Tick/聊天/服务端票据验证。**不是入服后被踢，也未观察到0x9A拒绝消息；此轮是本地在EAC消息处结束。** 没有有效Rust EAC会话，故未继续批量切换或改安全配置。
+
+19:51:20最终只读确认Steam38/39在线，原目标16连接均entered_game、startedAt早于本轮preflight，票据active及validated16/16；新目标活动0，单次测试worker closed、票据inactive，autoConnect偏好全保持。未重启主服务59282、未停旧连接、未发聊天、未改DLL/生产代码/服务端设置，无新连接清理义务。原始绑定和证据在ignored `work/server-2021892158-20261025/`；报告固定13项SHA。不要重跑single-admission.mjs；公开146不能识别他人的测试账号或证明其方案。用户批量授权仍有效，但当前程序在该目标无法走完EAC准入，不能把未完成写成已成功全部连接。
+
 ## 2026-10-25 19:42：独立聊天已实现，单账号及另15账号发公共“1”，38个Steam登录已恢复
 
 最新结果见 `rust-research/independent-global-chat-2026-10-25.md/.json`。用户先指定一个账号公共频道发“1”，又明确要求15个测试账号入服后各发“1”。第一个账号19:24实测成功，用户确认看见；后15个是另外选出的空闲项目账号，19:31开始错开连接，15次发送均经只读chat.tail用完整身份字符串/消息/Channel0/新时间记录匹配。未用RCON广播或伪造发送身份。原始绑定、名单与聊天只在ignored `work/independent-chat-20261025/` 和 `work/independent-chat-batch15-20261025/`。
