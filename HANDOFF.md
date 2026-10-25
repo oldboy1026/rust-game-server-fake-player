@@ -2,7 +2,7 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
-## 2026-10-25 16:15：DLL 隐藏指令已解析，现有 8 连接保留，公共人数未修复
+## 2026-10-25 16:31：DLL 隐藏指令已解析，现有 8 连接保留，公共人数未修复
 
 先读 `rust-research/dll-count-investigation-2026-10-25.md/.json`。用户澄清没有其他成功插件的名称或链接，希望自行实现。仍没有已验证的人数修复 DLL，不要把资源解码、原生 true、cp 相等或自然批次变化称为修复。
 
@@ -10,7 +10,11 @@
 
 新证据：初始化 `06000353`→HTTP包装 `06000370` 注册 B5；周期 `06000355` 把内部标识/名称集合整理为JSON→370，注册B6。对象路径 `0600035C` 解码 Network.Connection→`06000378`→FormatterServices.GetUninitializedObject，随后反射写字段及IList.Add；部分名称依赖外部JArray，未取得实际值，不能替它们猜成认证/人数API。**35C VM偏移530也调用容量函数350**，扩大了旧“仅聊天可见”的范围，未证明修集合会修公共人数。
 
+补充局部认证候选：`35B` 从JSON取UInt64和Base64字节→反射实例方法(UInt64,Byte[])→采用bool结果。当前266模块签名扫描只有IPlatformService/SteamPlatform.BeginPlayerSession两个匹配，后者直接SteamServer.BeginAuthSession；实际运行时名称表缺失，不能把签名匹配写成目标已确认。托管9B IL197→35B，202 false跳过，true在221/232调度384→35C IL19已确认；未证明B6到这条新增分支。仍未执行未知插件、请求外部服务或修改授权。
+
 16:11只读快照发现用户已有8个研究Rust连接。16:13:37–16:15:37北京时间3次被动采样均：Steam38在线/账号39、Rust entered8，RCON17=研究8+其他9，两组身份集合三次相同，cp17，A2S23/bots0，公共8。公共Last-Modified从08:09:42更新到08:14:39 UTC仍8；不能仅称旧缓存，也不能由聚合值断言公共8归属。Probe active/connected/networkConnected/networkAuthenticated各17，rawTickPositive9，eacMapped0；不是有效EAC或计数规则。
+
+16:31:36–38后续单次只读核对：Steam38在线/账号39、entered8仍保留；RCON14=研究8+其他6，cp14，A2S20/bots0，公共7（新批次08:29:39UTC）。Probe active/connected/networkConnected/networkAuthenticated各14，rawTickPositive6，eacMapped0。这不是稳定名单第二对照，公共批次早于当前名单，不能把8→7归因研究账号或认定其余人数/Tick公式。项目服务仍响应；未重启。
 
 被动driver session73005已正常完成3份，completedAt已落盘、退出0。没有新建/关闭账号、发Tick、改配置、启用observer或部署DLL；**保留用户现有8会话，不能按旧0连接快照清理它们**。没有本轮回滚/玩家清理义务。此前两个远端observer模块仍按上节历史正式卸载；远端遗留文件移出义务仍不能仅凭RCON宣称完成。后续优先找可复现的真实上报故障或后台逐账号采用证据，不组装虚假会话代替正常路径。
 

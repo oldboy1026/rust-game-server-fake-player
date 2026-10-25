@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "preparedAt": "2026-10-25T08:24:50.762272+00:00",
+  "preparedAt": "2026-10-25T08:33:23.285505+00:00",
   "timeZone": "Asia/Shanghai",
   "result": "static_vm_decoded_public_population_repair_not_established",
   "populationRepairImplemented": false,
@@ -164,9 +164,84 @@
       {
         "method": "06000378",
         "factory": "System.Runtime.Serialization.FormatterServices.GetUninitializedObject"
+      },
+      {
+        "method": "0600035B",
+        "behavior": "base64_bytes_and_uint64_to_reflected_instance_method_with_boolean_result",
+        "actualReflectionTargetKnown": false
+      },
+      {
+        "method": "0600039B",
+        "validationCallOffset": 197,
+        "validationMethod": "0600035B",
+        "falseBranchOffset": 202,
+        "trueBranchDelegateOffset": 221,
+        "delegateMethod": "06000384",
+        "scheduleOffset": 232
+      },
+      {
+        "method": "06000384",
+        "constructionCallOffset": 19,
+        "constructionMethod": "0600035C"
       }
     ],
+    "compatibleSessionSignatures": {
+      "modules": 266,
+      "failures": 0,
+      "methods": [
+        {
+          "module": "Rust.Platform.Common.dll",
+          "moduleSha256": "748eefb285bdedf3e181d3a2590aa3211a7e9ef2df1db337dd40c7662102bd1d",
+          "type": "IPlatformService",
+          "method": "System.Boolean IPlatformService::BeginPlayerSession(System.UInt64,System.Byte[])",
+          "token": "0600001D",
+          "isPublic": true,
+          "isStatic": false,
+          "isInterface": true,
+          "instructions": []
+        },
+        {
+          "module": "Rust.Platform.Steam.dll",
+          "moduleSha256": "f628b525cbd59d9239a3496f21f0385be7e9141be729832939775372c083da11",
+          "type": "Rust.Platform.Steam.SteamPlatform",
+          "method": "System.Boolean Rust.Platform.Steam.SteamPlatform::BeginPlayerSession(System.UInt64,System.Byte[])",
+          "token": "0600004A",
+          "isPublic": true,
+          "isStatic": false,
+          "isInterface": false,
+          "instructions": [
+            {
+              "offset": 0,
+              "op": "ldarg.2",
+              "operand": ""
+            },
+            {
+              "offset": 1,
+              "op": "ldarg.1",
+              "operand": ""
+            },
+            {
+              "offset": 2,
+              "op": "call",
+              "operand": "Steamworks.SteamId Steamworks.SteamId::op_Implicit(System.UInt64)"
+            },
+            {
+              "offset": 7,
+              "op": "call",
+              "operand": "System.Boolean Steamworks.SteamServer::BeginAuthSession(System.Byte[],Steamworks.SteamId)"
+            },
+            {
+              "offset": 12,
+              "op": "ret",
+              "operand": ""
+            }
+          ]
+        }
+      ],
+      "assembliesExecuted": false
+    },
     "externalReflectionNameTableAvailable": false,
+    "localValidationToConstructionControlFlowVerified": true,
     "serverBoundaryScan": {
       "modules": 266,
       "failedModules": 0,
@@ -365,6 +440,71 @@
     ],
     "completedAt": "2026-10-25T08:15:39.328Z"
   },
+  "laterSingleReadonlyObservation": {
+    "at": "2026-10-25T08:31:36.561Z",
+    "readOnly": true,
+    "connectionOperations": 0,
+    "serverChanges": 0,
+    "public": {
+      "sample": 1,
+      "observedAt": "2026-10-25T08:31:37.099Z",
+      "a2s": {
+        "observedAt": "2026-10-25T08:31:37.196Z",
+        "ok": true,
+        "players": 20,
+        "cp": 14,
+        "bots": 0
+      },
+      "facepunch": {
+        "observedAt": "2026-10-25T08:31:38.801Z",
+        "ok": true,
+        "players": 7,
+        "status": 200,
+        "headers": {
+          "date": "Sun, 25 Oct 2026 08:31:38 GMT",
+          "age": "118",
+          "last-modified": "Sun, 25 Oct 2026 08:29:39 GMT",
+          "cache-control": "public, max-age=86400",
+          "cf-cache-status": "HIT"
+        }
+      }
+    },
+    "sourcesOk": [
+      true,
+      true,
+      true
+    ],
+    "local": {
+      "accounts": 39,
+      "steamOnline": 38,
+      "rustActive": 8,
+      "entered": 8
+    },
+    "server": {
+      "players": 14,
+      "joining": 0,
+      "queued": 0
+    },
+    "probe": {
+      "totals": {
+        "active": 14,
+        "alive": 8,
+        "dead": 6,
+        "sleeping": 2,
+        "connected": 14,
+        "receivingSnapshot": 0,
+        "rawTickRatePositive": 6,
+        "networkConnected": 14,
+        "networkAuthenticated": 14,
+        "eacMapped": 0
+      }
+    },
+    "roster": {
+      "research": 8,
+      "other": 6
+    },
+    "completedAt": "2026-10-25T08:31:38.837Z"
+  },
   "conclusions": {
     "cpContainsResearchConnections": true,
     "publicBatchChangedDuringStableSampledRosters": true,
@@ -414,6 +554,26 @@
       "path": "work/dll-count-research-20261025/export-vm-metadata.ps1",
       "bytes": 3423,
       "sha256": "068e975107cb007b398c67aea9820c09bb3a0b70b34d657f0bce7f94145d2aa5"
+    },
+    {
+      "path": "work/dll-count-research-20261025/final-private.json",
+      "bytes": 154232,
+      "sha256": "6a18bf8c4c00682a1f90095434bc25e7bd13625f4cd21fa050d3de7ef9617f0b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/final-public.json",
+      "bytes": 1014,
+      "sha256": "c9bc3f1180d6866c3b4a001a07f8905e8805f9e58aa4af880617a09795e05eb3"
+    },
+    {
+      "path": "work/dll-count-research-20261025/final-readonly-safe.json",
+      "bytes": 1307,
+      "sha256": "cd3bc0f6587e9503c23457b3426e5a83cde75f6e4121ebe955906b3da9a1444d"
+    },
+    {
+      "path": "work/dll-count-research-20261025/final-readonly.mjs",
+      "bytes": 2856,
+      "sha256": "c9cdb1f709523cc774026ad0949cf17a2c4eab298346139052137cc41b1c610a"
     },
     {
       "path": "work/dll-count-research-20261025/method-index-private.json",
@@ -556,9 +716,19 @@
       "sha256": "7124384ff4ffc6176d24684a4c204abc1608711850710bc04aff0f71b3ad6024"
     },
     {
+      "path": "work/dll-count-research-20261025/scan-session-signatures.ps1",
+      "bytes": 2448,
+      "sha256": "be9676f3c5af2207d0b9b6551716e122c42d03baae040008f2ca08c94db4295e"
+    },
+    {
       "path": "work/dll-count-research-20261025/server-boundaries-private.json",
       "bytes": 92897,
       "sha256": "384f9ca3c8a5045b3816a17d1275a8bba4c4aa8f206cf03675ac037a00bc9a6e"
+    },
+    {
+      "path": "work/dll-count-research-20261025/session-signature-matches-private.json",
+      "bytes": 1619,
+      "sha256": "7b428ec61a7234bceb0cf038fd5c802aae52c51056b833d4f97b24b0bfb13660"
     },
     {
       "path": "work/dll-count-research-20261025/static-evaluator-stop-safe.json",
