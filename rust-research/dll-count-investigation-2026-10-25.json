@@ -1,0 +1,674 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-10-25T08:24:50.762272+00:00",
+  "timeZone": "Asia/Shanghai",
+  "result": "static_vm_decoded_public_population_repair_not_established",
+  "populationRepairImplemented": false,
+  "populationRepairVerified": false,
+  "runtimeSourceChanged": false,
+  "unknownAssemblyExecuted": false,
+  "unknownAssemblyModified": false,
+  "embeddedServicesRequested": false,
+  "newConnectionsCreated": 0,
+  "existingConnectionsStopped": 0,
+  "playerInputsSent": 0,
+  "serverSettingsChanged": false,
+  "newRemoteModulesLoaded": false,
+  "originalAssembly": {
+    "bytes": 322048,
+    "sha256": "5b939869639363ebc690c34beef57243b066a8e73ce2dc44bafd5178c56eeb19"
+  },
+  "staticAnalysis": {
+    "resource": {
+      "status": "decoded",
+      "totalLength": 39983,
+      "bytes": 39983,
+      "reads": 10,
+      "steps": 3181922,
+      "sha256": "a055931664f3e5c525428b4ef417224965152496f1de5edc86831e071fbcc6bb",
+      "powCalls": 164
+    },
+    "originalReaderPrefixBytes": 64,
+    "originalReaderPrefixMatches": true,
+    "disassembly": {
+      "registryEntries": 205,
+      "methods": 23,
+      "instructions": 2373,
+      "uniqueHandlers": 72,
+      "fullyConsumed": true,
+      "topHandlers": [
+        [
+          "06000467",
+          399
+        ],
+        [
+          "060004EE",
+          153
+        ],
+        [
+          "060004A6",
+          142
+        ],
+        [
+          "06000400",
+          141
+        ],
+        [
+          "060003DF",
+          123
+        ],
+        [
+          "0600048A",
+          111
+        ],
+        [
+          "0600040B",
+          81
+        ],
+        [
+          "0600041D",
+          79
+        ],
+        [
+          "060004FF",
+          78
+        ],
+        [
+          "060004EB",
+          63
+        ],
+        [
+          "0600042C",
+          53
+        ],
+        [
+          "060004AD",
+          49
+        ],
+        [
+          "06000412",
+          48
+        ],
+        [
+          "06000426",
+          47
+        ],
+        [
+          "060004B4",
+          46
+        ]
+      ]
+    },
+    "independentReaderVerification": {
+      "status": "verified",
+      "methods": 23,
+      "instructions": 2373,
+      "steps": 386884,
+      "businessInstructionsExecuted": false
+    },
+    "directMemberDescriptors": 268,
+    "recursiveMemberDescriptors": {
+      "descriptors": 368,
+      "parsed": 368,
+      "errors": {},
+      "steps": 1341958
+    },
+    "protectedStrings": {
+      "candidates": 128,
+      "decoded": 128,
+      "stopped": 0,
+      "steps": 224473,
+      "topics": {
+        "steam": 0,
+        "analytics": 0,
+        "players": 0,
+        "publicCount": 1
+      }
+    },
+    "businessStringCallSites": {
+      "callSites": 19,
+      "distinctInputs": 16,
+      "steps": 19297,
+      "knownNames": [
+        "connected",
+        "connection",
+        "player"
+      ]
+    },
+    "businessInstructionsExecuted": false,
+    "knownBranches": [
+      {
+        "method": "06000353",
+        "callbackOffset": 812,
+        "callback": "060003B5",
+        "httpOffset": 840,
+        "httpWrapper": "06000370"
+      },
+      {
+        "method": "06000355",
+        "callbackOffset": 501,
+        "callback": "060003B6",
+        "httpOffset": 529,
+        "httpWrapper": "06000370",
+        "input": "internal_identifier_name_dictionary_snapshot"
+      },
+      {
+        "method": "0600035C",
+        "capacityHelperOffset": 530,
+        "capacityHelper": "06000350",
+        "objectType": "Network.Connection",
+        "objectFactoryOffset": 761,
+        "objectFactory": "06000378",
+        "collectionAddOffset": 3170
+      },
+      {
+        "method": "06000378",
+        "factory": "System.Runtime.Serialization.FormatterServices.GetUninitializedObject"
+      }
+    ],
+    "externalReflectionNameTableAvailable": false,
+    "serverBoundaryScan": {
+      "modules": 266,
+      "failedModules": 0,
+      "sampleExecuted": false,
+      "matchingMethods": 72
+    },
+    "limitations": [
+      "pure_model_consistency_is_not_runtime_validation",
+      "external_reflection_targets_incomplete",
+      "no_proven_public_count_setter",
+      "backend_qualification_rules_unavailable"
+    ]
+  },
+  "passiveObservation": {
+    "startedAt": "2026-10-25T08:13:37.848Z",
+    "readOnly": true,
+    "requestedSamples": 3,
+    "samples": [
+      {
+        "index": 0,
+        "at": "2026-10-25T08:13:37.849Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 8,
+          "entered": 8
+        },
+        "server": {
+          "players": 17,
+          "research": 8,
+          "other": 9,
+          "otherMatchesFirst": true,
+          "researchMatchesFirst": true
+        },
+        "probe": {
+          "totals": {
+            "active": 17,
+            "alive": 13,
+            "dead": 4,
+            "sleeping": 6,
+            "connected": 17,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 9,
+            "networkConnected": 17,
+            "networkAuthenticated": 17,
+            "eacMapped": 0
+          }
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T08:13:38.676Z",
+          "a2s": {
+            "observedAt": "2026-10-25T08:13:38.756Z",
+            "ok": true,
+            "players": 23,
+            "cp": 17,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T08:13:39.225Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 08:13:39 GMT",
+              "age": "240",
+              "last-modified": "Sun, 25 Oct 2026 08:09:42 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 1,
+        "at": "2026-10-25T08:14:37.854Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 8,
+          "entered": 8
+        },
+        "server": {
+          "players": 17,
+          "research": 8,
+          "other": 9,
+          "otherMatchesFirst": true,
+          "researchMatchesFirst": true
+        },
+        "probe": {
+          "totals": {
+            "active": 17,
+            "alive": 13,
+            "dead": 4,
+            "sleeping": 5,
+            "connected": 17,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 9,
+            "networkConnected": 17,
+            "networkAuthenticated": 17,
+            "eacMapped": 0
+          }
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T08:14:38.599Z",
+          "a2s": {
+            "observedAt": "2026-10-25T08:14:38.722Z",
+            "ok": true,
+            "players": 23,
+            "cp": 17,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T08:14:39.549Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 08:14:39 GMT",
+              "age": "0",
+              "last-modified": "Sun, 25 Oct 2026 08:14:39 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      },
+      {
+        "index": 2,
+        "at": "2026-10-25T08:15:37.868Z",
+        "sourceOk": [
+          true,
+          true,
+          true
+        ],
+        "local": {
+          "steamOnline": 38,
+          "rustActive": 8,
+          "entered": 8
+        },
+        "server": {
+          "players": 17,
+          "research": 8,
+          "other": 9,
+          "otherMatchesFirst": true,
+          "researchMatchesFirst": true
+        },
+        "probe": {
+          "totals": {
+            "active": 17,
+            "alive": 12,
+            "dead": 5,
+            "sleeping": 5,
+            "connected": 17,
+            "receivingSnapshot": 0,
+            "rawTickRatePositive": 9,
+            "networkConnected": 17,
+            "networkAuthenticated": 17,
+            "eacMapped": 0
+          }
+        },
+        "public": {
+          "sample": 1,
+          "observedAt": "2026-10-25T08:15:38.620Z",
+          "a2s": {
+            "observedAt": "2026-10-25T08:15:38.714Z",
+            "ok": true,
+            "players": 23,
+            "cp": 17,
+            "bots": 0
+          },
+          "facepunch": {
+            "observedAt": "2026-10-25T08:15:39.311Z",
+            "ok": true,
+            "players": 8,
+            "status": 200,
+            "headers": {
+              "date": "Sun, 25 Oct 2026 08:15:38 GMT",
+              "age": "59",
+              "last-modified": "Sun, 25 Oct 2026 08:14:39 GMT",
+              "cache-control": "public, max-age=86400",
+              "cf-cache-status": "HIT"
+            }
+          }
+        }
+      }
+    ],
+    "completedAt": "2026-10-25T08:15:39.328Z"
+  },
+  "conclusions": {
+    "cpContainsResearchConnections": true,
+    "publicBatchChangedDuringStableSampledRosters": true,
+    "publicIndividualsIdentified": false,
+    "browserApplicableBranchResult": 8,
+    "browserApplicableBranchFormula": "max(0,min(cp,publicCount))",
+    "accountSpecificPublicQualificationKnown": false,
+    "fixingCollectionCompatibilityProvenToFixPublicCount": false
+  },
+  "evidence": [
+    {
+      "path": "work/dll-count-research-20261025/current-public-safe.json",
+      "bytes": 1014,
+      "sha256": "769728625114c3c1e278fb2b8707f573972d87c4507c6e857cc946a881a2dbd4"
+    },
+    {
+      "path": "work/dll-count-research-20261025/current-readonly-safe.json",
+      "bytes": 612,
+      "sha256": "d28de7511f92f4a6f559918aa0649ea1011114fc28c398239e248dedcbfe498b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/de4dot-catalog.json",
+      "bytes": 13612,
+      "sha256": "727d09b09bc9da5ed86b1452892911ff8860a07e646b67d2c035ca8687cec12a"
+    },
+    {
+      "path": "work/dll-count-research-20261025/decode-protected-strings.py",
+      "bytes": 1840,
+      "sha256": "d855eed4a91c4dc6f6945ef50b67be41e6525ccd506ec001e20cd64f8c6cdeae"
+    },
+    {
+      "path": "work/dll-count-research-20261025/decode-vm-resource.py",
+      "bytes": 2707,
+      "sha256": "5cca159d4a54bfe486bb36180919911ec8c80034335632a74aff477ec6a7f5ef"
+    },
+    {
+      "path": "work/dll-count-research-20261025/decode-vm-strings.py",
+      "bytes": 1606,
+      "sha256": "f08848c24f882723f4fe5c6cdc8d6891dec89dbc671fe7974c491cff7affe54f"
+    },
+    {
+      "path": "work/dll-count-research-20261025/disassemble-vm.py",
+      "bytes": 2988,
+      "sha256": "d3bbd5ce634dc24396178ba1eef21ae578182e948b966a86170f1b05a2fd895b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/export-vm-metadata.ps1",
+      "bytes": 3423,
+      "sha256": "068e975107cb007b398c67aea9820c09bb3a0b70b34d657f0bce7f94145d2aa5"
+    },
+    {
+      "path": "work/dll-count-research-20261025/method-index-private.json",
+      "bytes": 2746945,
+      "sha256": "4feddc7577df5d17b32e30befcdc03932dd94d6af1d5891b87e6b0b9ea8b0a97"
+    },
+    {
+      "path": "work/dll-count-research-20261025/parse-vm-bodies.py",
+      "bytes": 2150,
+      "sha256": "7b36588aaca9125a8493cd6e4f23ad5557b436f6982d8ad9aa7e27474a488921"
+    },
+    {
+      "path": "work/dll-count-research-20261025/parse-vm-members.py",
+      "bytes": 3171,
+      "sha256": "fd17826c59c888e75bedf78010bcef7e1cde10be84aeaab7122d5e3b4ecc0267"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-0-private.json",
+      "bytes": 154621,
+      "sha256": "de260720a9cba7dae2f75ae466acb85cc0c7828e9ad3aa45d2c5b580e7f9006b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-0-public.json",
+      "bytes": 1014,
+      "sha256": "475757cef12fa5b98f3e29dc5040be5ceef61b6e48d8b2b72a60f210d66b654c"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-1-private.json",
+      "bytes": 154634,
+      "sha256": "5b50ade90b2640d7617984a4234d940fd7dc07d09d7176c172f9831b65efefe8"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-1-public.json",
+      "bytes": 1012,
+      "sha256": "7ca0dd3ebe85950d0c462a3935015dde8fdade0704ecac2aa7c6c3a677020ced"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-2-private.json",
+      "bytes": 154637,
+      "sha256": "da73c5c072bce77574fdb89c448c27e3f8d151b1099f846066c5a21caebf9f1f"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-2-public.json",
+      "bytes": 1013,
+      "sha256": "5738286bcff1da40479074e2b4aff6129050aa3daad1d33e6e28f5de41262535"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-window-safe.json",
+      "bytes": 4456,
+      "sha256": "0a929d6ba1e4d040a3f8c322085465c2f76b4637ac465b27b6078a06ec101ccf"
+    },
+    {
+      "path": "work/dll-count-research-20261025/passive-window.mjs",
+      "bytes": 3579,
+      "sha256": "f6202aeb3988aeecd652bb638f7288f34c24dce4a14438abdf79580b3e9f4417"
+    },
+    {
+      "path": "work/dll-count-research-20261025/profile-resource.py",
+      "bytes": 2048,
+      "sha256": "c5d8eadd37373ebbefb96ef85af462dc587b71cae9376ce6e29a6c4c11e3134a"
+    },
+    {
+      "path": "work/dll-count-research-20261025/protected-string-result-private.json",
+      "bytes": 201,
+      "sha256": "e8234fbeb79e1233d5e2b8f6b21f79e42c6017a9e686fe63aa990961c317297c"
+    },
+    {
+      "path": "work/dll-count-research-20261025/protected-strings-private.json",
+      "bytes": 27366,
+      "sha256": "8c2d2623caf8161ff6118e094a813358ca276de48040a00fa36910192146c9d6"
+    },
+    {
+      "path": "work/dll-count-research-20261025/protected-strings-safe.json",
+      "bytes": 181,
+      "sha256": "f28d01cdba82c5818b0e2757e943ab83ded329bd10bf484ce8ee493613c74420"
+    },
+    {
+      "path": "work/dll-count-research-20261025/read-resource.py",
+      "bytes": 935,
+      "sha256": "6aa7b19bbdd00c0f78413cbc5c2dc5fa1a8189b5e41866874963c3b1adcb8238"
+    },
+    {
+      "path": "work/dll-count-research-20261025/reference-DecrypterType.cs",
+      "bytes": 10263,
+      "sha256": "70094b3c083253069abcf690de095c8af43ba66114e6cb8d4876fc7c5222a09b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/reference-EfConstantsReader.cs",
+      "bytes": 1429,
+      "sha256": "37d6cccf8d9df99bc18672312dc1917604f870f8196d5e8db5818c45a815b9b5"
+    },
+    {
+      "path": "work/dll-count-research-20261025/reference-EfUtils.cs",
+      "bytes": 2517,
+      "sha256": "ada6a6e838c862217c873c00b648f1922ba911841d603031387b5c193bce539e"
+    },
+    {
+      "path": "work/dll-count-research-20261025/reference-StringDecrypter.cs",
+      "bytes": 34131,
+      "sha256": "741add58417dd0b20cded1cd35987b36c975ef45be34037e8870ec76e72b3634"
+    },
+    {
+      "path": "work/dll-count-research-20261025/render-vm-members.py",
+      "bytes": 3099,
+      "sha256": "44bfcb822a787ce76f4daf2d258148fc01cd4fda1c869da1256fa2dac4a14615"
+    },
+    {
+      "path": "work/dll-count-research-20261025/resource-0.bin",
+      "bytes": 3356,
+      "sha256": "ea45cf74021c9664e87e3508014360e03e1edbf5deb0378adcbd33d64abfbde5"
+    },
+    {
+      "path": "work/dll-count-research-20261025/resource-1.bin",
+      "bytes": 41988,
+      "sha256": "1e32ba3a8f9c36dad31c551b24d13158ae5a57f4b54ab14027d0f8a62a503b18"
+    },
+    {
+      "path": "work/dll-count-research-20261025/resource-factory-stop-safe.json",
+      "bytes": 2258,
+      "sha256": "c0c6fe1656f1b0d446726f759747d4a6577fd69ba06aedb6badaba60f93f1b7f"
+    },
+    {
+      "path": "work/dll-count-research-20261025/resource-first-block-private.bin",
+      "bytes": 64,
+      "sha256": "3dd2311c669f7fcb2505c6122ee8088f5b3a6bd6acfc52c7921137fad2cf86a8"
+    },
+    {
+      "path": "work/dll-count-research-20261025/resource-profile-safe.json",
+      "bytes": 3442,
+      "sha256": "a951d9803d3425fdd7decd3ce8e93e15c12aab7139e2e8189a0e0db411a04a05"
+    },
+    {
+      "path": "work/dll-count-research-20261025/resource-read-stop-safe.json",
+      "bytes": 62,
+      "sha256": "b2e0386d0b00199bd1c633a318d7bda8834a4dd80d91c68f54af31ba84c74d72"
+    },
+    {
+      "path": "work/dll-count-research-20261025/scan-server-boundaries.ps1",
+      "bytes": 2650,
+      "sha256": "7124384ff4ffc6176d24684a4c204abc1608711850710bc04aff0f71b3ad6024"
+    },
+    {
+      "path": "work/dll-count-research-20261025/server-boundaries-private.json",
+      "bytes": 92897,
+      "sha256": "384f9ca3c8a5045b3816a17d1275a8bba4c4aa8f206cf03675ac037a00bc9a6e"
+    },
+    {
+      "path": "work/dll-count-research-20261025/static-evaluator-stop-safe.json",
+      "bytes": 2311,
+      "sha256": "346e1b8df20eab38effb489447b25e34bbef25e4b1cd2bb058cf8b2cff95f146"
+    },
+    {
+      "path": "work/dll-count-research-20261025/static-il-evaluator.py",
+      "bytes": 25850,
+      "sha256": "03c57abb4f665b507803a45f0fa05ad93223da6f63d93c52b2a289a8bd5b87c1"
+    },
+    {
+      "path": "work/dll-count-research-20261025/verify-vm-disassembly.py",
+      "bytes": 2542,
+      "sha256": "468567936017c2d72e06e1e05161d118033a4cf1ea318e02fc758f73a7c93d5f"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-bodies-private.json",
+      "bytes": 172340,
+      "sha256": "baad08fccd9f5b773636758529e8f961d445fb05a2e8b74bf38337a289a945e7"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-bodies-safe.json",
+      "bytes": 4869,
+      "sha256": "2377fc53c162d01ab29e5573e353490c955353568c86157505e9a9032e0b37f6"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-callgraph-private.json",
+      "bytes": 283887,
+      "sha256": "30613cb5e4fb837d7cfe18d83ba63cc63c169f5e498bddedb7a94017e3e9e5ac"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-disassembly-private.json",
+      "bytes": 409050,
+      "sha256": "1992963965267f9a2c6db97b5926eabd30dffe5e3f0c4f756ce88e3636e797cb"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-disassembly-safe.json",
+      "bytes": 815,
+      "sha256": "1fc112d21051211501f0347a10239791f3a95dfe9103ee02fb12daacb6c17082"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-disassembly-verification-safe.json",
+      "bytes": 133,
+      "sha256": "245ab6fd720b80297b4d148eca8fc99fd97387add8367a2bb4ba5ddb3b144a7b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-member-names-private.json",
+      "bytes": 28466,
+      "sha256": "142510804e0226e8a7f0f52d3282c9b3a87068a99115e116e1118ee24ed59648"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-members-private.json",
+      "bytes": 405189,
+      "sha256": "76bd2266b275c72e4c17a6633ef851c7aabb58e56a35ce39e16ba28301882813"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-members-safe.json",
+      "bytes": 82,
+      "sha256": "5b192dd3aba375d1851e16ccc39f36ef684bf50b14c0769f5aa85a1a301477d6"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-metadata-private.json",
+      "bytes": 32431668,
+      "sha256": "848c2ecf270215d4078cdf3d2772e2119ed75606af116e90f870b26cad9c67dd"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-opcode-config-private.json",
+      "bytes": 18645,
+      "sha256": "665e34ba0cc006b0fed5a10b5d9ed02fb7901b72c0adb805d37aa1b5a33b5d38"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-opcode-table-private.json",
+      "bytes": 19419,
+      "sha256": "3ccd186a4183a8084f4e97e785ade033e05d61c5db233485b9756716d961b43b"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-readable-private.json",
+      "bytes": 125090,
+      "sha256": "3dafcf7a0a01e400177e817b8a32d7801c5ab05038ed0ea91cce76e60c4dd8e9"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-resource-decoded-private.bin",
+      "bytes": 39983,
+      "sha256": "a055931664f3e5c525428b4ef417224965152496f1de5edc86831e071fbcc6bb"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-resource-decoded-safe.json",
+      "bytes": 209,
+      "sha256": "a7608b9c69ccd78b805f0bb2b96426628ae21cfe6d2d3ac415920a23101d318c"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-resource-strings-private.json",
+      "bytes": 9767,
+      "sha256": "414e8ca262e25e07c4af23d779fdaee3118f95cef24dd4f37dc4376d0adcb116"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-selectors-private.json",
+      "bytes": 1587,
+      "sha256": "296d7a054b53dc7db9d6f5412be9c1d99d3472a7e6b03c4109f441333d16f88c"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-strings-private.json",
+      "bytes": 2698,
+      "sha256": "cd1f4e38723cd98f3b1f887bcabcde02508d657a6b137915accfcf59bee2ee32"
+    },
+    {
+      "path": "work/dll-count-research-20261025/vm-strings-safe.json",
+      "bytes": 143,
+      "sha256": "a3d6e49a07f23a41ba760b64610ce1930a1c314f3b16689f9b50b838b655c587"
+    }
+  ]
+}
