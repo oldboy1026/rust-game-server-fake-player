@@ -6,6 +6,7 @@ const resultLabels = { success: '成功', succeeded: '成功', failed: '失败',
 let apiKey = '', overview = { accounts: [], servers: [], jobs: [], counts: {} };
 let refreshing = false, requesting = false, viewVersion = 0, serverFilter = null;
 let logAccount = null, logRevision = 0, loadingLogs = false;
+let chatAccount = null, chatSending = false;
 const selected = new Set(), expandedJobs = new Map(), receivedJobs = new Map();
 const accountRows = new Map(), serverCards = new Map();
 let emptyServers = null;
@@ -86,6 +87,8 @@ function lock() {
   logAccount = null; ++logRevision;
   if ($('#logs-dialog').open) $('#logs-dialog').close();
   $('#logs-list').replaceChildren();
+  chatAccount = null; chatSending = false; $('#chat-text').value = '';
+  if ($('#chat-dialog').open) $('#chat-dialog').close();
   accountRows.clear(); serverCards.clear();
   $('#account-rows').replaceChildren(); $('#server-groups').replaceChildren();
   setUnlocked(false);
@@ -127,6 +130,7 @@ function updateControls() {
   $('#import-submit').disabled = requesting;
   $('#server-filter').hidden = !serverFilter;
   $('#server-filter-name').textContent = serverFilter ? `服务器：${serverName(serverFilter)} · ${endpoint(serverFilter)}` : '';
+  $('#chat-submit').disabled = chatSending || !chatAccount || !connected(overview.accounts.find(a => a.id === chatAccount.id) || {});
 }
 function renderServers() {
   const keys = new Set(overview.servers.map(endpoint));
@@ -202,10 +206,13 @@ function renderAccounts() {
       });
       selectCell.append(entry.checkbox);
       logs.append(button('查看日志', 'secondary small', () => openLogs(entry.account)));
+      entry.chat = button('发送聊天', 'secondary small', () => openChat(entry.account));
+      logs.append(entry.chat);
       entry.row.append(selectCell, entry.name, entry.steam, entry.rust, entry.server, entry.snapshot, logs);
       accountRows.set(account.id, entry);
     }
     entry.account = account;
+    entry.chat.disabled = requesting || chatSending || !connected(account);
     entry.row.classList.toggle('selected', selected.has(account.id));
     entry.checkbox.checked = selected.has(account.id); entry.checkbox.disabled = requesting;
     entry.checkbox.setAttribute('aria-label', `选择账号 ${account.accountName}`);
@@ -358,6 +365,32 @@ function openLogs(account) {
   $('#logs-title').textContent = `${account.accountName} 的连接日志`;
   $('#logs-list').replaceChildren(); $('#logs-dialog').showModal(); void loadLogs();
 }
+
+function openChat(account) {
+  if (!connected(account) || chatSending) return;
+  chatAccount = { id: account.id, accountName: account.accountName };
+  $('#chat-target').textContent = `${account.accountName} · ${endpoint(account.rust)}`;
+  $('#chat-text').value = ''; $('#chat-status').textContent = '每次发送一条，间隔至少 5 秒。';
+  updateControls(); $('#chat-dialog').showModal(); $('#chat-text').focus();
+}
+$('#chat-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!apiKey || !chatAccount || chatSending) return;
+  const version = viewVersion, account = chatAccount, text = $('#chat-text').value;
+  chatSending = true; updateControls(); $('#chat-status').textContent = '正在发送…';
+  try {
+    await request(`/v1/accounts/${encodeURIComponent(account.id)}/rust-chat`, 'POST', { text });
+    if (version !== viewVersion || chatAccount?.id !== account.id) return;
+    $('#chat-text').value = '';
+    $('#chat-status').textContent = '消息已发出，尚未确认服务器接收。请在游戏内核对。';
+  } catch (error) {
+    if (version !== viewVersion || chatAccount?.id !== account.id) return;
+    $('#chat-status').textContent = error.message;
+    if (error.status === 401) handleError(error);
+  } finally { if (version === viewVersion) { chatSending = false; renderAccounts(); } }
+});
+$('#chat-close').addEventListener('click', () => $('#chat-dialog').close());
+$('#chat-dialog').addEventListener('close', () => { chatAccount = null; $('#chat-text').value = ''; });
 
 $('#unlock-form').addEventListener('submit', async event => {
   event.preventDefault(); const submit = event.submitter; submit.disabled = true;

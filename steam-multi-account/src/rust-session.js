@@ -4,6 +4,17 @@ import { readRustRuntime, safeMetadata, validateRustDestination } from './rust-c
 
 const MAX_LINE_BYTES = 65536;
 const STOP_GRACE_MS = 5000;
+const CHAT_TIMEOUT_MS = 10000;
+
+export function validateChat(input) {
+  const text = input?.text;
+  if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).length !== 1
+      || typeof text !== 'string' || !text.trim() || !text.isWellFormed() || [...text].length > 128
+      || Buffer.byteLength(text, 'utf8') > 512 || /[\u0000-\u001f\u007f-\u009f"\\;\u2028\u2029]/u.test(text)) {
+    throw new ApiError(400, '聊天需为 1–128 字的单行文本，不支持引号、反斜杠、分号或控制字符。');
+  }
+  return text;
+}
 const REJECTION_MESSAGES = {
   steam_auth: '服务器未接受该账号的 Steam 认证。',
   steam_ticket_reused: '服务器报告 Steam 票据已被使用，请等待原会话清理后再连接。',
@@ -95,7 +106,8 @@ export class RustSession {
     const runtime = readRustRuntime(env);
     if (this.#run) throw new ApiError(409, '该账号的 Rust 会话或清理仍在进行，请先停止并等待结束。');
     const run = { child: null, workerStarted: false, reachedEnteredGame: false, respawnOnDead, wakeOnConnect,
-      stopRequested: false, stopSent: false, killTimer: null, failure: null };
+      stopRequested: false, stopSent: false, killTimer: null, failure: null,
+      chatSequence: 0, chatRequest: null, nextChatAt: 0 };
     this.#run = run;
     this.#status = {
       state: 'connecting', ...destination, startedAt: new Date().toISOString(), endedAt: null,
@@ -118,7 +130,43 @@ export class RustSession {
     return this.snapshot();
   }
 
+  sendChat(input) {
+    const text = validateChat(input), run = this.#run, child = run?.child;
+    if (!run || run.stopRequested || this.#status.state !== 'entered_game'
+        || this.#status.metadata.closed === true || !child?.stdin.writable || child.stdin.destroyed) {
+      throw new ApiError(409, '该账号尚未完成入服，或连接已经结束。');
+    }
+    if (run.chatRequest) throw new ApiError(409, '上一条聊天仍在等待发送结果。');
+    if (Date.now() < run.nextChatAt) throw new ApiError(429, '请间隔至少 5 秒再发送聊天。');
+    if (run.chatSequence >= 2147483647) throw new ApiError(409, '本次连接的聊天请求已达到上限。');
+    const id = ++run.chatSequence;
+    run.nextChatAt = Date.now() + 5000;
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        if (run.chatRequest?.id === id) this.#finishChat(run,
+          new ApiError(504, '等待聊天发送结果超时，结果未知，请先核对游戏内消息，勿重复发送。'));
+      }, CHAT_TIMEOUT_MS);
+      timer.unref();
+      run.chatRequest = { id, resolve, reject, timer };
+      try {
+        child.stdin.write(`${JSON.stringify({ chat: { id, text } })}\n`, error => {
+          if (error && run.chatRequest?.id === id) this.#finishChat(run, new ApiError(502, '聊天输入通道已关闭，发送结果未确认。'));
+        });
+      } catch { this.#finishChat(run, new ApiError(502, '聊天输入通道已关闭，发送结果未确认。')); }
+    });
+  }
+
+  #finishChat(run, error, reply) {
+    const request = run.chatRequest;
+    if (!request) return;
+    run.chatRequest = null;
+    clearTimeout(request.timer);
+    if (error) request.reject(error);
+    else request.resolve(reply);
+  }
+
   #requestStop(run) {
+    this.#finishChat(run, new ApiError(409, '连接正在结束，聊天发送结果未确认。'));
     run.stopRequested = true;
     this.#status.state = 'stopping';
     const child = run.child;
@@ -145,6 +193,13 @@ export class RustSession {
     const metadata = safeMetadata(result);
     const wasConnected = this.#status.metadata.transportConnected === true;
     this.#status.metadata = metadata;
+    if (run.chatRequest && run.chatRequest.id === metadata.lastChat?.id) {
+      const status = metadata.lastChat.status;
+      if (status === 'sent') this.#finishChat(run, null, { status: 'sent_to_transport',
+        requestId: metadata.lastChat.id, serverConfirmed: false });
+      else this.#finishChat(run, new ApiError(status === 'rate_limited' ? 429 : status === 'not_ready' ? 409 : 502,
+        status === 'rate_limited' ? '请间隔至少 5 秒再发送聊天。' : status === 'not_ready' ? '游戏连接尚未就绪，聊天未发送。' : '游戏连接未能发出聊天消息。'));
+    }
     if (!wasConnected && metadata.transportConnected === true) this.#notifyActivity();
     if (metadata.selfEntityObserved === true && metadata.finishLoadingObserved === true) {
       run.reachedEnteredGame = true;
@@ -199,6 +254,7 @@ export class RustSession {
         this.#status.lastError = run.failure || 'Rust 会话认证或清理失败，请检查账号连接后重试。';
       }
     } finally {
+      this.#finishChat(run, new ApiError(409, '游戏连接已结束，聊天发送结果未确认。'));
       clearTimeout(run.killTimer);
       this.#status.endedAt = new Date().toISOString();
       if (this.#run === run) this.#run = null;
@@ -270,6 +326,7 @@ export class RustSession {
         if (!run.stopRequested && !finalReceived) this.#fail(run, '独立 Rust 网络进程的输入管道已关闭。');
       });
       child.on('close', code => {
+        this.#finishChat(run, new ApiError(409, '游戏连接已结束，聊天发送结果未确认。'));
         clearTimeout(run.killTimer);
         signal.removeEventListener('abort', abort);
         run.child = null;

@@ -54,5 +54,11 @@
     </div>
   </main>
   <dialog id="logs-dialog" class="logs-dialog" aria-labelledby="logs-title"><div class="section-heading"><div><p class="eyebrow">CONNECTION LOG</p><h2 id="logs-title">账号连接日志</h2></div><button id="logs-close" class="button secondary small" type="button">关闭</button></div><p id="logs-status" class="muted" role="status"></p><div id="logs-list" class="logs-list"></div><div class="logs-footer"><span class="fineprint">显示本系统保存的连接事件。</span><button id="logs-refresh" class="button secondary small" type="button">刷新日志</button></div></dialog>
+  <dialog id="chat-dialog" class="logs-dialog" aria-labelledby="chat-title">
+    <div class="section-heading"><h2 id="chat-title">发送游戏聊天</h2><button id="chat-close" class="button secondary small" type="button">关闭</button></div>
+    <p id="chat-target" class="muted"></p>
+    <form id="chat-form"><label for="chat-text">全服聊天内容</label><div class="inline"><input id="chat-text" type="text" maxlength="128" autocomplete="off" required><button id="chat-submit" class="button primary" type="submit">发送</button></div></form>
+    <p id="chat-status" class="muted" role="status" aria-live="polite">每次发送一条，间隔至少 5 秒。</p>
+  </dialog>
 </body>
 </html>

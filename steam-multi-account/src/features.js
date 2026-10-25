@@ -137,6 +137,7 @@ export class AccountFeatures {
     return { ...this.rustSession.snapshot(), steamAuthentication: this.rustAuth.activeSessionStatus() };
   }
   stopRustSession() { return this.rustSession.stop(); }
+  sendRustChat(input) { this.requireOnline(); return this.rustSession.sendChat(input); }
   async rustSteamCount() {
     this.requireOnline();
     const { host, port } = this.rustSession.snapshot();

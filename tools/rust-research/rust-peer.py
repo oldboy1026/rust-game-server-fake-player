@@ -22,6 +22,8 @@ supported own snapshot after FinishLoading, then observes the awake snapshot.
 --respawn-on-dead optionally attempts one fixed own respawn command, only with
 a fresh dead self snapshot and that entity's exact FinishLoading observation.
 Post-send alive metadata records reception, not a server command acknowledgement.
+The persistent control pipe also accepts validated plain global chat after
+own FinishLoading, at most once per five seconds. Text is not emitted in status.
 
 Static managed sources are the hashes recorded in evidence.json, Steam depot
 258551 manifest 93946663446561466. Relevant tokens: Peer.SendTo 06000059,
@@ -40,6 +42,7 @@ import importlib.util
 import ipaddress
 import json
 import math
+import queue
 from pathlib import Path
 import struct
 import sys
@@ -54,6 +57,9 @@ _spec.loader.exec_module(native)
 _tick_spec = importlib.util.spec_from_file_location("rust_player_tick", Path(__file__).with_name("rust_player_tick.py"))
 player_tick = importlib.util.module_from_spec(_tick_spec)
 _tick_spec.loader.exec_module(player_tick)
+_chat_spec = importlib.util.spec_from_file_location("rust_chat", Path(__file__).with_name("rust_chat.py"))
+chat = importlib.util.module_from_spec(_chat_spec)
+_chat_spec.loader.exec_module(chat)
 
 MAX_INPUT_BYTES = 32768
 MAX_RECEIVE_BYTES = 2 * 1024 * 1024
@@ -445,18 +451,22 @@ def is_finish_loading(packet, entity_id):
 
 
 def control_reader(stream, stop, state):
-    # Only a stop request is accepted; no payload forwarding or arbitrary RPCs.
+    # Input thread only queues validated plain chat. Native calls stay on the
+    # receive thread; stopping takes precedence over any queued message.
     try:
-        line = stream.readline(2049)
-        if not line:
-            state["reason"] = "control_eof"
-        else:
+        while not stop.is_set():
+            line = stream.readline(2049)
+            if not line:
+                state["reason"] = "control_eof"
+                break
             command = json.loads(line) if len(line) <= 2048 else None
-            state["reason"] = ("stop_requested" if isinstance(command, dict)
-                               and set(command) == {"stop"}
-                               and command["stop"] is True
-                               else "invalid_control_command")
-    except (OSError, ValueError, UnicodeError):
+            if isinstance(command, dict) and set(command) == {"stop"} and command["stop"] is True:
+                state["reason"] = "stop_requested"
+                break
+            if not isinstance(command, dict) or set(command) != {"chat"}:
+                raise ValueError()
+            state["chatQueue"].put_nowait(chat.validate_request(command["chat"]))
+    except (OSError, ValueError, UnicodeError, KeyError, queue.Full):
         state["reason"] = "invalid_control_command"
     finally:
         stop.set()
@@ -539,7 +549,26 @@ def run(args, identity, auth, ready):
     started = time.monotonic()
     last_snapshot = started
     stop = threading.Event()
-    control_state = {"reason": "stop_requested"}
+    control_state = {"reason": "stop_requested", "chatQueue": queue.Queue(maxsize=1)}
+    chat_sender = chat.ChatSender()
+    RESULT.update(chat_sender.metadata)
+
+    def maybe_chat():
+        try:
+            request = control_state["chatQueue"].get_nowait()
+        except queue.Empty:
+            return
+        ready = (not stop.is_set() and sent_auth and sent_ready and server_guid is not None
+                 and self_id is not None and finish_loading_self_id == self_id
+                 and RESULT.get("encryptionLevel") == 0)
+        RESULT.update(chat_sender.submit(request, ready=ready,
+                      send=lambda payload: send(api, peer, server_guid, payload), now=time.monotonic()))
+        if RESULT["lastChat"]["status"] == "sent":
+            RESULT["sentPackets"] += 1
+        # Every request gets a fresh acknowledgement, including repeated
+        # statuses. No message text is copied into progress or logs.
+        if PROGRESS is not None:
+            PROGRESS()
 
     def tick_progress():
         RESULT.update(wake.metadata)
@@ -632,6 +661,7 @@ def run(args, identity, auth, ready):
             if stop.is_set():
                 stop_reason = control_state["reason"]
                 break
+            maybe_chat()
             if args.stream and time.monotonic() - last_snapshot >= 5:
                 snapshot()
             if not api.NET_Receive(peer):

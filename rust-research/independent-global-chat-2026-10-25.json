@@ -1,0 +1,897 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T11:42:34.658Z",
+  "status": "live_chat_verified",
+  "target": {
+    "host": "61.147.247.35",
+    "gamePort": 28015
+  },
+  "authorization": {
+    "singleAccountExplicit": true,
+    "singleMessage": "1",
+    "singleChannel": "global",
+    "userConfirmedSingleMessageVisible": true,
+    "additionalAccountsExplicit": 15,
+    "perAccountMessage": "1",
+    "perAccountChannel": "global"
+  },
+  "singleAccount": {
+    "startedAt": "2026-10-25T11:24:33.981Z",
+    "completedAt": "2026-10-25T11:24:40.690Z",
+    "channel": "global",
+    "message": "1",
+    "sendAttempts": 1,
+    "entered": true,
+    "workerReply": {
+      "status": "sent_to_transport",
+      "requestId": 1,
+      "serverConfirmed": false
+    },
+    "serverConfirmed": true,
+    "confirmedEntryCount": 1,
+    "testStillInRoster": true,
+    "connectionLeftRunning": true,
+    "finalState": "entered_game",
+    "finalCounts": {
+      "total": 39,
+      "steamOnline": 9,
+      "connected": 1,
+      "connecting": 0
+    },
+    "failure": null
+  },
+  "batch": {
+    "startedAt": "2026-10-25T11:31:06.788Z",
+    "completedAt": "2026-10-25T11:32:25.888Z",
+    "requestedAccounts": 15,
+    "message": "1",
+    "channel": "global",
+    "serverChanges": 0,
+    "entries": [
+      {
+        "index": 1,
+        "alias": "test-01",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "alias": "test-02",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "alias": "test-03",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 4,
+        "alias": "test-04",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 5,
+        "alias": "test-05",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 6,
+        "alias": "test-06",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 7,
+        "alias": "test-07",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 8,
+        "alias": "test-08",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 9,
+        "alias": "test-09",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 10,
+        "alias": "test-10",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 11,
+        "alias": "test-11",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 12,
+        "alias": "test-12",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 13,
+        "alias": "test-13",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 14,
+        "alias": "test-14",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      },
+      {
+        "index": 15,
+        "alias": "test-15",
+        "entered": true,
+        "sendAttempts": 1,
+        "sentToTransport": true,
+        "serverConfirmed": true,
+        "confirmedEntryCount": 1,
+        "finalState": "entered_game",
+        "remainsInTarget": true,
+        "error": null
+      }
+    ],
+    "admitted": 15,
+    "sent": 15,
+    "serverConfirmed": 15,
+    "sendAttempts": 15,
+    "finalCounts": {
+      "total": 39,
+      "steamOnline": 32,
+      "connected": 16,
+      "connecting": 0
+    },
+    "baselineConnectionsPreserved": true,
+    "reason": "fifteen_global_chats_confirmed"
+  },
+  "finalReadOnlyCheck": {
+    "at": "2026-10-25T11:34:26.327Z",
+    "readOnly": true,
+    "healthy": true,
+    "counts": {
+      "total": 39,
+      "steamOnline": 34,
+      "connected": 16,
+      "connecting": 0
+    },
+    "serverRosterCount": 22,
+    "entries": [
+      {
+        "alias": "test-01",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-02",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-03",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-04",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-05",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-06",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-07",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-08",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-09",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-10",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-11",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-12",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-13",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-14",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      },
+      {
+        "alias": "test-15",
+        "sessionUnchanged": true,
+        "entered": true,
+        "inTarget": true,
+        "serverHistoryMatches": 1,
+        "chatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true,
+        "eacVerified": false
+      }
+    ],
+    "originalConnectionPreserved": true,
+    "passed": true
+  },
+  "connectionRecovery": {
+    "startedAt": "2026-10-25T11:39:09.279Z",
+    "completedAt": "2026-10-25T11:39:16.370Z",
+    "chatSendAttempts": 0,
+    "entries": [
+      {
+        "alias": "test-15",
+        "restored": true
+      }
+    ],
+    "counts": {
+      "total": 39,
+      "steamOnline": 36,
+      "connected": 16,
+      "connecting": 0
+    },
+    "error": null
+  },
+  "postRecoveryReadOnlyCheck": {
+    "at": "2026-10-25T11:41:28.530Z",
+    "healthy": true,
+    "counts": {
+      "total": 39,
+      "steamOnline": 38,
+      "connected": 16,
+      "connecting": 0
+    },
+    "serverRosterCount": 21,
+    "entries": [
+      {
+        "alias": "test-01",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-02",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-03",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-04",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-05",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-06",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-07",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-08",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-09",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-10",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-11",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-12",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-13",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-14",
+        "restoredAfterSteamFailure": false,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 1,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      },
+      {
+        "alias": "test-15",
+        "restoredAfterSteamFailure": true,
+        "sessionMatchesExpected": true,
+        "entered": true,
+        "inTarget": true,
+        "matchingPublicMessagesSinceSend": 1,
+        "currentSessionChatMessagesSent": 0,
+        "steamTicketActive": true,
+        "steamValidationObserved": true
+      }
+    ],
+    "originalConnectionPreserved": true,
+    "passed": true
+  },
+  "steamLoginRestorationInitial": {
+    "startedAt": "2026-10-25T11:26:02.238Z",
+    "completedAt": "2026-10-25T11:34:31.364Z",
+    "expectedOnline": 38,
+    "attempts": 35,
+    "last": {
+      "at": "2026-10-25T11:34:28.856Z",
+      "expectedOnlineNow": 34,
+      "counts": {
+        "total": 39,
+        "steamOnline": 34,
+        "connected": 16,
+        "connecting": 0
+      },
+      "selectedSessionUnchanged": true
+    },
+    "reason": "bounded_retries_complete"
+  },
+  "steamLoginRestoration": {
+    "startedAt": "2026-10-25T11:40:40.106Z",
+    "completedAt": "2026-10-25T11:41:04.213Z",
+    "expectedOnline": 38,
+    "expectedOnlineNow": 38,
+    "attempts": 2,
+    "autoRestoreSettingsMatch": true,
+    "reason": "original_online_set_restored",
+    "counts": {
+      "total": 39,
+      "steamOnline": 38,
+      "connected": 16,
+      "connecting": 0
+    }
+  },
+  "transport": {
+    "applicationHeader": 152,
+    "lengthEncoding": "uint32 little endian UTF-8 byte length",
+    "fixedCommand": "chat.say",
+    "arbitraryConsoleCommandsSupported": false,
+    "sourceIdentity": "authenticated game connection; no sender-ID override"
+  },
+  "validation": {
+    "nodeTestsPassed": 51,
+    "pythonTestsPassed": 38,
+    "frontendSyntaxChecked": true,
+    "offlineTestsOpenGameNetwork": false,
+    "liveSenderUsesIndependentWorker": true
+  },
+  "operations": {
+    "normalLocalServiceReloads": 1,
+    "activeRustBeforeReload": 0,
+    "guiInputsSent": 0,
+    "serverSettingsChanges": 0,
+    "serverDllChanges": 0,
+    "chatResends": 0,
+    "connectionsLeftRunning": 16
+  },
+  "limitations": [
+    "Worker send success confirms the native transport call only. Server receipt is independently checked in RCON chat.tail.",
+    "No claim of valid EAC session, complete movement/interaction simulation, or Facepunch public-count eligibility.",
+    "Frontend controls were syntax checked; unavailable Windows Computer Use prevented an automated visual check."
+  ],
+  "evidence": [
+    {
+      "path": "work/independent-chat-20261025/preflight-private.json",
+      "sha256": "2bf1250da95c6c7a50816824f7ae4ba1af822afca8d0ced072cb08f73e151b7d",
+      "bytes": 176893
+    },
+    {
+      "path": "work/independent-chat-20261025/selected-preflight-private.json",
+      "sha256": "e9de740f2cbeeb2453b0e41d2ad4daed38033e23db4a0f9546a9e42aa3a8bb7c",
+      "bytes": 135191
+    },
+    {
+      "path": "work/independent-chat-20261025/inspect-chat.ps1",
+      "sha256": "9982fb0c79e5b26c4a86e094c4d47ece4b9d85b035001b6316535535ade4a553",
+      "bytes": 1076
+    },
+    {
+      "path": "work/independent-chat-20261025/chat-static.il.txt",
+      "sha256": "280783fcd98287eb70feee472bdd87e6a658e1038551453a58a8f64cfff9bbce",
+      "bytes": 27497
+    },
+    {
+      "path": "work/independent-chat-20261025/reload-service.mjs",
+      "sha256": "c3cffee3781ea123a78a9bf99e44d97b2d0befc8112a72e54ba1af7575b5ee89",
+      "bytes": 1245
+    },
+    {
+      "path": "work/independent-chat-20261025/reload-safe.json",
+      "sha256": "bbb035af934d65f176a7d20eb3a9dceb1decb09de879fd5ccdd64734429d7788",
+      "bytes": 289
+    },
+    {
+      "path": "work/independent-chat-20261025/send-requested-chat.mjs",
+      "sha256": "b1a0a02bf16c9f1ef1ad1ef22d2c4f93e3e3c4669c7ed3825a8fb184017aa65e",
+      "bytes": 5324
+    },
+    {
+      "path": "work/independent-chat-20261025/chat-request-private.json",
+      "sha256": "75284ba6b438db3d41304822ebc388f1d92d9de2ba96f0e0ad95f07a86b38fa9",
+      "bytes": 166658
+    },
+    {
+      "path": "work/independent-chat-20261025/chat-request-safe.json",
+      "sha256": "604499d171f66b0b90e15d0c5cff9faa43e9dad74a28a6c9d8e6b08a8fd7921f",
+      "bytes": 551
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-logins.mjs",
+      "sha256": "bda7a90b9ae6d8037a5ce3632f6dab3e06054fc38fd6fc2d41590cc1ea9ec683",
+      "bytes": 3428
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-run-private.json",
+      "sha256": "069c6027796ebf983e39f1c10708d10367c752dfb9b5795352fa6d463c83c28f",
+      "bytes": 13439
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-run-safe.json",
+      "sha256": "416ee45f2d431b8beba9c7c3cbd5f9bd5491db5ef03a48ae581ebfbd0d1c4bc9",
+      "bytes": 406
+    },
+    {
+      "path": "work/independent-chat-20261025/finish-restoration.mjs",
+      "sha256": "9aff23450d1934fcf5c45b2d068344111bd0f62bc5120e505a3a6bc2c90fd4aa",
+      "bytes": 2935
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-followup-private.json",
+      "sha256": "313d23603cdaa8b89973e0ebfbd58e4bbd403c6aea8aabe4c684e0cf2e9e0b3f",
+      "bytes": 361
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-followup-current-private.json",
+      "sha256": "24086a4690c71aabd4b8aedd92a97d881629c66b3e76caf7837dc1b13c392c16",
+      "bytes": 29092
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-final-private.json",
+      "sha256": "8289a04f0f26ee3f50c09fecb6b430359ce6ef97d12909c55b8f5606636fea0b",
+      "bytes": 140053
+    },
+    {
+      "path": "work/independent-chat-20261025/restore-final-safe.json",
+      "sha256": "0cb3509b5f2dfb7ba1e2f06b4f4aec40a6257b07c5a7f0136016b8ed562230ea",
+      "bytes": 339
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/run.mjs",
+      "sha256": "9b03d42dd053f5dd5c594bf88cfc08bfa2bed84517b098f412cc1a46a6570904",
+      "bytes": 8306
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/preflight-private.json",
+      "sha256": "24ec1ef1b024320ddffe9d706ae116478775e21c7368b31530e62593916c20bc",
+      "bytes": 72462
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/run-private.json",
+      "sha256": "384c03958d1b676377fc7f45311e6a5a768a7983e8b48a5ca703a2f4fc091daa",
+      "bytes": 1179078
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/run-safe.json",
+      "sha256": "a24a1da11a893859e6111c89ede4b10d90f289a7fcc58d673a31c3cede63c2aa",
+      "bytes": 4766
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/check-live.mjs",
+      "sha256": "0adbedddad78bc33648dd3108812666723c1f6168810c881270d42c2c669851d",
+      "bytes": 2925
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/final-readonly-private.json",
+      "sha256": "357f7529feae549f369b89dab36fdf626c6e346a5b7a06d41727d5c18cc25f21",
+      "bytes": 253722
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/final-readonly-safe.json",
+      "sha256": "d7d41938d1887efc4d91f547d3775f5e41ef8690212b340fbb367450e19e6d93",
+      "bytes": 4466
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/write-report.mjs",
+      "sha256": "65d020c592574152ff94f0c982c95c5d85a9b7d221c5675f1436891671e82306",
+      "bytes": 9049
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/recover-connection.mjs",
+      "sha256": "a2ba97baa19dd4ee662a51fc72c2c219c09d83241fa36852116d0937a06ea368",
+      "bytes": 3068
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/connection-recovery-private.json",
+      "sha256": "d69c27e86a47cb75b9faf43b8721f3ac67ea8e95c88c3c57d7011a20bdd5cd90",
+      "bytes": 10938
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/connection-recovery-safe.json",
+      "sha256": "dd3844622d273cdffda91b5f90226eee3fe18e0ebcf8a7689f25e8580a9acc50",
+      "bytes": 314
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/check-post-recovery.mjs",
+      "sha256": "5151546981a1b304d3734dad708e412dc64fd83568daff309d781031a90c92d4",
+      "bytes": 3016
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/post-recovery-readonly-private.json",
+      "sha256": "ed4c9b79d9240fe78cd8226937cd732cca0886f770178035c4d7975f960f221c",
+      "bytes": 247628
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/post-recovery-readonly-safe.json",
+      "sha256": "7d1e2df580571c0ddecf57d6047031de8a5b69be181fbce28a64fe84ef44c24a",
+      "bytes": 5120
+    },
+    {
+      "path": "work/independent-chat-batch15-20261025/validate.mjs",
+      "sha256": "7ff923aa961547cde3d3f627ce3392231554ea963f685d1bce33d16f752ea410",
+      "bytes": 3957
+    },
+    {
+      "path": "steam-multi-account/src/rust-session.js",
+      "sha256": "025d8a01c259058e7db90a6bb972609f18b3c5ac660820137e7ac4ef9892d097",
+      "bytes": 17800
+    },
+    {
+      "path": "steam-multi-account/src/rust-connection.js",
+      "sha256": "3f84fbecc5261dc7b5e99b8d6afe85ba95b6eb821153c034aa3fa1ce0986b55c",
+      "bytes": 12197
+    },
+    {
+      "path": "steam-multi-account/src/features.js",
+      "sha256": "75f6295606e2c3871675bb307f5bea08d814d27374c45f9b7c1400b4d2fccf96",
+      "bytes": 17485
+    },
+    {
+      "path": "steam-multi-account/src/http.js",
+      "sha256": "52b36c5ca9af0222b07cb043a3b8587862f52fcc4f5d1187571d8380360bb2e0",
+      "bytes": 10514
+    },
+    {
+      "path": "steam-multi-account/public/rust.js",
+      "sha256": "5a7ea11972b0bc8e83557c8f88ab341bbef92f3266b5f32bf4956c284110cb44",
+      "bytes": 29699
+    },
+    {
+      "path": "steam-multi-account/public/rust.html",
+      "sha256": "42945f29b71f7f45ff884afb27775a07aa9bff3bc4ebd73e85749835dd85fb0b",
+      "bytes": 9255
+    },
+    {
+      "path": "steam-multi-account/test/rust-chat.test.js",
+      "sha256": "3fb5a9fe1026d77bcb3c415faaeb34ed32037f8789fd1c9b2506a42f670b7905",
+      "bytes": 5459
+    },
+    {
+      "path": "tools/rust-research/rust-peer.py",
+      "sha256": "916f80bfc6fcfe8601a453cb2542454478d907cf4456cf48a5ebafa81679a2fe",
+      "bytes": 41393
+    },
+    {
+      "path": "tools/rust-research/rust_chat.py",
+      "sha256": "ac2aad0baa81ca7725ab42afe643050efbe40e51d28af7547d8fe9b802045cdb",
+      "bytes": 1542
+    },
+    {
+      "path": "tools/rust-research/test_rust_chat.py",
+      "sha256": "5d6dd82b56d17bae70f263822034796151ccf552c98c5a8ef1f73d70189f479c",
+      "bytes": 5491
+    }
+  ]
+}

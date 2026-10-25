@@ -108,9 +108,12 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
       if (path === '/v1/free-games' && request.method === 'GET') {
         return send(response, 200, await catalog.search(url.searchParams.get('term') || '', Number(url.searchParams.get('start') || 0)));
       }
-      const route = path.match(/^\/v1\/accounts\/([a-zA-Z0-9_-]{1,64})(?:\/(login|guard|logout|details|profile-refresh|web-refresh|games|inventory|free-license|idle|rust-auth-check|rust-connect|rust-session|rust-steam-count))?$/);
+      const route = path.match(/^\/v1\/accounts\/([a-zA-Z0-9_-]{1,64})(?:\/(login|guard|logout|details|profile-refresh|web-refresh|games|inventory|free-license|idle|rust-auth-check|rust-connect|rust-session|rust-chat|rust-steam-count))?$/);
       if (!route) throw new ApiError(404, 'Route not found.');
       const [, id, action] = route;
+      if (action === 'rust-chat' && request.method === 'POST') {
+        return send(response, 202, await manager.features(id).sendRustChat(await readJson(request, 2048)));
+      }
       if (action === 'rust-steam-count' && request.method === 'GET') {
         return send(response, 200, await manager.features(id).rustSteamCount());
       }

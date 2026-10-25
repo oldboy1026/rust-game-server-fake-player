@@ -45,6 +45,14 @@ export function safeMetadata(result) {
   if (Number.isSafeInteger(result.connectionKeepAliveSent) && result.connectionKeepAliveSent >= 0 && result.connectionKeepAliveSent <= 1e12) {
     clean.connectionKeepAliveSent = result.connectionKeepAliveSent;
   }
+  if (Number.isSafeInteger(result.chatMessagesSent) && result.chatMessagesSent >= 0 && result.chatMessagesSent <= 1e12) {
+    clean.chatMessagesSent = result.chatMessagesSent;
+  }
+  if (result.lastChat && Number.isSafeInteger(result.lastChat.id) && result.lastChat.id >= 1
+      && result.lastChat.id <= 2147483647
+      && ['sent', 'not_ready', 'rate_limited', 'send_failed'].includes(result.lastChat.status)) {
+    clean.lastChat = { id: result.lastChat.id, status: result.lastChat.status };
+  }
   if (['state_changed', 'unsupported_snapshot', 'entity_changed', 'self_rpc', 'position_update',
     'base_flags', 'destroyed', 'stale_snapshot', 'scheduler_stalled', 'shutdown'].includes(result.wakeInterruptionReason)) {
     clean.wakeInterruptionReason = result.wakeInterruptionReason;
