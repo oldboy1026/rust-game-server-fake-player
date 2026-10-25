@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-25T12:18:25.096Z",
+  "status": "installed_settings_probe_failed_before_eac_session",
+  "request": {
+    "implementEosIdentity": true,
+    "implementProtectedSession": true,
+    "implementMessageHandling": true,
+    "userReportsAuthorizedCustomPackage": true,
+    "userRequestedLocalPackageSearch": true,
+    "userRequestedFallbackToInstalledGameSettings": true
+  },
+  "local": {
+    "bootstrap": {
+      "configuredExecutable": "RustClient.exe",
+      "pointsToOfficialClient": true,
+      "hasProductId": true,
+      "hasSandboxId": true,
+      "hasDeploymentId": true,
+      "hasConnectClientId": false,
+      "hasConnectClientSecret": false,
+      "settingsSha256": "6546c13683869597070e0981de7482ea679a449d04723a6c7394c815406b8d99"
+    },
+    "files": [
+      {
+        "file": "Rust.exe",
+        "bytes": 3978064,
+        "sha256": "d7a28d7ac36fd83c4d36b944edebb3080909443766265ad6639d03a710c71db6",
+        "signatureStatus": "Valid",
+        "signer": "CN=Facepunch Studios Ltd, O=Facepunch Studios Ltd, L=Birmingham, S=Birmingham, C=GB"
+      },
+      {
+        "file": "RustClient.exe",
+        "bytes": 680272,
+        "sha256": "75d6068727484bc0786505fc3d12f249861fc16184b379a432a631febc280e07",
+        "signatureStatus": "Valid",
+        "signer": "CN=Facepunch Studios Ltd, O=Facepunch Studios Ltd, L=Birmingham, S=Birmingham, C=GB"
+      },
+      {
+        "file": "EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe",
+        "bytes": 965416,
+        "sha256": "533e8fec61dd4fa10cd9569eff32b4383a89656e8d951177a0331996ae074eb1",
+        "signatureStatus": "Valid",
+        "signer": "CN=EasyAntiCheat Oy, O=EasyAntiCheat Oy, STREET=Arkadiankatu 6 A 6, L=Helsinki, S=Uusimaa, C=FI, OID.1.3.6.1.4.1.311.60.2.1.3=FI, SERIALNUMBER=2585063-4, OID.2.5.4.15=Private Organization"
+      },
+      {
+        "file": "RustClient_Data/Plugins/x86_64/EOSSDK-Win64-Shipping.dll",
+        "bytes": 19531704,
+        "sha256": "12ee3053ad76fc9a455534b627ca7a0f9923db3c05f54085a7daa3aff00d0b7e",
+        "signatureStatus": "Valid",
+        "signer": "CN=Epic Games Inc., O=Epic Games Inc., L=Cary, S=North Carolina, C=US, SERIALNUMBER=D03752763, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Maryland, OID.1.3.6.1.4.1.311.60.2.1.3=US"
+      }
+    ],
+    "sdkInspection": {
+      "mode": "sdk_inspection",
+      "status": "sdk_inspection_succeeded",
+      "initialized": false,
+      "eosLoggedIn": false,
+      "idTokenAvailable": false,
+      "eacVerified": false,
+      "playerConnected": false,
+      "sdkVersion": "1.19.1.2-55908005",
+      "abi": "windows-x64",
+      "apiVersions": {
+        "initialize": 4,
+        "platform": 14,
+        "credentials": 1,
+        "login": 2,
+        "copyIdToken": 1
+      },
+      "structSizes": {
+        "InitializeOptions": 72,
+        "ClientCredentials": 16,
+        "PlatformOptions": 144,
+        "ConnectCredentials": 24,
+        "LoginOptions": 24,
+        "LoginCallbackInfo": 32,
+        "CopyIdTokenOptions": 16,
+        "IdToken": 24
+      },
+      "elapsedSeconds": 0.016
+    }
+  },
+  "probe": {
+    "at": "2026-10-25T12:15:55.913Z",
+    "exitCode": 0,
+    "report": {
+      "status": "platform_create_failed_with_bootstrap_settings",
+      "initialized": true,
+      "configurationSource": "installed_bootstrap_settings",
+      "connectCredentialsProvided": false,
+      "localUserIdPresent": false,
+      "eosLoggedIn": false,
+      "beginSessionAttempted": false,
+      "sdkSessionStarted": false,
+      "eacVerified": false,
+      "serverValidated": false,
+      "playerConnected": false,
+      "bootstrapModified": false,
+      "protectedProcessLaunched": false,
+      "settingsSha256": "6546c13683869597070e0981de7482ea679a449d04723a6c7394c815406b8d99",
+      "sdkVersion": "1.19.1.2-55908005",
+      "sdkSha256": "12ee3053ad76fc9a455534b627ca7a0f9923db3c05f54085a7daa3aff00d0b7e",
+      "initializeResult": {
+        "code": 0,
+        "name": "Success"
+      },
+      "logCallbackResult": {
+        "code": 0,
+        "name": "Success"
+      },
+      "platformCreated": false,
+      "shutdownResult": {
+        "code": 0,
+        "name": "Success"
+      },
+      "nativeErrorCategories": [
+        "invalid_or_missing_clientid"
+      ],
+      "elapsedSeconds": 0.079
+    }
+  },
+  "implementationStatus": {
+    "eosIdentity": "not_obtained",
+    "protectedEacSession": "not_established",
+    "eacMessageAndProtectionHandling": "not_implemented"
+  },
+  "packageSearch": {
+    "rootsChecked": [
+      {
+        "scope": "current_user_profile",
+        "exists": true,
+        "exitCode": 0,
+        "hadAccessErrors": false,
+        "matchingHeaderCount": 0,
+        "matchingNamedArchiveCount": 0
+      },
+      {
+        "scope": "D:/",
+        "exists": true,
+        "exitCode": 2,
+        "hadAccessErrors": true,
+        "matchingHeaderCount": 0,
+        "matchingNamedArchiveCount": 0
+      },
+      {
+        "scope": "E:/",
+        "exists": true,
+        "exitCode": 2,
+        "hadAccessErrors": true,
+        "matchingHeaderCount": 0,
+        "matchingNamedArchiveCount": 0
+      }
+    ],
+    "additionalRootsChecked": [
+      {
+        "scope": "G:/",
+        "exists": true,
+        "exitCode": 1,
+        "hadAccessErrors": false,
+        "matchingFiles": 0
+      },
+      {
+        "scope": "C:/SDKs",
+        "exists": false,
+        "hadAccessErrors": false,
+        "matchingFiles": 0
+      },
+      {
+        "scope": "C:/EOSSDK",
+        "exists": false,
+        "hadAccessErrors": false,
+        "matchingFiles": 0
+      },
+      {
+        "scope": "C:/Dev",
+        "exists": false,
+        "hadAccessErrors": false,
+        "matchingFiles": 0
+      },
+      {
+        "scope": "C:/Program Files/Epic Games",
+        "exists": false,
+        "hadAccessErrors": false,
+        "matchingFiles": 0
+      },
+      {
+        "scope": "C:/Program Files (x86)/Epic Games",
+        "exists": false,
+        "hadAccessErrors": false,
+        "matchingFiles": 0
+      }
+    ],
+    "focusedConfigRoots": [
+      {
+        "scope": "D:/桌面",
+        "exists": true,
+        "exitCode": 0,
+        "accessErrors": false,
+        "rawMatches": 16,
+        "completeConnectCandidates": 0
+      },
+      {
+        "scope": "D:/文档",
+        "exists": true,
+        "exitCode": 1,
+        "accessErrors": false,
+        "rawMatches": 0,
+        "completeConnectCandidates": 0
+      },
+      {
+        "scope": "D:/下载",
+        "exists": true,
+        "exitCode": 1,
+        "accessErrors": false,
+        "rawMatches": 0,
+        "completeConnectCandidates": 0
+      },
+      {
+        "scope": "D:/DevCode",
+        "exists": true,
+        "exitCode": 1,
+        "accessErrors": false,
+        "rawMatches": 0,
+        "completeConnectCandidates": 0
+      },
+      {
+        "scope": "current_user_project_or_desktop",
+        "exists": true,
+        "exitCode": 1,
+        "accessErrors": false,
+        "rawMatches": 0,
+        "completeConnectCandidates": 0
+      },
+      {
+        "scope": "current_user_project_or_desktop",
+        "exists": true,
+        "exitCode": 1,
+        "accessErrors": false,
+        "rawMatches": 0,
+        "completeConnectCandidates": 0
+      }
+    ],
+    "conclusion": "No complete standalone-client configuration/package found within the recorded search scope; not proof that it never existed or is absent from every archive or other machine."
+  },
+  "sources": [
+    {
+      "url": "https://dev.epicgames.com/docs/game-services/anti-cheat/anti-cheat-integration",
+      "status": 404,
+      "sha256": "c0870577f524a6e188dbbd4e0fe4df0bc890d55b21050f5b3d0c29f27aba66a4",
+      "used": false
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "status": 200,
+      "sha256": "2c2ecba85da39affd58ea82132bbaa593831fb8ad5f843a625b56575206c3251",
+      "used": true
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-add-notify-message-to-server",
+      "status": 200,
+      "sha256": "ca70816be0d904f43d335c017d929ef56688d0ed461da50fcf0b369d4bf37775",
+      "used": true
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/game-services/anti-cheat/using-anti-cheat",
+      "status": 200,
+      "sha256": "da37c0c2f52ccf56060d78f1ca0e3ab1c7fcb59475ff4688433b5b185035c077",
+      "used": true
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-platform-get-anti-cheat-client-interface",
+      "status": 200,
+      "sha256": "881379edf1c00b52ef3370fefdb4c1d776b2ea28181c254a71beaa4672e1976d",
+      "used": true
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-poll-status",
+      "status": 200,
+      "sha256": "f4bf803a1865b77616bfbc2ef4431496a7760795a6a4be6369ef40915f614dec",
+      "used": true
+    },
+    {
+      "url": "https://dev.epicgames.com/docs/api-ref/structs/eos-anti-cheat-client-begin-session-options",
+      "status": 200,
+      "sha256": "153e6aaac1e5b6b03848992f76b8721cfec2b66e661e9b7b3e8fef4755ed9e18",
+      "used": true
+    }
+  ],
+  "validation": {
+    "targetedPythonTests": 6,
+    "passed": 6,
+    "scope": "cleanup after null handles/native exceptions; no invented credentials/identity; SDK success does not set eacVerified; native logs reduce to fixed categories",
+    "testTransport": "fake SDK for cleanup contracts plus actual installed SDK probe; no live protected session test"
+  },
+  "finalSessions": {
+    "at": "2026-10-25T12:09:30.694Z",
+    "total": 39,
+    "activeTickets": 0,
+    "closedWorkers": 38,
+    "eacStops": 36
+  },
+  "assistantActions": {
+    "steamLogins": 0,
+    "newGameConnections": 0,
+    "existingGameStops": 0,
+    "bootstrapModifications": 0,
+    "officialGameLaunches": 0,
+    "productionRuntimeReloads": 0
+  },
+  "limitations": [
+    "The installed Settings.json has product identifiers but no Connect ClientId or ClientSecret. Only those identifiers were supplied; the SDK returned null platform and categorized an invalid/missing ClientId.",
+    "BeginSession was not reached. This run cannot establish whether a valid EOS identity or an authorized protected build would succeed.",
+    "Authenticode Valid identifies a signed installed file; it is not an EAC session or publisher approval of an unrelated executable.",
+    "Package search covered current profile and accessible D/E/G paths plus specified development directories; D/E had access errors, generic archives were not exhaustively inspected, and configuration in other encodings/executables may not match.",
+    "The observed batch disconnect/connect jobs predate this investigation. Current game-session state differs from the earlier 16-session snapshot; this assistant did not run those jobs."
+  ],
+  "evidence": [
+    {
+      "path": "work/eac-integration-20261025/local-inspection-safe.json",
+      "sha256": "6dd552f60954fa9d0409bfccfe417bcfb24e0987858f88f4d2a7919bb81a983a",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/sdk-inspection-safe.json",
+      "sha256": "bc4b07e36516a074e5de7107c6f9e970fdba63680deb421c60a9440258c74c69",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/installed-settings-probe-with-errors-safe.json",
+      "sha256": "a7794269a0d4c66f352e9e0efd42c0a8d913881f9f49ce55b6a75ba8e294283b",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/package-search-private.json",
+      "sha256": "19503373ffe439051ceabe065f79274d2334d1debd8a7a9bf17741e885d36150",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/package-search-extra-private.json",
+      "sha256": "08a2bad271724d518858376432fa9ccdfb18e8c6cc2f4ed2700b454248b5a0a4",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/config-search-private.json",
+      "sha256": "5d6cd39162d2fa3edb2f02186f3b9e4462eb18bb62b50571d05edb834e8bc179",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/session-cleanup-private.json",
+      "sha256": "805791d436fa1876bb610be6ff35dc1a755a6be87402e7ec28210402a8c24d1b",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/docs-safe.json",
+      "sha256": "94bef8d1f8966d00fd5ba8c69e279648609c504b438aa707956969ada1e10ac6",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/probe-docs-safe.json",
+      "sha256": "cba6e3d3fcf1c76c3478dc513c40df94f2afc0cfa7764cb756b303f5708c86cf",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/client-abi.txt",
+      "sha256": "17a7fec5c8bbf74405024f213773a53f2caa6d1d511b76f8b3ca0300ebbcba81",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/inspect-client-abi.ps1",
+      "sha256": "9e58fe85fbafaf2db474f2239a20b87559faaa0026a7150e0739cf3ad1a1b87d",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/doc-begin-session.html",
+      "sha256": "2c2ecba85da39affd58ea82132bbaa593831fb8ad5f843a625b56575206c3251",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/doc-send-callback.html",
+      "sha256": "ca70816be0d904f43d335c017d929ef56688d0ed461da50fcf0b369d4bf37775",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/doc-integrity.html",
+      "sha256": "da37c0c2f52ccf56060d78f1ca0e3ab1c7fcb59475ff4688433b5b185035c077",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/probe-doc-0.html",
+      "sha256": "881379edf1c00b52ef3370fefdb4c1d776b2ea28181c254a71beaa4672e1976d",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/probe-doc-1.html",
+      "sha256": "f4bf803a1865b77616bfbc2ef4431496a7760795a6a4be6369ef40915f614dec",
+      "tracked": false
+    },
+    {
+      "path": "work/eac-integration-20261025/probe-doc-2.html",
+      "sha256": "153e6aaac1e5b6b03848992f76b8721cfec2b66e661e9b7b3e8fef4755ed9e18",
+      "tracked": false
+    },
+    {
+      "path": "tools/rust-research/eos-connect.py",
+      "sha256": "ef263da84e3363c43a09a55540b85b937cfbdb56134753ba786599c448c6ee10",
+      "tracked": true
+    },
+    {
+      "path": "tools/rust-research/eac-session-probe.py",
+      "sha256": "0af7e273194957e4175d411d2f6e3207115efe02fd82f18b748edb2c9ca36cd0",
+      "tracked": true
+    },
+    {
+      "path": "tools/rust-research/test_eac_session_probe.py",
+      "sha256": "4790e81183e67dcc89085104789dd7d647afe135cab5db5ddc2c4889c137abc7",
+      "tracked": true
+    }
+  ]
+}

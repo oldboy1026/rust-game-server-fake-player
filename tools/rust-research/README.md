@@ -143,6 +143,27 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\inspect-player-count.ps1 -
 
 输出附带的 manifest 是本次研究来源，若分析其他版本需同步修订来源说明；工具不会自动判定文件属于该 manifest。先比较模块哈希，再解释方法上下文。默认建议输出到被忽略的 `work/`，不会重写已提交的证据。
 
+## 安装配置与 EAC 会话探测
+
+`eac-session-probe.py` 使用已安装且哈希固定的官方 EOS SDK，读取原有
+`EasyAntiCheat/Settings.json` 中的三个产品标识，限时检查初始化、平台创建及
+EAC 客户端接口。两个路径都必须是本机的绝对路径：
+
+```powershell
+python tools/rust-research/eac-session-probe.py --dll "X:/Rust/RustClient_Data/Plugins/x86_64/EOSSDK-Win64-Shipping.dll" --settings "X:/Rust/EasyAntiCheat/Settings.json" --seconds 2
+```
+
+工具不更改安装配置、不启动游戏或替换受保护程序、不登录 Steam，也不连接
+Rust 游戏服务器。安装配置不含 Connect 客户端凭据，平台选项中的凭据因此
+保持为空。如果平台或客户端接口创建失败，不会继续调用会话接口。若接口可用，
+只以明确为空的 LocalUserId 做一次负向 BeginSession 诊断；它缺少实际 EOS
+登录这一前置条件，不能用来验证完整的账号会话或受保护运行环境。
+
+原生日志只转为固定错误分类，原文和配置值不进入输出。退出码 0 表示本次
+诊断获得初始化和关闭结果；必须另看 `eosLoggedIn`、`eacVerified` 和
+`serverValidated`，不能把 SDK 初始化成功当作有效 EAC 会话。平台和 SDK 在
+失败路径同样会清理。`test_eac_session_probe.py` 验证这些清理和结果约束。
+
 ## 新服务器与网络出口资料
 
 `server-103-91-208-182-sources.json` 可交给 `collect.mjs`，包含 Steam 的公开地址登记查询、SOCKS5 UDP 与 NAT 地址池的 RFC。两个 BattleMetrics 请求本次返回拒绝访问或挑战页，保留请求记录以说明获取边界，不能作为在线人数证据。服务器侧地址调用链可用已有 `inspect-original.ps1` 生成的网络程序集 IL 复核；对应方法 token、哈希与公开查询结果保存在 `../../rust-research/server-103-91-208-182-observation.json`。

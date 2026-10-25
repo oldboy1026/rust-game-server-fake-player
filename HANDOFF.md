@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25 20:16：官方安装配置EAC探测已实际执行，卡在缺少ClientId
+
+用户要求补齐EOS身份、受保护环境及EAC消息；先答有独立程序授权包，随后忘记路径并授权查找，最新指示改用官方游戏安装EAC配置测试。结果见 `rust-research/eac-installed-settings-test-2026-10-25.md/.json`。当前用户目录、可访问D/E/G及指定开发目录的文件名搜索和重点目录配置结构检查，未找到完整独立包/Connect凭据/SDK头文件；D/E有访问错误，未穷尽通用压缩包/内嵌配置/其他电脑，不能断言授权不存在。原始搜索路径只在ignored `work/eac-integration-20261025/`。
+
+官方Rust.exe/RustClient.exe/EAC安装器/EOSSDK本机签名Valid，Settings.json仍指向RustClient.exe，只有product/sandbox/deployment标识，没有clientId/clientSecret。已有EOS helper检查SDK1.19.1.2及ABI通过。新增 `tools/rust-research/eac-session-probe.py` 真实使用安装设置及固定SDK哈希：20:13首探EOS_Initialize0→Platform_Create空→Shutdown0；为解释该失败加入只输出固定分类的原生日志回调，20:15:55再探回调安装成功、SDK分类 **invalid_or_missing_clientid**，Platform_Create仍空，Shutdown0，耗时0.079秒。未取得EOS身份，未到BeginSession，没有有效EAC或服务端认证。三项实现需求仍未完成，不能把这个诊断称作完成集成。
+
+工具没有改bootstrap、启动游戏、借用其他进程身份、填假凭据或连接Rust服务器。若未来平台/接口可用，其可选后续仅null LocalUserId负向诊断，不是完整账号会话验证；此轮没有走到该分支。6项新Python测试通过，覆盖空句柄/异常清理和不误报认证，现有生产worker/HTTP未改，未重启服务。官方直接页面已解析JSON正文，1个猜测integration地址404排除；报告固定20项SHA，原始日志文本及配置值不保存到公开结果。
+
+**当前已不是旧16连接状态。** 本轮开始只读API发现19:55:53的39账号disconnect、19:56:31的39账号connect任务，均非本助手本轮创建；20:02任务完成，Steam38/39在线、Rust error38/closed1，其中36个历史eac_required。20:09:30逐39会话票据active0，已运行worker关闭38。没有擅自恢复旧16连接，没有本轮新玩家清理义务。主服务仍运行；继续先GET状态，不按下节历史状态重建玩家。实际接入仍需找到用户所说完整独立接入材料，或使用官方受保护客户端，不能靠安装标识或删除EAC停止分支冒充认证成功。
+
 ## 2026-10-25 19:51：新目标公开查询完成，单账号停在EAC消息，未批量切换
 
 用户要求全部项目账号进入 `202.189.21.58:30921`，并查询其他测试账号能增加公共人数的说法。Steam GetServersAtAddress登记查询端口30923，A2S_INFO gamePort核对30921；30922本次超时。19:50:30即时入服前A2S154/cp129/公共146，公共Last-Modified11:50:13UTC；19:51:21尝试后155/129/146仍同一公共版本，不能当成两个后台批次或逐账号计入证据。详见 `rust-research/server-202-189-21-58-test-2026-10-25.md/.json`。
