@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-25，Asia/Shanghai。
 
+## 2026-10-25 16:53：真实服务器身份关联实验正在运行
+
+用户要求继续实现验证。新增实验模块 `steam-multi-account/src/rust-auth-association.js`，逐租约校验真实authTicketStatus→当前独占票据→精确目标A2S服务器身份→已入服后才可构造steam_id_gs活动。没有接入常规网页/服务，没有重启主服务；46项Node测试通过。它是待验证候选，不是公共人数修复。
+
+**当前有本轮测试连接清理义务。** ignored `work/presence-association-20261025/run-controlled.mjs` 已于08:53:48.889UTC启动，exec session6275；一个原本error且无Rust会话的账号独立正常登录/入服，08:53:56已验证真实validator匹配当前目标，主程序原7会话保留。测试账号精确id和初始changedAt在同目录candidate-private.json，测试startedAt在run-safe.json/cleanup.session或samples[].test.session；私有原始在run-private.json。不要按旧8会话快照操作。没有接触已有主程序账号的Steam登录或游戏会话。
+
+计划同一测试连接control360秒→associated660秒→restored360秒，约09:16:56UTC结束；每分钟真实名单/公共批次/主程序会话集合，5秒检查主程序测试账号仍原error状态，发现人为切换停止实验。驱动finally负责只停自己的独立session，确认票据available且inactive后清空活动、退出该独立Steam；不改服务器，不发Tick/wake/respawn。不要中断到漏清理，也不要把阶段或发送成功当人数修复。状态与结果参见新报告 `rust-research/presence-association-experiment-2026-10-25.md`，进行中不固定会变化的采样文件哈希。
+
+证据保留更正：16:46误复用旧final-readonly驱动固定路径，覆盖旧16:31两份raw final-private/final-public；旧脱敏safe已从trackedJSON精确恢复并核对原SHA，另两份旧原始无法恢复，旧报告JSON标为not_retained。16:46新内容已复制到新目录baseline-*保留，不能仍宣称旧65项原始全部可重算SHA。后续只用新目录唯一输出。
+
 ## 2026-10-25 16:31：DLL 隐藏指令已解析，现有 8 连接保留，公共人数未修复
 
 先读 `rust-research/dll-count-investigation-2026-10-25.md/.json`。用户澄清没有其他成功插件的名称或链接，希望自行实现。仍没有已验证的人数修复 DLL，不要把资源解码、原生 true、cp 相等或自然批次变化称为修复。

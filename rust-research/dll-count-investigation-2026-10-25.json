@@ -558,12 +558,16 @@
     {
       "path": "work/dll-count-research-20261025/final-private.json",
       "bytes": 154232,
-      "sha256": "6a18bf8c4c00682a1f90095434bc25e7bd13625f4cd21fa050d3de7ef9617f0b"
+      "sha256": "6a18bf8c4c00682a1f90095434bc25e7bd13625f4cd21fa050d3de7ef9617f0b",
+      "originalContentRetained": false,
+      "retentionStatus": "overwritten_by_readonly_followup_2026_10_25"
     },
     {
       "path": "work/dll-count-research-20261025/final-public.json",
       "bytes": 1014,
-      "sha256": "c9bc3f1180d6866c3b4a001a07f8905e8805f9e58aa4af880617a09795e05eb3"
+      "sha256": "c9bc3f1180d6866c3b4a001a07f8905e8805f9e58aa4af880617a09795e05eb3",
+      "originalContentRetained": false,
+      "retentionStatus": "overwritten_by_readonly_followup_2026_10_25"
     },
     {
       "path": "work/dll-count-research-20261025/final-readonly-safe.json",
@@ -840,5 +844,11 @@
       "bytes": 143,
       "sha256": "a3d6e49a07f23a41ba760b64610ce1930a1c314f3b16689f9b50b838b655c587"
     }
-  ]
+  ],
+  "evidenceIntegrityFollowup": {
+    "at": "2026-10-25T08:57:15.841Z",
+    "rawOriginalFilesNotRetained": 2,
+    "safeSnapshotRestoredWithExactOriginalSha256": true,
+    "explanation": "The 16:46 follow-up reused fixed raw output paths. The 16:31 aggregate snapshot remains in this JSON; two earlier raw originals are no longer available. The newer raw observations were copied into the separate presence-association work directory."
+  }
 }
