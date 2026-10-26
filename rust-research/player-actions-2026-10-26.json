@@ -1,0 +1,78 @@
+{
+    "date":  "2026-10-26",
+    "target":  {
+                   "gamePort":  40176,
+                   "host":  "61.147.247.25",
+                   "queryPort":  40177
+               },
+    "scope":  "bounded single-account controls; experimental flat-area movement",
+    "tests":  {
+                  "node":  58,
+                  "nativeNetworkInOfflineTests":  false,
+                  "result":  "passed",
+                  "python":  57
+              },
+    "liveWake":  {
+                     "sleeping":  false,
+                     "initialStatus":  "started",
+                     "actionTickPackets":  3,
+                     "finalStatus":  "snapshot_observed",
+                     "lifeState":  "alive",
+                     "at":  "2026-10-26T06:09:06.2449729Z",
+                     "connectionState":  "entered_game",
+                     "keepaliveContinued":  true
+                 },
+    "ui":  {
+               "consoleErrors":  0,
+               "idleStopStatus":  "stopped",
+               "dialogOpened":  true,
+               "suicideRequiresConfirmation":  true,
+               "movementRequiresFlatGround":  true
+           },
+    "preservedSessions":  {
+                              "restartedService":  true,
+                              "after":  5,
+                              "before":  5,
+                              "exactOriginalSetVerified":  true,
+                              "firstAttemptRateLimited":  3,
+                              "rateLimitedRestored":  3,
+                              "observedAt":  "2026-10-26T06:11:48.8046447Z",
+                              "steamOnline":  48
+                          },
+    "public":  {
+                   "age":  "134",
+                   "lastModified":  "Mon, 26 Oct 2026 06:09:24 GMT",
+                   "facepunch":  0,
+                   "a2s":  5,
+                   "queriedAt":  "2026-10-26T06:11:49.641Z",
+                   "publicCountFixed":  false,
+                   "cp":  5
+               },
+    "notValidated":  [
+                         "live locomotion",
+                         "terrain and collision",
+                         "live jump arc",
+                         "live suicide",
+                         "live manual respawn",
+                         "EAC session",
+                         "public-count qualification"
+                     ],
+    "evidence":  [
+                     {
+                         "workspaceFile":  "work/action-tests/live-wake-safe.json",
+                         "sha256":  "36e089e7af9b57ba4922eb9bf3f739b905e1ab38b995c5faaa4840c1ff9ac98f"
+                     },
+                     {
+                         "workspaceFile":  "work/action-tests/public-after-safe.json",
+                         "sha256":  "e352f4f99d1efe4535a18c21d5af8e7976898d3af21613a4f36ceef91225012e"
+                     },
+                     {
+                         "sha256":  "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+                         "managedFile":  "Assembly-CSharp.dll"
+                     },
+                     {
+                         "sha256":  "1d62baef9b339f0416e6529618365c1ecad01791a833e77e76eb6c8464406104",
+                         "managedFile":  "Rust.Data.dll"
+                     }
+                 ]
+}

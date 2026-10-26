@@ -2,6 +2,14 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26 14:12：新增单账号角色操作，手动唤醒已实服验证
+
+先读 `rust-research/player-actions-2026-10-26.md/.json`。新增普通 `rust-action` 路由、固定动作工作进程队列及 `/rust` 的“角色操作”弹窗，支持手动唤醒、死亡重生、明确确认的自杀、停止；前后左右0.28米及原地跳跃为**需管理员确认平坦空地的实验轨迹**，没有地形/碰撞/完整客户端物理，尚未实服验证移动。两秒内完整有序自身快照是动作前提，旧死亡快照也不授权重生；可能需要等待新快照。HTTP202不等于成功，需读status；新快照匹配只记snapshot_observed，不当完整动作/EAC/公共人数证明。保留原聊天并加明确标记的测试问候预填，不自动发送。
+
+Node58项、Python45原有+12动作项通过。2026-10-26 06:09:06UTC对一个新鲜睡眠存活账号手动wake，三帧发出、后续awake/alive完整自身快照，lastAction=snapshot_observed且继续入服；UI空闲stop回执也实测，未发送聊天/实服移动/自杀/手动重生。06:11:49UTC公共查询A2S5/cp5/Facepunch0（Last-Modified06:09:24、Age134）；公共计数与独立EAC仍未解决。
+
+加载Node接口/静态资源已正常重启一次。重启前准确保存原五个入服账号及其选项（四个原本自动重生/唤醒，一个均关闭），旧五worker正常关闭后只恢复这五个；三个首次触发连接频率限制，间隔重试成功。06:11:48UTC核对原入服账号集合完全一致，五Rust入服、48Steam在线。**当前主服务exec session31118持续运行，保留这些连接，不要按旧批次重连48个账号。** 新Python代码由后续worker加载，不为仅文档/测试变化重启。运行库和凭据配置原样保留。忽略的恢复/实测记录在workspace `work/action-tests/`；使用 `deploy-active-private.json`、`restore-result-v2-private.json`、`live-account-private.json`，不要复用旧恢复脚本或旧失效快照去重连。新功能不需要服务器DLL更新；现有RustPresenceBridge未改。
+
 ## 2026-10-26 12:18：运行库已补齐，等级 1 普通协议连接已实测恢复
 
 用户再次要求真正修好并自动连接61.147.247.25:40176。下节“缺客户端DLL，实际连接仍阻塞”已经被本轮验证更新：现有Steam专用服务器RakNet原生库a6d10e2c…经Facepunch有效签名、关键ABI逐项检查、创建关闭及限时传输探测后，加入精确支持哈希。不是只凭同名导出放宽版本。configure-rust-runtime.mjs已保存本repo本机ignored配置，Python3.12.14 x64可用；新增sha256配置/环境RUST_NATIVE_SHA256和实际元数据哈希，未知版本仍拒绝。账号data及token未迁移/删除，旧outputs部署未改。

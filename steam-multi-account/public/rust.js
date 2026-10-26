@@ -7,6 +7,7 @@ let apiKey = '', overview = { accounts: [], servers: [], jobs: [], counts: {} };
 let refreshing = false, requesting = false, viewVersion = 0, serverFilter = null;
 let logAccount = null, logRevision = 0, loadingLogs = false;
 let chatAccount = null, chatSending = false;
+let actionAccount = null, actionSending = false;
 let publicQueryRevision = 0, publicQueryBusy = false;
 const selected = new Set(), expandedJobs = new Map(), receivedJobs = new Map();
 const accountRows = new Map(), serverCards = new Map();
@@ -95,6 +96,8 @@ function lock() {
   $('#logs-list').replaceChildren();
   chatAccount = null; chatSending = false; $('#chat-text').value = '';
   if ($('#chat-dialog').open) $('#chat-dialog').close();
+  actionAccount = null; actionSending = false;
+  if ($('#action-dialog').open) $('#action-dialog').close();
   accountRows.clear(); serverCards.clear();
   $('#account-rows').replaceChildren(); $('#server-groups').replaceChildren();
   setUnlocked(false);
@@ -137,6 +140,7 @@ function updateControls() {
   $('#server-filter').hidden = !serverFilter;
   $('#server-filter-name').textContent = serverFilter ? `服务器：${serverName(serverFilter)} · ${endpoint(serverFilter)}` : '';
   $('#chat-submit').disabled = chatSending || !chatAccount || !connected(overview.accounts.find(a => a.id === chatAccount.id) || {});
+  updateActionControls();
 }
 function renderServers() {
   const keys = new Set(overview.servers.map(endpoint));
@@ -214,11 +218,14 @@ function renderAccounts() {
       logs.append(button('查看日志', 'secondary small', () => openLogs(entry.account)));
       entry.chat = button('发送聊天', 'secondary small', () => openChat(entry.account));
       logs.append(entry.chat);
+      entry.actions = button('角色操作', 'secondary small', () => openActions(entry.account));
+      logs.append(entry.actions);
       entry.row.append(selectCell, entry.name, entry.steam, entry.rust, entry.server, entry.snapshot, logs);
       accountRows.set(account.id, entry);
     }
     entry.account = account;
     entry.chat.disabled = requesting || chatSending || !connected(account);
+    entry.actions.disabled = requesting || !connected(account);
     entry.row.classList.toggle('selected', selected.has(account.id));
     entry.checkbox.checked = selected.has(account.id); entry.checkbox.disabled = requesting;
     entry.checkbox.setAttribute('aria-label', `选择账号 ${account.accountName}`);
@@ -397,6 +404,58 @@ $('#chat-form').addEventListener('submit', async event => {
 });
 $('#chat-close').addEventListener('click', () => $('#chat-dialog').close());
 $('#chat-dialog').addEventListener('close', () => { chatAccount = null; $('#chat-text').value = ''; });
+$('#chat-test-preset').addEventListener('click', () => { $('#chat-text').value = '[测试] 大家好，正在验证游戏内聊天连接。'; $('#chat-text').focus(); });
+
+const actionLabels = { wake: '唤醒', respawn: '重生', suicide: '自杀', stop: '停止', forward: '前进', backward: '后退', left: '左移', right: '右移', jump: '跳跃' };
+const actionStatuses = {
+  started: '已开始发送动作，等待结果。', sent: '动作已发往网络，服务器执行情况尚未确认。',
+  stopped: '已停止动作。若无法安全释放输入，该账号连接将结束。',
+  not_ready: '连接尚未就绪，未发送动作。', stale_state: '缺少 2 秒内的完整自身快照，未发送动作。请等待新快照；不会自动断开重连。',
+  unsupported_state: '当前角色状态不支持这个动作。请核对睡眠、生命、落地和加载状态。',
+  busy: '入服唤醒或上一个动作尚未结束，请稍后再试。', rate_limited: '请间隔至少 5 秒操作。',
+  send_failed: '动作发送失败。', interrupted: '角色状态改变，动作已中止；该账号可能断开连接。',
+  snapshot_observed: '收到与操作后状态相符的新自身快照；这不证明动作全过程或公共人数已被采纳。',
+  unconfirmed: '已发出动作，5 秒内未观察到匹配的完整自身快照，执行结果未确认。',
+};
+function openActions(account) {
+  if (!connected(account)) return;
+  actionAccount = { id: account.id };
+  $('#action-target').textContent = `${account.accountName} · ${endpoint(account.rust)}`;
+  $('#action-flat-ground').checked = false;
+  $('#action-confirm-death').checked = false;
+  $('#action-status').textContent = '尚未发起操作。';
+  updateActionControls(); $('#action-dialog').showModal();
+}
+function updateActionControls() {
+  const account = overview.accounts.find(a => a.id === actionAccount?.id);
+  for (const control of document.querySelectorAll('[data-rust-action]')) {
+    const motion = ['forward', 'backward', 'left', 'right', 'jump'].includes(control.dataset.rustAction);
+    control.disabled = actionSending || !account || !connected(account) || motion && !$('#action-flat-ground').checked
+      || control.dataset.rustAction === 'suicide' && !$('#action-confirm-death').checked;
+  }
+  const result = account?.rust?.metadata?.lastAction;
+  $('#action-player-state').textContent = account ? `最近角色快照：${snapshotCell(account).textContent}` : '连接已结束。';
+  $('#action-observed').textContent = result ? `最近操作 #${result.id} ${actionLabels[result.action] || ''}：${actionStatuses[result.status] || '结果未知'}` : '';
+}
+$('#action-flat-ground').addEventListener('change', updateActionControls);
+$('#action-confirm-death').addEventListener('change', updateActionControls);
+for (const control of document.querySelectorAll('[data-rust-action]')) control.addEventListener('click', async () => {
+  if (!apiKey || !actionAccount || actionSending) return;
+  const version = viewVersion, account = actionAccount;
+  actionSending = true; updateActionControls(); $('#action-status').textContent = '正在提交操作…';
+  try {
+    const reply = await request(`/v1/accounts/${encodeURIComponent(account.id)}/rust-action`, 'POST',
+      { action: control.dataset.rustAction, flatGround: $('#action-flat-ground').checked, confirmDeath: $('#action-confirm-death').checked });
+    if (version === viewVersion && actionAccount?.id === account.id) $('#action-status').textContent = actionStatuses[reply.status] || '结果未知。';
+  } catch (error) {
+    if (version === viewVersion && actionAccount?.id === account.id) {
+      $('#action-status').textContent = error.message;
+      if (error.status === 401) handleError(error);
+    }
+  } finally { if (version === viewVersion) { actionSending = false; renderAccounts(); } }
+});
+$('#action-close').addEventListener('click', () => $('#action-dialog').close());
+$('#action-dialog').addEventListener('close', () => { actionAccount = null; $('#action-flat-ground').checked = false; $('#action-confirm-death').checked = false; });
 
 const publicErrors = {
   target_not_listed: '公共映射未列出（未知）', timeout: '查询超时', query_failed: '查询失败或响应不支持',

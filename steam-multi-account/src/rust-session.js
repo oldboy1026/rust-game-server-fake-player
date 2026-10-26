@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
 import { ApiError } from './errors.js';
+import { validateRustAction } from './rust-actions.js';
 import { readRustRuntime, rustRuntimeErrorMessage, safeMetadata, validateRustDestination } from './rust-connection.js';
 
 const MAX_LINE_BYTES = 65536;
@@ -49,6 +50,8 @@ const STAGE_ERRORS = [
   ['wake_release_unavailable', '角色状态已改变，无法安全释放唤醒输入，连接已关闭。'],
   ['connection_keepalive_send_failed', '连接维护消息发送失败，连接已关闭。'],
   ['connection_keepalive_stalled', '本机连接维护停顿过长，已关闭连接，请重新连接。'],
+  ['action_release_unavailable', '角色状态已改变或操作已停止，无法安全释放动作，已关闭该账号连接。'],
+  ['action_native_send_failed', '角色操作发送失败，已关闭该账号连接。'],
   ['transport_connection_attempt_failed', '无法与该服务器建立网络连接。'],
   ['transport_no_free_incoming_connections', '服务器当前没有可用连接位置。'],
   ['transport_connection_banned', '服务器拒绝了本次网络连接。'],
@@ -119,7 +122,7 @@ export class RustSession {
     }
     const run = { child: null, workerStarted: false, reachedEnteredGame: false, respawnOnDead, wakeOnConnect,
       stopRequested: false, stopSent: false, killTimer: null, failure: null,
-      chatSequence: 0, chatRequest: null, nextChatAt: 0 };
+      chatSequence: 0, chatRequest: null, nextChatAt: 0, actionSequence: 0, actionRequest: null, nextActionAt: 0 };
     this.#run = run;
     this.#status = {
       state: 'connecting', ...destination, startedAt: new Date().toISOString(), endedAt: null,
@@ -177,7 +180,41 @@ export class RustSession {
     else request.resolve(reply);
   }
 
+  sendAction(input) {
+    const action = validateRustAction(input), run = this.#run, child = run?.child;
+    if (!run || run.stopRequested || this.#status.state !== 'entered_game'
+        || this.#status.metadata.closed === true || !child?.stdin.writable || child.stdin.destroyed) {
+      throw new ApiError(409, '该账号尚未完成入服，或连接已经结束。');
+    }
+    if (run.actionRequest) throw new ApiError(409, '上一条操作仍在等待结果。');
+    if (action.action !== 'stop' && Date.now() < run.nextActionAt) throw new ApiError(429, '请间隔至少 5 秒再操作。');
+    if (run.actionSequence >= 2147483647) throw new ApiError(409, '本次连接的操作请求已达到上限。');
+    const id = ++run.actionSequence;
+    if (action.action !== 'stop') run.nextActionAt = Date.now() + 5000;
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => this.#finishAction(run,
+        new ApiError(504, '等待操作结果超时，结果未知，请先核对状态，勿重复操作。')), CHAT_TIMEOUT_MS);
+      timer.unref();
+      run.actionRequest = { id, resolve, reject, timer };
+      try {
+        child.stdin.write(`${JSON.stringify({ action: { id, ...action } })}\n`, error => {
+          if (error && run.actionRequest?.id === id) this.#finishAction(run, new ApiError(502, '角色操作通道已关闭。'));
+        });
+      } catch { this.#finishAction(run, new ApiError(502, '角色操作通道已关闭。')); }
+    });
+  }
+
+  #finishAction(run, error, reply) {
+    const request = run.actionRequest;
+    if (!request) return;
+    run.actionRequest = null;
+    clearTimeout(request.timer);
+    if (error) request.reject(error);
+    else request.resolve(reply);
+  }
+
   #requestStop(run) {
+    this.#finishAction(run, new ApiError(409, '连接正在结束，角色操作结果未确认。'));
     this.#finishChat(run, new ApiError(409, '连接正在结束，聊天发送结果未确认。'));
     run.stopRequested = true;
     this.#status.state = 'stopping';
@@ -205,6 +242,9 @@ export class RustSession {
     const metadata = safeMetadata(result);
     const wasConnected = this.#status.metadata.transportConnected === true;
     this.#status.metadata = metadata;
+    if (run.actionRequest?.id === metadata.lastAction?.id && run.actionRequest) {
+      this.#finishAction(run, null, { ...metadata.lastAction, serverConfirmed: false });
+    }
     if (run.chatRequest && run.chatRequest.id === metadata.lastChat?.id) {
       const status = metadata.lastChat.status;
       if (status === 'sent') this.#finishChat(run, null, { status: 'sent_to_transport',
@@ -266,6 +306,7 @@ export class RustSession {
         this.#status.lastError = run.failure || 'Rust 会话认证或清理失败，请检查账号连接后重试。';
       }
     } finally {
+      this.#finishAction(run, new ApiError(409, '游戏连接已结束，角色操作结果未确认。'));
       this.#finishChat(run, new ApiError(409, '游戏连接已结束，聊天发送结果未确认。'));
       clearTimeout(run.killTimer);
       this.#status.endedAt = new Date().toISOString();
@@ -338,6 +379,7 @@ export class RustSession {
         if (!run.stopRequested && !finalReceived) this.#fail(run, '独立 Rust 网络进程的输入管道已关闭。');
       });
       child.on('close', code => {
+        this.#finishAction(run, new ApiError(409, '游戏连接已结束，角色操作结果未确认。'));
         this.#finishChat(run, new ApiError(409, '游戏连接已结束，聊天发送结果未确认。'));
         clearTimeout(run.killTimer);
         signal.removeEventListener('abort', abort);

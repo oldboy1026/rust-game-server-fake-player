@@ -24,6 +24,10 @@ a fresh dead self snapshot and that entity's exact FinishLoading observation.
 Post-send alive metadata records reception, not a server command acknowledgement.
 The persistent control pipe also accepts validated plain global chat after
 own FinishLoading, at most once per five seconds. Text is not emitted in status.
+Fixed manual actions are queued on the same pipe: wake, respawn, explicitly
+confirmed own suicide, stop, and operator-confirmed flat-area test movement.
+Movement uses bounded experimental trajectories, not terrain/client physics.
+Fresh full own state is mandatory; sent receipts do not prove server execution.
 
 Static managed sources are the hashes recorded in evidence.json, Steam depot
 258551 manifest 93946663446561466. Relevant tokens: Peer.SendTo 06000059,
@@ -57,6 +61,9 @@ _spec.loader.exec_module(native)
 _tick_spec = importlib.util.spec_from_file_location("rust_player_tick", Path(__file__).with_name("rust_player_tick.py"))
 player_tick = importlib.util.module_from_spec(_tick_spec)
 _tick_spec.loader.exec_module(player_tick)
+_action_spec = importlib.util.spec_from_file_location("rust_actions", Path(__file__).with_name("rust_actions.py"))
+actions = importlib.util.module_from_spec(_action_spec)
+_action_spec.loader.exec_module(actions)
 _chat_spec = importlib.util.spec_from_file_location("rust_chat", Path(__file__).with_name("rust_chat.py"))
 chat = importlib.util.module_from_spec(_chat_spec)
 _chat_spec.loader.exec_module(chat)
@@ -465,6 +472,9 @@ def control_reader(stream, stop, state):
             if isinstance(command, dict) and set(command) == {"stop"} and command["stop"] is True:
                 state["reason"] = "stop_requested"
                 break
+            if isinstance(command, dict) and set(command) == {"action"}:
+                state["actionQueue"].put_nowait(actions.validate_request(command["action"]))
+                continue
             if not isinstance(command, dict) or set(command) != {"chat"}:
                 raise ValueError()
             state["chatQueue"].put_nowait(chat.validate_request(command["chat"]))
@@ -544,7 +554,9 @@ def run(args, identity, auth, ready):
     respawn_self_id = None
     respawn_sent_at = None
     wake = player_tick.WakeController(getattr(args, "wake_on_connect", False), proto_fields)
-    maintenance = player_tick.ConnectionKeepAlive(wake.enabled)
+    manual = actions.ActionController(player_tick, proto_fields)
+    maintenance = player_tick.ConnectionKeepAlive(True)
+    RESULT.update(manual.metadata)
     RESULT.update(wake.metadata)
     RESULT["connectionKeepAliveSent"] = 0
     RESULT["respawnOnDeadEnabled"] = args.respawn_on_dead
@@ -552,7 +564,7 @@ def run(args, identity, auth, ready):
     started = time.monotonic()
     last_snapshot = started
     stop = threading.Event()
-    control_state = {"reason": "stop_requested", "chatQueue": queue.Queue(maxsize=1)}
+    control_state = {"reason": "stop_requested", "chatQueue": queue.Queue(maxsize=1), "actionQueue": queue.Queue(maxsize=1)}
     chat_sender = chat.ChatSender()
     RESULT.update(chat_sender.metadata)
 
@@ -578,6 +590,7 @@ def run(args, identity, auth, ready):
 
     def tick_progress():
         RESULT.update(wake.metadata)
+        RESULT.update(manual.metadata)
         for stage in wake.take_events():
             emit(stage)
 
@@ -590,18 +603,38 @@ def run(args, identity, auth, ready):
         reason = wake.step(time.monotonic(), lambda payload: send_packet(server_guid, payload))
         RESULT["sentPackets"] += wake.metadata["tickPacketsSent"] - previous
         RESULT.update(wake.metadata)
+        try:
+            request = control_state["actionQueue"].get_nowait()
+        except queue.Empty:
+            request = None
+        if request is not None:
+            def action_send(payload):
+                sent = send_packet(server_guid, payload)
+                if sent:
+                    RESULT["sentPackets"] += 1
+                return sent
+            manual.submit(request, ready=finish_loading_self_id == self_id and self_id is not None,
+                          auto_busy=wake.enabled and not wake._terminal, now=time.monotonic(), sender=action_send)
+        previous_action = manual.metadata.get("lastAction", {}).copy()
+        previous_ticks = manual.metadata["actionTickPacketsSent"]
+        if not reason:
+            reason = manual.step(time.monotonic(), lambda payload: send_packet(server_guid, payload))
+        RESULT["sentPackets"] += manual.metadata["actionTickPacketsSent"] - previous_ticks
+        RESULT.update(manual.metadata)
         # A first tick starts ServerKickUnresponsivePlayers' timer. Even when
         # pose input is interrupted, maintain the ordinary owned connection.
         # This owner-only no-argument RPC does not submit model/input/EAC data.
         if not reason and finish_loading_self_id == self_id:
             previous_maintenance = maintenance.sent
-            reason = maintenance.step(time.monotonic(), self_id, wake.metadata["tickPacketsSent"] > 0,
+            reason = maintenance.step(time.monotonic(), self_id, wake.metadata["tickPacketsSent"] + manual.metadata["actionTickPacketsSent"] > 0,
                                       lambda payload: send_packet(server_guid, payload))
             RESULT["sentPackets"] += maintenance.sent - previous_maintenance
             RESULT["connectionKeepAliveSent"] = maintenance.sent
             if previous_maintenance == 0 and maintenance.sent > 0:
                 emit("connection_keepalive_started")
         tick_progress()
+        if PROGRESS is not None and (request is not None or previous_action != manual.metadata.get("lastAction")):
+            PROGRESS()
         return reason
 
     def update_own_snapshot_age():
@@ -633,6 +666,7 @@ def run(args, identity, auth, ready):
     def snapshot():
         nonlocal last_snapshot
         update_own_snapshot_age()
+        RESULT.update(manual.metadata)
         RESULT["receivedPackets"] = sum(counts.values())
         RESULT["firstByteCounts"] = {f"0x{k:02x}": v for k, v in sorted(counts.items())}
         RESULT["bitLengthCounts"] = {str(k): v for k, v in sorted(lengths.items())}
@@ -759,6 +793,8 @@ def run(args, identity, auth, ready):
                         wake.invalidate("unsupported_snapshot")
                 if observed is not None and not wake.observe(packet, observed, time.monotonic()):
                     observed = None
+                if observed is not None and not manual.observe(packet, observed, time.monotonic()):
+                    observed = None
                 if observed is not None:
                     previous_state = RESULT["ownPlayerState"]
                     entity_changes = previous_state.get("entityChanges", 0)
@@ -811,6 +847,7 @@ def run(args, identity, auth, ready):
                 if is_finish_loading(packet, self_id):
                     finish_loading_self_id = self_id
                     wake.finish_loading(self_id)
+                    manual.finish_loading(self_id)
                     emit("finish_loading_observed")
                     # The full snapshot can arrive before FinishLoading.
                     # It still must be fresh when this gate is evaluated.
@@ -820,6 +857,8 @@ def run(args, identity, auth, ready):
                     # Wait for a new full own state, or close if release is unsafe.
                     if not wake.receive_own_rpc(packet):
                         wake.invalidate("self_rpc", struct.unpack_from("<I", packet, 9)[0] if len(packet) >= 13 else None)
+                    if not manual.receive_own_rpc(packet):
+                        manual.invalidate("self_rpc")
             elif first in {0x92, 0x96, 0xA3} and sent_ready and self_id is not None:
                 # Destroy/position/base-entity flags begin with the target EntityID.
                 # Full position/correction simulation is outside this feature.
@@ -829,6 +868,10 @@ def run(args, identity, auth, ready):
                             or first == 0xA3 and wake.receive_flags_echo(packet))
                     if not echo:
                         wake.invalidate({0x92: "destroyed", 0x96: "position_update", 0xA3: "base_flags"}[first])
+                    manual_echo = (first == 0x96 and manual.receive_position_echo(packet)
+                                   or first == 0xA3 and manual.receive_flags_echo(packet))
+                    if not manual_echo:
+                        manual.invalidate({0x92: "destroyed", 0x96: "position_update", 0xA3: "base_flags"}[first])
                     if first == 0x92:
                         finish_loading_self_id = None
             tick_error = maybe_tick()
@@ -847,6 +890,7 @@ def run(args, identity, auth, ready):
         # Closing the owned transport also clears a pressed input when a stop,
         # remote rejection or protection requirement prevents a safe release.
         wake.shutdown()
+        manual.invalidate("shutdown")
         tick_progress()
         closed = False
         if peer:

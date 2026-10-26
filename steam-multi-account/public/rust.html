@@ -76,6 +76,21 @@
     <p id="chat-target" class="muted"></p>
     <form id="chat-form"><label for="chat-text">全服聊天内容</label><div class="inline"><input id="chat-text" type="text" maxlength="128" autocomplete="off" required><button id="chat-submit" class="button primary" type="submit">发送</button></div></form>
     <p id="chat-status" class="muted" role="status" aria-live="polite">每次发送一条，间隔至少 5 秒。</p>
+    <button id="chat-test-preset" class="button secondary small" type="button">填写测试问候</button>
+  </dialog>
+  <dialog id="action-dialog" class="logs-dialog" aria-labelledby="action-title">
+    <div class="section-heading"><h2 id="action-title">单账号角色操作</h2><button id="action-close" class="button secondary small" type="button">关闭</button></div>
+    <p id="action-target" class="muted"></p>
+    <p id="action-player-state" class="muted"></p>
+    <p class="fineprint">每次只操作当前账号，间隔至少 5 秒。需要 2 秒内收到的完整自身快照和已完成入服状态；旧快照不会用于猜测当前位置。操作会收起手持物品。</p>
+    <div class="toolbar action-buttons"><button class="button secondary" data-rust-action="wake">唤醒一次</button><button class="button secondary" data-rust-action="respawn">死亡后重生</button><button class="button danger" data-rust-action="stop">停止动作</button></div>
+    <label class="checkbox-option"><input id="action-confirm-death" type="checkbox"><span>允许此账号自杀测试（可能掉落物品，受服务器冷却和规则限制）</span></label>
+    <div class="toolbar action-buttons"><button class="button danger" data-rust-action="suicide">自杀一次</button></div>
+    <label class="checkbox-option"><input id="action-flat-ground" type="checkbox"><span>我已确认角色在平坦、无遮挡的测试区域</span></label>
+    <div class="toolbar action-buttons"><button class="button secondary" data-rust-action="forward">前进 0.28 米</button><button class="button secondary" data-rust-action="backward">后退 0.28 米</button><button class="button secondary" data-rust-action="left">左移 0.28 米</button><button class="button secondary" data-rust-action="right">右移 0.28 米</button><button class="button secondary" data-rust-action="jump">原地跳跃（实验）</button></div>
+    <p class="fineprint">短步和跳跃为实验轨迹，尚无地形碰撞和完整客户端物理。收到位置纠正或无法安全释放输入时，会结束这个账号的连接。停止正在执行的动作也可能断开此账号；关闭窗口不会停止操作。动作和聊天不保证计入公共人数。</p>
+    <p id="action-status" class="muted" role="status" aria-live="polite">尚未发起操作。</p>
+    <p id="action-observed" class="fineprint" role="status"></p>
   </dialog>
 </body>
 </html>

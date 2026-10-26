@@ -4,6 +4,7 @@ import { isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { ApiError } from './errors.js';
+import { RUST_ACTIONS, ACTION_STATUSES } from './rust-actions.js';
 
 export const RUST_WORKER = fileURLToPath(new URL('../../tools/rust-research/rust-peer.py', import.meta.url));
 export const RUST_DLL_SHA256 = '5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44';
@@ -40,11 +41,20 @@ const STAGES = new Set([
   'wake_neutral_sent', 'wake_press_sent', 'wake_release_sent', 'wake_awake_observed',
   'wake_unconfirmed', 'wake_interrupted', 'tick_native_send_failed', 'wake_release_unavailable',
   'connection_keepalive_started', 'connection_keepalive_send_failed', 'connection_keepalive_stalled',
+  'action_release_unavailable', 'action_native_send_failed',
 ]);
 const CATEGORIES = new Set(['steam_auth', 'eac_required', 'eos_identity_required',
   'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown', 'player_timeout', 'steam_ticket_reused']);
 export function safeMetadata(result) {
   const clean = { abi: 'windows-x64' };
+  if (Number.isSafeInteger(result.actionTickPacketsSent) && result.actionTickPacketsSent >= 0 && result.actionTickPacketsSent <= 1e12) {
+    clean.actionTickPacketsSent = result.actionTickPacketsSent;
+  }
+  if (result.lastAction && Number.isSafeInteger(result.lastAction.id) && result.lastAction.id >= 1
+      && result.lastAction.id <= 2147483647 && RUST_ACTIONS.includes(result.lastAction.action)
+      && ACTION_STATUSES.includes(result.lastAction.status)) {
+    clean.lastAction = { id: result.lastAction.id, action: result.lastAction.action, status: result.lastAction.status };
+  }
   if (typeof result.dllSha256 === 'string' && Object.hasOwn(RUST_DLL_PROFILES, result.dllSha256)) {
     clean.dllSha256 = result.dllSha256;
   }
