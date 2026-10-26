@@ -2,6 +2,14 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26 14:44：复核公共后台线索及举例服务器人数，未取得采纳规则
+
+先读 `rust-research/public-count-backend-review-2026-10-26.md/.json`。本轮32次公开只读HTTP，未访问私有后台或尝试绕过。14:44:24北京时间同一缓存批次（Last-Modified14:39:44、Age280）返回61.147.247.25:40176=0、103.91.208.182:16666=11、202.189.21.58:30921=7，均有条目；14:42:20读取正文哈希相同，不能算独立新批次。公开整数映射不含账号或采纳理由，不能认定举例服11包含其模拟连接。
+
+新核对Valve BUpdateUserData明确属于旧认证API，不应与新API混用；不是Facepunch逐账号登记接口。CreateUnauthenticatedUserConnection也明确是跳过验证的旧式bot，不是有效玩家资格。宣传Fake Player Count的Agude4Rust仓库size0/commits409；absolute-rust-server只复核选定固定源码，选中的query测试检查监听端口，不是Facepunch采纳证明。未取得私有后台源码、有效EAC或人数修复；搜索局限和HTTP403/404已记录。不因该请求再批量入服、造输入或改统计。原文/脚本在workspace ignored `work/public-count-review-20261026/`。
+
+本轮文档更新不重启主服务session31118，不改账号/插件/配置，保留现有连接。按要求提交推送并核远端SHA；后续若有账号级官方诊断或获授权管理员提供插件源码，再做针对性核查，不把聚合人数作为逐账号采纳回执。
+
 ## 2026-10-26：按聊天线索复核 Rust+，未找到 EAC/公共人数修复
 
 用户提供对方“放插件”“列表人数也无解”“好像用Rust+”的聊天，要求查公开项目。先读 `rust-research/rustplus-eac-review-2026-10-26.md/.json`。本轮49次HTTP读取、五项目固定提交的24份源码/说明，以及三份经浏览器渲染的Epic官方文档；重点rustplus.js、rustplus-desktop、rustplusplus、Python rustplus、HandyS11/RustPlusApi。它们是app.port上的WebSocket伴侣通道，playerId/playerToken、Steam网页/FCM配对、NexusAuth不是有效Rust EAC会话；没有发现相应转换/会话实现。检索有限，不声称所有私有实现不存在。

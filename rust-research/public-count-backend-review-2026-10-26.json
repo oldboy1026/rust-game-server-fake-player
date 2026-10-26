@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 1,
+  "subject": "Facepunch public population backend boundaries and example-server evidence",
+  "privateBackendAccessed": false,
+  "privateBackendAlgorithmObtained": false,
+  "perAccountAcceptanceObtained": false,
+  "populationRepairVerified": false,
+  "rustEacSessionVerified": false,
+  "runtimeCodeChanged": false,
+  "requests": 32,
+  "statuses": {
+    "404": 4,
+    "200": 25,
+    "403": 2,
+    "409": 1
+  },
+  "publicSample": {
+    "source": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+    "observedAt": "2026-10-26T06:44:24.607Z",
+    "status": 200,
+    "headers": {
+      "date": "Mon, 26 Oct 2026 06:44:12 GMT",
+      "last-modified": "Mon, 26 Oct 2026 06:39:44 GMT",
+      "age": "280",
+      "cache-control": "public, max-age=86400",
+      "cf-cache-status": "HIT",
+      "etag": null
+    },
+    "sha256": "3bd3f36cd4981962257ee68297db236878d949036f4e40cda6cb37b287c79676",
+    "bytes": 73276,
+    "targets": [
+      {
+        "endpoint": "61.147.247.25:40176",
+        "present": true,
+        "players": 0
+      },
+      {
+        "endpoint": "103.91.208.182:16666",
+        "present": true,
+        "players": 11
+      },
+      {
+        "endpoint": "202.189.21.58:30921",
+        "present": true,
+        "players": 7
+      }
+    ]
+  },
+  "previousReadSameBody": true,
+  "findings": [
+    {
+      "id": "example_population_is_aggregate",
+      "status": "public_response_verified",
+      "finding": "Example server returns 11; the mapping gives no account identities or acceptance reasons. No attribution to simulated accounts is possible from this response."
+    },
+    {
+      "id": "display_branch_previously_recovered",
+      "status": "prior_version_static_evidence",
+      "finding": "Applicable inspected Rust browser branch applies max(0,min(cp,publicCount)); this review did not inspect a new running client version.",
+      "priorReport": "count-query-reporting-deep-2026-10-24.md"
+    },
+    {
+      "id": "steam_userdata_legacy_api",
+      "status": "official_document_verified",
+      "finding": "Valve explicitly marks BUpdateUserData as old authentication API, not to be mixed with new API; no Facepunch acceptance guarantee is documented.",
+      "sourceId": "steam-userdata"
+    },
+    {
+      "id": "steam_bot_not_authenticated_player",
+      "status": "official_document_verified",
+      "finding": "CreateUnauthenticatedUserConnection is described as a fake user/bot skipping validation and belonging to old API; listing is not proof of Rust trusted population qualification.",
+      "sourceId": "steam-userdata"
+    },
+    {
+      "id": "candidate_is_empty",
+      "status": "metadata_verified",
+      "finding": "Agude4Rust/Rust-Server-Fake-Player-Count has size 0 and commits HTTP409 explicitly indicating empty repository.",
+      "sourceIds": [
+        "candidate-repo",
+        "candidate-head"
+      ]
+    },
+    {
+      "id": "selected_query_test_not_acceptance_test",
+      "status": "selected_pinned_source_verified",
+      "finding": "absolute-rust-server selected server_query test checks UDP listeners; selected launch script starts Dedicated. No conclusion about the entire repository or uninspected code.",
+      "sourceIds": [
+        "absolute-query-test",
+        "absolute-server"
+      ]
+    },
+    {
+      "id": "webrcon_question_unanswered",
+      "status": "issue_and_comments_verified",
+      "finding": "Facepunch/webrcon issue28 asks about public information access; comments response is empty, not an official answer.",
+      "sourceIds": [
+        "issues-official-rust",
+        "webrcon-comments"
+      ]
+    }
+  ],
+  "limitations": [
+    "No private backend, unpublished source, account qualification details or per-account receipt was obtained.",
+    "Repository and issue searches are limited and include other games and Rust-language false matches; they are not exhaustive code searches.",
+    "Bing returned unrelated results; support site returned 403 and guessed public article API paths404. No access restrictions were bypassed.",
+    "Cached aggregation cannot attribute a player or establish EAC as necessary or sufficient.",
+    "Existing game sessions and actual game browser UI were not revalidated during this documentation-only batch."
+  ],
+  "operations": {
+    "steamLogins": 0,
+    "gameConnectionsCreated": 0,
+    "gameConnectionsStopped": 0,
+    "serverChanges": 0,
+    "dllExecutions": 0,
+    "downloadedCodeExecutions": 0,
+    "messagesSent": 0
+  },
+  "decodedPinnedSources": [
+    {
+      "sourceId": "absolute-readme",
+      "path": "README.md",
+      "commit": "47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "sha256": "6657507c29b9a7aaada9e75922106d90ea2a38932e125ccba1c820508b9bae89",
+      "bytes": 10905
+    },
+    {
+      "sourceId": "absolute-query-test",
+      "path": "tests/e2e/test_server_query.sh",
+      "commit": "47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "sha256": "7821328f67ab442ef4c16ff132bf6f74001906453cf00440dfe7029f220d7859",
+      "bytes": 3937
+    },
+    {
+      "sourceId": "absolute-server",
+      "path": "scripts/rust-server",
+      "commit": "47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "sha256": "445a859578b244bdfd1f03cd315a346c7cd59b362a063d94e728f9904f9242a5",
+      "bytes": 8352
+    }
+  ],
+  "sources": [
+    {
+      "id": "support-count",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/search.json?query=player%20count&per_page=20",
+      "finalUrl": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/search.json?query=player%20count&per_page=20",
+      "status": 404,
+      "at": "2026-10-26T06:42:15.456Z",
+      "bytes": 52,
+      "sha256": "72b9ac0b73902dbbb246769c47a99e5bcf8610b1c3992a1adfc44bd8f8aa9ee5",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "support-fake",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/search.json?query=fake%20players&per_page=20",
+      "finalUrl": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/search.json?query=fake%20players&per_page=20",
+      "status": 404,
+      "at": "2026-10-26T06:42:15.614Z",
+      "bytes": 52,
+      "sha256": "72b9ac0b73902dbbb246769c47a99e5bcf8610b1c3992a1adfc44bd8f8aa9ee5",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "support-browser",
+      "url": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/search.json?query=server%20browser&per_page=20",
+      "finalUrl": "https://support.facepunchstudios.com/api/v2/help_center/en-us/articles/search.json?query=server%20browser&per_page=20",
+      "status": 404,
+      "at": "2026-10-26T06:42:15.452Z",
+      "bytes": 52,
+      "sha256": "72b9ac0b73902dbbb246769c47a99e5bcf8610b1c3992a1adfc44bd8f8aa9ee5",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "official-hosting",
+      "url": "https://wiki.facepunch.com/rust/Creating-a-server",
+      "finalUrl": "https://wiki.facepunch.com/rust/Creating-a-server",
+      "status": 200,
+      "at": "2026-10-26T06:42:15.823Z",
+      "bytes": 248090,
+      "sha256": "e07d8dd110b9a46704bfbafdfd5a302bc178ed8d729412d901a114d95e5ebd63",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "official-browser",
+      "url": "https://wiki.facepunch.com/rust/server-browser",
+      "finalUrl": "https://wiki.facepunch.com/rust/server-browser",
+      "status": 404,
+      "at": "2026-10-26T06:42:16.440Z",
+      "bytes": 222604,
+      "sha256": "84445d0ca2caebf9f1d4d303b047602c3157382a6d8f146af1cefd8b50bf2684",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "official-community",
+      "url": "https://support.facepunchstudios.com/hc/en-us/articles/360009062817-Guidelines-for-community-servers-using-plugins-mods",
+      "finalUrl": "https://support.facepunchstudios.com/hc/en-us/articles/360009062817-Guidelines-for-community-servers-using-plugins-mods",
+      "status": 403,
+      "at": "2026-10-26T06:42:16.168Z",
+      "bytes": 5888,
+      "sha256": "565f987d1614ce0e90eab55c7c4b74d0b4640b224f0b34287ee81ba12cc9a655",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "steam-auth",
+      "url": "https://partner.steamgames.com/doc/features/auth",
+      "finalUrl": "https://partner.steamgames.com/doc/features/auth",
+      "status": 200,
+      "at": "2026-10-26T06:42:17.058Z",
+      "bytes": 143192,
+      "sha256": "07ab27501b8f18a7dc40d4765bfb7b63598de22c46413187ae0ab23fadfb3e8a",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "steam-userdata",
+      "url": "https://partner.steamgames.com/doc/api/ISteamGameServer#BUpdateUserData",
+      "finalUrl": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "status": 200,
+      "at": "2026-10-26T06:42:17.160Z",
+      "bytes": 172328,
+      "sha256": "5b0f530d5bd39087e5932b79defb56c9b9dd875a7fb493fe5eadbeffa7e04edc",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "issues-endpoint",
+      "url": "https://api.github.com/search/issues?q=%22playerCounts%2Frust%22&per_page=15",
+      "finalUrl": "https://api.github.com/search/issues?q=%22playerCounts%2Frust%22&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:17.783Z",
+      "bytes": 79,
+      "sha256": "c9938edecb99d754b2d039ac9eec320a94c769b6a6417921e2dcbef9e2fe01a0",
+      "rateLimitRemaining": "8"
+    },
+    {
+      "id": "issues-fp-count",
+      "url": "https://api.github.com/search/issues?q=%22Facepunch%22%20%22player%20count%22&per_page=15",
+      "finalUrl": "https://api.github.com/search/issues?q=%22Facepunch%22%20%22player%20count%22&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:18.279Z",
+      "bytes": 99794,
+      "sha256": "6fba4b5e950e69bc353df01faa86c7c4e50e6621e1196578e35fbe36141f7efb",
+      "rateLimitRemaining": "9"
+    },
+    {
+      "id": "issues-rust-trusted",
+      "url": "https://api.github.com/search/issues?q=%22Rust%22%20%22trusted%22%20%22player%20count%22&per_page=15",
+      "finalUrl": "https://api.github.com/search/issues?q=%22Rust%22%20%22trusted%22%20%22player%20count%22&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:18.357Z",
+      "bytes": 167757,
+      "sha256": "03097012eace7f5fa26f53bc0ba1feb4ee4ff810b592ac81f195583aac72849e",
+      "rateLimitRemaining": "9"
+    },
+    {
+      "id": "issues-rust-count-wrong",
+      "url": "https://api.github.com/search/issues?q=%22Rust%22%20%22server%20browser%22%20%22player%20count%22&per_page=15",
+      "finalUrl": "https://api.github.com/search/issues?q=%22Rust%22%20%22server%20browser%22%20%22player%20count%22&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:18.495Z",
+      "bytes": 143541,
+      "sha256": "c4f60662370908b8c7adf8c41a00fd1a974ca8c07dc0751fb6f0e3c310f97843",
+      "rateLimitRemaining": "8"
+    },
+    {
+      "id": "repos-fp-backend",
+      "url": "https://api.github.com/search/repositories?q=facepunch%20backend&per_page=15",
+      "finalUrl": "https://api.github.com/search/repositories?q=facepunch%20backend&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:19.031Z",
+      "bytes": 5730,
+      "sha256": "0e46bd8fa6d8f8b018505007094934710725d539e1bca62eccb5cd5187c51809",
+      "rateLimitRemaining": "9"
+    },
+    {
+      "id": "repos-rust-count",
+      "url": "https://api.github.com/search/repositories?q=rust%20%22player%20count%22&per_page=15",
+      "finalUrl": "https://api.github.com/search/repositories?q=rust%20%22player%20count%22&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:19.515Z",
+      "bytes": 86199,
+      "sha256": "77aaed0d09a53a53231e605c93bad06a1c8fe7c4038366ce86c5d4f8a1d6e8bb",
+      "rateLimitRemaining": "8"
+    },
+    {
+      "id": "repos-rust-trusted",
+      "url": "https://api.github.com/search/repositories?q=rust%20%22trusted%20players%22&per_page=15",
+      "finalUrl": "https://api.github.com/search/repositories?q=rust%20%22trusted%20players%22&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:42:18.942Z",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f",
+      "rateLimitRemaining": "9"
+    },
+    {
+      "id": "web-official-fake",
+      "url": "https://www.bing.com/search?q=site%3Arust.facepunch.com%20%22fake%22%20%22player%22",
+      "finalUrl": "https://www.bing.com/search?q=site%3Arust.facepunch.com%20%22fake%22%20%22player%22",
+      "status": 200,
+      "at": "2026-10-26T06:42:19.119Z",
+      "bytes": 122163,
+      "sha256": "99f3a208d4b67b16eaef0d29fb2d08d07c5b7e32b82c96e9f18880dc22fe8415",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "web-count-rule",
+      "url": "https://www.bing.com/search?q=Rust%20Facepunch%20server%20browser%20real%20player%20count%20trusted%20players",
+      "finalUrl": "https://www.bing.com/search?q=Rust%20Facepunch%20server%20browser%20real%20player%20count%20trusted%20players",
+      "status": 200,
+      "at": "2026-10-26T06:42:19.966Z",
+      "bytes": 124460,
+      "sha256": "b960fafe524ad908117c69e0429d202a2d792fe0fc8a954c2fda5f0316af65cb",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "public-counts",
+      "url": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "finalUrl": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "status": 200,
+      "at": "2026-10-26T06:42:20.250Z",
+      "bytes": 73276,
+      "sha256": "3bd3f36cd4981962257ee68297db236878d949036f4e40cda6cb37b287c79676",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "official-tags",
+      "url": "https://wiki.facepunch.com/rust/server-browser-tags",
+      "finalUrl": "https://wiki.facepunch.com/rust/server-browser-tags",
+      "status": 200,
+      "at": "2026-10-26T06:43:43.677Z",
+      "bytes": 226514,
+      "sha256": "fe4a6d088d0186fa1e6a4df2bd97b281fe943f12fc94a293d9723a15e3f720e6",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "official-support-search",
+      "url": "https://support.facepunchstudios.com/hc/en-us/search?query=player%20count",
+      "finalUrl": "https://support.facepunchstudios.com/hc/en-us/search?query=player%20count",
+      "status": 403,
+      "at": "2026-10-26T06:43:42.777Z",
+      "bytes": 5701,
+      "sha256": "3907633402bba7cae12b5843bd36d23e5dbe6fa89712c15edcf960d8f0b9b95b",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "absolute-repo",
+      "url": "https://api.github.com/repos/abspwgm/absolute-rust-server",
+      "finalUrl": "https://api.github.com/repos/abspwgm/absolute-rust-server",
+      "status": 200,
+      "at": "2026-10-26T06:43:43.011Z",
+      "bytes": 6802,
+      "sha256": "3d0789bd9c1a568c87a35d88f51816d8df33d9d65c8c1df6590b696dc11b07f4",
+      "rateLimitRemaining": "59"
+    },
+    {
+      "id": "absolute-head",
+      "url": "https://api.github.com/repos/abspwgm/absolute-rust-server/commits?per_page=1",
+      "finalUrl": "https://api.github.com/repos/abspwgm/absolute-rust-server/commits?per_page=1",
+      "status": 200,
+      "at": "2026-10-26T06:43:43.173Z",
+      "bytes": 6011,
+      "sha256": "af2468d3b0a9887e7403d3e97af567aa7a6711d073bda077a94d74907c6c41b4",
+      "rateLimitRemaining": "43"
+    },
+    {
+      "id": "candidate-repo",
+      "url": "https://api.github.com/repos/Agude4Rust/Rust-Server-Fake-Player-Count",
+      "finalUrl": "https://api.github.com/repos/Agude4Rust/Rust-Server-Fake-Player-Count",
+      "status": 200,
+      "at": "2026-10-26T06:43:44.078Z",
+      "bytes": 6178,
+      "sha256": "76afe36445f1059ff405ed4c2b38db77b9c6eb3870e65e8074a6e38be52430ab",
+      "rateLimitRemaining": "58"
+    },
+    {
+      "id": "candidate-head",
+      "url": "https://api.github.com/repos/Agude4Rust/Rust-Server-Fake-Player-Count/commits?per_page=1",
+      "finalUrl": "https://api.github.com/repos/Agude4Rust/Rust-Server-Fake-Player-Count/commits?per_page=1",
+      "status": 409,
+      "at": "2026-10-26T06:43:44.061Z",
+      "bytes": 133,
+      "sha256": "3219c624a5654c384fdc372f69b58a3942d6e803c23f6a877a656adc805c436f",
+      "rateLimitRemaining": "42"
+    },
+    {
+      "id": "issues-exact-public",
+      "url": "https://api.github.com/search/issues?q=%22api.facepunch.com%22%20%22player%22%20in%3Abody&per_page=15",
+      "finalUrl": "https://api.github.com/search/issues?q=%22api.facepunch.com%22%20%22player%22%20in%3Abody&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:43:44.321Z",
+      "bytes": 38173,
+      "sha256": "26df592f7f1093df178239e6c833b65aa7cb711436a9f5e84c4ab4474a343978",
+      "rateLimitRemaining": "9"
+    },
+    {
+      "id": "issues-official-rust",
+      "url": "https://api.github.com/search/issues?q=%22player%20count%22%20%22rust%22%20org%3AFacepunch%20in%3Atitle%2Cbody&per_page=15",
+      "finalUrl": "https://api.github.com/search/issues?q=%22player%20count%22%20%22rust%22%20org%3AFacepunch%20in%3Atitle%2Cbody&per_page=15",
+      "status": 200,
+      "at": "2026-10-26T06:43:44.599Z",
+      "bytes": 2868,
+      "sha256": "39716dc89f754aae9aa95b0be5db6283e15b1b0a8829153131bd2890ed5c3738",
+      "rateLimitRemaining": "9"
+    },
+    {
+      "id": "absolute-tree",
+      "url": "https://api.github.com/repos/abspwgm/absolute-rust-server/git/trees/47b318de9db970eab1fb269bda442b4e6dfd1e2c?recursive=1",
+      "finalUrl": "https://api.github.com/repos/abspwgm/absolute-rust-server/git/trees/47b318de9db970eab1fb269bda442b4e6dfd1e2c?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T06:43:57.839Z",
+      "bytes": 15321,
+      "sha256": "ec89791f80ac93fc24118cb1b31cfabd8c1485e334141d625904a5a19282b278",
+      "rateLimitRemaining": "36"
+    },
+    {
+      "id": "absolute-readme",
+      "url": "https://api.github.com/repos/abspwgm/absolute-rust-server/contents/README.md?ref=47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "finalUrl": "https://api.github.com/repos/abspwgm/absolute-rust-server/contents/README.md?ref=47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "status": 200,
+      "at": "2026-10-26T06:44:40.679Z",
+      "bytes": 16045,
+      "sha256": "c6be8e6962a28684a1e3132704a5e718421b41d86d0f1b6566f2bb427d3077f3",
+      "rateLimitRemaining": "35"
+    },
+    {
+      "id": "absolute-query-test",
+      "url": "https://api.github.com/repos/abspwgm/absolute-rust-server/contents/tests/e2e/test_server_query.sh?ref=47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "finalUrl": "https://api.github.com/repos/abspwgm/absolute-rust-server/contents/tests/e2e/test_server_query.sh?ref=47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "status": 200,
+      "at": "2026-10-26T06:44:40.670Z",
+      "bytes": 6583,
+      "sha256": "776c57c86eaa1aedad530008d0e91d2e536b093687c9f426010ad27c93da1a76",
+      "rateLimitRemaining": "55"
+    },
+    {
+      "id": "webrcon-comments",
+      "url": "https://api.github.com/repos/Facepunch/webrcon/issues/28/comments?per_page=50",
+      "finalUrl": "https://api.github.com/repos/Facepunch/webrcon/issues/28/comments?per_page=50",
+      "status": 200,
+      "at": "2026-10-26T06:44:41.006Z",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "rateLimitRemaining": "45"
+    },
+    {
+      "id": "absolute-server",
+      "url": "https://api.github.com/repos/abspwgm/absolute-rust-server/contents/scripts/rust-server?ref=47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "finalUrl": "https://api.github.com/repos/abspwgm/absolute-rust-server/contents/scripts/rust-server?ref=47b318de9db970eab1fb269bda442b4e6dfd1e2c",
+      "status": 200,
+      "at": "2026-10-26T06:44:51.700Z",
+      "bytes": 12588,
+      "sha256": "6806be6717e5f8f9a6a09d9bc4223311045b023356c09cf636cfbe579b1f87d8",
+      "rateLimitRemaining": "54"
+    }
+  ]
+}
