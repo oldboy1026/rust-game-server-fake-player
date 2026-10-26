@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "host": "103.91.208.182",
+    "gamePort": 17777,
+    "queryPort": 17779
+  },
+  "pluginIdentified": false,
+  "virtualConnectionsIndependentlyVerified": false,
+  "virtualAccountsAttributedToPublicCount": false,
+  "perAccountEacVerified": false,
+  "steamRegistration": {
+    "addr": "103.91.208.182:17779",
+    "appid": 252490,
+    "gamedir": "rust",
+    "secure": true,
+    "lan": false,
+    "gameport": 17777
+  },
+  "publicSample": {
+    "source": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+    "observedAt": "2026-10-26T06:52:52.358Z",
+    "status": 200,
+    "headers": {
+      "date": "Mon, 26 Oct 2026 06:52:40 GMT",
+      "last-modified": "Mon, 26 Oct 2026 06:49:33 GMT",
+      "age": "187",
+      "cache-control": "public, max-age=86400",
+      "cf-cache-status": "HIT",
+      "etag": null
+    },
+    "sha256": "dba80b990d7de96fd67ff558c9496f5fd399cf19eb729999a5b140dba644245b",
+    "bytes": 73497,
+    "targets": [
+      {
+        "endpoint": "103.91.208.182:17777",
+        "present": true,
+        "players": 113
+      }
+    ]
+  },
+  "earlierReadSameBody": true,
+  "scriptHttpReads": 10,
+  "httpStatuses": {
+    "200": 7,
+    "403": 3
+  },
+  "a2sLogicalQueries": 5,
+  "a2sQueries": [
+    {
+      "queryPort": 17777,
+      "kind": "info",
+      "startedAt": "2026-10-26T06:50:40.043Z",
+      "timeoutMs": 5000,
+      "ok": false,
+      "error": "A2S query timed out"
+    },
+    {
+      "queryPort": 17777,
+      "kind": "rules",
+      "startedAt": "2026-10-26T06:50:40.043Z",
+      "timeoutMs": 5000,
+      "ok": false,
+      "error": "A2S query timed out"
+    },
+    {
+      "kind": "info",
+      "at": "2026-10-26T06:51:24.428Z",
+      "ok": false,
+      "error": "A2S query timed out",
+      "queryPort": 17779,
+      "timeoutMs": 5000
+    },
+    {
+      "kind": "rules",
+      "at": "2026-10-26T06:51:29.441Z",
+      "ok": false,
+      "error": "A2S query timed out",
+      "queryPort": 17779,
+      "timeoutMs": 5000
+    },
+    {
+      "kind": "players",
+      "at": "2026-10-26T06:51:34.444Z",
+      "ok": false,
+      "error": "A2S query timed out",
+      "queryPort": 17779,
+      "timeoutMs": 5000
+    }
+  ],
+  "a2sSourceSha256": "c6e28bd48ffbfff4e7742142e96bbe768f96280835e8ef63e1caa5ffd42e3344",
+  "browserLookup": {
+    "navigations": 1,
+    "subrequestsCounted": false,
+    "url": "https://www.google.com/search?q=%22103.91.208.182%3A17777%22",
+    "method": "rendered_browser_accessibility_snapshot",
+    "finding": "Visible results include unrelated WHOIS and IP-information tools; no attributable target-server plugin information obtained.",
+    "temporaryTabClosed": true,
+    "originalLocalhostTabPreserved": true
+  },
+  "findings": [
+    "Steam public registration maps exact game port17777 to query port17779. Other endpoints at the same IP are distinct servers.",
+    "Facepunch aggregate113 is a cached published number, not a per-account receipt or proof that virtual accounts are counted.",
+    "secure=true is registration metadata and does not prove effective EAC for any specific account.",
+    "No valid A2S replies were received within query windows; server name, map, version, cp and plugin hints remain unavailable.",
+    "BattleMetrics API403 explicitly requires subscription; page403 and Steam GetServerList403 were not bypassed.",
+    "GameTracker HTTP200 body states server not in database, not a valid details page.",
+    "No evidence links this server to previously supplied RustJiaRen files or any named fake-player plugin."
+  ],
+  "limits": [
+    "A2S timeout is not proof of offline status or absence/concealment of plugins.",
+    "A2S rules are not guaranteed to enumerate installed plugins.",
+    "Search results and public aggregate counts cannot identify private server implementation.",
+    "Public data and downloaded pages were treated as evidence, not as instructions."
+  ],
+  "operations": {
+    "gameLogins": 0,
+    "managementLogins": 0,
+    "otherPortsScanned": 0,
+    "serverChanges": 0,
+    "pluginExecutions": 0,
+    "localServiceRestarts": 0,
+    "existingGameConnectionsStopped": 0,
+    "messagesSent": 0
+  },
+  "sources": [
+    {
+      "id": "steam-registration",
+      "url": "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v1/?addr=103.91.208.182",
+      "finalUrl": "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v1/?addr=103.91.208.182",
+      "status": 200,
+      "at": "2026-10-26T06:50:43.164Z",
+      "bytes": 527,
+      "sha256": "d02f9d2fd5b410ee2a1a2e62b063ed16ce5c3d8194d692962413dd35d5f70ef4",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "public-counts",
+      "url": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "finalUrl": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "status": 200,
+      "at": "2026-10-26T06:50:42.374Z",
+      "bytes": 73497,
+      "sha256": "dba80b990d7de96fd67ff558c9496f5fd399cf19eb729999a5b140dba644245b",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "battlemetrics-search",
+      "url": "https://api.battlemetrics.com/servers?filter%5Bgame%5D=rust&filter%5Bsearch%5D=103.91.208.182%3A17777&page%5Bsize%5D=10",
+      "finalUrl": "https://api.battlemetrics.com/servers?filter%5Bgame%5D=rust&filter%5Bsearch%5D=103.91.208.182%3A17777&page%5Bsize%5D=10",
+      "status": 403,
+      "at": "2026-10-26T06:50:43.271Z",
+      "bytes": 118,
+      "sha256": "4abad797231e5259fd1fb353193c0060476e9cd7306d2e8df5d22f00a54657cb",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "web-endpoint",
+      "url": "https://www.bing.com/search?q=%22103.91.208.182%3A17777%22",
+      "finalUrl": "https://www.bing.com/search?q=%22103.91.208.182%3A17777%22",
+      "status": 200,
+      "at": "2026-10-26T06:50:42.473Z",
+      "bytes": 124511,
+      "sha256": "67f8948c6342f336bfed896867f753715a69cbfd22ff5d7573693d161851071e",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "gametracker",
+      "url": "https://www.gametracker.com/server_info/103.91.208.182:17777/",
+      "finalUrl": "https://www.gametracker.com/server_info/103.91.208.182:17777/",
+      "status": 200,
+      "at": "2026-10-26T06:52:01.945Z",
+      "bytes": 12208,
+      "sha256": "a8b95cf4a5d3f810b1b918c8b5d2b50736a132e7b0e3d0facf1780f74eedc090",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "battlemetrics-page",
+      "url": "https://www.battlemetrics.com/servers/rust?q=103.91.208.182%3A17777",
+      "finalUrl": "https://www.battlemetrics.com/servers/rust?q=103.91.208.182%3A17777",
+      "status": 403,
+      "at": "2026-10-26T06:52:02.100Z",
+      "bytes": 5697,
+      "sha256": "b6f4d16de2ca29929bac506724b7b5e144a6e2d0cef92a6f918347bf3eb91b1b",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "steam-public-list",
+      "url": "https://api.steampowered.com/IGameServersService/GetServerList/v1/?filter=%5Cappid%5C252490%5Caddr%5C103.91.208.182%3A17777&limit=5",
+      "finalUrl": "https://api.steampowered.com/IGameServersService/GetServerList/v1/?filter=%5Cappid%5C252490%5Caddr%5C103.91.208.182%3A17777&limit=5",
+      "status": 403,
+      "at": "2026-10-26T06:52:00.712Z",
+      "bytes": 168,
+      "sha256": "5a3c6987f1fba94d46a6afc54c138e941ecdfc221109222d779d43a8e347635c",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "web-google",
+      "url": "https://www.google.com/search?q=%22103.91.208.182%3A17777%22",
+      "finalUrl": "https://www.google.com.hk/search?q=%22103.91.208.182%3A17777%22",
+      "status": 200,
+      "at": "2026-10-26T06:52:50.323Z",
+      "bytes": 93198,
+      "sha256": "f894d1d863856c7d714b359964443f7f1264aede4f2df0b7dca236c02a23bdc4",
+      "rateLimitRemaining": null
+    },
+    {
+      "id": "web-baidu",
+      "url": "https://www.baidu.com/s?wd=103.91.208.182%2017777",
+      "finalUrl": "https://www.baidu.com/s?wd=103.91.208.182%2017777",
+      "status": 200,
+      "at": "2026-10-26T06:52:48.996Z",
+      "bytes": 227,
+      "sha256": "08934b47d81ff4a2f66b104ab19de1d9904e3c5e64a5eda26585d5351937aefc",
+      "rateLimitRemaining": null
+    }
+  ]
+}
