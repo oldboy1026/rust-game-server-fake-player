@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/anatolykopyl/server-query-fake-player-count",
+  "defaultBranchCommit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+  "remappingBranchCommit": "f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507",
+  "requests": 18,
+  "httpStatuses": {
+    "200": 18
+  },
+  "defaultBranchFilesRead": 6,
+  "branchComparisonFiles": 8,
+  "pullRequest": {
+    "number": 8,
+    "state": "open",
+    "merged": false
+  },
+  "releaseMetadata": {
+    "tag": "v1.0.0",
+    "publishedAt": "2025-02-23T15:31:54Z",
+    "assetsDownloaded": false,
+    "binaryMatchesInspectedCommit": null
+  },
+  "classification": "UDP Steam/A2S query-response modification proxy, originally described for DayZ",
+  "rustCompatibilityVerified": false,
+  "realPlayersCreated": false,
+  "eacSessionImplemented": false,
+  "rustCpTagModificationImplemented": false,
+  "facepunchAcceptanceImplementedOrVerified": false,
+  "randomAccountIpOrPingImplemented": false,
+  "sourceFindings": [
+    {
+      "path": "main.go",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "lineStart": 62,
+      "lineEnd": 92,
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/blob/ffd3edd24466dc4b40a5521fbc7cc666672947d2/main.go#L62",
+      "finding": "Dispatches on query type and rewrites INFO or PLAYER responses; other responses get one-shot forwarding."
+    },
+    {
+      "path": "main.go",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "lineStart": 95,
+      "lineEnd": 120,
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/blob/ffd3edd24466dc4b40a5521fbc7cc666672947d2/main.go#L95",
+      "finding": "A new UDP socket and a single 1024-byte response read per request; no read deadline or fragmentation reassembly in inspected implementation."
+    },
+    {
+      "path": "main.go",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "lineStart": 123,
+      "lineEnd": 150,
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/blob/ffd3edd24466dc4b40a5521fbc7cc666672947d2/main.go#L123",
+      "finding": "INFO increases byte-sized players with byte conversion/addition then max comparison; no response-type/length validation or Rust cp handling."
+    },
+    {
+      "path": "main.go",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "lineStart": 153,
+      "lineEnd": 195,
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/blob/ffd3edd24466dc4b40a5521fbc7cc666672947d2/main.go#L153",
+      "finding": "PLAYER adds empty-name placeholder entries. Random durations are computed but fixed duration bytes are appended instead."
+    },
+    {
+      "path": "main.go",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "lineStart": 50,
+      "lineEnd": 59,
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/blob/ffd3edd24466dc4b40a5521fbc7cc666672947d2/main.go#L50",
+      "finding": "A goroutine is spawned for each incoming packet; no concurrency cap found in the complete inspected source."
+    }
+  ],
+  "branchFinding": "Pinned branch main.go differs only in one help string; compare adds Docker/network documentation and deployment files, not auth or protocol fixes.",
+  "issuesReviewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8
+  ],
+  "issueCommentsRead": [
+    4,
+    5,
+    6
+  ],
+  "importantIssueEvidence": [
+    {
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/issues/6",
+      "finding": "Open report of INFO challenge causing slice out of range."
+    },
+    {
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/issues/6#issuecomment-3735774228",
+      "finding": "Author reports experiments not working; historical statement, not this review testing Rust."
+    },
+    {
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/issues/5#issuecomment-3741960500",
+      "finding": "PZ user reports count changes only after selecting server, not in initial list."
+    },
+    {
+      "url": "https://github.com/anatolykopyl/server-query-fake-player-count/issues/5#issuecomment-5280408686",
+      "finding": "Author describes remapping branch and explicitly says it was not tested."
+    }
+  ],
+  "priorRustEvidence": [
+    "count-query-reporting-deep-2026-10-24.md",
+    "public-count-web-survey-2026-10-25.md"
+  ],
+  "limits": [
+    "No code compiled/executed or target server tested.",
+    "No release binary downloaded or verified.",
+    "A2S count modification does not establish real admission, Steam authenticated population, effective EAC or Facepunch per-account acceptance.",
+    "Facepunch backend algorithm remains unknown; no universal claim about all private implementations.",
+    "Current running Rust browser branch and switches not revalidated."
+  ],
+  "operations": {
+    "downloadedProjectExecutions": 0,
+    "releaseAssetDownloads": 0,
+    "remoteLogins": 0,
+    "credentialUse": 0,
+    "serverChanges": 0,
+    "localServiceRestarts": 0,
+    "existingGameConnectionsStopped": 0,
+    "messagesSent": 0
+  },
+  "decodedFiles": [
+    {
+      "sourceId": "file-0",
+      "path": ".gitignore",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "sha256": "b2db3c94778fef3241f659e351044d72a2cf87c93291d67c1237955e02c4bd6f",
+      "bytes": 14
+    },
+    {
+      "sourceId": "file-1",
+      "path": "Makefile",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "sha256": "ef87c0929494af140998abeaedcf24e635d058fed907f589f6cfdc2d3329916e",
+      "bytes": 492
+    },
+    {
+      "sourceId": "file-2",
+      "path": "README.md",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "sha256": "4b5cace2c03768d5844e48d5eb615e66ce7a16d1769dffa535ad71e476169764",
+      "bytes": 1427
+    },
+    {
+      "sourceId": "file-3",
+      "path": "go.mod",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "sha256": "3e1e153c0a5195b0d16d7689b101a25274a3643b914381b306f9ac61e1884afb",
+      "bytes": 39
+    },
+    {
+      "sourceId": "file-4",
+      "path": "go.sum",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "sourceId": "file-5",
+      "path": "main.go",
+      "commit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "sha256": "f19f0e01443cc09a17e91b6b3bda6e00169d1b7cf13936ad8984bcfc87db08ee",
+      "bytes": 4636
+    },
+    {
+      "sourceId": "remapping-main",
+      "path": "main.go",
+      "commit": "f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507",
+      "sha256": "282a28922419c8e4f5fa4b8722d513b216888863c1a7065cbb82659b869f3465",
+      "bytes": 4633
+    }
+  ],
+  "sources": [
+    {
+      "id": "repository",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count",
+      "status": 200,
+      "at": "2026-10-26T08:16:11.818Z",
+      "bytes": 6261,
+      "sha256": "410f577b44271fa59dd111def53df33e5d40b166dbb9588fb80f201892aa02e2",
+      "rateLimitRemaining": "54"
+    },
+    {
+      "id": "head",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/commits?per_page=1",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/commits?per_page=1",
+      "status": 200,
+      "at": "2026-10-26T08:16:12.025Z",
+      "bytes": 3506,
+      "sha256": "7b88f719827ed5c4f2973dbd970c6c208732a9965bf264b0d7f863793878350c",
+      "rateLimitRemaining": "35"
+    },
+    {
+      "id": "tree",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/git/trees/ffd3edd24466dc4b40a5521fbc7cc666672947d2?recursive=1",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/git/trees/ffd3edd24466dc4b40a5521fbc7cc666672947d2?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T08:16:26.575Z",
+      "bytes": 1657,
+      "sha256": "5499fad4caa4c45492a02292a1fb2ffd18bdf125c3751e63f9fc1e965a27d5e8",
+      "rateLimitRemaining": "58"
+    },
+    {
+      "id": "file-0",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/.gitignore?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/.gitignore?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "status": 200,
+      "at": "2026-10-26T08:16:41.457Z",
+      "bytes": 1150,
+      "sha256": "7ae9c793ff75ce0a6b44bdc8e6d430b9df102f44b08bbb75ca61f54afac2ee07",
+      "rateLimitRemaining": "32"
+    },
+    {
+      "id": "file-1",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/Makefile?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/Makefile?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "status": 200,
+      "at": "2026-10-26T08:16:40.831Z",
+      "bytes": 1793,
+      "sha256": "657ad795227b08d038fc7a407f5bfb3496179c1e3228553f89079c137946a566",
+      "rateLimitRemaining": "34"
+    },
+    {
+      "id": "file-2",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/README.md?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/README.md?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "status": 200,
+      "at": "2026-10-26T08:16:40.868Z",
+      "bytes": 3091,
+      "sha256": "59046fbc7df612d6a76170b0721cebd32590e687ffa1ee7f776580c815c7bd5b",
+      "rateLimitRemaining": "33"
+    },
+    {
+      "id": "file-3",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/go.mod?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/go.mod?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "status": 200,
+      "at": "2026-10-26T08:16:41.023Z",
+      "bytes": 1154,
+      "sha256": "09b529c007ce894b0d780adb313671342c7fc48f0d470cf2e9e10cecdecb7aaa",
+      "rateLimitRemaining": "53"
+    },
+    {
+      "id": "file-4",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/go.sum?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/go.sum?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "status": 200,
+      "at": "2026-10-26T08:16:42.533Z",
+      "bytes": 1099,
+      "sha256": "5895ab78496d7e09d2adf66b980b65d1ee1f1e1eef523b4b3aed0c77a3e30529",
+      "rateLimitRemaining": "30"
+    },
+    {
+      "id": "file-5",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/main.go?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/main.go?ref=ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+      "status": 200,
+      "at": "2026-10-26T08:16:41.872Z",
+      "bytes": 7501,
+      "sha256": "fa31fa17f7b65f8bebf58484f4c14ee17e262b109802836d5b5cbb83f9bf1929",
+      "rateLimitRemaining": "31"
+    },
+    {
+      "id": "issues",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues?state=all&per_page=50",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues?state=all&per_page=50",
+      "status": 200,
+      "at": "2026-10-26T08:18:00.409Z",
+      "bytes": 24004,
+      "sha256": "7dab2595b64eeb20b52ba34b0b4384af4fb0ccdba758daf059d193d349bd62ca",
+      "rateLimitRemaining": "46"
+    },
+    {
+      "id": "release",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/releases/latest",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/releases/latest",
+      "status": 200,
+      "at": "2026-10-26T08:18:00.354Z",
+      "bytes": 3631,
+      "sha256": "6b8700ef2102799a2babb48ec9d44b433bef820774a466a443f5c52e41f4c296",
+      "rateLimitRemaining": "56"
+    },
+    {
+      "id": "comments-6",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues/6/comments?per_page=50",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues/6/comments?per_page=50",
+      "status": 200,
+      "at": "2026-10-26T08:18:40.483Z",
+      "bytes": 3513,
+      "sha256": "741e8205bf8929456a2b246d618e5f59c172304e04a35f8f74b30884ae390b78",
+      "rateLimitRemaining": "51"
+    },
+    {
+      "id": "comments-5",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues/5/comments?per_page=50",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues/5/comments?per_page=50",
+      "status": 200,
+      "at": "2026-10-26T08:18:40.536Z",
+      "bytes": 13987,
+      "sha256": "6fe2c14485cef1420714433f0c6d511655faadc08a7fa240e8e44ebb38210278",
+      "rateLimitRemaining": "52"
+    },
+    {
+      "id": "comments-4",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues/4/comments?per_page=50",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/issues/4/comments?per_page=50",
+      "status": 200,
+      "at": "2026-10-26T08:18:40.487Z",
+      "bytes": 1770,
+      "sha256": "a308f1d223733ed693a740b1dc553b3f91731b1817fdd29633da19aa585f9f09",
+      "rateLimitRemaining": "47"
+    },
+    {
+      "id": "remapping-ref",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/git/ref/heads/port-remapping",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/git/ref/heads/port-remapping",
+      "status": 200,
+      "at": "2026-10-26T08:19:13.774Z",
+      "bytes": 417,
+      "sha256": "a11fd75c163955b6452eb01dff9f6b5b756922d8b598b18a7c8ff8fd990f6244",
+      "rateLimitRemaining": "51"
+    },
+    {
+      "id": "docker-pr",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/pulls/8",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/pulls/8",
+      "status": 200,
+      "at": "2026-10-26T08:19:14.841Z",
+      "bytes": 18280,
+      "sha256": "e53aac047b5ab18b0c7ee08290ef107c19acdf65ee43b0eaa22c29753629b9b3",
+      "rateLimitRemaining": "55"
+    },
+    {
+      "id": "remapping-compare",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/compare/ffd3edd24466dc4b40a5521fbc7cc666672947d2...f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/compare/ffd3edd24466dc4b40a5521fbc7cc666672947d2...f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507",
+      "status": 200,
+      "at": "2026-10-26T08:19:26.874Z",
+      "bytes": 23728,
+      "sha256": "dbb7a5948e8a2520d3558c4b80790a6dfdf72a2b10bf6c0f9d5b56c472232def",
+      "rateLimitRemaining": "50"
+    },
+    {
+      "id": "remapping-main",
+      "url": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/main.go?ref=f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507",
+      "finalUrl": "https://api.github.com/repos/anatolykopyl/server-query-fake-player-count/contents/main.go?ref=f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507",
+      "status": 200,
+      "at": "2026-10-26T08:19:26.676Z",
+      "bytes": 7495,
+      "sha256": "d904f8e221a40f6140e05b405bb1e9a034c47ddad5b1b1e1c8399bc580fa381c",
+      "rateLimitRemaining": "54"
+    }
+  ]
+}

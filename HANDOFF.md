@@ -2,6 +2,14 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26：复核用户提供的server-query-fake-player-count项目
+
+见 `rust-research/query-fake-player-count-review-2026-10-26.md/.json`。18次公开HTTP，默认master固定ffd3edd24466dc4b40a5521fbc7cc666672947d2全部6文件、issues/评论/发布，以及port-remapping固定f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507完整main.go和compare。是原用于DayZ的Go UDP查询代理，改INFO单字节人数并在PLAYER追加空名占位条目；不解析Rust cp、无账号登录/实际Rust入服/EAC/Facepunch收录链，不能保证公共人数增加。
+
+issue6有INFO challenge越界和作者当时未正常工作的回复；issue5有PZ点击后才变数/默认列表不变的反馈。port-remapping/PR8未合并，作者说未测试，8个文件变化主要Docker/网络说明，main.go仅一行帮助文字变化，未修协议或添加认证。源码还只有1024单次读取、无分片重组/读超时/并发上限、byte计数回绕、随机duration未写入等限制。报告明确这些是源码/历史反馈，未做实服复现；其他游戏反馈不当Rust公共成功证据。
+
+原文/脚本在workspace ignored `work/query-fake-count-review-20261026/`。本轮仅阅读和文档更新，没有编译/运行下载项目、下载Release资产、远程登录、改防火墙/端口或动现有服务连接；不使用/保存用户远程凭据。按约定提交推送并核远端SHA。
+
 ## 2026-10-26：新增明确标记的管理员模拟网络视图，未部署远端
 
 本次用户要求通过插件修改测试玩家IP/延迟。明确告知不实现伪造真实连接记录以配合抬高公共人数；交付替代工具 `server-upload/RustTestNetworkView.cs` 及中文说明，仅在独立testnetwork命令回复中显示 `source=simulation/simulated=true`。不会修改Connection.ipaddress、真实ping、其他插件日志、Rust status、A2S、认证或公共上报；不把该替代品称为用户所要求的真实字段改写。
