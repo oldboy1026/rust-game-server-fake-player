@@ -1,6 +1,6 @@
 # Steam 多账号管理与 Rust 连接研究
 
-**2026-10-24 最终归档：** 用户已结束本轮研究。请先阅读 [工作总结、最终状态与完整索引](rust-research/FINAL-ARCHIVE-2026-10-24.md)。公共游戏列表人数修复仍未验证，账号聊天、移动和 NPC AI 未实现；下文是已有功能与历史研究说明。
+**2026-10-26 当前状态：** 用户已恢复研究，目标为 `202.189.21.58:30921`。独立程序已在此前关闭secure的目标上完成Steam认证、真实入服和公共聊天；有效Rust EAC会话及Facepunch公共人数修复仍未完成。请先阅读 [最新参考源码复核与接续条件](rust-research/rustjiaren-review-2026-10-26.md) 和 [HANDOFF.md](HANDOFF.md)。[10月24日归档](rust-research/FINAL-ARCHIVE-2026-10-24.md)保留当日历史状态。
 
 这个项目包含可运行的 Node.js Steam 多账号管理服务，以及 Rust 2635 协议、EOS/EAC 会话的研究资料。
 
@@ -42,6 +42,7 @@ cd steam-multi-account
 | [rust-research/client-observation-plan.md](./rust-research/client-observation-plan.md) | 在有游戏的电脑上进行正常连接观察的准备与命令模板 |
 | [rust-research/player-count-diagnosis.md](./rust-research/player-count-diagnosis.md) | OnPlayerConnected、内部活跃列表与外部人数差异的证据和排查方法 |
 | [rust-research/server-103-91-208-182.md](./rust-research/server-103-91-208-182.md) | 新服务器的公开登记核对、查询记录与多出口会话分析 |
+| [rust-research/rustjiaren-review-2026-10-26.md](./rust-research/rustjiaren-review-2026-10-26.md) | 新参考扩展的人工地址/上报路径、当前EAC缺口和目标人数快照 |
 | [rust-research/query-server.mjs](./rust-research/query-server.mjs) | 不依赖第三方库的 A2S 查询工具 |
 | [tools/rust-research/](./tools/rust-research/) | 公开资料获取和程序集静态复核脚本 |
 | [HANDOFF.md](./HANDOFF.md) | 换电脑后继续工作的上下文与下一步 |

@@ -1,0 +1,493 @@
+{
+  "generatedAt": "2026-10-26T01:55:33.933Z",
+  "displayTimeZone": "Asia/Shanghai",
+  "reviewedBaseCommit": "e8edc5dfd6ef24eb584839b6a2edcd5173c3a1aa",
+  "target": {
+    "host": "202.189.21.58",
+    "gamePort": 30921,
+    "queryPort": 30923,
+    "source": "Explicit user selection this run."
+  },
+  "completion": {
+    "independentOrdinaryRustConnection": "Documented on a previous server with secure disabled; not rerun on this machine.",
+    "authenticatedConnectionToSelectedTarget": "not_completed",
+    "rustEacProtectedSession": "not_completed",
+    "publicCountFix": "not_verified"
+  },
+  "referenceAudit": {
+    "generatedAt": "2026-10-26T01:47:36.136Z",
+    "scope": "Static text audit of user-provided decompiled reference source; no execution or networking.",
+    "limitations": [
+      "Text locators require human interpretation; absent symbols do not prove absence of other implementations.",
+      "No original assembly was supplied in this directory. Source comments and PDB are not independently verified binary metadata.",
+      "No source text, machine-specific paths, credentials, account identities or ticket data are copied into this report."
+    ],
+    "files": [
+      {
+        "path": "AssemblyInfo.cs",
+        "bytes": 544,
+        "sha256": "094ae22034f70d1eb9512209137593197f3417862fbc97a7eb583b8544ff50b1"
+      },
+      {
+        "path": "Ext/RustJiaRen/Core.cs",
+        "bytes": 2087,
+        "sha256": "1e07660272b0bbded0040c58fb4b69c27277ca492ab2281ae1dc61eac8efef37"
+      },
+      {
+        "path": "Ext/RustJiaRen/OxideRustJiaRenHooks.cs",
+        "bytes": 3299,
+        "sha256": "be7c3cb43ba5a1dd34624e3d19769eb256e50c62a54f6af3e46c7fc7b51ca60a"
+      },
+      {
+        "path": "Ext/RustJiaRen/RustJiaRenExtension.cs",
+        "bytes": 1095,
+        "sha256": "980e7f8e9a789ae958d205254b6557cebceb041aba48e23d346f89de0d30105b"
+      },
+      {
+        "path": "Oxide.Ext.RustJiaRen.csproj",
+        "bytes": 2268,
+        "sha256": "8fe4bcd4f82d628a7f2db4f66ba1712506cb77127ba1aaf28ed5287881f9e752"
+      },
+      {
+        "path": "Oxide.Ext.RustJiaRen.pdb",
+        "bytes": 36352,
+        "sha256": "d1b1297f7c32f4deb6952913315b8b14f953a7d61841249e1970de4a4f205b56"
+      },
+      {
+        "path": "Oxide.Ext.RustJiaRen.sln",
+        "bytes": 926,
+        "sha256": "8d561f5eb7a234bb4e5e82f4a863ddb72d6243e3eaddb301878891743f981164"
+      },
+      {
+        "path": "Plugins/RustJiaRenPlugin.cs",
+        "bytes": 719,
+        "sha256": "752b077eb5d9d49cbefb7fdff156bed1824347596dff82e23c44ab6da33110ad"
+      },
+      {
+        "path": "RustJiaRenPluginLoader.cs",
+        "bytes": 876,
+        "sha256": "c9d08c957284187f1d9272659b2f139c74f78f3c20897c4ec8fa638ab0e21a1a"
+      },
+      {
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "bytes": 5352,
+        "sha256": "86e85783883c6465074bd78575f613a0a8a90b115ce55e6f3fe93453b0c1e66b"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "synthetic_connection",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          64
+        ]
+      },
+      {
+        "id": "random_address",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          62
+        ]
+      },
+      {
+        "id": "assigned_address",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          67
+        ]
+      },
+      {
+        "id": "steam_begin",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          70
+        ]
+      },
+      {
+        "id": "manual_auth_event",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          79
+        ]
+      },
+      {
+        "id": "fixed_delay",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          80
+        ]
+      },
+      {
+        "id": "manual_connection_event",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          81
+        ]
+      },
+      {
+        "id": "listen_address",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          89
+        ]
+      },
+      {
+        "id": "unawaited_admission",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          140
+        ]
+      },
+      {
+        "id": "response_before_completion",
+        "path": "SimpleWS/SimpleWebSocketServer.cs",
+        "lines": [
+          144
+        ]
+      },
+      {
+        "id": "auth_callback_subscription",
+        "path": "Ext/RustJiaRen/OxideRustJiaRenHooks.cs",
+        "lines": [
+          56
+        ]
+      },
+      {
+        "id": "tag_rewrite",
+        "path": "Ext/RustJiaRen/OxideRustJiaRenHooks.cs",
+        "lines": [
+          67
+        ]
+      },
+      {
+        "id": "existing_connection_guard",
+        "path": "Ext/RustJiaRen/OxideRustJiaRenHooks.cs",
+        "lines": [
+          79
+        ]
+      },
+      {
+        "id": "success_increment",
+        "path": "Ext/RustJiaRen/OxideRustJiaRenHooks.cs",
+        "lines": [
+          84
+        ]
+      },
+      {
+        "id": "failure_decrement",
+        "path": "Ext/RustJiaRen/OxideRustJiaRenHooks.cs",
+        "lines": [
+          88
+        ]
+      },
+      {
+        "id": "console_title_only",
+        "path": "Ext/RustJiaRen/Core.cs",
+        "lines": [
+          48
+        ]
+      }
+    ],
+    "symbolOccurrences": [
+      {
+        "symbol": "EOS_AntiCheatClient",
+        "occurrences": []
+      },
+      {
+        "symbol": "EOS_Connect_Login",
+        "occurrences": []
+      },
+      {
+        "symbol": "ReceiveMessageFromServer",
+        "occurrences": []
+      },
+      {
+        "symbol": "AddNotifyMessageToServer",
+        "occurrences": []
+      },
+      {
+        "symbol": "ClientReady",
+        "occurrences": []
+      },
+      {
+        "symbol": "PlayerInit",
+        "occurrences": []
+      },
+      {
+        "symbol": "NET_StartClient",
+        "occurrences": []
+      }
+    ],
+    "inputUnchanged": true,
+    "referenceExecuted": false
+  },
+  "analyticsCrossCheck": {
+    "parser": "dnlib 4.5.0; game assembly parsed as data, not executed.",
+    "source": {
+      "appId": 258550,
+      "depotId": 258551,
+      "manifestId": "93946663446561466"
+    },
+    "assembly": "Assembly-CSharp.dll",
+    "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+    "mvid": "ea5bea93-989c-4789-88b5-c1200be42811",
+    "methods": [
+      {
+        "method": "System.Void Facepunch.Rust.Analytics/Azure::OnPlayerConnected(Network.Connection)",
+        "metadataToken": "0x06009272",
+        "selectedCalls": [
+          "IL_0010: callvirt System.String UserPersistance::GetUserWipeId(System.UInt64)",
+          "IL_001C: call Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::New(System.String,System.Boolean)",
+          "IL_0027: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.String)",
+          "IL_0037: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.UInt64)",
+          "IL_0047: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.String)",
+          "IL_0052: callvirt System.String Network.Connection::get_ipaddress()",
+          "IL_0057: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.String)",
+          "IL_005C: call System.Void Facepunch.Rust.Analytics/Azure::SubmitPoint(Facepunch.Rust.EventRecord)",
+          "IL_0063: call System.Void UnityEngine.Debug::LogException(System.Exception)"
+        ]
+      },
+      {
+        "method": "System.Void Facepunch.Rust.Analytics/Azure::OnSteamAuth(System.UInt64,System.UInt64,System.String)",
+        "metadataToken": "0x06009288",
+        "selectedCalls": [
+          "IL_0006: call Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::New(System.String,System.Boolean)",
+          "IL_0011: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.UInt64)",
+          "IL_001C: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.UInt64)",
+          "IL_0027: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.String)",
+          "IL_003B: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.Int32)",
+          "IL_004A: callvirt System.String Network.Server::get_ProtocolId()",
+          "IL_004F: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.String)",
+          "IL_005E: callvirt System.Int32 ListHashSet`1<BasePlayer>::get_Count()",
+          "IL_0063: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.Int32)",
+          "IL_0072: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.Int32)",
+          "IL_0081: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.String)",
+          "IL_0095: callvirt Facepunch.Rust.EventRecord Facepunch.Rust.EventRecord::AddField(System.String,System.Boolean)",
+          "IL_009A: call System.Void Facepunch.Rust.Analytics/Azure::SubmitPoint(Facepunch.Rust.EventRecord)",
+          "IL_00A1: call System.Void UnityEngine.Debug::LogException(System.Exception)"
+        ]
+      }
+    ],
+    "limitation": "Research build only; target binaries were not obtained. These analytics methods are not Oxide player hooks."
+  },
+  "publicObservation": {
+    "startedAt": "2026-10-26T01:48:27.663Z",
+    "finishedAt": "2026-10-26T01:48:28.466Z",
+    "target": {
+      "host": "202.189.21.58",
+      "gamePort": 30921,
+      "queryPort": 30923
+    },
+    "publicUrl": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+    "a2s": {
+      "ok": true,
+      "result": {
+        "protocol": 17,
+        "name": "红太狼10.25号|14:00清档|萌新|三人行",
+        "map": "Custom Map",
+        "folder": "rust",
+        "game": "Rust",
+        "appId16": 0,
+        "players": 65,
+        "maxPlayers": 200,
+        "bots": 0,
+        "serverType": "d",
+        "environment": "w",
+        "passwordProtected": false,
+        "vacSecure": true,
+        "version": "2635",
+        "gamePort": 30921,
+        "serverSteamId": "90295746530747410",
+        "tags": "mp200,cp33,ptrak,qp0,$r?,v2635,^w,^v,EA,born1792907451,gmrust,cs168909,ts3,^o",
+        "gameId64": "252490"
+      }
+    },
+    "facepunch": {
+      "ok": true,
+      "players": 33,
+      "status": 200,
+      "headers": {
+        "date": "Mon, 26 Oct 2026 01:48:16 GMT",
+        "age": "295",
+        "last-modified": "Mon, 26 Oct 2026 01:43:21 GMT",
+        "etag": null,
+        "cache-control": "public, max-age=86400",
+        "cf-cache-status": "HIT",
+        "content-type": "application/json"
+      },
+      "sha256": "e7d831302dfcaef7258ab2c138307c2f21cbe5daffab2716069b70a87c52a1a3",
+      "bytes": 77666,
+      "finishedAt": "2026-10-26T01:48:28.466Z"
+    },
+    "accountLoginAttempted": false,
+    "playerLoginAttempted": false,
+    "serverModified": false,
+    "limitation": "One read-only sample, not an admission experiment or per-account inclusion proof."
+  },
+  "runtime": {
+    "userConfirmedNoSteamOrRustInstallation": true,
+    "steamRegistryPresent": false,
+    "rustOrEacProcessObserved": false,
+    "localService3210Reachable": false,
+    "previousGameDirectoryAvailable": false,
+    "commonSteamLocationsFound": false,
+    "independentRustProductEacPackageSuppliedInReferenceDirectory": false,
+    "limitation": "Bounded current-environment observations plus the user confirmation; not an exhaustive search of every disk or archive."
+  },
+  "interpretation": [
+    {
+      "id": "random-log-addresses",
+      "evidence": [
+        "random_address",
+        "assigned_address",
+        "synthetic_connection"
+      ],
+      "finding": "The reference generates and assigns addresses to an artificial server-side object, not to a demonstrated transport connection.",
+      "limitation": "No evidence establishes that the previously mentioned third-party server uses this reference."
+    },
+    {
+      "id": "early-success-response",
+      "evidence": [
+        "unawaited_admission",
+        "response_before_completion",
+        "fixed_delay"
+      ],
+      "finding": "A WebSocket ok reply precedes completion of authentication; the connection analytics event follows a fixed delay rather than a validated callback gate."
+    },
+    {
+      "id": "steam-versus-eac",
+      "evidence": [
+        "steam_begin",
+        "auth_callback_subscription",
+        "manual_auth_event"
+      ],
+      "finding": "The sample requests Steam validation and manually submits a success event. No Rust EAC integration is supplied in the reviewed source."
+    },
+    {
+      "id": "cp-versus-public",
+      "evidence": [
+        "tag_rewrite"
+      ],
+      "finding": "The sample modifies cp. It does not supply a verified method to change the Facepunch public count or establish normal player admission."
+    },
+    {
+      "id": "hook-distinction",
+      "finding": "Analytics.Azure.OnPlayerConnected(Connection) is not Oxide.OnPlayerConnected(BasePlayer); the supplied source does not establish the standard Welcome hook path."
+    }
+  ],
+  "primarySources": [
+    {
+      "id": "eac-client-interface-20261026",
+      "url": "https://dev.epicgames.com/docs/api-ref/interfaces/anti-cheat-client",
+      "retrievalUrl": "https://dev.epicgames.com/docs/api-ref/interfaces/anti-cheat-client",
+      "status": 200,
+      "fetchedAt": "2026-10-26T01:48:18.031Z",
+      "sha256": "80134eee001d05722ab32f5b7f713567c16135920c66aca518cc385459bb9ec8",
+      "filename": "eac-client-interface-20261026.txt",
+      "bytes": 45203,
+      "used": true,
+      "assessment": "Parsed __NEXT_DATA__ and read MDX text as data; no page code executed."
+    },
+    {
+      "id": "eac-begin-session-20261026",
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "retrievalUrl": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "status": 200,
+      "fetchedAt": "2026-10-26T01:48:18.032Z",
+      "sha256": "b1c43dbdc8be0574bd01bc417c7e03857f509406efa49332f0c20f48642218b4",
+      "filename": "eac-begin-session-20261026.txt",
+      "bytes": 26147,
+      "used": true,
+      "assessment": "Parsed __NEXT_DATA__ and read MDX text as data; no page code executed."
+    },
+    {
+      "id": "steam-begin-auth-20261026",
+      "url": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "retrievalUrl": "https://partner.steamgames.com/doc/api/ISteamGameServer",
+      "status": 200,
+      "fetchedAt": "2026-10-26T01:48:17.943Z",
+      "sha256": "59ca4c0c2d62ab0a9d27bfc49b0f0dddc92278b7dfb52ba0721c1ea6242b77ad",
+      "filename": "steam-begin-auth-20261026.txt",
+      "bytes": 172328,
+      "used": true,
+      "assessment": "Inspected official BeginAuthSession documentation."
+    }
+  ],
+  "primarySourceExcerpts": [
+    {
+      "id": "eac-client-interface-20261026",
+      "parsing": "Parsed __NEXT_DATA__ JSON and read quoted MDX text; no page code executed.",
+      "excerpts": [
+        "EOS_AntiCheatClient_AddNotifyMessageToServer",
+        "EOS_AntiCheatClient_BeginSession",
+        "EOS_AntiCheatClient_EndSession",
+        "EOS_AntiCheatClient_ReceiveMessageFromServer"
+      ]
+    },
+    {
+      "id": "eac-begin-session-20261026",
+      "parsing": "Parsed __NEXT_DATA__ JSON and read quoted MDX text; no page code executed.",
+      "excerpts": [
+        "Begins a multiplayer game session. After this call returns successfully, the client is ready to exchange\nanti-cheat messages with a game server or peer(s). When leaving one game session and connecting to a\ndifferent one, a new anti-cheat session must be created by calling EOS_AntiCheatClient_EndSession and EOS_AntiCheatClient_BeginSession again.\nMode: All",
+        "EOS_Success - If the session was started successfully",
+        "Begins a multiplayer game session. After this call returns successfully, the client is ready to exchange\nanti-cheat messages with a game server or peer(s). When leaving one game session and connecting to a\ndifferent one, a new anti-cheat session must be created by calling {AntiCheatClient.AntiCheatClientInterface.EndSession} and {AntiCheatClient.AntiCheatClientInterface.BeginSession} again.\nMode: All"
+      ]
+    }
+  ],
+  "historicalDocuments": [
+    {
+      "path": "rust-research/independent-connection-2026-10-24.md",
+      "sha256": "0a63e4416e71084bca8489af8d6d44ab2ba0579229e801f43669ef7b09f9fce0",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/independent-global-chat-2026-10-25.md",
+      "sha256": "b5e1caab50538ae83e282994d0697afdcd82a6da8b5a220c1d449a932e6a312b",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/server-202-189-21-58-test-2026-10-25.md",
+      "sha256": "5282c79d317f6971709e4bba47e669cf2019ca490232888b0a338e0ec938ba58",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/eac-installed-settings-test-2026-10-25.md",
+      "sha256": "3e6acdb6acad2ca5ed3c4810ec6e33fe93a9be98018d84a571ab567b348ea03a",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/official-eac-session-reuse-review-2026-10-25.md",
+      "sha256": "108c2b0c58a74fff561b8904bf1928e801ac47aa6a69f2997a79d2ce81c997a6",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/count-query-reporting-deep-2026-10-24.md",
+      "sha256": "62c12524b5b9d947098fbd92f9038c161403e3046be989754d46735cace133f3",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/target-reporting-observer-2026-10-25.md",
+      "sha256": "668a201e6233c200fb8a66a5370b23dd36e4262f5cff7456d96cfec4ac9823e1",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    },
+    {
+      "path": "rust-research/dll-count-investigation-2026-10-25.md",
+      "sha256": "2a8c4bda8926945c84322ace409f0a09d45d2595eb440e0e34284db5510a01f1",
+      "provenance": "Existing tracked project record, reviewed this run; historical experiment not rerun."
+    }
+  ],
+  "operations": {
+    "sourceBuilt": false,
+    "sourceExecuted": false,
+    "sourceDeployed": false,
+    "accountLoginAttempted": false,
+    "playerLoginAttempted": false,
+    "eacSessionStarted": false,
+    "serverModified": false,
+    "analyticsSubmitted": false,
+    "existingCredentialsRead": false,
+    "projectServiceStarted": false,
+    "originalReferenceFilesModified": false,
+    "implementationTestsRun": false
+  }
+}

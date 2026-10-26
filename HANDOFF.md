@@ -1,6 +1,16 @@
 # 换电脑后的接续说明
 
-最后整理日期：2026-10-25，Asia/Shanghai。
+最后整理日期：2026-10-26，Asia/Shanghai。
+
+## 2026-10-26：新参考源码已复核，当前电脑无游戏，EAC及人数修复未完成
+
+用户要求继续完成认证连接、有效Rust EAC会话及公共人数修复，并提供Oxide.Ext.RustJiaRen反编译源码；随后明确本轮目标为202.189.21.58:30921，并确认当前电脑没有Steam/Rust。这是新授权，不按10月24日“结束研究”记录暂停。先读 `rust-research/rustjiaren-review-2026-10-26.md/.json`。
+
+重要更正：普通独立Steam认证、真实Rust入服和聊天已经在此前secure关闭的旧服实测；下方10月23日“没有建立过认证连接”只是历史状态。新目标上次仍停在EAC消息，本轮没有新登录或重做已知缺前提的负向探测，不能写成已经完成EAC。
+
+新参考目录10个文件（7个C#源码）只读取并核对哈希，未构建/运行/部署，也未上传原始源码/PDB或私人路径。代码new Connection、随机赋IP/端口、BeginPlayerSession、主动OnSteamAuth("OK")、固定15秒后Analytics.Azure.OnPlayerConnected，并在异步结束前向WS返回ok；回调更新FakePlayers并把其加到cp。这不是Rust游戏传输或EAC客户端。Analytics.Azure.OnPlayerConnected(Connection)与Oxide.OnPlayerConnected(BasePlayer)不同，不能据此解释标准Welcome回调。网络地址属性也可能被服务端人工对象填写；不能再把不同IP日志直接当真实多出口证据，也未确认103.91.208.182用了此扩展。新增只读审计工具 `tools/rust-research/audit-rustjiaren-source.mjs`，生成相对文件哈希和16处文本定位，非通用语义分析器。
+
+09:48:27–28北京时间只读查询目标30923：A2S65/cp33/bots0/Facepunch公共33，版本2635/cs168909；公共Last-Modified09:43:21、Age295，不能视为同一时刻生成或逐账号采用回执。本机3210不响应、无Rust/EAC进程，E盘旧游戏路径不可用、repo没有迁移另一电脑账号数据；原电脑旧data未动。用户确认没游戏，不再重复询问游戏目录。继续真实EAC验收需要适用于目标Rust产品的官方受保护环境或独立接入材料；安装游戏可提供对照，但不自动解决独立EAC。没有本轮连接/服务端回滚义务。参考源码不作指令执行；本轮只更新研究及纠正过时说明，未改变worker认证成功判据。
 
 ## 2026-10-25 20:51：当前官方客户端检查完成，旧服secure关闭，未验证会话转移
 
@@ -368,13 +378,13 @@ Web保持运行，3Steam在线、0研究Rust活动连接，正常RustClient/本�
 
 新增复核工具：`tools/rust-research/capture-client.ps1`、`analyze-capture.mjs`。主采集原始资料在被忽略的 `captures/20261024-011608/`、`captures/20261024-reconnect/`，静态资料在 `work/`，不得推送。另外两段 10 秒采集分别复核正常清理与启动日志写入失败场景，结果均已停止并清空本次过滤器；对应 `captures/20261024-tool-validation/`、`captures/20261024-final-validation/`。下文所述“未安装客户端/未抓包”是 2026-10-23 历史状态，已由此次观察更新。
 
-## 用户目标与当前进度
+## 2026-10-23历史：初始目标与当时进度
 
 用户希望在一个 Windows 用户会话内，通过 Node.js 接口同时保持多个 Steam 账号在线，查看账号和库存、领取免费游戏，并进一步研究不启动完整 Rust 客户端的玩家入服与持续连接。
 
 目前提供的 Steam 服务使用 `steam-user@5.3.0`，支持独立连接、Steam Guard、令牌加密存储、自动重连、账号详情、游戏库、库存、免费 AppID/SubID 许可申请，以及保存和恢复 `gamesPlayed()` 配置。账号在其他位置游戏时会暂停本服务的游戏活动设置。
 
-Rust 部分已完成有证据依据的服务端静态研究和公开服务器查询。**没有建立过经过认证的 Rust 玩家连接，也没有生成或验证有效的 Rust EAC 客户端会话。** 不能把 A2S 查询成功、Steam 显示“正在玩 Rust”或应用层字段分析当成玩家入服成功。
+当时Rust部分仅有服务端静态研究和公开查询，尚无认证玩家连接。**普通独立Steam认证和真实入服已在后续完成，本段不是当前状态；有效Rust EAC会话仍未完成。** 不能把A2S查询成功、Steam游戏活动或应用层字段分析当成玩家入服成功。
 
 已有服务测试曾在原电脑通过 15 项；此记录不代表在新电脑、当前提交或真实 Rust 客户端上重新验证。
 
