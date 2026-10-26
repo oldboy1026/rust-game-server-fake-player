@@ -1,5 +1,7 @@
 # 服务器上传包：公共人数刷新验证
 
+另有独立的[管理员模拟网络视图](RustTestNetworkView.zh-CN.md)，只显示明确标记的测试IP/延迟，不改写真实连接、其他插件日志或公共人数；与本页刷新工具分开使用。
+
 **需要已编译 DLL：** 请使用 [RustPresenceBridge 扩展及说明](rust-presence-bridge/README.zh-CN.md)，二进制在该目录的 `dist/Oxide.Ext.RustPresenceBridge.dll`。它放在 `RustDedicated_Data/Managed`，与下文 `.cs` 插件的目录不同。两者是相同刷新思路的两种交付形式，实验时选择一种即可。
 
 此包是新写的 Oxide/uMod Rust 插件，不依赖提供的 RustJiaRen 扩展。它可以对已经完成正常入服的一个指定玩家重发原版 Steam 玩家资料，然后调用原版服务器信息更新。是否改变 Facepunch 公共人数，需要实服对照；目前未验证成功。它不能使停在 EAC 阶段的独立程序获得准入。

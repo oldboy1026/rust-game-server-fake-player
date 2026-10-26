@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "feature": "Explicitly labeled administrator network simulation view",
+  "version": "0.1.0",
+  "scope": "alternative_simulation_view_only",
+  "requestedConnectionFieldSpoofingImplemented": false,
+  "realConnectionIpChanged": false,
+  "realLatencyChanged": false,
+  "otherPluginLogsChanged": false,
+  "publicReportingChanged": false,
+  "publicPopulationRepairVerified": false,
+  "eacImplemented": false,
+  "remoteDeployed": false,
+  "remoteCredentialsUsedOrStored": false,
+  "runtimeServiceRestarted": false,
+  "existingConnectionsStopped": 0,
+  "commands": [
+    "testnetwork.add",
+    "testnetwork.rotate",
+    "testnetwork.snapshot",
+    "testnetwork.remove",
+    "testnetwork.clear"
+  ],
+  "constraints": {
+    "serverConsoleOrRconOnly": true,
+    "inGameAdminDenied": true,
+    "explicitSelection": true,
+    "maxEntries": 50,
+    "defaultMinutes": 15,
+    "minMinutes": 1,
+    "maxMinutes": 60,
+    "pruneIntervalSeconds": 30,
+    "simulatedPingMin": 10,
+    "simulatedPingMax": 200,
+    "addressBlocks": [
+      "192.0.2.0/24",
+      "198.51.100.0/24",
+      "203.0.113.0/24"
+    ],
+    "identitiesPersisted": false,
+    "sampleLabels": [
+      "source=simulation",
+      "simulated=true",
+      "networkChanged=false"
+    ]
+  },
+  "compile": {
+    "version": "0.1.0",
+    "compiledUtc": "2026-10-26T07:16:17.0864093Z",
+    "compileOnly": true,
+    "success": true,
+    "inputsUnchanged": true,
+    "compiler": {
+      "sha256": "46809206887326d2d24db1eff1f3064de972c3451abe766b49111450a5e08e00",
+      "file": "Framework64/v4.0.30319/csc.exe"
+    },
+    "source": {
+      "sha256": "648c00537f8b27840073c790e09adc3a694eb503bca8cead00682a1bb74b5272",
+      "file": "server-upload/RustTestNetworkView.cs"
+    },
+    "references": [
+      {
+        "sha256": "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05",
+        "file": "Oxide.Core.dll"
+      },
+      {
+        "sha256": "b64977609a31fbe0c462626d966bc7c6818a06725d085f7cc2d2951fbc2b9094",
+        "file": "Oxide.CSharp.dll"
+      },
+      {
+        "sha256": "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+        "file": "Oxide.Rust.dll"
+      },
+      {
+        "sha256": "b1f6bd2d2d40126b9bee3b8944463bad5869188084cbc8bf4aa3573ce9795bd9",
+        "file": "Facepunch.Console.dll"
+      },
+      {
+        "sha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+        "file": "Facepunch.Network.dll"
+      }
+    ],
+    "output": {
+      "sha256": "4db016d3534485da9499964d88cb9beff1d239fd34a8c4f8159b658946222367",
+      "file": "RustTestNetworkView.dll"
+    },
+    "targetServerLoaded": false,
+    "connectionFieldsChanged": false,
+    "publicCountChangeVerified": false
+  },
+  "isolatedValidation": {
+    "completedUtc": "2026-10-26T07:17:25.3482137Z",
+    "success": true,
+    "isolated": true,
+    "gameAssembliesExecuted": false,
+    "remoteConnectionMade": false,
+    "sourceSha256": "648c00537f8b27840073c790e09adc3a694eb503bca8cead00682a1bb74b5272",
+    "fixtureSha256": "0e55e80a916fd936a507d0423f348582950b034050fcca5a50b5857b0983c95b",
+    "result": [
+      "Isolated network-view checks passed: 30580"
+    ]
+  },
+  "limitations": [
+    "No target server load or compatibility validation performed.",
+    "Does not alter real connection address, native ping or another administrator plugin view.",
+    "Administrator command arguments may be logged by external server/RCON infrastructure.",
+    "No frontend integration or public count acceptance is claimed."
+  ],
+  "files": [
+    {
+      "path": "server-upload/RustTestNetworkView.cs",
+      "sha256": "648c00537f8b27840073c790e09adc3a694eb503bca8cead00682a1bb74b5272",
+      "bytes": 8208
+    },
+    {
+      "path": "server-upload/RustTestNetworkView.zh-CN.md",
+      "sha256": "757737431f9eb7871cbc69e63b4da85b0d34e48cffd8d25c42016f5299fe0f66",
+      "bytes": 3382
+    },
+    {
+      "path": "tools/rust-research/Build-RustTestNetworkView.ps1",
+      "sha256": "8fbe50608c2979fcb1cfb4036821a39c889a7684951b892a087dc203590b668d",
+      "bytes": 2625
+    },
+    {
+      "path": "tools/rust-research/TestRustTestNetworkView.cs",
+      "sha256": "0e55e80a916fd936a507d0423f348582950b034050fcca5a50b5857b0983c95b",
+      "bytes": 9254
+    },
+    {
+      "path": "tools/rust-research/Test-RustTestNetworkView.ps1",
+      "sha256": "a89609326bf7e9391637d2b09816fb587e5c920fcaddf3781658be83add468b5",
+      "bytes": 1403
+    }
+  ],
+  "staticPublicMemberValidation": {
+    "gameAssembliesExecuted": false,
+    "targetServerVersionConfirmed": false,
+    "members": [
+      {
+        "type": "BaseNetworkable",
+        "member": "net",
+        "kind": "field",
+        "public": true,
+        "signature": "Network.Networkable BaseNetworkable::net"
+      },
+      {
+        "type": "Network.Networkable",
+        "member": "connection",
+        "kind": "property",
+        "public": true,
+        "signature": "Network.Connection Network.Networkable::connection()"
+      }
+    ],
+    "gameAssemblySha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+    "networkAssemblySha256": "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833"
+  }
+}

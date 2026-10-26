@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26：新增明确标记的管理员模拟网络视图，未部署远端
+
+本次用户要求通过插件修改测试玩家IP/延迟。明确告知不实现伪造真实连接记录以配合抬高公共人数；交付替代工具 `server-upload/RustTestNetworkView.cs` 及中文说明，仅在独立testnetwork命令回复中显示 `source=simulation/simulated=true`。不会修改Connection.ipaddress、真实ping、其他插件日志、Rust status、A2S、认证或公共上报；不把该替代品称为用户所要求的真实字段改写。
+
+仅服务器控制台/受保护RCON可用，游戏内管理员同样拒绝；必须显式选择当前已连账号。使用三个RFC5737文档网段，模拟10–200ms；50账号上限、默认15/最多60分钟、过期/断线/连接替换/卸载清理，身份映射仅内存，输出TEST别名。不回显真实IP/身份，但外部RCON/服务器可能记录命令参数，说明已写明。只读公共成员适配器用于核实当前Covalence账号的真实连接引用，找不到则拒绝，不加载游戏程序集。
+
+用现有五个真实引用库及Windows Framework编译器完成离线编译；同源隔离测试验证权限、边界/唯一性及100轮旋转、真实连接不变、断线/过期/卸载等。可用 `Build-RustTestNetworkView.ps1` 和 `Test-RustTestNetworkView.ps1` 复核，证据 `rust-research/network-view-simulation-2026-10-26.json`。本机编译DLL留ignored work，不当扩展DLL部署；若以后部署源文件，路径为目标游戏根目录oxide/plugins/RustTestNetworkView.cs。
+
+未使用或保存用户新提供的远程登录凭据，未连接RDP/RCON、上传/加载到目标服、修改服务/账号或新增游戏连接；公共人数/EAC仍未解决。用户凭据不得放入仓库、报告或命令日志。此批按约定提交推送核远端SHA。
+
 ## 2026-10-26 14:54：核查103.91.208.182:17777，插件身份仍未知
 
 见 `rust-research/server-103-91-208-182-17777-review-2026-10-26.md/.json`。Steam公开登记精确给游戏17777→查询17779、AppID252490、secure=true；该安全标志不证明逐账号EAC。14:52:52北京时间Facepunch该端点公共113（批次14:49:33、Age187），与14:50:42读取正文哈希相同，不是独立新批次。不能把113归因虚拟账号或沿用16666端点信息。
