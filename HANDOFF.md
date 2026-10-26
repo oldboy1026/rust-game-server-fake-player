@@ -2,6 +2,20 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26：修正点击连接后运行库缺失却仍显示未连接的问题
+
+用户点击连接61.147.247.25:40176，48个Steam在线但Rust全closed。实时批量任务实际存在，逐项失败；旧catch把readRustRuntime的503隐藏为通用错误，RustSession在设置状态前throw，故看似按钮没动作。单账号HTTP重现503，确认本repo data/rust-runtime.json不存在，服务启动环境未配Rust路径；尚未申请该次票据/启动worker/发送游戏连接。不是新服务器DLL或EAC拒绝导致。启动新数据目录时未检查此运行前提是本机部署疏漏。
+
+新增明确的rust_runtime_unconfigured错误码及固定公开说明；RustSession在运行库配置预检失败时记录error、目标和lastError，closed=true，保留未知内部异常不外泄。活动会话冲突判断移至预检之前，避免错误配置覆盖活动会话状态。RustWorkspace任务结果和日志显示同一个白名单原因，未知错误仍保留通用说明。17项相关Node测试通过，新增真实Session+Workspace回归证明缺配置不申请票据、不启动worker，界面状态error/连接未成功及目标一致，不泄漏私有路径/密码。没有改变协议/认证/EAC逻辑。
+
+本机可用Codex捆绑64位Python；只确认workspace旧服务端RakNet.dll为a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21，当前worker支持的客户端固定哈希为5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44，不能直接替换。用户桌面/下载/文档的扩展搜索未及时完成，已终止，不宣称穷尽全盘。尚未取得当前支持的客户端DLL，本轮不放宽哈希或冒充已恢复入服。
+
+新增 steam-multi-account/scripts/configure-rust-runtime.mjs --dll PATH [--python PATH]：配置前查固定DLL哈希、Python3.10+64位和worker存在，再原子写本机data/rust-runtime.json；省略Python可使用env或Codex捆绑解释器。旧服务端DLL负向检查正确返回unsupported_dll_hash，未写配置、未加载不支持DLL。补齐文件后每次连接自动读取配置，不用再重启。需要从有官方游戏的电脑取RustClient_Data/Plugins/x86_64/RakNet.dll对应已验证版本，后续版本须另行验证，不只改哈希。
+
+加载修复需一次主服务正常重启；重启前48/48 Steam在线、48启用恢复、Rust活动0、运行批量任务0。保留账号与refreshToken数据，随后确认实际恢复结果，不批量重连Rust。当前缺文件仍是实际入服阻塞，不能把错误可见性修复当作连接恢复。
+
+修复已实际加载。重启后选一个Steam已在线账号，对原目标提交一次批量操作：返回明确运行库缺失，账号Rust.state=error、lastError.code=rust_runtime_unconfigured、host/port匹配，connected=false；无工作进程或认证票据。重启后Steam按每秒一个错开恢复，已观察47在线/1连接中，未把初期离线/重连当作账号丢失。后续以实时状态为准；不重复启动服务或批量登录来催促尚在恢复的账号。
+
 ## 2026-10-26：根据原 DLL 新写并编译 RustPresenceBridge，部署验证待用户上传
 
 用户提供实际 Oxide.Ext.RustJiaRen.dll，要求新写可配合独立程序验证公共人数变化的 DLL 及上传位置。原 DLL SHA256 e6419fb05800a15354fdae03573e3ed203c2ca9a53089ff729992d075ff402e2、17408字节，仅dnlib静态读取，5个相关调用点见 server-upload/rust-presence-bridge/reference-review.json。未执行或分发原DLL，未复制人工Connection/随机IP/伪造OK分析事件/FakePlayers累加逻辑。

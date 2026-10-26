@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 import { ApiError } from './errors.js';
-import { validateRustDestination } from './rust-connection.js';
+import { rustRuntimeErrorMessage, validateRustDestination } from './rust-connection.js';
 import { query } from '../../rust-research/query-server.mjs';
 
 const ACTIVE = new Set(['connecting', 'receiving_world', 'player_initialized', 'entered_game', 'stopping']);
@@ -328,10 +328,12 @@ export class RustWorkspace {
             this.addLog(id, '已请求断开 Rust 服务器。');
             this.result(job, name, 'started', '正在正常断开并清理票据。');
           }
-        } catch {
-          this.result(job, name, 'failed', input.action === 'connect' && account.state !== 'online'
+        } catch (error) {
+          const runtimeMessage = input.action === 'connect' ? rustRuntimeErrorMessage(error) : null;
+          const message = runtimeMessage || (input.action === 'connect' && account.state !== 'online'
             ? '请先登录 Steam 后再连接。' : '操作未成功，请查看该账号日志和状态。');
-          this.addLog(id, '批量操作未成功，请检查账号状态。', 'error');
+          this.result(job, name, 'failed', message);
+          this.addLog(id, runtimeMessage || '批量操作未成功，请检查账号状态。', 'error');
         }
       }
     })().catch(() => {}).finally(() => this.finish(job));

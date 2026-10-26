@@ -7,6 +7,12 @@ import { ApiError } from './errors.js';
 
 export const RUST_WORKER = fileURLToPath(new URL('../../tools/rust-research/rust-peer.py', import.meta.url));
 export const RUST_DLL_SHA256 = '5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44';
+const RUNTIME_ERRORS = Object.freeze({
+  rust_runtime_unconfigured: '本机尚未配置 Rust 连接运行库。请配置兼容的客户端 RakNet.dll 和 64 位 Python；连接尚未发起。',
+});
+export function rustRuntimeErrorMessage(error) {
+  return error instanceof ApiError && Object.hasOwn(RUNTIME_ERRORS, error.code) ? RUNTIME_ERRORS[error.code] : null;
+}
 const STAGES = new Set([
   'native_wrapper_created', 'native_wrapper_closed', 'native_create_failed',
   'native_start_failed', 'native_connect_start_failed', 'transport_connect_started',
@@ -138,7 +144,7 @@ export function readRustRuntime(env = process.env) {
   const dll = env.RUST_NATIVE_DLL || saved.dll;
   const python = env.RUST_PYTHON || saved.python;
   if (typeof dll !== 'string' || typeof python !== 'string' || !isAbsolute(dll) || !isAbsolute(python)) {
-    throw new ApiError(503, '请在服务启动环境配置绝对路径 RUST_NATIVE_DLL 和 RUST_PYTHON。');
+    throw Object.assign(new ApiError(503, RUNTIME_ERRORS.rust_runtime_unconfigured), { code: 'rust_runtime_unconfigured' });
   }
   return { dll, python, worker: RUST_WORKER, sha256: RUST_DLL_SHA256 };
 }

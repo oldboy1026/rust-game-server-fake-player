@@ -248,6 +248,10 @@ await api.stopIdling('account1');
 
 本机可在被忽略的 `data/rust-runtime.json` 保存 `{"dll":"RakNet.dll绝对路径","python":"Python绝对路径"}`，环境变量优先。该文件只存本机路径，迁移电脑后需重新配置。持续会话目前不自动恢复；服务重启后先等待账号上线，再连接服务器。
 
+也可在本目录执行 `node scripts/configure-rust-runtime.mjs --dll "客户端RakNet.dll路径" --python "64位Python路径"`。脚本先核对当前支持的 DLL SHA256 及 Python 3.10+、64 位，再写入本机路径；省略 --python 时使用已配置的 RUST_PYTHON 或本机 Codex 捆绑 Python。需要的是 Rust 客户端 `RustClient_Data/Plugins/x86_64/RakNet.dll`，不是服务器扩展 DLL；服务端同名库哈希可能不同。当前固定客户端哈希为 `5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44`，不支持的文件会被拒绝，不会静默替换版本。设置文件在每次开始 Rust 连接时读取，补齐后无需重启服务。
+
+运行库未配置时，账号 Rust 状态会显示连接结束及具体原因，批量结果和日志也会保留该原因；此时尚未申请入服票据或启动网络进程，不代表服务器拒绝或 EAC 失败。
+
 请求可选严格布尔值 `wakeOnConnect`，默认 `false`；账号详情和 Rust 页面对应“入服后尝试唤醒一次”。例如单账号请求 `{"host":"127.0.0.1","port":28015,"wakeOnConnect":true}`。命令行 worker 对应 `--wake-on-connect`。后端代码更新需要重新启动服务才能接受新选项，现有运行中的会话不会自动启用；本批没有重启用户服务。
 
 启用后，只在已批准的无加密连接、同一自身实体的 FinishLoading、两秒内有序完整自身快照、存活且有正健康值、已连接且不在接收快照/旁观/受伤/转移状态时，尝试一次普通 `PlayerTick` 唤醒。初版只支持有接地模型状态、静止、无父实体/坐骑、非水中及非特殊移动姿态；从自身完整快照取得位置、视角和模型，按无父实体的直立/蹲伏眼位构造完整输入。未支持状态等待后续快照，不猜测坐标或执行管理员唤醒命令。

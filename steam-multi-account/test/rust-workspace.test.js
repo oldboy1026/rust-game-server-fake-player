@@ -5,6 +5,10 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { AccountManager } from '../src/accounts.js';
 import { RustWorkspace } from '../src/rust-workspace.js';
 import { createApiServer } from '../src/http.js';
+import { RustSession } from '../src/rust-session.js';
+import { mkdtempSync, rmdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 class FakeClient extends EventEmitter {
   logOn(details) {
@@ -42,6 +46,31 @@ async function completed(workspace, job) {
   }
   assert.fail('Batch did not finish');
 }
+
+test('missing runtime fails visibly before tickets or workers and batch results retain the safe reason', async t => {
+  const directory = mkdtempSync(join(tmpdir(), 'rust-runtime-missing-'));
+  t.after(() => rmdirSync(directory));
+  const { manager, workspace } = fixture(t);
+  manager.login('one', { accountName: 'alpha', password: 'private-password' });
+  let tickets = 0, workers = 0;
+  const session = new RustSession({ spawnWorker: () => { workers++; throw new Error('must not spawn'); } });
+  const account = manager.get('one');
+  account.features.startRustSession = input => session.start({ withSessionTicket() { tickets++; } },
+    input, 'Player', { STEAM_DATA_DIR: directory });
+  account.features.rustSessionStatus = () => session.snapshot();
+  const job = await completed(workspace, workspace.startActions({ action: 'connect', accountIds: ['one'],
+    target: { host: '61.147.247.25', port: 40176 } }));
+  assert.equal(job.results[0].status, 'failed');
+  assert.match(job.results[0].message, /尚未配置 Rust 连接运行库/);
+  const state = workspace.overview().accounts[0].rust;
+  assert.equal(state.state, 'error'); assert.equal(state.connected, false);
+  assert.equal(state.lastError.code, 'rust_runtime_unconfigured');
+  assert.equal(state.lastError.message, job.results[0].message);
+  assert.equal(state.host, '61.147.247.25'); assert.equal(state.port, 40176);
+  assert.equal(tickets, 0); assert.equal(workers, 0);
+  const output = JSON.stringify({ job, state, logs: workspace.accountLogs('one') });
+  assert.ok(!output.includes(directory)); assert.ok(!output.includes('private-password'));
+});
 
 test('import isolates success, Guard, failure, timeout and malformed rows without exposing passwords', async t => {
   const { manager, workspace, clients, store } = fixture(t);

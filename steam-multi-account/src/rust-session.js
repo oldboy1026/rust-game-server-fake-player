@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 import { ApiError } from './errors.js';
-import { readRustRuntime, safeMetadata, validateRustDestination } from './rust-connection.js';
+import { readRustRuntime, rustRuntimeErrorMessage, safeMetadata, validateRustDestination } from './rust-connection.js';
 
 const MAX_LINE_BYTES = 65536;
 const STOP_GRACE_MS = 5000;
@@ -103,8 +103,20 @@ export class RustSession {
       throw new ApiError(400, 'wakeOnConnect 必须为布尔值。');
     }
     const wakeOnConnect = input.wakeOnConnect === true;
-    const runtime = readRustRuntime(env);
     if (this.#run) throw new ApiError(409, '该账号的 Rust 会话或清理仍在进行，请先停止并等待结束。');
+    let runtime;
+    try { runtime = readRustRuntime(env); }
+    catch (error) {
+      const message = rustRuntimeErrorMessage(error);
+      if (message) {
+        const at = new Date().toISOString();
+        this.#status = { state: 'error', ...destination, startedAt: at, endedAt: at,
+          metadata: safeMetadata({ closed: true, playerConnected: false, eacVerified: false }),
+          lastError: { code: error.code, message } };
+        this.#notifyActivity();
+      }
+      throw error;
+    }
     const run = { child: null, workerStarted: false, reachedEnteredGame: false, respawnOnDead, wakeOnConnect,
       stopRequested: false, stopSent: false, killTimer: null, failure: null,
       chatSequence: 0, chatRequest: null, nextChatAt: 0 };
