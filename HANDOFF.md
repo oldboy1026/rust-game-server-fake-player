@@ -2,6 +2,18 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26 16:47：查询代理已集成并上线，本机人数改写实测通过，公共路径仍待部署
+
+先读 `rust-research/query-proxy-integration-2026-10-26.md/.json`。按用户明确要求把先前复核的 Go 项目功能重新实现为 Node A2S 代理，新增 `src/rust-query-proxy.js`、本地 Bearer 状态/启动/停止/三方采样 API 和 `/rust` 网页控件。INFO 人数及 PLAYER 追加标记条目生效；保留 cp。challenge复用上游socket，支持普通分片、超时/数量/速率边界；压缩分片不支持。68项Node测试通过（代理10项），只读审查无实质问题。
+
+真实目标 `61.147.247.25:40176`，上游查询40177、回环代理42177追加2：原始players0、代理2、PLAYER两个TEST、cp0/0。16:40模块、16:44 API、16:45网页均核对。Facepunch成功读取的16:39:55批次没有目标条目（不是0）；初次网页公共查询失败，随后读取成功。同批次不算新版本，公共路径未接管，不能声称公共人数修复。Steam登记发现本轮请求失败，端口仅由直接Rust A2S游戏端口相符核对。
+
+**主服务已控制重载，当前为后台Node进程，PID17528（继续前仍读实时状态）**，日志 `steam-multi-account/data/query-proxy-service-runtime.log`。重载前48 Steam在线、Rust活动0，不按旧5/16名单恢复；重载后48/48在线、autoConnect一致。16:46:50最终Steam48、Rust0，查询代理已停止、客户端0；用户现有网页保留。私有前后快照在workspace `work/query-proxy-integration/`，别误找仓库同名work；不要重跑reload-service.mjs或旧恢复脚本。
+
+新增 `tools/rust-research/run-query-proxy.mjs`（10–900秒窗口）、`Build-QueryProxyPackage.ps1`和`server-upload/query-proxy/README.zh-CN.md`。便携包只有3份公开源码+说明+type:module配置+SHA清单，Node22无npm安装；本机包smoke真实查询0→2，10秒自然退出0、无残留。生成包在仓库 ignored `work/query-proxy-package-*`。此代理不是Oxide DLL，不放oxide目录，不创建Rust/EAC。
+
+**待续：用户已答面板支持UDP转发，正在等待面板网址/现有映射（异步问题已发）**。拿到后先核对当前登记及公共→后端UDP路径、保存回滚；需让已登记公共查询端口真正经过代理，不能仅新开临时端口。尚未远程部署/改转发/改游戏配置；Windows netsh portproxy是TCP不能用。代理停止不会替面板撤销转发，务必恢复原路由。有效EAC和Facepunch公共增长均未验证。凭据不得写入仓库/日志；本批按约定提交推送并核远端SHA。
+
 ## 2026-10-26：复核用户提供的server-query-fake-player-count项目
 
 见 `rust-research/query-fake-player-count-review-2026-10-26.md/.json`。18次公开HTTP，默认master固定ffd3edd24466dc4b40a5521fbc7cc666672947d2全部6文件、issues/评论/发布，以及port-remapping固定f0ba3cbea4e7ab015fbe5ea457bd1e6ad9bdd507完整main.go和compare。是原用于DayZ的Go UDP查询代理，改INFO单字节人数并在PLAYER追加空名占位条目；不解析Rust cp、无账号登录/实际Rust入服/EAC/Facepunch收录链，不能保证公共人数增加。

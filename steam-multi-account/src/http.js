@@ -5,6 +5,8 @@ import { ApiError } from './accounts.js';
 import { FreeCatalog } from './catalog.js';
 import { RustWorkspace } from './rust-workspace.js';
 import { RustPublicQuery } from './rust-public-query.js';
+import { RustQueryProxy } from './rust-query-proxy.js';
+import { query as a2sQuery } from '../../rust-research/query-server.mjs';
 
 function send(response, status, body) {
   response.writeHead(status, {
@@ -46,6 +48,8 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
   const expected = Buffer.from(`Bearer ${apiKey}`);
   const rustWorkspace = new RustWorkspace(manager, rustWorkspaceOptions);
   const rustPublicQuery = new RustPublicQuery(rustPublicQueryOptions);
+  const queryProxy = new RustQueryProxy();
+  let samplingProxy = false;
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
@@ -99,6 +103,45 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
         return send(response, 200, { accounts: manager.list() });
       }
       if (path === '/v1/rust/overview' && request.method === 'GET') return send(response, 200, rustWorkspace.overview());
+      if (path === '/v1/rust/query-proxy') {
+        if (request.method === 'GET') return send(response, 200, queryProxy.status());
+        if (request.method === 'POST') {
+          try { return send(response, 200, await queryProxy.start(await readJson(request))); }
+          catch (error) { if (error.proxyInputError) throw new ApiError(400, error.message); throw error; }
+        }
+        if (request.method === 'DELETE') {
+          try { return send(response, 200, await queryProxy.stop()); }
+          catch (error) { if (error.proxyInputError) throw new ApiError(409, error.message); throw error; }
+        }
+      }
+      if (path === '/v1/rust/query-proxy/sample' && request.method === 'POST') {
+        const input = await readJson(request);
+        if (Object.keys(input).length) throw new ApiError(400, '采样请求体必须是 {}。');
+        if (samplingProxy) throw new ApiError(429, '代理对照采样正在进行。');
+        const state = queryProxy.status();
+        if (!state.running) throw new ApiError(409, '请先启动查询代理。');
+        samplingProxy = true;
+        try {
+          const sample = async (host, port) => {
+            try {
+              const info = await a2sQuery(host, port, 'info', { timeoutMs: 3500 });
+              if (info.folder !== 'rust' || (info.gamePort !== undefined && info.gamePort !== state.configuration.gamePort))
+                return { ok: false, error: 'server_identity_mismatch' };
+              const cp = (info.tags || '').split(',').filter(tag => /^cp\d+$/.test(tag));
+              return { ok: true, observedAt: new Date().toISOString(), players: info.players, maxPlayers: info.maxPlayers,
+                cp: cp.length === 1 ? Number(cp[0].slice(2)) : null };
+            } catch { return { ok: false, error: 'a2s_query_failed' }; }
+          };
+          const config = state.configuration;
+          const [original, proxied, facepunch] = await Promise.all([
+            sample(config.host, config.queryPort), sample('127.0.0.1', config.listenPort),
+            rustPublicQuery.publicCount(`${config.host}:${config.gamePort}`),
+          ]);
+          if (queryProxy.startedAt !== state.startedAt || !queryProxy.listener) throw new ApiError(409, '代理已变化，请重新采样。');
+          return send(response, 200, { observedAt: new Date().toISOString(), configuration: config, original, proxied, facepunch,
+            publicPathVerified: false, queryProxy: queryProxy.status() });
+        } finally { samplingProxy = false; }
+      }
       if (path === '/v1/rust/server-query' && request.method === 'POST')
         return send(response, 200, await rustPublicQuery.server(await readJson(request)));
       if (path === '/v1/rust/import' && request.method === 'POST')
@@ -180,7 +223,7 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
     }
   });
   server.requestTimeout = 15000;
-  server.once('close', () => rustWorkspace.close());
+  server.once('close', () => { rustWorkspace.close(); queryProxy.close(); });
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
   return server;

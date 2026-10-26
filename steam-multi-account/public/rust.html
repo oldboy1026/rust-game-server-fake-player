@@ -51,6 +51,20 @@
           <div id="public-player-list" class="public-player-list"></div>
         </div>
       </section>
+      <section class="panel public-query-panel" aria-labelledby="proxy-title">
+        <div class="section-heading"><div><h2 id="proxy-title">A2S 查询代理测试</h2><p class="muted">对照原始查询、增加测试条目后的回复和 Facepunch 公共人数。默认关闭，追加数量为 0 时透传人数。</p></div></div>
+        <form id="proxy-form" class="connect-target">
+          <div class="target-field grow"><label for="proxy-host">上游服务器 IPv4</label><input id="proxy-host" value="61.147.247.25" required autocomplete="off"></div>
+          <div class="target-field"><label for="proxy-game-port">游戏端口</label><input id="proxy-game-port" type="number" min="1" max="65535" value="40176" required></div>
+          <div class="target-field"><label for="proxy-query-port">上游查询端口</label><input id="proxy-query-port" type="number" min="1" max="65535" value="40177" required></div>
+          <div class="target-field"><label for="proxy-listen-port">本机监听端口</label><input id="proxy-listen-port" type="number" min="1" max="65535" value="42177" required></div>
+          <div class="target-field"><label for="proxy-add">追加测试条目</label><input id="proxy-add" type="number" min="0" max="50" value="0" required></div>
+          <div class="toolbar"><button id="proxy-start" type="submit" class="button primary">启动代理</button><button id="proxy-stop" type="button" class="button secondary">停止代理</button><button id="proxy-sample" type="button" class="button secondary">采集三方对照</button><button id="proxy-refresh" type="button" class="button secondary">读取代理状态</button></div>
+        </form>
+        <p id="proxy-status" class="muted" role="status" aria-live="polite">代理默认关闭。</p>
+        <p class="fineprint">这里的代理只监听本机，不会自动接管目标服务器的公共查询端点。Rust 的 cp 标签保持原值；追加的 [A2S TEST] 条目不会创建真实玩家或 EAC 会话。Facepunch 是否改变需在公共查询路径确认后另行验证。</p>
+        <div id="proxy-counts" class="server-groups"></div><p id="proxy-cache" class="fineprint"></p>
+      </section>
       <section class="panel account-panel" aria-labelledby="accounts-title">
         <div class="section-heading"><div><h2 id="accounts-title">账号与连接</h2><p id="selection-summary" class="muted">选择账号后，批量登录或连接服务器。</p></div><div class="toolbar"><button id="clear-selection" class="button secondary small" type="button" disabled>取消选择</button><button id="refresh-button" class="button secondary small" type="button">刷新状态</button></div></div>
         <form id="connect-form" class="connect-target">

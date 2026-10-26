@@ -9,6 +9,7 @@ let logAccount = null, logRevision = 0, loadingLogs = false;
 let chatAccount = null, chatSending = false;
 let actionAccount = null, actionSending = false;
 let publicQueryRevision = 0, publicQueryBusy = false;
+let proxyBusy = false, proxyState = null;
 const selected = new Set(), expandedJobs = new Map(), receivedJobs = new Map();
 const accountRows = new Map(), serverCards = new Map();
 let emptyServers = null;
@@ -80,6 +81,9 @@ function setUnlocked(value) {
   $('#import-shortcut').hidden = !value;
 }
 function lock() {
+  proxyBusy = false; proxyState = null;
+  $('#proxy-counts').replaceChildren(); $('#proxy-cache').textContent = '';
+  $('#proxy-status').textContent = '页面已锁定，代理状态待读取。';
   ++publicQueryRevision; publicQueryBusy = false;
   $('#public-query-button').disabled = false;
   $('#public-query-result').hidden = true;
@@ -115,6 +119,7 @@ async function unlock(value) {
   apiKey = candidate; sessionStorage.setItem('steam-api-key', candidate);
   $('#api-key').value = ''; setUnlocked(true); notice('');
   render(result);
+  void refreshProxy();
 }
 function filteredAccounts() {
   const term = $('#account-search').value.trim().toLowerCase(), filter = $('#account-filter').value;
@@ -514,6 +519,64 @@ $('#public-query-form').addEventListener('submit', async event => {
     if (error.status === 401) handleError(error);
   } finally { if (revision === publicQueryRevision) { publicQueryBusy = false; $('#public-query-button').disabled = false; } }
 });
+
+function renderProxy(state) {
+  proxyState = state;
+  $('#proxy-start').disabled = proxyBusy || state?.running === true || state?.changing === true;
+  $('#proxy-stop').disabled = proxyBusy || state?.running !== true;
+  $('#proxy-sample').disabled = proxyBusy || state?.running !== true;
+  $('#proxy-refresh').disabled = proxyBusy;
+  if (state?.running) {
+    const c = state.configuration, stats = state.counters || {};
+    $('#proxy-status').textContent = `已启动：127.0.0.1:${c.listenPort} → ${c.host}:${c.queryPort}；追加 ${c.addPlayers} 个测试条目。请求 ${stats.requests || 0}，已修改回复 ${stats.modifiedReplies || 0}，上游错误 ${stats.upstreamErrors || 0}${state.lastError ? `（${state.lastError}）` : ''}。公共查询路径未接管。`;
+  } else $('#proxy-status').textContent = '代理已停止。';
+}
+async function proxyOperation(method, body, suffix = '') {
+  if (!apiKey || proxyBusy) return;
+  const version = viewVersion;
+  proxyBusy = true; renderProxy(proxyState);
+  try {
+    const result = await request(`/v1/rust/query-proxy${suffix}`, method, body);
+    if (version !== viewVersion) return;
+    if (!suffix) renderProxy(result);
+    else {
+      renderProxy(result.queryProxy);
+      const rows = $('#proxy-counts'); rows.replaceChildren();
+      for (const [title, value] of [
+        ['原始 A2S', result.original.ok ? result.original.players : '查询失败'],
+        ['代理 A2S（测试）', result.proxied.ok ? result.proxied.players : '查询失败'],
+        ['原始 / 代理 cp', `${result.original.cp ?? '未知'} / ${result.proxied.cp ?? '未知'}`],
+        ['Facepunch 公共人数', result.facepunch.ok ? result.facepunch.players : '未知'],
+      ]) {
+        const card = element('article', 'server-group'); card.append(element('h3', '', title), element('strong', '', String(value))); rows.append(card);
+      }
+      const h = result.facepunch.headers || {}, c = result.configuration;
+      $('#proxy-cache').textContent = `目标 ${c.host}:${c.gamePort} · 采样于 ${date(result.observedAt)}；Facepunch批次 ${date(h['last-modified'])}，Age ${h.age ?? '未知'} 秒，缓存 ${h['cf-cache-status'] ?? '未知'}。本次仅验证本机查询路径，未验证公共人数改变。`;
+    }
+    if (method === 'POST' && !suffix) { $('#proxy-counts').replaceChildren(); $('#proxy-cache').textContent = ''; }
+  } catch (error) {
+    if (version !== viewVersion) return;
+    $('#proxy-status').textContent = error.message;
+    if (error.status === 401) handleError(error);
+  } finally {
+    if (version === viewVersion) {
+      proxyBusy = false;
+      $('#proxy-start').disabled = proxyState?.running === true;
+      $('#proxy-stop').disabled = proxyState?.running !== true;
+      $('#proxy-sample').disabled = proxyState?.running !== true;
+      $('#proxy-refresh').disabled = false;
+    }
+  }
+}
+async function refreshProxy() { return proxyOperation('GET'); }
+$('#proxy-form').addEventListener('submit', event => {
+  event.preventDefault();
+  void proxyOperation('POST', { host: $('#proxy-host').value.trim(), gamePort: Number($('#proxy-game-port').value),
+    queryPort: Number($('#proxy-query-port').value), listenPort: Number($('#proxy-listen-port').value), addPlayers: Number($('#proxy-add').value) });
+});
+$('#proxy-stop').addEventListener('click', () => { void proxyOperation('DELETE'); });
+$('#proxy-sample').addEventListener('click', () => { void proxyOperation('POST', {}, '/sample'); });
+$('#proxy-refresh').addEventListener('click', () => { void refreshProxy(); });
 
 $('#unlock-form').addEventListener('submit', async event => {
   event.preventDefault(); const submit = event.submitter; submit.disabled = true;

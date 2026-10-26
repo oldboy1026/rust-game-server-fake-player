@@ -1,0 +1,269 @@
+{
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "implementation": "Node.js reimplementation of A2S reply modification",
+  "originalProject": "https://github.com/anatolykopyl/server-query-fake-player-count",
+  "upstreamReviewedCommit": "ffd3edd24466dc4b40a5521fbc7cc666672947d2",
+  "automatedValidation": {
+    "nodeTests": 68,
+    "passed": 68,
+    "failed": 0,
+    "proxyTests": 10
+  },
+  "liveModuleTest": {
+    "at": "2026-10-26T08:40:38.017Z",
+    "configuration": {
+      "host": "61.147.247.25",
+      "gamePort": 40176,
+      "queryPort": 40177,
+      "listenPort": 42177,
+      "addPlayers": 2
+    },
+    "original": {
+      "ok": true,
+      "players": 0,
+      "maxPlayers": 200,
+      "folder": "rust",
+      "gamePort": 40176,
+      "cp": [
+        "cp0"
+      ]
+    },
+    "proxied": {
+      "ok": true,
+      "players": 2,
+      "maxPlayers": 200,
+      "folder": "rust",
+      "gamePort": 40176,
+      "cp": [
+        "cp0"
+      ]
+    },
+    "facepunch": {
+      "observedAt": "2026-10-26T08:40:38.371Z",
+      "headers": {
+        "date": "Mon, 26 Oct 2026 08:40:26 GMT",
+        "age": "30",
+        "last-modified": "Mon, 26 Oct 2026 08:39:55 GMT",
+        "cache-control": "public, max-age=86400",
+        "cf-cache-status": "HIT"
+      },
+      "localCacheHit": false,
+      "source": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "ok": false,
+      "error": "target_not_listed",
+      "players": null
+    },
+    "players": {
+      "ok": true,
+      "count": 2,
+      "testEntries": 2
+    },
+    "status": {
+      "running": true,
+      "changing": false,
+      "configuration": {
+        "host": "61.147.247.25",
+        "gamePort": 40176,
+        "queryPort": 40177,
+        "listenPort": 42177,
+        "addPlayers": 2,
+        "listenHost": "127.0.0.1"
+      },
+      "listener": {
+        "address": "127.0.0.1",
+        "family": "IPv4",
+        "port": 42177
+      },
+      "activeQueryClients": 2,
+      "startedAt": "2026-10-26T08:40:38.021Z",
+      "counters": {
+        "requests": 4,
+        "responses": 4,
+        "modifiedReplies": 2,
+        "droppedRequests": 0,
+        "upstreamErrors": 0
+      },
+      "lastInfo": {
+        "kind": "info",
+        "originalPlayers": 0,
+        "proxiedPlayers": 2,
+        "maxPlayers": 200,
+        "cp": 0,
+        "observedAt": "2026-10-26T08:40:38.254Z"
+      },
+      "lastPlayers": {
+        "kind": "players",
+        "originalPlayers": 0,
+        "proxiedPlayers": 2,
+        "observedAt": "2026-10-26T08:40:38.448Z"
+      },
+      "lastError": null,
+      "publicPathVerified": false,
+      "effectiveEacEstablished": false
+    },
+    "finalStatus": {
+      "running": false,
+      "changing": false,
+      "configuration": {
+        "host": "61.147.247.25",
+        "gamePort": 40176,
+        "queryPort": 40177,
+        "listenPort": 42177,
+        "addPlayers": 2,
+        "listenHost": "127.0.0.1"
+      },
+      "listener": null,
+      "activeQueryClients": 0,
+      "startedAt": "2026-10-26T08:40:38.021Z",
+      "counters": {
+        "requests": 4,
+        "responses": 4,
+        "modifiedReplies": 2,
+        "droppedRequests": 0,
+        "upstreamErrors": 0
+      },
+      "lastInfo": {
+        "kind": "info",
+        "originalPlayers": 0,
+        "proxiedPlayers": 2,
+        "maxPlayers": 200,
+        "cp": 0,
+        "observedAt": "2026-10-26T08:40:38.254Z"
+      },
+      "lastPlayers": {
+        "kind": "players",
+        "originalPlayers": 0,
+        "proxiedPlayers": 2,
+        "observedAt": "2026-10-26T08:40:38.448Z"
+      },
+      "lastError": null,
+      "publicPathVerified": false,
+      "effectiveEacEstablished": false
+    }
+  },
+  "liveApiTest": {
+    "observedAt": "2026-10-26T08:44:22.355Z",
+    "configuration": {
+      "host": "61.147.247.25",
+      "gamePort": 40176,
+      "queryPort": 40177,
+      "listenPort": 42177,
+      "addPlayers": 2,
+      "listenHost": "127.0.0.1"
+    },
+    "original": {
+      "ok": true,
+      "observedAt": "2026-10-26T08:44:18.812Z",
+      "players": 0,
+      "maxPlayers": 200,
+      "cp": 0
+    },
+    "proxied": {
+      "ok": true,
+      "observedAt": "2026-10-26T08:44:18.812Z",
+      "players": 2,
+      "maxPlayers": 200,
+      "cp": 0
+    },
+    "facepunch": {
+      "observedAt": "2026-10-26T08:44:22.355Z",
+      "headers": {
+        "date": "Mon, 26 Oct 2026 08:44:10 GMT",
+        "age": "254",
+        "last-modified": "Mon, 26 Oct 2026 08:39:55 GMT",
+        "cache-control": "public, max-age=86400",
+        "cf-cache-status": "HIT"
+      },
+      "localCacheHit": false,
+      "source": "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+      "ok": false,
+      "error": "target_not_listed",
+      "players": null
+    },
+    "publicPathVerified": false,
+    "queryProxy": {
+      "running": true,
+      "changing": false,
+      "configuration": {
+        "host": "61.147.247.25",
+        "gamePort": 40176,
+        "queryPort": 40177,
+        "listenPort": 42177,
+        "addPlayers": 2,
+        "listenHost": "127.0.0.1"
+      },
+      "listener": {
+        "address": "127.0.0.1",
+        "family": "IPv4",
+        "port": 42177
+      },
+      "activeQueryClients": 1,
+      "startedAt": "2026-10-26T08:42:27.016Z",
+      "counters": {
+        "requests": 4,
+        "responses": 4,
+        "modifiedReplies": 2,
+        "droppedRequests": 0,
+        "upstreamErrors": 0
+      },
+      "lastInfo": {
+        "kind": "info",
+        "originalPlayers": 0,
+        "proxiedPlayers": 2,
+        "maxPlayers": 200,
+        "cp": 0,
+        "observedAt": "2026-10-26T08:44:18.812Z"
+      },
+      "lastPlayers": null,
+      "lastError": null,
+      "publicPathVerified": false,
+      "effectiveEacEstablished": false
+    }
+  },
+  "registrationAttempt": {
+    "at": "2026-10-26T08:45:26.983Z",
+    "host": "61.147.247.25",
+    "gamePort": 40176,
+    "discovery": {
+      "ok": false,
+      "observedAt": "2026-10-26T08:45:32.015Z",
+      "error": "query_failed"
+    }
+  },
+  "portablePackageSmoke": {
+    "at": "2026-10-26T08:44:51.970Z",
+    "packageManifestFiles": 5,
+    "exitCode": 0,
+    "stderrEmpty": true,
+    "players": 2,
+    "cp": [
+      "cp0"
+    ],
+    "playerCount": 2,
+    "testEntries": 2,
+    "started": true,
+    "automaticallyStopped": true,
+    "remainingQueryClients": 0
+  },
+  "controlledReload": {
+    "at": "2026-10-26T08:42:49.280Z",
+    "expectedSteamOnline": 48,
+    "restoredSteamOnline": 48,
+    "settingsPreserved": true,
+    "rustBefore": 0,
+    "rustAfter": 0,
+    "proxyLoaded": true
+  },
+  "finalState": {
+    "at": "2026-10-26T08:46:50.099Z",
+    "steamOnline": 48,
+    "totalAccounts": 48,
+    "rustConnected": 0,
+    "proxyRunning": false,
+    "proxyClients": 0
+  },
+  "publicPathDeployed": false,
+  "facepunchIncreaseVerified": false,
+  "effectiveRustEacSessionEstablished": false
+}

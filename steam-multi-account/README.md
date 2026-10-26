@@ -19,6 +19,8 @@
 
 接口为 `POST /v1/rust/server-query`，沿用本地 Bearer 和同源校验。JSON 示例：`{"host":"202.189.21.58","port":30921,"queryPort":30923,"includePlayers":true}`。`queryPort` 和 `includePlayers` 可省略。各数据源分别返回状态，部分查询失败仍可显示其他来源。不会发送 Steam 账号票据给公共接口。服务端实验插件与上传位置见 [server-upload/README.zh-CN.md](../server-upload/README.zh-CN.md)。
 
+“A2S 查询代理测试”已将 `server-query-fake-player-count` 的查询回复修改功能接入本系统：可对比原始 A2S、追加 `[A2S TEST]` 条目后的 A2S 和 Facepunch 公共人数，保留原始 `cp`。管理端固定回环监听，默认追加 0；启动、停止、状态及采样 API 为 `/v1/rust/query-proxy` 和 `/v1/rust/query-proxy/sample`。本机代理不会自动接管远程公共查询，不建立玩家或 EAC 会话。独立部署包、实际 UDP 路径及回滚说明见 [查询代理部署说明](../server-upload/query-proxy/README.zh-CN.md)，实测结果见 [集成报告](../rust-research/query-proxy-integration-2026-10-26.md)。
+
 - 每行按 `账号:密码` 批量导入并登录，每批最多 200 个。密码中可以包含冒号；提交后输入区立即清空，密码不进入任务结果、账号日志或账号存储。
 - 新账号需要邮箱/手机验证码、登录失败或超时会自动停止并移出；逐行显示原因。已有账号记录保留，已经在线的账号保留当前连接。本页不提交验证码。
 - 勾选多个账号，批量登录 Steam、连接指定 IPv4 和游戏端口，或正常断开。查询端口可选填，默认游戏端口加一。账号会错开连接，已有活动 Rust 连接会跳过并保留。
