@@ -1,0 +1,807 @@
+{
+  "date": "2026-10-26",
+  "scope": "Rust+ companion authentication, EAC sessions and public player counts",
+  "conclusions": {
+    "rustplusConnectsTo": "companion app.port over WebSocket",
+    "credentials": "companion playerId/playerToken; Steam web/FCM registration is a separate flow",
+    "nexusAuthReturns": "serverId and application playerToken from GetOrGenerateAppToken",
+    "appInfoPlayerCountSource": "BasePlayer.activePlayerList.Count in inspected protocol2635 server",
+    "eacSessionSolutionFound": false,
+    "publicCountFixFound": false,
+    "rustplusInstalledOrPaired": false,
+    "liveTargetCompanionConnectionAttempted": false,
+    "existingServiceRestarted": false,
+    "accountCredentialsReadOrSent": false,
+    "usefulFor": [
+      "map",
+      "team info/chat",
+      "smart devices",
+      "internal player-count observation"
+    ]
+  },
+  "coverage": {
+    "httpRequests": 49,
+    "http200": 49,
+    "pinnedProjects": 5,
+    "pinnedReadmeAndSourceFiles": 24,
+    "browserRenderedOfficialPages": 3,
+    "scopeLimit": "selected implementations; not proof that private implementations do not exist"
+  },
+  "searches": [
+    {
+      "id": "search-rustplus",
+      "url": "https://api.github.com/search/repositories?q=rustplus+in:name,description&per_page=12&sort=stars",
+      "total": 140,
+      "returned": 12,
+      "incompleteResults": false
+    },
+    {
+      "id": "search-rustplus-eac",
+      "url": "https://api.github.com/search/repositories?q=rustplus+EAC&per_page=10",
+      "total": 0,
+      "returned": 0,
+      "incompleteResults": false
+    },
+    {
+      "id": "issues-rustplus-eac",
+      "url": "https://api.github.com/search/issues?q=rustplus+EAC&per_page=10",
+      "total": 0,
+      "returned": 0,
+      "incompleteResults": false
+    },
+    {
+      "id": "issues-rustplus-player-count",
+      "url": "https://api.github.com/search/issues?q=rustplus+%22player+count%22&per_page=10",
+      "total": 2,
+      "returned": 2,
+      "incompleteResults": false
+    },
+    {
+      "id": "search-alias-rust-plus-eac",
+      "url": "https://api.github.com/search/repositories?q=%22rust%2B%22+EAC&per_page=10",
+      "total": 101,
+      "returned": 10,
+      "incompleteResults": false
+    }
+  ],
+  "projects": [
+    {
+      "repository": "liamcottle/rustplus.js",
+      "commit": "75915f25fc7c1718f7c23c419953f4655840fade",
+      "treeTruncated": false,
+      "reviewedFiles": [
+        {
+          "id": "rustplus-js-readme",
+          "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/README.md",
+          "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/README.md",
+          "status": 200,
+          "at": "2026-10-26T06:25:27.246Z",
+          "bytes": 13762,
+          "sha256": "16e3fe6f2c948ea7860b61df627084bc6117cdd86614b1cd7c43249503d25584"
+        },
+        {
+          "id": "rustplus-js-code-0",
+          "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.js",
+          "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.js",
+          "status": 200,
+          "at": "2026-10-26T06:26:59.561Z",
+          "bytes": 10665,
+          "sha256": "4fd928cc53578a7944b0754f7736e1f98590e3a7eac6a4e2f43fde5e6cb781a2"
+        },
+        {
+          "id": "rustplus-js-code-1",
+          "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.proto",
+          "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.proto",
+          "status": 200,
+          "at": "2026-10-26T06:27:00.726Z",
+          "bytes": 9401,
+          "sha256": "6037fdc3e63268cdfa76edba6389baf3b23d08c64d0226b7846b186ee495165d"
+        },
+        {
+          "id": "rustplus-js-code-2",
+          "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/cli/index.js",
+          "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/cli/index.js",
+          "status": 200,
+          "at": "2026-10-26T06:26:59.879Z",
+          "bytes": 10419,
+          "sha256": "bf303242101a01e92f1b39fe1537e5f7ecc05dd08e8de8e1ca977e4de681075f"
+        },
+        {
+          "id": "rustplus-js-code-3",
+          "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/package.json",
+          "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/package.json",
+          "status": 200,
+          "at": "2026-10-26T06:26:59.214Z",
+          "bytes": 1026,
+          "sha256": "83877f8ecd149664b6dd23981dc935e3aa3a43ed0f767c1f4f4d55d032a22c3f"
+        }
+      ]
+    },
+    {
+      "repository": "Pronwan/rustplus-desktop",
+      "commit": "9e9f3e41c472ba11268bec56615e86b79adbc0a5",
+      "treeTruncated": false,
+      "reviewedFiles": [
+        {
+          "id": "rustplus-desktop-readme",
+          "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/README.md",
+          "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/README.md",
+          "status": 200,
+          "at": "2026-10-26T06:25:28.214Z",
+          "bytes": 63685,
+          "sha256": "e5d301a9b029d5dc47d644004d4ca94699a542f0d27380b111ae9f52366b63b2"
+        },
+        {
+          "id": "rustplus-desktop-code-0",
+          "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/CompanionAuthManager.cs",
+          "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/CompanionAuthManager.cs",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.167Z",
+          "bytes": 7073,
+          "sha256": "4066d7bdcf2eadb2558c1722d33eb1ea097afefd87d33610ac925dd78f144595"
+        },
+        {
+          "id": "rustplus-desktop-code-1",
+          "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/IRustCompanionAuthProvider.cs",
+          "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/IRustCompanionAuthProvider.cs",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.466Z",
+          "bytes": 1200,
+          "sha256": "9557da5d8fc4be8bfab211d8988b3c698f234eeed9d392c2185ac7834ec71e5e"
+        },
+        {
+          "id": "rustplus-desktop-code-2",
+          "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/IRustPlusClient.cs",
+          "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/IRustPlusClient.cs",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.134Z",
+          "bytes": 691,
+          "sha256": "7d4d263d7aeed6db8452746e4c522a2e78fe12e67a72999513158a728a513c09"
+        },
+        {
+          "id": "rustplus-desktop-code-3",
+          "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/RustPlusConnectionVerifier.cs",
+          "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/RustPlusConnectionVerifier.cs",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.126Z",
+          "bytes": 7842,
+          "sha256": "389eca540cd3a11aee29008d690b0bbcba01a6b0aa0894ad0d16db755b6b1ef6"
+        }
+      ]
+    },
+    {
+      "repository": "alexemanuelol/rustplusplus",
+      "commit": "8f7300e4e3dd68392f2b01ead5d711697f63ac63",
+      "treeTruncated": false,
+      "reviewedFiles": [
+        {
+          "id": "rustplus-bot-readme",
+          "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/README.md",
+          "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/README.md",
+          "status": 200,
+          "at": "2026-10-26T06:25:28.710Z",
+          "bytes": 3892,
+          "sha256": "80aeb40862d8bbe23fab453d636a0a6f136aa676b41bd6d932db2c539ced8bf2"
+        },
+        {
+          "id": "rustplus-bot-code-0",
+          "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/src/structures/RustPlus.js",
+          "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/src/structures/RustPlus.js",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.961Z",
+          "bytes": 108452,
+          "sha256": "cbfd27f6d7182dbb8e9ce878fa47e8292278869a54e1dc0a95997f57e73de992"
+        },
+        {
+          "id": "rustplus-bot-code-1",
+          "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/docs/credentials.md",
+          "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/docs/credentials.md",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.976Z",
+          "bytes": 2076,
+          "sha256": "6c7931be942885d9d891c990e92634c4de4fa9dddf8fb9f337f1cc2977d39a9a"
+        },
+        {
+          "id": "rustplus-bot-code-2",
+          "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/package.json",
+          "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/package.json",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.851Z",
+          "bytes": 1598,
+          "sha256": "385183d09cdaadf3bd8ee190930635ce923516ea1afc40b8c6f34954968f0a6e"
+        }
+      ]
+    },
+    {
+      "repository": "olijeffers0n/rustplus",
+      "commit": "ca3d251fac2e4fb8a97419ac4baab00087e38e9e",
+      "treeTruncated": false,
+      "reviewedFiles": [
+        {
+          "id": "rustplus-py-readme",
+          "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/README.md",
+          "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/README.md",
+          "status": 200,
+          "at": "2026-10-26T06:25:28.970Z",
+          "bytes": 1761,
+          "sha256": "ccf898de571b3259aa659b75459322e4e692e4db8cc6d3ac54c93180931e88c4"
+        },
+        {
+          "id": "rustplus-py-code-0",
+          "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus.proto",
+          "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus.proto",
+          "status": 200,
+          "at": "2026-10-26T06:27:01.850Z",
+          "bytes": 8702,
+          "sha256": "c9c0a339c06564bd58d7b7aa62228eee09842a4f9148d650a8cdfcfaad28a898"
+        },
+        {
+          "id": "rustplus-py-code-1",
+          "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/remote/websocket/ws.py",
+          "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/remote/websocket/ws.py",
+          "status": 200,
+          "at": "2026-10-26T06:27:02.756Z",
+          "bytes": 13301,
+          "sha256": "d785bf275ab24a1e0dd2c2dade627aa5b98cf14f5bbcb2fa51b6fd34425f02f5"
+        },
+        {
+          "id": "rustplus-py-code-2",
+          "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/identification/server_details.py",
+          "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/identification/server_details.py",
+          "status": 200,
+          "at": "2026-10-26T06:27:02.778Z",
+          "bytes": 1045,
+          "sha256": "74bd4c71b0f51440b9c952570ebb847bd8c126d9ab668a12baa4d04f439b1fbf"
+        }
+      ]
+    },
+    {
+      "repository": "HandyS11/RustPlusApi",
+      "commit": "f61d403280c656addd103a09238e270e867cdc7e",
+      "treeTruncated": false,
+      "reviewedFiles": [
+        {
+          "id": "rustplusapi-readme",
+          "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/README.md",
+          "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/README.md",
+          "status": 200,
+          "at": "2026-10-26T06:28:38.657Z",
+          "bytes": 6271,
+          "sha256": "979db6497dfb592d7260455d124d074ca13e48b0dcef5057209931e87cb587e5"
+        },
+        {
+          "id": "rustplusapi-code-0",
+          "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlus.cs",
+          "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlus.cs",
+          "status": 200,
+          "at": "2026-10-26T06:30:38.661Z",
+          "bytes": 37560,
+          "sha256": "660728b60cd1bf0ef1f32f694e82676e90bdbcca0dbcbc67f742760adafd5ace"
+        },
+        {
+          "id": "rustplusapi-code-1",
+          "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlusConnection.cs",
+          "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlusConnection.cs",
+          "status": 200,
+          "at": "2026-10-26T06:30:37.315Z",
+          "bytes": 2004,
+          "sha256": "debe2e347e1551bdd4906dfa90832a5f6319dcad2854c4ac4fd592ff32ea72fe"
+        },
+        {
+          "id": "rustplusapi-code-2",
+          "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/Steps/SteamLoginService.cs",
+          "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/Steps/SteamLoginService.cs",
+          "status": 200,
+          "at": "2026-10-26T06:30:37.594Z",
+          "bytes": 18310,
+          "sha256": "e4bf604a2d9fa18b3cae2e3c107ac66aecc004d65df56091eaf10482fa435c7a"
+        },
+        {
+          "id": "rustplusapi-code-3",
+          "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/README.md",
+          "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/README.md",
+          "status": 200,
+          "at": "2026-10-26T06:30:37.782Z",
+          "bytes": 2692,
+          "sha256": "9bcbab415aaf355e0bde9589d0ab86815fa490f441bc51e3672f9b8fc19888de"
+        },
+        {
+          "id": "rustplusapi-code-4",
+          "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/Protobuf/RustPlusContracts.proto",
+          "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/Protobuf/RustPlusContracts.proto",
+          "status": 200,
+          "at": "2026-10-26T06:30:39.197Z",
+          "bytes": 10159,
+          "sha256": "5afb90076ac24a3b688d6472046db6cfedb6752af5ea8cee911aeb21f3bde159"
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "id": "rustplus-js-repo",
+      "url": "https://api.github.com/repos/liamcottle/rustplus.js",
+      "finalUrl": "https://api.github.com/repos/liamcottle/rustplus.js",
+      "status": 200,
+      "at": "2026-10-26T06:24:14.895Z",
+      "bytes": 5493,
+      "sha256": "d5642f5241a678aed2d729e204bfedbc3489c7ec3ab336da054ec6fdc436d769"
+    },
+    {
+      "id": "rustplus-desktop-repo",
+      "url": "https://api.github.com/repos/Pronwan/rustplus-desktop",
+      "finalUrl": "https://api.github.com/repos/Pronwan/rustplus-desktop",
+      "status": 200,
+      "at": "2026-10-26T06:24:14.305Z",
+      "bytes": 5455,
+      "sha256": "f0d5525b13623ca7384e3bfb66d1bd2fd3c29d315fd011127cb0e44efdf1967a"
+    },
+    {
+      "id": "rustplus-bot-repo",
+      "url": "https://api.github.com/repos/alexemanuelol/rustplusplus",
+      "finalUrl": "https://api.github.com/repos/alexemanuelol/rustplusplus",
+      "status": 200,
+      "at": "2026-10-26T06:24:14.420Z",
+      "bytes": 5857,
+      "sha256": "ced9354861be17da865d085a6a56d1123212effb6d8951fa5774146a33281a94"
+    },
+    {
+      "id": "rustplus-py-repo",
+      "url": "https://api.github.com/repos/olijeffers0n/rustplus",
+      "finalUrl": "https://api.github.com/repos/olijeffers0n/rustplus",
+      "status": 200,
+      "at": "2026-10-26T06:24:14.344Z",
+      "bytes": 5491,
+      "sha256": "c87806125c8d996be8e2604049a5830f1a5e9bbca022341b0d92b123b076c0d8"
+    },
+    {
+      "id": "search-rustplus",
+      "url": "https://api.github.com/search/repositories?q=rustplus+in:name,description&per_page=12&sort=stars",
+      "finalUrl": "https://api.github.com/search/repositories?q=rustplus+in:name,description&per_page=12&sort=stars",
+      "status": 200,
+      "at": "2026-10-26T06:24:15.760Z",
+      "bytes": 67498,
+      "sha256": "6e0a67d20b99b65ba86bb26225898224fa0ce8aa1c053824eb6a53257dca062a"
+    },
+    {
+      "id": "search-rustplus-eac",
+      "url": "https://api.github.com/search/repositories?q=rustplus+EAC&per_page=10",
+      "finalUrl": "https://api.github.com/search/repositories?q=rustplus+EAC&per_page=10",
+      "status": 200,
+      "at": "2026-10-26T06:24:15.347Z",
+      "bytes": 55,
+      "sha256": "4af480b8ee5b87b369a76c49bd22c9a783908272ebffbe97898f8ab0f0772a5f"
+    },
+    {
+      "id": "issues-rustplus-eac",
+      "url": "https://api.github.com/search/issues?q=rustplus+EAC&per_page=10",
+      "finalUrl": "https://api.github.com/search/issues?q=rustplus+EAC&per_page=10",
+      "status": 200,
+      "at": "2026-10-26T06:24:15.346Z",
+      "bytes": 79,
+      "sha256": "c9938edecb99d754b2d039ac9eec320a94c769b6a6417921e2dcbef9e2fe01a0"
+    },
+    {
+      "id": "issues-rustplus-player-count",
+      "url": "https://api.github.com/search/issues?q=rustplus+%22player+count%22&per_page=10",
+      "finalUrl": "https://api.github.com/search/issues?q=rustplus+%22player+count%22&per_page=10",
+      "status": 200,
+      "at": "2026-10-26T06:24:15.430Z",
+      "bytes": 12624,
+      "sha256": "5b5c7810070a330c3293c631f1f2a6775d5b4525f68dca4aac1517e1d4d3c0e0"
+    },
+    {
+      "id": "official-companion",
+      "url": "https://wiki.facepunch.com/rust/rust-companion-server",
+      "finalUrl": "https://wiki.facepunch.com/rust/rust-companion-server",
+      "status": 200,
+      "at": "2026-10-26T06:24:17.664Z",
+      "bytes": 228974,
+      "sha256": "207b36c4997809760b3df0de004fe7ad70bbda3287f9c29fb0fafee7a86c223c"
+    },
+    {
+      "id": "official-eac",
+      "url": "https://dev.epicgames.com/docs/game-services/anti-cheat/anti-cheat-interfaces",
+      "finalUrl": "https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/anti-cheat-interfaces",
+      "status": 200,
+      "at": "2026-10-26T06:24:17.237Z",
+      "bytes": 75942,
+      "sha256": "b4a7810e04b960254e8d0b5c87df9b597847f679bfe1614e43eb7313a4724568"
+    },
+    {
+      "id": "official-eac-using",
+      "url": "https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat",
+      "finalUrl": "https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat",
+      "status": 200,
+      "at": "2026-10-26T06:24:16.755Z",
+      "bytes": 99084,
+      "sha256": "b21f2145ba0214f08592449bdc1aeff4764ce75b7be0d14e215bf9ecc14efbd0"
+    },
+    {
+      "id": "web-rustplus-eac",
+      "url": "https://www.bing.com/search?q=%22Rust%2B%22+EAC+authentication+github",
+      "finalUrl": "https://www.bing.com/search?q=%22Rust%2B%22+EAC+authentication+github",
+      "status": 200,
+      "at": "2026-10-26T06:24:16.323Z",
+      "bytes": 122998,
+      "sha256": "5a2bbda34ddbc8e8c056732635a74ba2cb3c23e9fb03f061b268238570a52965"
+    },
+    {
+      "id": "rustplus-js-ref",
+      "url": "https://api.github.com/repos/liamcottle/rustplus.js/git/ref/heads/master",
+      "finalUrl": "https://api.github.com/repos/liamcottle/rustplus.js/git/ref/heads/master",
+      "status": 200,
+      "at": "2026-10-26T06:24:52.437Z",
+      "bytes": 355,
+      "sha256": "93a074db237d15a31c7a7ea5a9718585e859f7ae401d551b40298a3440918a9b"
+    },
+    {
+      "id": "rustplus-desktop-ref",
+      "url": "https://api.github.com/repos/Pronwan/rustplus-desktop/git/ref/heads/master",
+      "finalUrl": "https://api.github.com/repos/Pronwan/rustplus-desktop/git/ref/heads/master",
+      "status": 200,
+      "at": "2026-10-26T06:24:52.666Z",
+      "bytes": 353,
+      "sha256": "6df1061f9ea2100258ef4e11ee72f84e938b643eb7a1cb82e74e0b553a23a904"
+    },
+    {
+      "id": "rustplus-bot-ref",
+      "url": "https://api.github.com/repos/alexemanuelol/rustplusplus/git/ref/heads/master",
+      "finalUrl": "https://api.github.com/repos/alexemanuelol/rustplusplus/git/ref/heads/master",
+      "status": 200,
+      "at": "2026-10-26T06:24:53.795Z",
+      "bytes": 357,
+      "sha256": "072fa5b5f738ac0e97fbf8eb2e02f47998479b9791b7c98078291e729e650b82"
+    },
+    {
+      "id": "rustplus-py-ref",
+      "url": "https://api.github.com/repos/olijeffers0n/rustplus/git/ref/heads/master",
+      "finalUrl": "https://api.github.com/repos/olijeffers0n/rustplus/git/ref/heads/master",
+      "status": 200,
+      "at": "2026-10-26T06:24:52.573Z",
+      "bytes": 353,
+      "sha256": "953ca39cf366028d218004174c297042bc54c16d47deeb45fcefbf95402d5b4d"
+    },
+    {
+      "id": "rustplus-js-tree",
+      "url": "https://api.github.com/repos/liamcottle/rustplus.js/git/trees/75915f25fc7c1718f7c23c419953f4655840fade?recursive=1",
+      "finalUrl": "https://api.github.com/repos/liamcottle/rustplus.js/git/trees/75915f25fc7c1718f7c23c419953f4655840fade?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.191Z",
+      "bytes": 6434,
+      "sha256": "36fa3d522107229eabf7684e7de07f307cc139c6984e17b0ae9ae46a123af899"
+    },
+    {
+      "id": "rustplus-js-readme",
+      "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/README.md",
+      "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/README.md",
+      "status": 200,
+      "at": "2026-10-26T06:25:27.246Z",
+      "bytes": 13762,
+      "sha256": "16e3fe6f2c948ea7860b61df627084bc6117cdd86614b1cd7c43249503d25584"
+    },
+    {
+      "id": "rustplus-desktop-tree",
+      "url": "https://api.github.com/repos/Pronwan/rustplus-desktop/git/trees/9e9f3e41c472ba11268bec56615e86b79adbc0a5?recursive=1",
+      "finalUrl": "https://api.github.com/repos/Pronwan/rustplus-desktop/git/trees/9e9f3e41c472ba11268bec56615e86b79adbc0a5?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.275Z",
+      "bytes": 1261833,
+      "sha256": "4fcbcce54c4890deca8edeb1be977ecfeb38a175594bed2e72873d53bd904a02"
+    },
+    {
+      "id": "rustplus-desktop-readme",
+      "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/README.md",
+      "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/README.md",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.214Z",
+      "bytes": 63685,
+      "sha256": "e5d301a9b029d5dc47d644004d4ca94699a542f0d27380b111ae9f52366b63b2"
+    },
+    {
+      "id": "rustplus-bot-tree",
+      "url": "https://api.github.com/repos/alexemanuelol/rustplusplus/git/trees/8f7300e4e3dd68392f2b01ead5d711697f63ac63?recursive=1",
+      "finalUrl": "https://api.github.com/repos/alexemanuelol/rustplusplus/git/trees/8f7300e4e3dd68392f2b01ead5d711697f63ac63?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.885Z",
+      "bytes": 98397,
+      "sha256": "8c5e3027b5800febb04ae47705d92df277f30b68eb39a3b1188d0092a539ad85"
+    },
+    {
+      "id": "rustplus-bot-readme",
+      "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/README.md",
+      "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/README.md",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.710Z",
+      "bytes": 3892,
+      "sha256": "80aeb40862d8bbe23fab453d636a0a6f136aa676b41bd6d932db2c539ced8bf2"
+    },
+    {
+      "id": "rustplus-py-tree",
+      "url": "https://api.github.com/repos/olijeffers0n/rustplus/git/trees/ca3d251fac2e4fb8a97419ac4baab00087e38e9e?recursive=1",
+      "finalUrl": "https://api.github.com/repos/olijeffers0n/rustplus/git/trees/ca3d251fac2e4fb8a97419ac4baab00087e38e9e?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.757Z",
+      "bytes": 45253,
+      "sha256": "057eb7c5bbde1ba1e0f894e09217db0c36ce2b2b212ca526c08b2f5720377b3d"
+    },
+    {
+      "id": "rustplus-py-readme",
+      "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/README.md",
+      "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/README.md",
+      "status": 200,
+      "at": "2026-10-26T06:25:28.970Z",
+      "bytes": 1761,
+      "sha256": "ccf898de571b3259aa659b75459322e4e692e4db8cc6d3ac54c93180931e88c4"
+    },
+    {
+      "id": "rustplus-js-code-0",
+      "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.js",
+      "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.js",
+      "status": 200,
+      "at": "2026-10-26T06:26:59.561Z",
+      "bytes": 10665,
+      "sha256": "4fd928cc53578a7944b0754f7736e1f98590e3a7eac6a4e2f43fde5e6cb781a2"
+    },
+    {
+      "id": "rustplus-js-code-1",
+      "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.proto",
+      "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/rustplus.proto",
+      "status": 200,
+      "at": "2026-10-26T06:27:00.726Z",
+      "bytes": 9401,
+      "sha256": "6037fdc3e63268cdfa76edba6389baf3b23d08c64d0226b7846b186ee495165d"
+    },
+    {
+      "id": "rustplus-js-code-2",
+      "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/cli/index.js",
+      "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/cli/index.js",
+      "status": 200,
+      "at": "2026-10-26T06:26:59.879Z",
+      "bytes": 10419,
+      "sha256": "bf303242101a01e92f1b39fe1537e5f7ecc05dd08e8de8e1ca977e4de681075f"
+    },
+    {
+      "id": "rustplus-js-code-3",
+      "url": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/package.json",
+      "finalUrl": "https://raw.githubusercontent.com/liamcottle/rustplus.js/75915f25fc7c1718f7c23c419953f4655840fade/package.json",
+      "status": 200,
+      "at": "2026-10-26T06:26:59.214Z",
+      "bytes": 1026,
+      "sha256": "83877f8ecd149664b6dd23981dc935e3aa3a43ed0f767c1f4f4d55d032a22c3f"
+    },
+    {
+      "id": "rustplus-desktop-code-0",
+      "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/CompanionAuthManager.cs",
+      "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/CompanionAuthManager.cs",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.167Z",
+      "bytes": 7073,
+      "sha256": "4066d7bdcf2eadb2558c1722d33eb1ea097afefd87d33610ac925dd78f144595"
+    },
+    {
+      "id": "rustplus-desktop-code-1",
+      "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/IRustCompanionAuthProvider.cs",
+      "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/Auth/IRustCompanionAuthProvider.cs",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.466Z",
+      "bytes": 1200,
+      "sha256": "9557da5d8fc4be8bfab211d8988b3c698f234eeed9d392c2185ac7834ec71e5e"
+    },
+    {
+      "id": "rustplus-desktop-code-2",
+      "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/IRustPlusClient.cs",
+      "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/IRustPlusClient.cs",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.134Z",
+      "bytes": 691,
+      "sha256": "7d4d263d7aeed6db8452746e4c522a2e78fe12e67a72999513158a728a513c09"
+    },
+    {
+      "id": "rustplus-desktop-code-3",
+      "url": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/RustPlusConnectionVerifier.cs",
+      "finalUrl": "https://raw.githubusercontent.com/Pronwan/rustplus-desktop/9e9f3e41c472ba11268bec56615e86b79adbc0a5/RustPlusDesktop/Services/RustPlusConnectionVerifier.cs",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.126Z",
+      "bytes": 7842,
+      "sha256": "389eca540cd3a11aee29008d690b0bbcba01a6b0aa0894ad0d16db755b6b1ef6"
+    },
+    {
+      "id": "rustplus-bot-code-0",
+      "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/src/structures/RustPlus.js",
+      "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/src/structures/RustPlus.js",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.961Z",
+      "bytes": 108452,
+      "sha256": "cbfd27f6d7182dbb8e9ce878fa47e8292278869a54e1dc0a95997f57e73de992"
+    },
+    {
+      "id": "rustplus-bot-code-1",
+      "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/docs/credentials.md",
+      "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/docs/credentials.md",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.976Z",
+      "bytes": 2076,
+      "sha256": "6c7931be942885d9d891c990e92634c4de4fa9dddf8fb9f337f1cc2977d39a9a"
+    },
+    {
+      "id": "rustplus-bot-code-2",
+      "url": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/package.json",
+      "finalUrl": "https://raw.githubusercontent.com/alexemanuelol/rustplusplus/8f7300e4e3dd68392f2b01ead5d711697f63ac63/package.json",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.851Z",
+      "bytes": 1598,
+      "sha256": "385183d09cdaadf3bd8ee190930635ce923516ea1afc40b8c6f34954968f0a6e"
+    },
+    {
+      "id": "rustplus-py-code-0",
+      "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus.proto",
+      "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus.proto",
+      "status": 200,
+      "at": "2026-10-26T06:27:01.850Z",
+      "bytes": 8702,
+      "sha256": "c9c0a339c06564bd58d7b7aa62228eee09842a4f9148d650a8cdfcfaad28a898"
+    },
+    {
+      "id": "rustplus-py-code-1",
+      "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/remote/websocket/ws.py",
+      "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/remote/websocket/ws.py",
+      "status": 200,
+      "at": "2026-10-26T06:27:02.756Z",
+      "bytes": 13301,
+      "sha256": "d785bf275ab24a1e0dd2c2dade627aa5b98cf14f5bbcb2fa51b6fd34425f02f5"
+    },
+    {
+      "id": "rustplus-py-code-2",
+      "url": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/identification/server_details.py",
+      "finalUrl": "https://raw.githubusercontent.com/olijeffers0n/rustplus/ca3d251fac2e4fb8a97419ac4baab00087e38e9e/rustplus/identification/server_details.py",
+      "status": 200,
+      "at": "2026-10-26T06:27:02.778Z",
+      "bytes": 1045,
+      "sha256": "74bd4c71b0f51440b9c952570ebb847bd8c126d9ab668a12baa4d04f439b1fbf"
+    },
+    {
+      "id": "rustplusapi-repo",
+      "url": "https://api.github.com/repos/HandyS11/RustPlusApi",
+      "finalUrl": "https://api.github.com/repos/HandyS11/RustPlusApi",
+      "status": 200,
+      "at": "2026-10-26T06:27:03.162Z",
+      "bytes": 5490,
+      "sha256": "dc6ecabd2d36c8f38d6376b59dfae717a7dd68135218f015cadd93c8870ee252"
+    },
+    {
+      "id": "rustplusapi-head",
+      "url": "https://api.github.com/repos/HandyS11/RustPlusApi/commits/HEAD",
+      "finalUrl": "https://api.github.com/repos/HandyS11/RustPlusApi/commits/HEAD",
+      "status": 200,
+      "at": "2026-10-26T06:27:04.468Z",
+      "bytes": 6627,
+      "sha256": "061912b83be90f5b86c9a4b8dc480e71133fcc09c5bcb5a1a2d03a85731d27f1"
+    },
+    {
+      "id": "official-begin-session",
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "finalUrl": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "status": 200,
+      "at": "2026-10-26T06:27:07.969Z",
+      "bytes": 26147,
+      "sha256": "ea0bd747f88b63dd7c9c04b0f01875b0c785f5d04089797cbeb0789fa67f6221"
+    },
+    {
+      "id": "rustplusapi-tree",
+      "url": "https://api.github.com/repos/HandyS11/RustPlusApi/git/trees/f61d403280c656addd103a09238e270e867cdc7e?recursive=1",
+      "finalUrl": "https://api.github.com/repos/HandyS11/RustPlusApi/git/trees/f61d403280c656addd103a09238e270e867cdc7e?recursive=1",
+      "status": 200,
+      "at": "2026-10-26T06:28:38.627Z",
+      "bytes": 131055,
+      "sha256": "de35982e6b63a2d244e70c1e0c8267801fb06685a7f5e16d1be2674a619af4b5"
+    },
+    {
+      "id": "rustplusapi-readme",
+      "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/README.md",
+      "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/README.md",
+      "status": 200,
+      "at": "2026-10-26T06:28:38.657Z",
+      "bytes": 6271,
+      "sha256": "979db6497dfb592d7260455d124d074ca13e48b0dcef5057209931e87cb587e5"
+    },
+    {
+      "id": "search-alias-rust-plus-eac",
+      "url": "https://api.github.com/search/repositories?q=%22rust%2B%22+EAC&per_page=10",
+      "finalUrl": "https://api.github.com/search/repositories?q=%22rust%2B%22+EAC&per_page=10",
+      "status": 200,
+      "at": "2026-10-26T06:28:38.506Z",
+      "bytes": 54921,
+      "sha256": "e96987129fdde654e8fc70473ca726d74beb68e6d363ec26559df0595538e053"
+    },
+    {
+      "id": "rustplusapi-code-0",
+      "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlus.cs",
+      "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlus.cs",
+      "status": 200,
+      "at": "2026-10-26T06:30:38.661Z",
+      "bytes": 37560,
+      "sha256": "660728b60cd1bf0ef1f32f694e82676e90bdbcca0dbcbc67f742760adafd5ace"
+    },
+    {
+      "id": "rustplusapi-code-1",
+      "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlusConnection.cs",
+      "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/RustPlusConnection.cs",
+      "status": 200,
+      "at": "2026-10-26T06:30:37.315Z",
+      "bytes": 2004,
+      "sha256": "debe2e347e1551bdd4906dfa90832a5f6319dcad2854c4ac4fd592ff32ea72fe"
+    },
+    {
+      "id": "rustplusapi-code-2",
+      "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/Steps/SteamLoginService.cs",
+      "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/Steps/SteamLoginService.cs",
+      "status": 200,
+      "at": "2026-10-26T06:30:37.594Z",
+      "bytes": 18310,
+      "sha256": "e4bf604a2d9fa18b3cae2e3c107ac66aecc004d65df56091eaf10482fa435c7a"
+    },
+    {
+      "id": "rustplusapi-code-3",
+      "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/README.md",
+      "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi.Fcm.Registration/README.md",
+      "status": 200,
+      "at": "2026-10-26T06:30:37.782Z",
+      "bytes": 2692,
+      "sha256": "9bcbab415aaf355e0bde9589d0ab86815fa490f441bc51e3672f9b8fc19888de"
+    },
+    {
+      "id": "rustplusapi-code-4",
+      "url": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/Protobuf/RustPlusContracts.proto",
+      "finalUrl": "https://raw.githubusercontent.com/HandyS11/RustPlusApi/f61d403280c656addd103a09238e270e867cdc7e/src/RustPlusApi/Protobuf/RustPlusContracts.proto",
+      "status": 200,
+      "at": "2026-10-26T06:30:39.197Z",
+      "bytes": 10159,
+      "sha256": "5afb90076ac24a3b688d6472046db6cfedb6752af5ea8cee911aeb21f3bde159"
+    }
+  ],
+  "localAndRenderedEvidence": [
+    {
+      "workspaceFile": "work/rustplus-review-20261026/eac-begin-rendered.txt",
+      "url": "https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session",
+      "sha256": "1f195ae4a65a92bc4d7576a835fe3ce1cb50ca73e3eb15645caf3120874c6052",
+      "savedAt": "2026-10-26T06:28:10.617524+00:00"
+    },
+    {
+      "workspaceFile": "work/rustplus-review-20261026/eac-interface-rendered.txt",
+      "url": "https://dev.epicgames.com/docs/api-ref/interfaces/anti-cheat-client",
+      "sha256": "9043a2cb3bc5505ef53fcf038aef7278de439b38fadcad12e4ac0824c7906964",
+      "savedAt": "2026-10-26T06:28:11.648626+00:00"
+    },
+    {
+      "workspaceFile": "work/rustplus-review-20261026/eac-using-rendered.txt",
+      "url": "https://dev.epicgames.com/docs/epic-online-services/trust-and-safety/anti-cheat-interfaces/using-anti-cheat",
+      "sha256": "42c50c2b0d989dbc290351c326316317a7cd75dac186c4fdbcabb3df3cca2014",
+      "savedAt": "2026-10-26T06:30:49.242384+00:00"
+    },
+    {
+      "workspaceFile": "work/rustplus-review-20261026/companion-static.txt",
+      "url": null,
+      "sha256": "759586f2b9811f16f9a95790e8ad6d9d542d3d1947421129a63a765b094b6426",
+      "savedAt": "2026-10-26T06:31:43.955372+00:00"
+    },
+    {
+      "workspaceFile": "work/rustplus-review-20261026/inspect-companion.ps1",
+      "url": null,
+      "sha256": "9d5995234bca7b2f79ab4cb088ad855e5fef72c1947865fbd14d9a1a4f386bd8",
+      "savedAt": "2026-10-26T06:31:41.324165+00:00"
+    },
+    {
+      "managedFile": "Assembly-CSharp.dll",
+      "sha256": "71c50c6f0a48f67702cc2328e255e0000803919599c6fea6705cc22c3aa94601",
+      "inspection": "static dnlib reads only; no game assembly execution"
+    }
+  ],
+  "limitations": [
+    "Bing returned unrelated results and was excluded as technical evidence.",
+    "Quoted rust+ was not a reliable GitHub companion keyword; results included unrelated Rust/EAC projects.",
+    "Epic HTTP HTML snapshots were page shells; rendered browser documents are the content evidence.",
+    "No installation, pairing, token acquisition, server modification or EAC session test was performed.",
+    "Public player counts were not re-tested; existing count discrepancy is not resolved."
+  ]
+}

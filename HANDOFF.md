@@ -2,6 +2,14 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26：按聊天线索复核 Rust+，未找到 EAC/公共人数修复
+
+用户提供对方“放插件”“列表人数也无解”“好像用Rust+”的聊天，要求查公开项目。先读 `rust-research/rustplus-eac-review-2026-10-26.md/.json`。本轮49次HTTP读取、五项目固定提交的24份源码/说明，以及三份经浏览器渲染的Epic官方文档；重点rustplus.js、rustplus-desktop、rustplusplus、Python rustplus、HandyS11/RustPlusApi。它们是app.port上的WebSocket伴侣通道，playerId/playerToken、Steam网页/FCM配对、NexusAuth不是有效Rust EAC会话；没有发现相应转换/会话实现。检索有限，不声称所有私有实现不存在。
+
+新增直接静态依据：当前protocol2635 `CompanionServer.Handlers.Info.Execute()`将`BasePlayer.activePlayerList.Count`写入`AppInfo.players`，是内部人数读取，不是Facepunch公共人数提交。NexusAuth检查Nexus appKey后调用UserPersistance.GetOrGenerateAppToken，仍返回应用令牌。Rust+可选用于地图/团队/内部人数/设备管理，标准服务端内置，不要求第三方插件；不能据此把EAC或公共人数标成修复。对方插件身份未知，聊天没有提供成功解决这两项的证据。
+
+本轮只读网络/本机静态资料并更新报告，未安装依赖、配对/取令牌、连接目标伴侣端口、登录第三方凭据网站、修改插件/配置或重启服务；保留下节主服务session31118及现有连接。原文和静态脚本在workspace ignored `work/rustplus-review-20261026/`，JSON记全部URL/SHA。不要把HTTP200网页框架、同名搜索结果或Rust+内部人数当作EAC/公共计数证据。
+
 ## 2026-10-26 14:12：新增单账号角色操作，手动唤醒已实服验证
 
 先读 `rust-research/player-actions-2026-10-26.md/.json`。新增普通 `rust-action` 路由、固定动作工作进程队列及 `/rust` 的“角色操作”弹窗，支持手动唤醒、死亡重生、明确确认的自杀、停止；前后左右0.28米及原地跳跃为**需管理员确认平坦空地的实验轨迹**，没有地形/碰撞/完整客户端物理，尚未实服验证移动。两秒内完整有序自身快照是动作前提，旧死亡快照也不授权重生；可能需要等待新快照。HTTP202不等于成功，需读status；新快照匹配只记snapshot_observed，不当完整动作/EAC/公共人数证明。保留原聊天并加明确标记的测试问候预填，不自动发送。
