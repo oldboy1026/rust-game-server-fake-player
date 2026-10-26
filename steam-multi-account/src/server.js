@@ -66,7 +66,7 @@ const manager = new AccountManager({
   log,
 });
 const apiKey = loadApiKey(dataDirectory);
-const server = createApiServer({ manager, apiKey, log, onShutdown: shutdown, catalog: new FreeCatalog(network) });
+const server = createApiServer({ manager, apiKey, log, onShutdown: shutdown, catalog: new FreeCatalog(network), rustPublicQueryOptions: { fetchImpl: network.fetchImpl } });
 server.on('error', error => {
   log({ event: 'server_error', code: error.code, message: 'Could not start the local HTTP server.' });
   manager.close();

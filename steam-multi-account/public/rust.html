@@ -31,8 +31,25 @@
         <div class="metric"><p>正在连接</p><strong id="count-connecting">0</strong><span>等待进入服务器</span></div>
       </section>
       <section class="panel server-panel" aria-labelledby="servers-title">
-        <div class="section-heading"><div><h2 id="servers-title">服务器分组</h2><p class="muted">人数只统计本系统账号；Rust 游戏公共列表人数需在游戏内核对。</p></div><span id="sync-status" class="sync-status" role="status">正在读取</span></div>
+        <div class="section-heading"><div><h2 id="servers-title">服务器分组</h2><p class="muted">人数只统计本系统账号；可在下方查询服务器公共人数作对照。</p></div><span id="sync-status" class="sync-status" role="status">正在读取</span></div>
         <div id="server-groups" class="server-groups"></div>
+      </section>
+      <section class="panel public-query-panel" aria-labelledby="public-query-title">
+        <div class="section-heading"><div><h2 id="public-query-title">服务器公共人数查询</h2><p class="muted">按游戏地址查询 Facepunch 公共人数，并对照服务器发布的 cp 与 A2S 数据。</p></div></div>
+        <form id="public-query-form" class="connect-target">
+          <div class="target-field grow"><label for="public-host">服务器 IPv4</label><input id="public-host" value="202.189.21.58" required autocomplete="off"></div>
+          <div class="target-field"><label for="public-port">游戏端口</label><input id="public-port" type="number" min="1" max="65535" value="30921" required></div>
+          <div class="target-field"><label for="public-query-port">查询端口（可选）</label><input id="public-query-port" type="number" min="1" max="65535" placeholder="自动查找"></div>
+          <label class="target-option"><input id="public-include-players" type="checkbox"> 查询公开玩家列表</label>
+          <button id="public-query-button" type="submit" class="button primary">查询公共人数</button>
+        </form>
+        <p id="public-query-status" class="muted" role="status" aria-live="polite">无需选择或登录 Steam 账号。</p>
+        <div id="public-query-result" hidden>
+          <div id="public-query-counts" class="server-groups"></div>
+          <p id="public-query-cache" class="fineprint"></p>
+          <p class="fineprint">公共映射按批次更新；未列出表示未知。玩家列表由服务器 A2S 提供，可能为空、隐藏或不完整，不含可验证的 SteamID。</p>
+          <div id="public-player-list" class="public-player-list"></div>
+        </div>
       </section>
       <section class="panel account-panel" aria-labelledby="accounts-title">
         <div class="section-heading"><div><h2 id="accounts-title">账号与连接</h2><p id="selection-summary" class="muted">选择账号后，批量登录或连接服务器。</p></div><div class="toolbar"><button id="clear-selection" class="button secondary small" type="button" disabled>取消选择</button><button id="refresh-button" class="button secondary small" type="button">刷新状态</button></div></div>

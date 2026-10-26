@@ -1,0 +1,41 @@
+{
+    "observedAt":  "2026-10-26T02:16:04.672Z",
+    "target":  {
+                   "host":  "202.189.21.58",
+                   "port":  30921,
+                   "endpoint":  "202.189.21.58:30921"
+               },
+    "facepunch":  {
+                      "observedAt":  "2026-10-26T02:16:03.367Z",
+                      "headers":  {
+                                      "date":  "Mon, 26 Oct 2026 02:15:51 GMT",
+                                      "age":  "144",
+                                      "last-modified":  "Mon, 26 Oct 2026 02:13:27 GMT",
+                                      "cache-control":  "public, max-age=86400",
+                                      "cf-cache-status":  "HIT"
+                                  },
+                      "localCacheHit":  false,
+                      "source":  "https://api.facepunch.com/api/public/steamServers/playerCounts/rust",
+                      "ok":  true,
+                      "players":  37
+                  },
+    "discovery":  {
+                      "ok":  true,
+                      "queryPort":  30923,
+                      "source":  "steam_registration"
+                  },
+    "a2s":  {
+                "ok":  true,
+                "error":  null,
+                "players":  69,
+                "bots":  0,
+                "cp":  37
+            },
+    "publicPlayerList":  {
+                             "ok":  true,
+                             "error":  null,
+                             "returnedEntries":  69
+                         },
+    "authenticatedPlayerConnectionAttempted":  false,
+    "serverPluginDeployed":  false
+}

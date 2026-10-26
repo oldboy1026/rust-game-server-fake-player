@@ -7,6 +7,7 @@ let apiKey = '', overview = { accounts: [], servers: [], jobs: [], counts: {} };
 let refreshing = false, requesting = false, viewVersion = 0, serverFilter = null;
 let logAccount = null, logRevision = 0, loadingLogs = false;
 let chatAccount = null, chatSending = false;
+let publicQueryRevision = 0, publicQueryBusy = false;
 const selected = new Set(), expandedJobs = new Map(), receivedJobs = new Map();
 const accountRows = new Map(), serverCards = new Map();
 let emptyServers = null;
@@ -78,6 +79,11 @@ function setUnlocked(value) {
   $('#import-shortcut').hidden = !value;
 }
 function lock() {
+  ++publicQueryRevision; publicQueryBusy = false;
+  $('#public-query-button').disabled = false;
+  $('#public-query-result').hidden = true;
+  $('#public-query-counts').replaceChildren(); $('#public-player-list').replaceChildren();
+  $('#public-query-status').textContent = '无需选择或登录 Steam 账号。';
   ++viewVersion; apiKey = ''; requesting = false; selected.clear(); receivedJobs.clear(); expandedJobs.clear(); serverFilter = null;
   sessionStorage.removeItem('steam-api-key');
   $('#api-key').value = ''; $('#import-text').value = ''; updateImportCount();
@@ -391,6 +397,64 @@ $('#chat-form').addEventListener('submit', async event => {
 });
 $('#chat-close').addEventListener('click', () => $('#chat-dialog').close());
 $('#chat-dialog').addEventListener('close', () => { chatAccount = null; $('#chat-text').value = ''; });
+
+const publicErrors = {
+  target_not_listed: '公共映射未列出（未知）', timeout: '查询超时', query_failed: '查询失败或响应不支持',
+  http_error: '公共接口暂不可用', invalid_response: '响应格式异常', response_too_large: '响应超过限制',
+  query_port_required: '请手动填写查询端口', query_port_not_found: 'Steam 未登记匹配的查询端口',
+  ambiguous_query_port: '找到多个查询端口，请手动填写', not_requested: '未请求玩家列表',
+  server_identity_unverified: '未取得匹配的服务器信息，无法确认玩家列表来源',
+  game_port_mismatch: '查询端口对应的游戏端口不匹配', not_rust_server: '查询结果不是 Rust 服务器',
+};
+function publicError(result) { return publicErrors[result?.error] || '暂时无法取得数据'; }
+function renderPublicQuery(result) {
+  const counts = $('#public-query-counts'); counts.replaceChildren();
+  for (const [label, value, note] of [
+    ['Facepunch 公共人数', result.facepunch.ok ? result.facepunch.players : '未知', result.facepunch.ok ? '公共映射返回值' : publicError(result.facepunch)],
+    ['服务器 cp', result.a2s.ok && result.a2s.cp !== null ? result.a2s.cp : '未知', '服务器自己发布的标签人数'],
+    ['A2S 人数', result.a2s.ok ? result.a2s.result.players : '未知', result.a2s.ok ? `容量 ${result.a2s.result.maxPlayers} · bots ${result.a2s.result.bots}` : publicError(result.a2s)],
+  ]) {
+    const card = element('article', 'server-group');
+    card.append(element('h3', '', label), element('strong', 'public-count', String(value)), element('p', 'fineprint', note)); counts.append(card);
+  }
+  const info = result.a2s.ok ? result.a2s.result : null;
+  $('#public-query-status').textContent = `${info?.name || result.target.endpoint} · ${result.target.endpoint} · 查询于 ${date(result.queriedAt)}${result.discovery.ok ? ` · 查询端口 ${result.discovery.queryPort}` : ` · ${publicError(result.discovery)}`}`;
+  const headers = result.facepunch.headers || {};
+  $('#public-query-cache').textContent = `公共接口读取于 ${date(result.facepunch.observedAt)}；Last-Modified：${date(headers['last-modified'])}；上游 Age：${headers.age ?? '未知'} 秒；缓存状态：${headers['cf-cache-status'] ?? '未知'}；本地缓存：${result.facepunch.localCacheHit ? '命中（最多 30 秒）' : '本次读取'}。再次点击查询不保证产生新的公共数据批次。`;
+  const list = $('#public-player-list'); list.replaceChildren();
+  if (result.players.ok) {
+    const players = result.players.result.players;
+    list.append(element('p', 'muted', `A2S 公开玩家条目：${players.length}；可能与公共人数不同。`));
+    if (players.length) {
+      const table = element('table', 'public-player-table'), head = element('thead'), row = element('tr'), body = element('tbody');
+      for (const title of ['公开名称', '分数', '连接时长']) row.append(element('th', '', title));
+      head.append(row);
+      for (const player of players) {
+        const tr = element('tr');
+        for (const value of [player.name || '（名称隐藏）', String(player.score), `${Math.floor(player.durationSeconds / 60)} 分钟`]) tr.append(element('td', '', value));
+        body.append(tr);
+      }
+      table.append(head, body); list.append(table);
+    }
+  } else list.append(element('p', 'muted', `玩家列表：${publicError(result.players)}`));
+  $('#public-query-result').hidden = false;
+}
+$('#public-query-form').addEventListener('submit', async event => {
+  event.preventDefault(); if (!apiKey || publicQueryBusy) return;
+  const revision = ++publicQueryRevision, version = viewVersion;
+  publicQueryBusy = true; $('#public-query-button').disabled = true;
+  $('#public-query-result').hidden = true; $('#public-query-status').textContent = '正在查询公共接口和服务器…';
+  const input = { host: $('#public-host').value.trim(), port: Number($('#public-port').value), includePlayers: $('#public-include-players').checked };
+  if ($('#public-query-port').value) input.queryPort = Number($('#public-query-port').value);
+  try {
+    const result = await request('/v1/rust/server-query', 'POST', input);
+    if (revision === publicQueryRevision && version === viewVersion) renderPublicQuery(result);
+  } catch (error) {
+    if (revision !== publicQueryRevision || version !== viewVersion) return;
+    $('#public-query-status').textContent = error.message;
+    if (error.status === 401) handleError(error);
+  } finally { if (revision === publicQueryRevision) { publicQueryBusy = false; $('#public-query-button').disabled = false; } }
+});
 
 $('#unlock-form').addEventListener('submit', async event => {
   event.preventDefault(); const submit = event.submitter; submit.disabled = true;

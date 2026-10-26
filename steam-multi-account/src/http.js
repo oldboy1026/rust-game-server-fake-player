@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { ApiError } from './accounts.js';
 import { FreeCatalog } from './catalog.js';
 import { RustWorkspace } from './rust-workspace.js';
+import { RustPublicQuery } from './rust-public-query.js';
 
 function send(response, status, body) {
   response.writeHead(status, {
@@ -41,9 +42,10 @@ function readJson(request, maximumBytes = 16384) {
   });
 }
 
-export function createApiServer({ manager, apiKey, onShutdown, catalog = new FreeCatalog(), log = () => {}, rustWorkspaceOptions = {} }) {
+export function createApiServer({ manager, apiKey, onShutdown, catalog = new FreeCatalog(), log = () => {}, rustWorkspaceOptions = {}, rustPublicQueryOptions = {} }) {
   const expected = Buffer.from(`Bearer ${apiKey}`);
   const rustWorkspace = new RustWorkspace(manager, rustWorkspaceOptions);
+  const rustPublicQuery = new RustPublicQuery(rustPublicQueryOptions);
   const assets = new Map([
     ['/', ['index.html', 'text/html; charset=utf-8']],
     ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
@@ -97,6 +99,8 @@ export function createApiServer({ manager, apiKey, onShutdown, catalog = new Fre
         return send(response, 200, { accounts: manager.list() });
       }
       if (path === '/v1/rust/overview' && request.method === 'GET') return send(response, 200, rustWorkspace.overview());
+      if (path === '/v1/rust/server-query' && request.method === 'POST')
+        return send(response, 200, await rustPublicQuery.server(await readJson(request)));
       if (path === '/v1/rust/import' && request.method === 'POST')
         return send(response, 202, rustWorkspace.startImport(await readJson(request, 128 * 1024)));
       if (path === '/v1/rust/actions' && request.method === 'POST')

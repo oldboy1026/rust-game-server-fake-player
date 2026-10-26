@@ -2,6 +2,20 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26 10:16：本机服务启动，网页公共人数查询及服务端刷新候选已交付
+
+用户要先添加购买 Rust 的测试账号，并要求网页按游戏 IP+端口查询 Facepunch 人数/玩家数据，以及可上传服务器配合验证的重写文件。当前 repo 的 steam-multi-account 已 npm ci 并在 127.0.0.1:3210 启动，使用本 repo 新 data；旧 outputs/steam-multi-account/data 没有迁移或改动。启动后检查保存账号为0；后续操作必须先读实时状态，不能沿用0。密钥在本 repo app/data/api-key.txt，不输出密钥。
+
+新增 POST /v1/rust/server-query 和 /rust 网页独立查询面板。固定 Facepunch 公共映射经现有代理网络读取，最大4MiB/8秒，30秒本地缓存及并发合并；缺条目!=0，保留缓存头。查询端口从官方 Steam 登记按IP/gameport/appid精确匹配，或手填；A2S_INFO与可选A2S_PLAYER有界查询，gamePort不匹配拒用数据。公共接口无姓名/SteamID；A2S列表不验证SteamID/真实名单。每个来源独立状态，未宣称人数差就是伪造账号。
+
+10:16:03–04 北京时间实测目标202.189.21.58:30921，自动登记查询30923：Facepunch37/cp37/A2S69/bots0，A2S_PLAYER69条；公共Last-Modified10:13:27、Age144、HIT。见 rust-research/public-query-verification-2026-10-26.json，只保存计数不保存玩家名单。离线定向检查通过缓存并发合并、缺条目与零区分、登记精确匹配、部分失败、端口错配、输入验证、玩家负分/时长/截断解析；运行HTTP检查401/400/403和页面表单存在通过，未做浏览器视觉验收。
+
+server-upload/RustPresenceRefresh.cs 是新自写 Oxide/uMod 插件，上传位置为服务器根目录 oxide/plugins/RustPresenceRefresh.cs，步骤见同目录README.zh-CN.md。只对一个指定的现有正常认证/就绪玩家手动调用PlatformService.UpdatePlayerSession及原版私有零参UpdateServerInformation，有30秒冷却和secure时额外EAC本地状态守卫；不创建人工连接/随机地址、伪造OK分析事件、直接增cp或改EAC。void包装完成不是原生bool成功，更不是Facepunch后台回执。当前本机引用不全，插件尚未完整编译或实服加载；用户将自行上传，不得声称已部署/修复。调用原版信息更新仍可能触发已有插件改cp。未引入外部WS/票据接收器，无持久状态，卸载命令和删除路径在说明中。
+
+当前目标独立连接仍受EAC阻塞；本轮无新玩家登录/连接尝试、没有真实EAC会话或已验证公共人数修复。购买Rust和此插件不自动解决EAC。下一步应先确认Oxide编译/加载，使用已正常入服玩家做受控刷新和新Last-Modified批次对照；若独立账号还停在EAC则插件会拒绝，不得补假身份或事件冒充成功。
+
+相关已有回归 `node --test test/service.test.js test/rust-workspace.test.js` 13/13通过；本机上传压缩包在workspace outputs/rust-presence-refresh-upload.zip，远端保留server-upload源码和说明，可自行压缩。没有把压缩包、data或参考目录原文件提交。
+
 ## 2026-10-26：新参考源码已复核，当前电脑无游戏，EAC及人数修复未完成
 
 用户要求继续完成认证连接、有效Rust EAC会话及公共人数修复，并提供Oxide.Ext.RustJiaRen反编译源码；随后明确本轮目标为202.189.21.58:30921，并确认当前电脑没有Steam/Rust。这是新授权，不按10月24日“结束研究”记录暂停。先读 `rust-research/rustjiaren-review-2026-10-26.md/.json`。

@@ -11,6 +11,8 @@ class Reader {
   }
   u8() { return this.buffer[this.take(1)]; }
   u16() { return this.buffer.readUInt16LE(this.take(2)); }
+  i32() { return this.buffer.readInt32LE(this.take(4)); }
+  f32() { return this.buffer.readFloatLE(this.take(4)); }
   u64() { return this.buffer.readBigUInt64LE(this.take(8)).toString(); }
   string() {
     const end = this.buffer.indexOf(0, this.offset);
@@ -51,12 +53,25 @@ export function parseRules(buffer) {
   return { count, relevant, note: 'Published rule strings are advisory; they do not prove the server enforces EAC.' };
 }
 
+export function parsePlayers(buffer) {
+  const reader = new Reader(buffer);
+  if (reader.u8() !== 0x44) throw new Error('Expected A2S_PLAYER response');
+  const count = reader.u8(), players = [];
+  for (let i = 0; i < count; i++) {
+    const index = reader.u8(), name = reader.string().replace(/[\u0000-\u001f\u007f]/g, '').slice(0, 160);
+    const score = reader.i32(), durationSeconds = reader.f32();
+    if (!Number.isFinite(durationSeconds) || durationSeconds < 0) throw new Error('Invalid player duration');
+    players.push({ index, name, score, durationSeconds });
+  }
+  return { count, players };
+}
+
 export async function query(host, port, kind, { timeoutMs = 5000 } = {}) {
   if (isIP(host) !== 4 || !Number.isInteger(port) || port < 1 || port > 65535) throw new Error('An IPv4 address and valid UDP query port are required');
-  if (!['info', 'rules'].includes(kind)) throw new Error('Unsupported A2S query');
+  if (!['info', 'rules', 'players'].includes(kind)) throw new Error('Unsupported A2S query');
   const base = kind === 'info'
     ? Buffer.concat([Buffer.from([255, 255, 255, 255, 0x54]), Buffer.from('Source Engine Query\0')])
-    : Buffer.from([255, 255, 255, 255, 0x56]);
+    : Buffer.from([255, 255, 255, 255, kind === 'players' ? 0x55 : 0x56]);
   const first = kind === 'info' ? base : Buffer.concat([base, Buffer.from([255, 255, 255, 255])]);
   const socket = dgram.createSocket('udp4');
   return new Promise((resolve, reject) => {
@@ -93,7 +108,7 @@ export async function query(host, port, kind, { timeoutMs = 5000 } = {}) {
           socket.send(Buffer.concat([base, payload.subarray(1, 5)]), port, host, error => { if (error) finish(error); });
           return;
         }
-        const result = kind === 'info' ? parseInfo(payload) : parseRules(payload);
+        const result = kind === 'info' ? parseInfo(payload) : kind === 'players' ? parsePlayers(payload) : parseRules(payload);
         finish(null, result);
       } catch (error) { finish(error); }
     });
