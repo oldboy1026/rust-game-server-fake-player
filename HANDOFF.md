@@ -2,6 +2,18 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26：根据原 DLL 新写并编译 RustPresenceBridge，部署验证待用户上传
+
+用户提供实际 Oxide.Ext.RustJiaRen.dll，要求新写可配合独立程序验证公共人数变化的 DLL 及上传位置。原 DLL SHA256 e6419fb05800a15354fdae03573e3ed203c2ca9a53089ff729992d075ff402e2、17408字节，仅dnlib静态读取，5个相关调用点见 server-upload/rust-presence-bridge/reference-review.json。未执行或分发原DLL，未复制人工Connection/随机IP/伪造OK分析事件/FakePlayers累加逻辑。
+
+新增 server-upload/rust-presence-bridge/ 源码、Build.ps1、已编译 dist/Oxide.Ext.RustPresenceBridge.dll 及 build.json。Framework64 CSC按warningsAsErrors构建通过，引用Oxide.Core2.0.4143、Oxide.Rust2.0.7839、Console/Network参考DLL。只对这个精确交付路径例外允许提交DLL。实际SHA见build.json。通过独立编译的隔离替身程序集执行了交付DLL的RuntimeAdapter和Json，验证缺目标/无真实列表对象/加载中/网络未认证/EAC本地状态不全拒绝、合格对象调用各原方法一次、未自行修改cp/活跃列表和序列化转义。此验证不是Rust/Oxide实服加载，更不是EAC或Facepunch人数证据。
+
+Oxide扩展自带核心插件及 rustpresencebridge.snapshot [SteamID64]、rustpresencebridge.refresh SteamID64 两个控制台命令，RCON/控制台/authLevel>=2可用。上传位置为服务器根目录 RustDedicated_Data/Managed/Oxide.Ext.RustPresenceBridge.dll，需要完整重启，不放oxide/plugins。README有Windows/Linux示例；仅用Windows参考集构建，未验证Linux。游戏对象通过固定类型/成员/方法反射适配，不任意加载程序集；网络实际对象与活跃BasePlayer.net.connection引用相同及userid匹配才适用，不用当前已变EncryptedValue<ulong>的BasePlayer.userID直接反射强转。当前Net在Assembly-CSharp-firstpass、PlatformService在Rust.Platform。兼容失败返回状态，不宣称已执行。
+
+tools/rust-research/presence-bridge.mjs 为Node22一次性联动脚本，使用已有WebRCON环境凭据，默认snapshot；可通过--account从本机API读SteamID，refresh还要求本项目entered_game且游戏地址匹配，或--steam-id对正常客户端做对照。RCON不传Steam票据/密码/本机APIkey，不保存RCON密码；只接收匹配Identifier及固定bridge/version的JSON并过滤字段，无重试，命令发出后的超时分类rcon_result_unknown，不能写未执行。刷新后默认等35秒再比Facepunch/cp/A2S及Last-Modified，聚合差异不是因果证明。Node隔离检查参数/字段过滤/响应匹配/日志忽略/未知结果/不重试通过。verification.json记载验证范围。
+
+同时修正上一轮未编译.cs插件的参数读取：当前Arg.Args元素是StringView，使用HasArgs/GetString避免直接当string.Length/TryParse。旧.cs仍未完整实服编译；本轮应优先交付新已编译DLL。主服务源码和连接判据没有改，不重启/干预账号连接。当前受保护目标仍停EAC，本轮无目标连接或RCON请求，未部署DLL、未建立有效独立EAC、未验证公共人数改变。下一步用户上传重启后先snapshot确认兼容，再对真实已入服单账号刷新并对照新公共批次；原RustJiaRen若在服上需维护时备份移出以免改cp干扰。
+
 ## 2026-10-26 10:16：本机服务启动，网页公共人数查询及服务端刷新候选已交付
 
 用户要先添加购买 Rust 的测试账号，并要求网页按游戏 IP+端口查询 Facepunch 人数/玩家数据，以及可上传服务器配合验证的重写文件。当前 repo 的 steam-multi-account 已 npm ci 并在 127.0.0.1:3210 启动，使用本 repo 新 data；旧 outputs/steam-multi-account/data 没有迁移或改动。启动后检查保存账号为0；后续操作必须先读实时状态，不能沿用0。密钥在本 repo app/data/api-key.txt，不输出密钥。

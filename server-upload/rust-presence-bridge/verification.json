@@ -1,0 +1,34 @@
+{
+  "version": "0.1.0",
+  "referenceInspection": "static metadata and selected IL callsites only; reference DLL not executed",
+  "build": "dist/build.json",
+  "checks": {
+    "warningsAsErrorsCompilation": "passed",
+    "compiledDllIsolatedRuntimeAdapter": "passed",
+    "isolatedCases": [
+      "aggregate snapshot without target",
+      "missing target rejected",
+      "connection object absent from real-list fixture rejected",
+      "loading and network unauthenticated fixtures rejected",
+      "secure fixture without EAC interface rejected",
+      "secure fixture without mapped client rejected",
+      "secure fixture without local auth rejected",
+      "eligible fixture calls each original-method stub exactly once",
+      "fixture active list and cp unchanged",
+      "compiled JSON serializer escapes quotes, slashes and controls"
+    ],
+    "nodeProbe": [
+      "CLI argument validation passed",
+      "reply allowlist omits unknown/private fields",
+      "matching RCON Identifier required",
+      "unrelated RCON logs ignored",
+      "post-send timeout classified result_unknown",
+      "no automatic command retry"
+    ]
+  },
+  "isolatedFixturesAreRealGameEvidence": false,
+  "targetServerLoaded": false,
+  "targetServerRefreshAttempted": false,
+  "publicCountChangeVerified": false,
+  "independentRustEacSessionEstablished": false
+}

@@ -35,8 +35,9 @@ namespace Oxide.Plugins
         private static bool ParseId(ConsoleSystem.Arg arg, out ulong id)
         {
             id = 0;
-            return arg.Args != null && arg.Args.Length == 1 && arg.Args[0].Length == 17
-                && ulong.TryParse(arg.Args[0], NumberStyles.None, CultureInfo.InvariantCulture, out id);
+            string text = arg.GetString(0, string.Empty);
+            return arg.HasArgs(1) && !arg.HasArgs(2) && text.Length == 17
+                && ulong.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out id);
         }
 
         private static object State(ulong id)
@@ -73,7 +74,7 @@ namespace Oxide.Plugins
             if (arg == null) return;
             if (!Allowed(arg)) { arg.ReplyWith(new { error = "forbidden" }); return; }
             ulong id = 0;
-            if (arg.Args != null && arg.Args.Length != 0 && !ParseId(arg, out id))
+            if (arg.HasArgs(1) && !ParseId(arg, out id))
             { arg.ReplyWith(new { error = "usage: rustpresence.snapshot [SteamID64]" }); return; }
             try { arg.ReplyWith(State(id)); }
             catch (Exception) { arg.ReplyWith(new { error = "snapshot_failed" }); }

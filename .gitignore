@@ -22,6 +22,7 @@ service.lock
 /tools/rust-research/original-*
 /tools/rust-research/sdk-enums.json
 *.dll
+!server-upload/rust-presence-bridge/dist/Oxide.Ext.RustPresenceBridge.dll
 *.exe
 *.zip
 *.nupkg

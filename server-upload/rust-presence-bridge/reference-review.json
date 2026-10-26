@@ -1,0 +1,37 @@
+{
+    "reference":  {
+                      "sha256":  "e6419fb05800a15354fdae03573e3ed203c2ca9a53089ff729992d075ff402e2",
+                      "file":  "Oxide.Ext.RustJiaRen.dll",
+                      "bytes":  17408
+                  },
+    "staticInspectionOnly":  true,
+    "executed":  false,
+    "calls":  [
+                  {
+                      "offset":  "IL_0096",
+                      "method":  "System.Void SimpleWS.SimpleWebSocketServer/\u003cJinRen\u003ed__4::MoveNext()",
+                      "callee":  "System.Void Network.Connection::.ctor()"
+                  },
+                  {
+                      "offset":  "IL_0131",
+                      "method":  "System.Void SimpleWS.SimpleWebSocketServer/\u003cJinRen\u003ed__4::MoveNext()",
+                      "callee":  "System.Boolean IPlatformService::BeginPlayerSession(System.UInt64,System.Byte[])"
+                  },
+                  {
+                      "offset":  "IL_017E",
+                      "method":  "System.Void SimpleWS.SimpleWebSocketServer/\u003cJinRen\u003ed__4::MoveNext()",
+                      "callee":  "System.Void Facepunch.Rust.Analytics/Azure::OnSteamAuth(System.UInt64,System.UInt64,System.String)"
+                  },
+                  {
+                      "offset":  "IL_01EF",
+                      "method":  "System.Void SimpleWS.SimpleWebSocketServer/\u003cJinRen\u003ed__4::MoveNext()",
+                      "callee":  "System.Void Facepunch.Rust.Analytics/Azure::OnPlayerConnected(Network.Connection)"
+                  },
+                  {
+                      "offset":  "IL_0047",
+                      "method":  "System.Void Oxide.Ext.RustJiaRen.OxideRustJiaRenHooks::OnServerInformationUpdated()",
+                      "callee":  "System.Void Steamworks.SteamServer::set_GameTags(System.String)"
+                  }
+              ],
+    "note":  "Callsites are not evidence of successful Rust transport, EAC or public backend adoption."
+}

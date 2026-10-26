@@ -6,6 +6,8 @@
 
 新增：`/rust` 网页支持按游戏 IPv4+端口查询 Facepunch 公共人数、服务器 cp、A2S 人数和可选公开玩家条目；无需登录 Steam。查询端口由 Steam 登记精确匹配或手动填写。参考 [服务器上传文件及验证步骤](server-upload/README.zh-CN.md)，可对一个已经正常入服的玩家手动刷新原版资料，尚未验证能改变公共人数，不解决 EAC 准入。最新只读查询证据见 [public-query-verification-2026-10-26.json](rust-research/public-query-verification-2026-10-26.json)。
 
+已编译的 [Oxide.Ext.RustPresenceBridge.dll](server-upload/rust-presence-bridge/dist/Oxide.Ext.RustPresenceBridge.dll) 放置于服务器 `RustDedicated_Data/Managed/`，需要重启和兼容 Oxide；[DLL 上传与 Node.js 联动步骤](server-upload/rust-presence-bridge/README.zh-CN.md)。构建及隔离验证已完成，目标服加载、EAC 和公共人数改变尚未验证。
+
 **已实现 Steam 多账号管理，并在 `61.147.247.35:28015` 通过独立 Node.js/Python 程序完成真实账号入服和持续连接。程序自行登录 Steam、取得票据和建立 Rust 传输，不调用 Steam 桌面客户端或 Rust 游戏进程。当前没有实现有效 EAC 受保护会话，结果限于已验证的服务器配置。**
 
 实测期间原有 Steam/Rust 客户端保留作观察基线；尚未进行将两者全部退出后的重复连接。独立程序仍需要本机兼容版本的 `RakNet.dll` 和 64 位 Python。

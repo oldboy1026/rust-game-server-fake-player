@@ -1,0 +1,50 @@
+{
+    "version":  "0.1.0",
+    "compileOnly":  true,
+    "success":  true,
+    "inputsUnchanged":  true,
+    "compiledAt":  "2026-10-26T02:52:13.8842628Z",
+    "compiler":  {
+                     "sha256":  "46809206887326d2d24db1eff1f3064de972c3451abe766b49111450a5e08e00",
+                     "file":  "Framework64/v4.0.30319/csc.exe"
+                 },
+    "references":  [
+                       {
+                           "sha256":  "3cfe0c52796c7c29f14108330812a5e58d3b685e0b3d00dccc56703f28d5de05",
+                           "file":  "Oxide.Core.dll"
+                       },
+                       {
+                           "sha256":  "2128121e34b55bb1550d43e62842b87ea3720059f13dc84f97d8c7dd465c3423",
+                           "file":  "Oxide.Rust.dll"
+                       },
+                       {
+                           "sha256":  "b1f6bd2d2d40126b9bee3b8944463bad5869188084cbc8bf4aa3573ce9795bd9",
+                           "file":  "Facepunch.Console.dll"
+                       },
+                       {
+                           "sha256":  "864ecda900aaa64f3908c4dc0fc012d6857a5f9a8df3467130bbaa304fc9e833",
+                           "file":  "Facepunch.Network.dll"
+                       }
+                   ],
+    "sources":  [
+                    {
+                        "sha256":  "69c733d884b1fec2eb68311dbb6af243834f3812568cc439a52529c76f69411a",
+                        "file":  "Extension.cs"
+                    },
+                    {
+                        "sha256":  "13196e854a847a2dca7bcd46ebce405f0be55801a73e25df7111b431a4635b85",
+                        "file":  "RuntimeAdapter.cs"
+                    },
+                    {
+                        "sha256":  "04b8669e1ae94453d68d70cdfb3e51c7045644129d03e5afb98d936faafaf86a",
+                        "file":  "Json.cs"
+                    }
+                ],
+    "output":  {
+                   "sha256":  "4c0bd49a794b5e58ed751e8c0afa701d13e6732eaa1fe468deb6b1d4efc77027",
+                   "file":  "Oxide.Ext.RustPresenceBridge.dll",
+                   "bytes":  14848
+               },
+    "serverLoaded":  false,
+    "publicCountChangeVerified":  false
+}
