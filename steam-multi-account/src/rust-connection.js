@@ -7,8 +7,14 @@ import { ApiError } from './errors.js';
 
 export const RUST_WORKER = fileURLToPath(new URL('../../tools/rust-research/rust-peer.py', import.meta.url));
 export const RUST_DLL_SHA256 = '5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44';
+// Exact inspected builds only; export names alone do not establish ABI compatibility.
+export const RUST_DLL_PROFILES = Object.freeze({
+  [RUST_DLL_SHA256]: 'rust-client-x64',
+  a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21: 'rust-dedicated-x64',
+});
 const RUNTIME_ERRORS = Object.freeze({
-  rust_runtime_unconfigured: '本机尚未配置 Rust 连接运行库。请配置兼容的客户端 RakNet.dll 和 64 位 Python；连接尚未发起。',
+  rust_runtime_unconfigured: '本机尚未配置 Rust 连接运行库。请配置已验证兼容的 RakNet.dll 和 64 位 Python；连接尚未发起。',
+  rust_runtime_unsupported: '本机 Rust 运行库版本不受支持。请重新运行运行库配置脚本；连接尚未发起。',
 });
 export function rustRuntimeErrorMessage(error) {
   return error instanceof ApiError && Object.hasOwn(RUNTIME_ERRORS, error.code) ? RUNTIME_ERRORS[error.code] : null;
@@ -38,7 +44,10 @@ const STAGES = new Set([
 const CATEGORIES = new Set(['steam_auth', 'eac_required', 'eos_identity_required',
   'protocol_mismatch', 'server_full', 'banned', 'other', 'unknown', 'player_timeout', 'steam_ticket_reused']);
 export function safeMetadata(result) {
-  const clean = { dllSha256: RUST_DLL_SHA256, abi: 'windows-x64' };
+  const clean = { abi: 'windows-x64' };
+  if (typeof result.dllSha256 === 'string' && Object.hasOwn(RUST_DLL_PROFILES, result.dllSha256)) {
+    clean.dllSha256 = result.dllSha256;
+  }
   for (const key of ['created', 'closed', 'transportConnected', 'identitySent', 'approved',
     'readySent', 'playerConnected', 'eacVerified', 'selfEntityObserved', 'finishLoadingObserved',
     'respawnOnDeadEnabled', 'respawnAttempted', 'respawnSent', 'respawnAliveObserved',
@@ -146,7 +155,12 @@ export function readRustRuntime(env = process.env) {
   if (typeof dll !== 'string' || typeof python !== 'string' || !isAbsolute(dll) || !isAbsolute(python)) {
     throw Object.assign(new ApiError(503, RUNTIME_ERRORS.rust_runtime_unconfigured), { code: 'rust_runtime_unconfigured' });
   }
-  return { dll, python, worker: RUST_WORKER, sha256: RUST_DLL_SHA256 };
+  // An environment DLL override must not inherit a different saved DLL's hash.
+  const sha256 = env.RUST_NATIVE_SHA256 || (env.RUST_NATIVE_DLL ? RUST_DLL_SHA256 : saved.sha256 || RUST_DLL_SHA256);
+  if (typeof sha256 !== 'string' || !Object.hasOwn(RUST_DLL_PROFILES, sha256)) {
+    throw Object.assign(new ApiError(503, RUNTIME_ERRORS.rust_runtime_unsupported), { code: 'rust_runtime_unsupported' });
+  }
+  return { dll, python, worker: RUST_WORKER, sha256 };
 }
 
 export async function connectRust(auth, input, username, env = process.env) {
@@ -155,12 +169,12 @@ export async function connectRust(auth, input, username, env = process.env) {
   if (!Number.isInteger(seconds) || seconds < 5 || seconds > 120) {
     throw new ApiError(400, 'seconds 必须为 5 到 120 的整数。');
   }
-  const { dll, python } = readRustRuntime(env);
+  const { dll, python, sha256 } = readRustRuntime(env);
   let metadata;
   await auth.withSessionTicket(async ({ sessionTicket, steamId, signal }) => {
     if (signal.aborted) throw new ApiError(409, '账号会话已结束。');
     metadata = await new Promise((resolve, reject) => {
-      const child = spawn(python, [RUST_WORKER, '--dll', dll, '--sha256', RUST_DLL_SHA256,
+      const child = spawn(python, [RUST_WORKER, '--dll', dll, '--sha256', sha256,
         '--host', input.host, '--port', String(input.port), '--seconds', String(seconds)], {
         windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'], shell: false,
       });

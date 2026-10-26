@@ -123,7 +123,7 @@ export class RustSession {
     this.#run = run;
     this.#status = {
       state: 'connecting', ...destination, startedAt: new Date().toISOString(), endedAt: null,
-      metadata: safeMetadata({ closed: false, playerConnected: false, eacVerified: false,
+      metadata: safeMetadata({ dllSha256: runtime.sha256, closed: false, playerConnected: false, eacVerified: false,
         selfEntityObserved: false, finishLoadingObserved: false, respawnOnDeadEnabled: respawnOnDead,
         respawnAttempted: false, respawnSent: false, respawnAliveObserved: false,
         tickWakeEnabled: wakeOnConnect, tickPacketsSent: 0, wakeAttempted: false,

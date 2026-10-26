@@ -11,7 +11,7 @@ observed protocol 2635, changeset 168909 and buildTime 1792686656000 ms.
 It sends GiveUserInformation only after RequestUserInformation. EOS identity
 and anticheat tokens are empty because this worker has no protected runtime.
 An EAC message or protected encryption requirement stops the attempt.
-Ready uses the verified empty protobuf by default, only after an unencrypted
+Ready uses the verified empty protobuf by default, only after a supported
 Approval; --no-ready stops after Approval. Explicit clientInfo is optional.
 It recognizes only its own entity and the exact own FinishLoading RPC as
 evidence of PlayerInit/EnterGame. --persistent --stream keeps receiving until
@@ -60,6 +60,9 @@ _tick_spec.loader.exec_module(player_tick)
 _chat_spec = importlib.util.spec_from_file_location("rust_chat", Path(__file__).with_name("rust_chat.py"))
 chat = importlib.util.module_from_spec(_chat_spec)
 _chat_spec.loader.exec_module(chat)
+_codec_spec = importlib.util.spec_from_file_location("rust_packet_codec", Path(__file__).with_name("rust_packet_codec.py"))
+packet_codec = importlib.util.module_from_spec(_codec_spec)
+_codec_spec.loader.exec_module(packet_codec)
 
 MAX_INPUT_BYTES = 32768
 MAX_RECEIVE_BYTES = 2 * 1024 * 1024
@@ -71,7 +74,6 @@ BUILD_TIME_MS = 1792686656000
 FINISH_LOADING_RPC_ID = 2811987493
 PROGRESS = None
 RESULT = {
-    "dllSha256": native.INSPECTED_SHA256,
     "abi": "windows-x64",
     "created": False,
     "closed": False,
@@ -184,7 +186,7 @@ def parse_args():
         args.host = str(ipaddress.IPv4Address(args.host))
     except ipaddress.AddressValueError:
         parser.error("--host must be a literal IPv4 address")
-    if not args.dll.is_absolute() or args.sha256.lower() != native.INSPECTED_SHA256:
+    if not args.dll.is_absolute() or args.sha256.lower() not in native.SUPPORTED_DLL_HASHES:
         parser.error("An absolute DLL path and the inspected SHA-256 are required")
     if not 1 <= args.port <= 65535 or not 5 <= args.seconds <= 120:
         parser.error("Use a UDP port 1..65535 and a receive deadline from five to 120 seconds")
@@ -532,6 +534,7 @@ def run(args, identity, auth, ready):
     api = native.load_api(args.dll)
     bind_sender(api)
     peer = None
+    codec = packet_codec.PacketCodec(BUILD_PROTOCOL)
     counts, lengths = Counter(), Counter()
     sent_auth = sent_ready = False
     server_guid = None
@@ -553,6 +556,9 @@ def run(args, identity, auth, ready):
     chat_sender = chat.ChatSender()
     RESULT.update(chat_sender.metadata)
 
+    def send_packet(guid, payload):
+        return send(api, peer, guid, codec.transform(payload))
+
     def maybe_chat():
         try:
             request = control_state["chatQueue"].get_nowait()
@@ -560,9 +566,9 @@ def run(args, identity, auth, ready):
             return
         ready = (not stop.is_set() and sent_auth and sent_ready and server_guid is not None
                  and self_id is not None and finish_loading_self_id == self_id
-                 and RESULT.get("encryptionLevel") == 0)
+                 and RESULT.get("encryptionLevel") in (0, 1))
         RESULT.update(chat_sender.submit(request, ready=ready,
-                      send=lambda payload: send(api, peer, server_guid, payload), now=time.monotonic()))
+                      send=lambda payload: send_packet(server_guid, payload), now=time.monotonic()))
         if RESULT["lastChat"]["status"] == "sent":
             RESULT["sentPackets"] += 1
         # Every request gets a fresh acknowledgement, including repeated
@@ -578,10 +584,10 @@ def run(args, identity, auth, ready):
     def maybe_tick():
         if not sent_auth or not sent_ready or server_guid is None or stop.is_set():
             return None
-        if RESULT.get("encryptionLevel") != 0:
+        if RESULT.get("encryptionLevel") not in (0, 1):
             return None
         previous = wake.metadata["tickPacketsSent"]
-        reason = wake.step(time.monotonic(), lambda payload: send(api, peer, server_guid, payload))
+        reason = wake.step(time.monotonic(), lambda payload: send_packet(server_guid, payload))
         RESULT["sentPackets"] += wake.metadata["tickPacketsSent"] - previous
         RESULT.update(wake.metadata)
         # A first tick starts ServerKickUnresponsivePlayers' timer. Even when
@@ -590,7 +596,7 @@ def run(args, identity, auth, ready):
         if not reason and finish_loading_self_id == self_id:
             previous_maintenance = maintenance.sent
             reason = maintenance.step(time.monotonic(), self_id, wake.metadata["tickPacketsSent"] > 0,
-                                      lambda payload: send(api, peer, server_guid, payload))
+                                      lambda payload: send_packet(server_guid, payload))
             RESULT["sentPackets"] += maintenance.sent - previous_maintenance
             RESULT["connectionKeepAliveSent"] = maintenance.sent
             if previous_maintenance == 0 and maintenance.sent > 0:
@@ -606,7 +612,7 @@ def run(args, identity, auth, ready):
         nonlocal respawn_self_id, respawn_sent_at
         now = time.monotonic()
         if (not args.respawn_on_dead or RESULT["respawnAttempted"] or stop.is_set()
-                or not sent_auth or not sent_ready or server_guid is None or RESULT.get("encryptionLevel") != 0
+                or not sent_auth or not sent_ready or server_guid is None or RESULT.get("encryptionLevel") not in (0, 1)
                 or self_id is None or finish_loading_self_id != self_id
                 or last_self_snapshot is None or not 0 <= now - last_self_snapshot <= 10
                 or RESULT["ownPlayerState"].get("lifeState") != "dead"):
@@ -616,7 +622,7 @@ def run(args, identity, auth, ready):
         # ConsoleNetwork to the authenticated connection's own player.
         RESULT["respawnAttempted"] = True
         payload = bytearray(b"\x98\x07\x00\x00\x00respawn")
-        if send(api, peer, server_guid, payload):
+        if send_packet(server_guid, payload):
             respawn_self_id, respawn_sent_at = self_id, now
             RESULT["respawnSent"] = True
             RESULT["sentPackets"] += 1
@@ -697,7 +703,7 @@ def run(args, identity, auth, ready):
                 if not guid or guid == 2**64 - 1:
                     stop_reason = "invalid_server_guid"
                     break
-                if not send(api, peer, guid, auth):
+                if not send_packet(guid, auth):
                     stop_reason = "identity_native_send_failed"
                     break
                 sent_auth = True
@@ -707,7 +713,7 @@ def run(args, identity, auth, ready):
                 stop_reason = "protected_eac_session_required"
                 break
             elif first == 0x9A:
-                packet = ctypes.string_at(pointer, bits // 8)
+                packet = codec.transform(ctypes.string_at(pointer, bits // 8))
                 emit("server_rejected", category=rejection_category(packet))
                 stop_reason = "server_rejected"
                 break
@@ -715,21 +721,22 @@ def run(args, identity, auth, ready):
                 if not sent_auth or sent_ready:
                     stop_reason = "unexpected_approval"
                     break
-                packet = ctypes.string_at(pointer, bits // 8)
+                packet = codec.transform(ctypes.string_at(pointer, bits // 8))
                 try:
                     encryption = approval_encryption(packet)
                 except ValueError:
                     stop_reason = "approval_schema_invalid"
                     break
                 emit("approval_received", encryptionLevel=encryption)
-                if encryption:
+                if encryption not in (0, 1):
                     stop_reason = "protected_or_unsupported_encryption_required"
                     break
+                codec.select(encryption)
                 if args.no_ready or ready is None:
                     stop_reason = "approval_received_ready_not_requested"
                     break
                 guid = api.NETRCV_GUID(peer)
-                if not send(api, peer, guid, ready):
+                if not send_packet(guid, ready):
                     stop_reason = "ready_native_send_failed"
                     break
                 sent_ready = True
@@ -740,7 +747,7 @@ def run(args, identity, auth, ready):
                 emit("world_received")
             elif first == 0x91 and sent_ready:
                 emit("entity_message_received_after_ready")
-                packet = ctypes.string_at(pointer, bits // 8)
+                packet = codec.transform(ctypes.string_at(pointer, bits // 8))
                 try:
                     observed = self_entity_snapshot(packet, identity["steamId"])
                 except ValueError:
@@ -800,7 +807,7 @@ def run(args, identity, auth, ready):
                         emit("respawn_alive_observed")
                     maybe_respawn()
             elif first == 0x95 and sent_ready and self_id is not None:
-                packet = ctypes.string_at(pointer, bits // 8)
+                packet = codec.transform(ctypes.string_at(pointer, bits // 8))
                 if is_finish_loading(packet, self_id):
                     finish_loading_self_id = self_id
                     wake.finish_loading(self_id)
@@ -816,9 +823,8 @@ def run(args, identity, auth, ready):
             elif first in {0x92, 0x96, 0xA3} and sent_ready and self_id is not None:
                 # Destroy/position/base-entity flags begin with the target EntityID.
                 # Full position/correction simulation is outside this feature.
-                packet = ctypes.string_at(pointer, min(bits // 8, 9))
+                packet = codec.transform(ctypes.string_at(pointer, bits // 8))
                 if len(packet) >= 9 and struct.unpack_from("<Q", packet, 1)[0] == self_id:
-                    packet = ctypes.string_at(pointer, bits // 8)
                     echo = (first == 0x96 and wake.receive_position_echo(packet)
                             or first == 0xA3 and wake.receive_flags_echo(packet))
                     if not echo:
@@ -862,6 +868,7 @@ def wipe(buffer):
 
 def main():
     args = parse_args()
+    RESULT["dllSha256"] = args.sha256.lower()
     identity = auth = ready = None
     try:
         identity = read_identity(sys.stdin.buffer.raw)

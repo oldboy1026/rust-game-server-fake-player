@@ -19,7 +19,9 @@ node .\tools\rust-research\audit-rustjiaren-source.mjs --source-dir '用户提�
 
 `native-peer.py` 使用 64 位 Windows Python ctypes 调用明确路径、明确 SHA-256 的当前 RakNet.dll。不提供 `--host/--port` 时只创建并关闭；提供时限时建立传输连接并统计消息类型。不会提交玩家身份。
 
-`rust-peer.py` 通过 stdin 接收单个 JSON，字段为 `steamId`、`username`、`sessionTicketBase64`。票据须来自仍在线的 Steam 会话且在探针存活期间保持激活。建议使用 Steam 服务的 `rust-connect` 接口统一申请、取消和清理，避免把票据粘贴到终端或文件。探针核对 DLL 后按请求发送身份、处理审批和最小 Ready，遇 EAC 或保护要求时结束；没有实现有效 EAC 会话或玩家 Tick。
+`rust-peer.py` 通过 stdin 接收单个 JSON，字段为 `steamId`、`username`、`sessionTicketBase64`。票据须来自仍在线的 Steam 会话且在探针存活期间保持激活。建议使用 Steam 服务的 `rust-connect` 接口统一申请、取消和清理，避免把票据粘贴到终端或文件。探针核对 DLL 后按请求发送身份、处理审批和最小 Ready；支持协议 2635 的等级 0 和等级 1，遇 EAC 或等级大于 1 时仍停止，没有实现有效 EAC 会话。可选的有限自身唤醒 Tick 及其维护边界见 Steam 服务 README。
+
+`rust_packet_codec.py` 是等级 1 的独立编解码器：保留包头，按原版 EncryptionPerType 选择载荷，从固定表的 protocol % 256 偏移逐包重新处理；不会修改原生借用缓冲。普通入服、聊天、重生、唤醒和连接维护复用同一会话编解码器。静态依据、可信原生库适配及实服验证见 [2026-10-26 连接修复](../../rust-research/runtime-repair-2026-10-26.md)。
 
 `analyze-raknet-frames.mjs` 按实测小端、带数据报时间字段的格式离线解析：
 

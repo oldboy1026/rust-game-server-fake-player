@@ -2,6 +2,16 @@
 
 最后整理日期：2026-10-26，Asia/Shanghai。
 
+## 2026-10-26 12:18：运行库已补齐，等级 1 普通协议连接已实测恢复
+
+用户再次要求真正修好并自动连接61.147.247.25:40176。下节“缺客户端DLL，实际连接仍阻塞”已经被本轮验证更新：现有Steam专用服务器RakNet原生库a6d10e2c…经Facepunch有效签名、关键ABI逐项检查、创建关闭及限时传输探测后，加入精确支持哈希。不是只凭同名导出放宽版本。configure-rust-runtime.mjs已保存本repo本机ignored配置，Python3.12.14 x64可用；新增sha256配置/环境RUST_NATIVE_SHA256和实际元数据哈希，未知版本仍拒绝。账号data及token未迁移/删除，旧outputs部署未改。
+
+进一步真实单账号测试发现目标Approval.encryptionLevel=1；旧worker把所有非零等级停止。原始Assembly-CSharp的NetworkCryptographyServer handler表明等级1为Craptography.XOR普通混淆，等级>1才进EACServer；Facepunch.Network外层给定明确消息选择。新增rust_packet_codec.py按protocol2635实现等级1收发，保留包头/逐包重置/类型过滤/不改借用缓冲，聊天、普通重生、有限唤醒和维护统一发送路径。**0xA2及等级>1仍停止、eacVerified=false，未绕过或实现EAC。** 不把等级1误标为有效受保护会话。
+
+12:15:53（北京时间）通过网页相同批量API只发起1个真实账号；12:15:59 entered_game，自身实体+精确FinishLoading及Steam服务端票据验证均观察到。12:17:58同一会话仍开放、持续收包，active票据及serverValidationObserved=true，未发聊天/重生/唤醒Tick。测试账号刻意保留在线。另一48账号connect批次于12:17:23出现，**不是本轮工具发起**；12:18:27实时5个账号entered_game，都在目标服，46Steam online/2connecting。不要自动停止这个批次、重启服务或恢复旧快照。主服务exec session1247持续运行，单账号测试驱动69716已自然结束；Python新worker按需加载，不需再次重启。
+
+Node全套54/54、Python相关45/45通过；完整原因、ABI、等级1依据、脱敏阶段及证据哈希见rust-research/runtime-repair-2026-10-26.md/.json。查询端口Steam登记40177；A2S5/cp3，Facepunch条目不存在（不是0）。本轮不改服务器/统计配置，公共可信人数及独立EAC仍未解决。运行库本机路径在ignored配置，游戏原生库不随Git分发。
+
 ## 2026-10-26：修正点击连接后运行库缺失却仍显示未连接的问题
 
 用户点击连接61.147.247.25:40176，48个Steam在线但Rust全closed。实时批量任务实际存在，逐项失败；旧catch把readRustRuntime的503隐藏为通用错误，RustSession在设置状态前throw，故看似按钮没动作。单账号HTTP重现503，确认本repo data/rust-runtime.json不存在，服务启动环境未配Rust路径；尚未申请该次票据/启动worker/发送游戏连接。不是新服务器DLL或EAC拒绝导致。启动新数据目录时未检查此运行前提是本机部署疏漏。

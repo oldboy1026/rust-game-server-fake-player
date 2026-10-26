@@ -30,6 +30,12 @@ import time
 
 
 INSPECTED_SHA256 = "5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44"
+SUPPORTED_DLL_HASHES = frozenset({
+    INSPECTED_SHA256,
+    # Dedicated build: ABI inspection and bounded native/transport tests recorded
+    # in runtime-repair-2026-10-26.md. This is transport support, not EAC support.
+    "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+})
 
 # These transport notification numbers come from the fixed upstream
 # MessageIdentifiers.h. They describe RakNet transport, not Rust admission.
@@ -68,8 +74,8 @@ def parse_args():
         parser.error("--seconds must be greater than zero and at most nine")
     if not args.dll.is_absolute():
         parser.error("--dll must be an absolute path")
-    if args.sha256.lower() != INSPECTED_SHA256:
-        parser.error("This probe only supports the statically inspected client DLL hash")
+    if args.sha256.lower() not in SUPPORTED_DLL_HASHES:
+        parser.error("This probe only supports the inspected DLL hashes")
     return args
 
 

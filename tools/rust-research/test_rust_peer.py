@@ -58,9 +58,10 @@ class ControlStream:
 
 
 class FakeApi:
-    def __init__(self, packets, clock):
+    def __init__(self, packets, clock, codec=None):
         self.packets = iter(packets)
         self.clock = clock
+        self.codec = codec
         self.current = None
         self.close_calls = 0
         self.send_calls = 0
@@ -87,11 +88,13 @@ class FakeApi:
             self.clock[0] += 0.05
             if self.last_player_response is not None and self.clock[0] - self.last_player_response > 60:
                 packet = rejected("Unresponsive")
+                if self.codec:
+                    packet = bytes(self.codec.transform(packet))
                 self.current = ctypes.create_string_buffer(packet, len(packet))
                 return True
             return False
         if packet[0] == 0x91:
-            state = worker.self_entity_snapshot(packet, 1)
+            state = worker.self_entity_snapshot(self.codec.transform(packet) if self.codec else packet, 1)
             if state is not None:
                 self.sleeping = bool(state["flags"] & 16)
         self.current = ctypes.create_string_buffer(packet, len(packet))
@@ -100,6 +103,8 @@ class FakeApi:
     def write_bytes(self, peer, data, length):
         payload = bytes(data[:length])
         self.payloads.append(payload)
+        if self.codec:
+            payload = self.codec.transform(payload)
         if payload[0] == 0x9b:
             self.last_player_response = self.clock[0]
         elif (payload[0] == 0x95 and len(payload) == 13
@@ -128,14 +133,14 @@ def rejected(reason):
 
 
 class WorkerExitTests(unittest.TestCase):
-    def run_worker(self, packets, *, wake=False, entered=False):
+    def run_worker(self, packets, *, wake=False, entered=False, sha256="unused", codec=None):
         worker.RESULT = copy.deepcopy(INITIAL_RESULT)
         worker.PROGRESS = None
         clock = [0.0]
-        api = FakeApi(packets, clock)
+        api = FakeApi(packets, clock, codec)
         stream = ControlStream()
         stdin = types.SimpleNamespace(buffer=types.SimpleNamespace(raw=stream))
-        args = types.SimpleNamespace(dll=Path("synthetic-not-a-dll"), sha256="unused",
+        args = types.SimpleNamespace(dll=Path("synthetic-not-a-dll"), sha256=sha256,
                                      host="127.0.0.1", port=1, seconds=1,
                                      persistent=True, stream=True, respawn_on_dead=False,
                                      no_ready=False, validate_input=False, wake_on_connect=wake)
@@ -213,8 +218,24 @@ class WorkerExitTests(unittest.TestCase):
         self.assertFalse(final["readySent"])
         self.assertEqual(api.send_calls, 0)
 
+    def test_dedicated_profile_reports_selected_hash_and_preserves_eac_stop(self):
+        sha256 = "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21"
+        argv = [str(WORKER_PATH), "--dll", str(WORKER_PATH.resolve()), "--sha256", sha256,
+                "--host", "127.0.0.1", "--port", "1"]
+        with patch.object(sys, "argv", argv):
+            self.assertEqual(worker.parse_args().sha256, sha256)
+        with patch.object(sys, "argv", [*argv[:4], "0" * 64, *argv[5:]]), \
+                patch.object(sys, "stderr", io.StringIO()):
+            with self.assertRaises(SystemExit):
+                worker.parse_args()
+        final, messages, api = self.run_worker([b"\x10", b"\xa2"], sha256=sha256)
+        self.assertEqual(final["dllSha256"], sha256)
+        self.assertTrue(all(message["dllSha256"] == sha256 for message in messages))
+        self.assertIn("eac_required", final["stages"])
+        self.assertEqual(api.send_calls, 0)
+
     def test_protected_approval_still_stops_before_ready(self):
-        final, _, api = self.run_worker([b"\x10", b"\x9d", b"\x8f\x60\x01"])
+        final, _, api = self.run_worker([b"\x10", b"\x9d", b"\x8f\x60\x02"])
         self.assertIn("protected_or_unsupported_encryption_required", final["stages"])
         self.assertTrue(final["identitySent"])
         self.assertFalse(final["readySent"])
@@ -235,6 +256,38 @@ class WorkerExitTests(unittest.TestCase):
         self.assertEqual(final["sentPackets"], 7)
         self.assertEqual(final["connectionKeepAliveSent"], 2)
 
+    def test_level_one_decodes_own_snapshot_and_finish_loading_and_encodes_ticks(self):
+        codec = worker.packet_codec.PacketCodec(worker.BUILD_PROTOCOL)
+        codec.select(1)
+        finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
+        frames = [b"\x10", b"\x9d", b"\x8f\x60\x01", entity(), finish, None,
+                  entity(seq=2, flags=256), None, b"\x15"]
+        wire = [bytes(codec.transform(frame)) if frame is not None else None for frame in frames]
+        final, _, api = self.run_worker(wire, wake=True, entered=True, codec=codec)
+        self.assertEqual(final["encryptionLevel"], 1)
+        self.assertTrue(final["readySent"])
+        self.assertEqual(final["tickPacketsSent"], 3)
+        self.assertTrue(final["wakeAwakeObserved"])
+        self.assertGreater(final["connectionKeepAliveSent"], 0)
+        self.assertFalse(final["eacVerified"])
+        rpc = next(frame for frame in api.payloads if frame[0] == 0x95)
+        self.assertNotEqual(struct.unpack_from("<Q", rpc, 1)[0], 9)
+        self.assertEqual(struct.unpack_from("<Q", codec.transform(rpc), 1)[0], 9)
+
+    def test_level_one_never_treats_other_entity_finish_as_own_or_bypasses_eac(self):
+        codec = worker.packet_codec.PacketCodec(worker.BUILD_PROTOCOL)
+        codec.select(1)
+        wrong_finish = b"\x95" + struct.pack("<QI", 10, worker.FINISH_LOADING_RPC_ID)
+        for last in (wrong_finish, b"\xa2"):
+            frames = [b"\x10", b"\x9d", b"\x8f\x60\x01", entity(), last, b"\x15"]
+            wire = [bytes(codec.transform(frame)) for frame in frames]
+            final, _, api = self.run_worker(wire, codec=codec)
+            self.assertTrue(final["selfEntityObserved"])
+            self.assertFalse(final["finishLoadingObserved"])
+            self.assertEqual(api.send_calls, 2)
+            if last == b"\xa2":
+                self.assertIn("eac_required", final["stages"])
+
     def test_enabled_worker_stops_on_own_position_change_while_pressed(self):
         finish = b"\x95" + struct.pack("<QI", 9, worker.FINISH_LOADING_RPC_ID)
         correction = b"\x96" + struct.pack("<Q", 9) + bytes(28)
@@ -247,7 +300,7 @@ class WorkerExitTests(unittest.TestCase):
         self.assertEqual(final["wakeState"], "interrupted")
 
     def test_wake_enabled_does_not_change_protected_session_rejection(self):
-        for packets in ([b"\x10", b"\xa2"], [b"\x10", b"\x9d", b"\x8f\x60\x01"]):
+        for packets in ([b"\x10", b"\xa2"], [b"\x10", b"\x9d", b"\x8f\x60\x02"]):
             final, _, api = self.run_worker(packets, wake=True)
             self.assertEqual(final["tickPacketsSent"], 0)
             self.assertFalse(any(p[0] == 0x9b for p in api.payloads))

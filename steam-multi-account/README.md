@@ -236,7 +236,7 @@ await api.stopIdling('account1');
 
 `POST /v1/accounts/{id}/rust-connect` 接受 `{"host":"目标IPv4","port":28015,"seconds":60}`。账号须在线，且先配置上述两个本机路径；时长范围为 5 到 120 秒。接口等待此次连接结束及票据清理后返回阶段、消息数量和固定拒绝分类。票据只通过匿名本机管道传给独立网络进程，不出现在 API 返回、命令行或磁盘中。
 
-程序从 Steam 申请并核验新会话票据，在收到 Rust 身份请求后提交身份；只在审批指定不加密时发送经过当前版本核对的最小 Ready。遇到 EAC 数据或受保护消息要求时结束该尝试。`approved`、`readySent`、`worldMessages` 分别记录协议进展；只有本账号自身实体及发给它的精确 FinishLoading RPC 都已观察到，`playerConnected` 才为 true。`eacVerified` 始终为 false。
+程序从 Steam 申请并核验新会话票据，在收到 Rust 身份请求后提交身份；审批指定等级 0（不加密）或等级 1（协议 2635 的普通 XOR 混淆）时发送经过当前版本核对的最小 Ready，并按消息类型处理收发。等级大于 1 或 EAC 消息仍停止，等级 1 不代表 EAC 认证。`approved`、`readySent`、`worldMessages` 分别记录协议进展；只有本账号自身实体及发给它的精确 FinishLoading RPC 都已观察到，`playerConnected` 才为 true。`eacVerified` 始终为 false。
 
 持续连接使用 `POST /v1/accounts/{id}/rust-session`，请求体为 `{"host":"目标IPv4","port":28015}`；立即返回 202。`GET` 同一路径查询状态，`DELETE` 优雅断开。`entered_game` 表示已经确认本账号的玩家实体和 FinishLoading。网页“账号详情 → Rust 服务器连接”提供相同操作；关闭页面后连接继续，停止服务或退出 Steam 账号会断开。
 
@@ -246,15 +246,22 @@ await api.stopIdling('account1');
 
 `metadata.respawnOnDeadEnabled`、`respawnAttempted` 和 `respawnSent` 分别记录开关、尝试及原生发送结果。只有发送后收到同一自身实体的完整 `alive` 快照，`respawnAliveObserved` 才为 `true`，并附 `respawnAliveAfterSeconds`；未观察到时保持 `false`。实体消息序号尚未核对，因此这只表示发送之后接收到 alive，不是服务端命令确认或因果证明，也不能证明已计入游戏列表人数。
 
-本机可在被忽略的 `data/rust-runtime.json` 保存 `{"dll":"RakNet.dll绝对路径","python":"Python绝对路径"}`，环境变量优先。该文件只存本机路径，迁移电脑后需重新配置。持续会话目前不自动恢复；服务重启后先等待账号上线，再连接服务器。
+本机可在被忽略的 `data/rust-runtime.json` 保存 `{"dll":"RakNet.dll绝对路径","python":"Python绝对路径","sha256":"已验证DLL的SHA256"}`，环境变量优先。该文件只存本机运行配置，迁移电脑后需重新配置。持续会话目前不自动恢复；服务重启后先等待账号上线，再连接服务器。
 
-也可在本目录执行 `node scripts/configure-rust-runtime.mjs --dll "客户端RakNet.dll路径" --python "64位Python路径"`。脚本先核对当前支持的 DLL SHA256 及 Python 3.10+、64 位，再写入本机路径；省略 --python 时使用已配置的 RUST_PYTHON 或本机 Codex 捆绑 Python。需要的是 Rust 客户端 `RustClient_Data/Plugins/x86_64/RakNet.dll`，不是服务器扩展 DLL；服务端同名库哈希可能不同。当前固定客户端哈希为 `5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44`，不支持的文件会被拒绝，不会静默替换版本。设置文件在每次开始 Rust 连接时读取，补齐后无需重启服务。
+也可在本目录执行 `node scripts/configure-rust-runtime.mjs --dll "已验证RakNet.dll路径" --python "64位Python路径"`。脚本先核对支持的 DLL SHA256 及 Python 3.10+、64 位，再保存本机路径和实际哈希；省略 --python 时使用 RUST_PYTHON 或本机 Codex 捆绑 Python。支持以下两个经过核对的 Windows x64 原生库，不是 Oxide 扩展 DLL；其他版本仍拒绝加载：
+
+| 来源 | SHA256 |
+| --- | --- |
+| 客户端 `RustClient_Data/Plugins/x86_64/RakNet.dll` | `5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44` |
+| 专用服务器 depot 258551 / manifest 93946663446561466 的 `RustDedicated_Data/Plugins/x86_64/RakNet.dll` | `a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21` |
+
+两者提供的客户端传输接口已分别检查；库兼容不代表具备 EAC 会话。证据见 `../rust-research/runtime-repair-2026-10-26.md`。环境变量方式配置第二种库时，同时设置 `RUST_NATIVE_DLL`、`RUST_PYTHON` 和 `RUST_NATIVE_SHA256`；覆盖 DLL 路径时不会继承另一份保存配置的哈希。旧配置不含 sha256 时仍按原客户端哈希检查。worker 在加载前检查文件实际完整哈希和 x64 PE。设置文件在每次开始 Rust 连接时读取，补齐配置后无需重启服务；后端代码更新需要重启。
 
 运行库未配置时，账号 Rust 状态会显示连接结束及具体原因，批量结果和日志也会保留该原因；此时尚未申请入服票据或启动网络进程，不代表服务器拒绝或 EAC 失败。
 
 请求可选严格布尔值 `wakeOnConnect`，默认 `false`；账号详情和 Rust 页面对应“入服后尝试唤醒一次”。例如单账号请求 `{"host":"127.0.0.1","port":28015,"wakeOnConnect":true}`。命令行 worker 对应 `--wake-on-connect`。后端代码更新需要重新启动服务才能接受新选项，现有运行中的会话不会自动启用；本批没有重启用户服务。
 
-启用后，只在已批准的无加密连接、同一自身实体的 FinishLoading、两秒内有序完整自身快照、存活且有正健康值、已连接且不在接收快照/旁观/受伤/转移状态时，尝试一次普通 `PlayerTick` 唤醒。初版只支持有接地模型状态、静止、无父实体/坐骑、非水中及非特殊移动姿态；从自身完整快照取得位置、视角和模型，按无父实体的直立/蹲伏眼位构造完整输入。未支持状态等待后续快照，不猜测坐标或执行管理员唤醒命令。
+启用后，只在已批准且加密等级为 0 或 1 的连接、同一自身实体的 FinishLoading、两秒内有序完整自身快照、存活且有正健康值、已连接且不在接收快照/旁观/受伤/转移状态时，尝试一次普通 `PlayerTick` 唤醒。初版只支持有接地模型状态、静止、无父实体/坐骑、非水中及非特殊移动姿态；从自身完整快照取得位置、视角和模型，按无父实体的直立/蹲伏眼位构造完整输入。未支持状态等待后续快照，不猜测坐标或执行管理员唤醒命令。
 
 一次尝试最多三帧，间隔设计为 50 毫秒：中立 → 蹲伏键 `64` → 中立释放。按可靠有序通道 0 发送，每一帧显式写出所有 Tick、Input、ModelState 和向量分量，包括零值，覆盖服务端旧 ProtoDelta 基线。该过程收起活动物品，不发送攻击。自身未知 RPC、销毁、真实位置改变或基础实体 flags 改变使保留状态失效；已核对的 UI/宠物元数据 RPC 和位置未变的同步回包允许继续，单独的视角回包不刷新完整状态年龄。按下后不能安全释放时关闭本账号连接，发送失败也关闭，不重试。
 

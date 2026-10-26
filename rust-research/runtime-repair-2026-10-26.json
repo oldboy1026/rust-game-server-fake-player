@@ -1,0 +1,313 @@
+{
+  "observedAt": "2026-10-26T04:17:58.071Z",
+  "target": {
+    "host": "61.147.247.25",
+    "port": 40176
+  },
+  "native": {
+    "source": "Steam app 258550, depot 258551, manifest 93946663446561466",
+    "sha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+    "bytes": 312656,
+    "lifecycle": {
+      "dllSha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+      "abi": "windows-x64",
+      "mode": "lifecycle_only",
+      "created": true,
+      "closed": true,
+      "stages": [
+        "native_wrapper_created",
+        "native_wrapper_closed"
+      ],
+      "receivedPackets": 0,
+      "bitLengthCounts": {},
+      "firstByteCounts": {},
+      "elapsedSeconds": 0
+    },
+    "transport": {
+      "dllSha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+      "abi": "windows-x64",
+      "mode": "transport_probe",
+      "created": true,
+      "closed": true,
+      "stages": [
+        "native_wrapper_created",
+        "transport_connect_started",
+        "transport_connection_request_accepted",
+        "receive_deadline_reached",
+        "native_wrapper_closed"
+      ],
+      "receivedPackets": 2,
+      "bitLengthCounts": {
+        "8": 1,
+        "768": 1
+      },
+      "firstByteCounts": {
+        "0x10": 1,
+        "0x9d": 1
+      },
+      "startClientResult": 0,
+      "elapsedSeconds": 5.047
+    },
+    "authenticode": {
+      "observedAt": "2026-10-26T04:18:27.1097076Z",
+      "status": "Valid",
+      "subject": "CN=Facepunch Studios Ltd, O=Facepunch Studios Ltd, L=Birmingham, S=Birmingham, C=GB",
+      "sha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21"
+    }
+  },
+  "beforeLevel1": {
+    "at": "2026-10-26T04:11:24.279Z",
+    "state": "error",
+    "host": "61.147.247.25",
+    "port": 40176,
+    "startedAt": "2026-10-26T04:11:20.239Z",
+    "endedAt": "2026-10-26T04:11:23.844Z",
+    "lastError": "服务器要求当前独立连接尚不支持的受保护会话，已停止连接。",
+    "metadata": {
+      "dllSha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+      "created": true,
+      "closed": true,
+      "transportConnected": true,
+      "identitySent": true,
+      "approved": true,
+      "readySent": false,
+      "playerConnected": false,
+      "eacVerified": false,
+      "selfEntityObserved": false,
+      "finishLoadingObserved": false,
+      "tickPacketsSent": 0,
+      "connectionKeepAliveSent": 0,
+      "chatMessagesSent": 0,
+      "receivedPackets": 3,
+      "sentPackets": 1,
+      "elapsedSeconds": 1.875,
+      "worldMessages": 0,
+      "encryptionLevel": 1,
+      "stages": [
+        "input_validated",
+        "native_wrapper_created",
+        "transport_connect_started",
+        "transport_connection_request_accepted",
+        "identity_requested",
+        "identity_sent",
+        "approved",
+        "protected_or_unsupported_encryption_required",
+        "native_wrapper_closed"
+      ],
+      "ownPlayerState": {
+        "observed": false,
+        "snapshots": 0
+      }
+    },
+    "steamAuthentication": {
+      "available": true,
+      "active": false,
+      "serverValidationObserved": false
+    }
+  },
+  "entry": {
+    "at": "2026-10-26T04:15:59.593Z",
+    "state": "entered_game",
+    "host": "61.147.247.25",
+    "port": 40176,
+    "startedAt": "2026-10-26T04:15:53.546Z",
+    "endedAt": null,
+    "lastError": null,
+    "metadata": {
+      "dllSha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+      "created": true,
+      "closed": false,
+      "transportConnected": true,
+      "identitySent": true,
+      "approved": true,
+      "readySent": true,
+      "playerConnected": true,
+      "eacVerified": false,
+      "selfEntityObserved": true,
+      "finishLoadingObserved": true,
+      "tickPacketsSent": 0,
+      "connectionKeepAliveSent": 0,
+      "chatMessagesSent": 0,
+      "receivedPackets": 2324,
+      "sentPackets": 2,
+      "elapsedSeconds": 2.688,
+      "worldMessages": 801,
+      "encryptionLevel": 1,
+      "stages": [
+        "input_validated",
+        "native_wrapper_created",
+        "transport_connect_started",
+        "transport_connection_request_accepted",
+        "identity_requested",
+        "identity_sent",
+        "approved",
+        "ready_sent",
+        "world_received",
+        "self_entity_observed",
+        "finish_loading_observed"
+      ],
+      "ownPlayerState": {
+        "observed": true,
+        "sleeping": true,
+        "receivingSnapshot": true,
+        "snapshots": 5,
+        "ageSeconds": 0.125,
+        "spectating": false,
+        "wounded": false,
+        "connectedFlag": true,
+        "loadingAfterTransfer": false,
+        "flagsFieldPresent": true,
+        "combatComponentObserved": true,
+        "combatStateFieldPresent": false,
+        "lifeState": "alive",
+        "healthPositive": true,
+        "entityChanges": 0,
+        "stateChanges": 1
+      }
+    },
+    "steamAuthentication": {
+      "available": true,
+      "active": true,
+      "serverValidationObserved": true
+    }
+  },
+  "live": {
+    "at": "2026-10-26T04:17:58.099Z",
+    "state": "entered_game",
+    "host": "61.147.247.25",
+    "port": 40176,
+    "startedAt": "2026-10-26T04:15:53.546Z",
+    "endedAt": null,
+    "lastError": null,
+    "metadata": {
+      "dllSha256": "a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21",
+      "created": true,
+      "closed": false,
+      "transportConnected": true,
+      "identitySent": true,
+      "approved": true,
+      "readySent": true,
+      "playerConnected": true,
+      "eacVerified": false,
+      "selfEntityObserved": true,
+      "finishLoadingObserved": true,
+      "tickPacketsSent": 0,
+      "connectionKeepAliveSent": 0,
+      "chatMessagesSent": 0,
+      "receivedPackets": 7825,
+      "sentPackets": 2,
+      "elapsedSeconds": 117.688,
+      "worldMessages": 2582,
+      "encryptionLevel": 1,
+      "stages": [
+        "input_validated",
+        "native_wrapper_created",
+        "transport_connect_started",
+        "transport_connection_request_accepted",
+        "identity_requested",
+        "identity_sent",
+        "approved",
+        "ready_sent",
+        "world_received",
+        "self_entity_observed",
+        "finish_loading_observed"
+      ],
+      "ownPlayerState": {
+        "observed": true,
+        "sleeping": true,
+        "receivingSnapshot": false,
+        "snapshots": 22,
+        "ageSeconds": 100.563,
+        "spectating": false,
+        "wounded": false,
+        "connectedFlag": true,
+        "loadingAfterTransfer": false,
+        "flagsFieldPresent": true,
+        "combatComponentObserved": true,
+        "combatStateFieldPresent": false,
+        "lifeState": "alive",
+        "healthPositive": true,
+        "entityChanges": 0,
+        "stateChanges": 2
+      }
+    },
+    "steamAuthentication": {
+      "available": true,
+      "active": true,
+      "serverValidationObserved": true
+    }
+  },
+  "overviewCounts": {
+    "total": 48,
+    "steamOnline": 46,
+    "connected": 5,
+    "connecting": 0
+  },
+  "publicQuery": {
+    "queriedAt": "2026-10-26T04:17:58.069Z",
+    "queryPort": 40177,
+    "facepunch": {
+      "ok": false,
+      "error": "target_not_listed",
+      "players": null,
+      "headers": {
+        "date": "Mon, 26 Oct 2026 04:17:44 GMT",
+        "age": "229",
+        "last-modified": "Mon, 26 Oct 2026 04:14:13 GMT",
+        "cache-control": "public, max-age=86400",
+        "cf-cache-status": "HIT"
+      }
+    },
+    "a2s": {
+      "ok": true,
+      "players": 5,
+      "cp": 3,
+      "version": "2635",
+      "gamePort": 40176,
+      "vacSecure": false
+    }
+  },
+  "tests": {
+    "node": {
+      "passed": 54,
+      "failed": 0
+    },
+    "python": {
+      "passed": 45,
+      "failed": 0
+    }
+  },
+  "evidenceFiles": [
+    {
+      "file": "lifecycle.json",
+      "sha256": "46cf5e961ea80c6f20c95d112b8f8764c0340cfa47aa7e4f5e73d6389e2e6852"
+    },
+    {
+      "file": "transport.json",
+      "sha256": "6d16e4f12bd12bbaba9550907665c0fc2ffd71583e4e2231e607429f6f5971c1"
+    },
+    {
+      "file": "account-test-before-level1.json",
+      "sha256": "ba94cf3e82016afddd8ea64a8dbfe502a9d16128d7ac7b424dd5fa8c55ba195e"
+    },
+    {
+      "file": "account-test.json",
+      "sha256": "ca57510af5100b9dd9c4b5bea9f32b0593b81d11180e57b454ff22895214d63b"
+    },
+    {
+      "file": "cryptography.il.txt",
+      "sha256": "d903d21d59794eb40074dd3bd56a91c9121e3b0042513d633a2193688ea58af8"
+    },
+    {
+      "file": "cryptography-constants.json",
+      "sha256": "14d5f890f590eeeda25c09b958f2210a1bb8b47caafde738045b5ec69bc5f4ca"
+    }
+  ],
+  "limits": [
+    "This repair initiated one real account at a time (one failed attempt before level-1 support, then one successful attempt). The successful session is intentionally retained. A separate 48-account batch appeared later and was not initiated by this repair; it is preserved.",
+    "EAC messages and encryption levels above 1 remain unsupported and terminate the attempt. eacVerified remains false.",
+    "Own entity plus exact own FinishLoading and Steam ticket validation observed; no full game simulation or EAC attestation.",
+    "Facepunch missing target is unavailable, not zero and not trusted player-count inclusion. No server configuration or reporting changes.",
+    "Level-1 wake and maintenance codec integration passed offline tests. Chat/respawn share the codec send path but were not live-tested at level 1. No live chat, wake or respawn was sent."
+  ]
+}
