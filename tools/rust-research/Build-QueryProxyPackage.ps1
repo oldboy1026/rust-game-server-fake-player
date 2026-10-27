@@ -24,6 +24,8 @@ $taskSources = @(
     @{ Source = 'tools/rust-research/run-query-proxy.mjs'; Destination = 'tools/rust-research/run-query-proxy.mjs' },
     @{ Source = 'steam-multi-account/src/rust-query-proxy.js'; Destination = 'steam-multi-account/src/rust-query-proxy.js' },
     @{ Source = 'rust-research/query-server.mjs'; Destination = 'rust-research/query-server.mjs' },
+    @{ Source = 'server-upload/query-proxy/README.en.md'; Destination = 'README.md' },
+    @{ Source = 'server-upload/query-proxy/README.en.md'; Destination = 'README.en.md' },
     @{ Source = 'server-upload/query-proxy/README.zh-CN.md'; Destination = 'README.zh-CN.md' }
 )
 foreach ($taskFile in $taskSources) {

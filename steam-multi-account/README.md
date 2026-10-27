@@ -1,131 +1,163 @@
-# Steam 多账号在线服务
+# Steam Multi-Account Service
 
-在一个 Windows 用户会话、一个 Node.js 服务中，使用 `steam-user` 为不同 Steam 账号分别维持 CM 连接和在线状态。通过本地 HTTP 接口登录及管理账号。
+[English](README.md) · [简体中文](README.zh-CN.md) · [Project overview](../README.md)
 
-## 启动及添加账号
+A single Node.js service maintains separate Steam CM connections for multiple accounts in one Windows user session, using `steam-user`. A local HTTP API and bilingual web dashboard manage login, account features, and experimental Rust connections. The [code guide](../docs/CODE_GUIDE.md) explains the implementation; the [research guide](../docs/RESEARCH.md) separates completed work from open questions.
 
-需要 Node.js 22 或更新版本。首次运行 `start.cmd` 会自动按 `package-lock.json` 安装依赖；也可先执行 `npm.cmd ci --registry=https://registry.npmjs.org --no-audit --no-fund`。
+## Start the service and add accounts
 
-1. 双击 `start.cmd`，保持服务窗口运行；也可以在本目录执行 `npm.cmd start`。
-2. 双击 `open-dashboard.cmd`，浏览器会打开管理页面并自动连接。在页面中添加账号、提交验证码及管理连接。
-
-直接访问 `http://127.0.0.1:3210/` 也会显示管理页面；首次访问时，粘贴 `data/api-key.txt` 中的密钥，或点击“读取密钥文件”选择该文件。访问密钥只保存在当前标签页的会话中。锁定页面或关闭浏览器页面不会退出 Steam 账号。
-
-## Rust 挂机页面
-
-打开 `http://127.0.0.1:3210/rust`，或点击顶部“Rust 挂机”。页面直接显示 Steam 登录账号名，不需要填写管理 ID。
-
-“服务器公共人数查询”独立于账号选择与登录。填写 IPv4 和**游戏端口**，查询端口可留空，按 Steam 登记精确匹配；查找失败可手动填写真实查询端口，不猜测相邻端口。显示 Facepunch 公共人数、cp、A2S players/bots 及可选 A2S_PLAYER 条目。Facepunch 接口只有聚合人数；玩家条目由服务器提供，可能空白或受限，不提供可验证 SteamID。公共映射未列出时显示未知，不当作 0。页面保留公共 Last-Modified、Age 和读取时间；本地缓存 30 秒、并发请求合并，手动查询，不跟随账号状态每 2.5 秒轮询。
-
-接口为 `POST /v1/rust/server-query`，沿用本地 Bearer 和同源校验。JSON 示例：`{"host":"202.189.21.58","port":30921,"queryPort":30923,"includePlayers":true}`。`queryPort` 和 `includePlayers` 可省略。各数据源分别返回状态，部分查询失败仍可显示其他来源。不会发送 Steam 账号票据给公共接口。服务端实验插件与上传位置见 [server-upload/README.zh-CN.md](../server-upload/README.zh-CN.md)。
-
-“A2S 查询代理测试”已将 `server-query-fake-player-count` 的查询回复修改功能接入本系统：可对比原始 A2S、追加 `[A2S TEST]` 条目后的 A2S 和 Facepunch 公共人数，保留原始 `cp`。管理端固定回环监听，默认追加 0；启动、停止、状态及采样 API 为 `/v1/rust/query-proxy` 和 `/v1/rust/query-proxy/sample`。本机代理不会自动接管远程公共查询，不建立玩家或 EAC 会话。独立部署包、实际 UDP 路径及回滚说明见 [查询代理部署说明](../server-upload/query-proxy/README.zh-CN.md)，实测结果见 [集成报告](../rust-research/query-proxy-integration-2026-10-26.md)。
-
-- 每行按 `账号:密码` 批量导入并登录，每批最多 200 个。密码中可以包含冒号；提交后输入区立即清空，密码不进入任务结果、账号日志或账号存储。
-- 新账号需要邮箱/手机验证码、登录失败或超时会自动停止并移出；逐行显示原因。已有账号记录保留，已经在线的账号保留当前连接。本页不提交验证码。
-- 勾选多个账号，批量登录 Steam、连接指定 IPv4 和游戏端口，或正常断开。查询端口可选填，默认游戏端口加一。账号会错开连接，已有活动 Rust 连接会跳过并保留。
-- 服务器分组显示名称及本系统已入服、连接中账号数；可选择本组或筛选账号。名称通过公开 A2S 查询取得，失败时显示 IP 和端口。本系统人数独立于 Rust 公共游戏列表人数。
-- 每个账号可查看最近 200 条连接事件与错误摘要。任务及日志仅保存在服务内存中；关闭网页仍继续，重启服务会清空记录。服务重启后 Steam 按原有设置恢复，Rust 连接需重新发起。
-- 已入服账号可点“发送聊天”向当前服务器发送一条全服消息，间隔至少 5 秒。内容为最多 128 字的单行文本，不支持双引号、反斜杠、分号和控制字符。聊天正文不保存到本地连接日志。
-
-聊天接口 `POST /v1/accounts/{id}/rust-chat` 接收 `{"text":"1"}`。返回 HTTP 202 和 `status: sent_to_transport` 表示当前游戏连接已调用原生发送，`serverConfirmed` 为 false；是否被服务器接收或广播需核对游戏内消息或服务端聊天记录。未入服返回 409，过快发送返回 429，等待发送结果超时返回 504。超时结果未知，程序不会自动重发。连接停止或工作进程关闭时会结束待处理请求，Steam 票据仍在工作进程完全退出后取消并清零。
-
-“死亡时尝试重生一次”默认关闭，只在观察到自己的死亡快照与完成加载后发送一次普通请求。入服完成、角色存活和公共列表收录分别判断；当前连接方式不支持要求额外 EAC 或受保护加密会话的服务器，遇到这些要求会停止。
-
-也可以使用 PowerShell 脚本：打开另一个 PowerShell 窗口，进入本目录，执行以下命令。
+Use Node.js 22 or later. On first use, `start.cmd` installs the dependencies pinned in `package-lock.json`. You can also install them explicitly:
 
 ```powershell
-# 登录第一个账号：脚本会询问账号名、密码，以及需要时的 Steam Guard 验证码。
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 login account1
-
-# 登录第二个账号：第一个账号会继续保持连接。
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 login account2
-
-# 查看所有账号。
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 list
+npm.cmd ci --registry=https://registry.npmjs.org --no-audit --no-fund
 ```
 
-上面脚本的 `account1` / `account2` 是脚本使用的内部标识；网页会自动处理，用户只需填写 Steam 登录账号名和密码。
+1. Run `start.cmd`, or run `npm.cmd start` from this directory. Keep the service running.
+2. Open `open-dashboard.cmd`. Add an account, provide Steam Guard when required, and manage its connection.
 
-## 账号详情、库存、免费入库与挂机
+You can visit [http://127.0.0.1:3210/](http://127.0.0.1:3210/) directly. On first access, paste the local `data/api-key.txt` value or use the page's key-file control to select that file. The key stays in the current tab's session storage. Locking or closing the page does not log out the service's Steam connections.
 
-在账号卡片中点击“账号详情”，进入该账号的独立操作页面：
+No imported accounts, passwords, saved refresh tokens, or API keys are supplied by the repository. Enter your own accounts locally. Windows DPAPI storage is tied to its original computer and Windows user; log in again when moving to a different environment.
 
-- **账号资料**：昵称、头像、Steam 等级、地区、隐藏部分内容的邮箱、钱包余额、授权设备、许可数量、账号限制、社区封禁和 VAC 状态。部分信息由 Steam 异步发送，尚未收到时会显示“等待 Steam 数据”。
-- **游戏库**：查看可读取的游戏、AppID、总游玩时长和近两周时长；支持搜索和直接点击“挂机此游戏”。游戏隐私设置等因素可能影响 Steam 返回的列表。
-- **库存**：预设 Steam 社区物品、CS2、Dota 2、TF2，也可输入自定义 AppID 和 ContextID。展示物品图片、名称、类型、数量、可交易/可上架状态和说明，并支持翻页。需要网页会话就绪；权限或网络错误会单独显示。
-- **免费游戏入库**：从 Steam 商店搜索免费游戏并申请许可，也可手动输入 AppID 或免费包 SubID。AppID 使用免费按需许可接口，SubID 使用商店免费包领取接口。已拥有、地区限制、活动资格和领取类型都会影响结果；界面会区分新许可、没有发放新许可及错误。每个账号每小时最多申请 40 个许可，请求之间至少间隔 3 秒。
-- **游戏挂机**：输入一个或多个 AppID，开始、更新或停止挂机。配置会加密保存并在重连、服务重启后恢复。账号在其他位置游戏时会暂停，结束后恢复；不会强制踢掉其他游戏会话。实际游戏时长以 Steam 记录为准，需要拥有对应游戏的使用权限。
+## Rust dashboard
 
-“刷新资料”会重新查询昵称、头像和等级；“刷新网页会话”可用于库存和商店会话失效后的恢复。刷新网页会话后请等待几秒再读取库存。
+Open [http://127.0.0.1:3210/rust](http://127.0.0.1:3210/rust), or use the Rust navigation link. The page displays Steam login names and handles internal management IDs itself.
 
-资料、游戏库、库存和网页 Cookie 只在内存缓存；网页 Cookie 不通过本地 API 返回。邮箱默认只展示部分内容。挂机配置与账号令牌一起保存在加密账号文件中。
+### Public population queries
 
-脚本中的密码输入会隐藏。账号凭据在本机输入即可。`state: online` 表示已登录并已向 Steam 设置在线状态。
+The public-server query is independent of account selection and Steam login. Enter an IPv4 address and the **game port**. Leave the query port blank to find an exact match in Steam's server registration; if discovery fails, enter the actual query port. The public query does not guess adjacent ports.
 
-服务重启后，会用已保存的刷新令牌自动恢复登录。主动执行 `logout` 的账号会保持退出，直到调用 `connect` 或重新登录。
+The result distinguishes Facepunch's public population, the server's `cp` tag, A2S players/bots, and optional A2S_PLAYER entries. Facepunch returns aggregate counts, not a verified per-account roster. A2S player entries come from the server, may be empty or restricted, and do not provide a verifiable SteamID. A missing public mapping remains unknown rather than being converted to zero.
+
+The page retains `Last-Modified`, `Age`, and observation time. The public map is locally cached for 30 seconds, concurrent fetches are combined, and queries run on demand rather than with the account-status polling loop.
+
+`POST /v1/rust/server-query` uses the existing local Bearer and same-origin checks. Example:
+
+```json
+{"host":"127.0.0.1","port":28015,"queryPort":28017,"includePlayers":true}
+```
+
+`queryPort` and `includePlayers` are optional. Replace the loopback address with the actual public game-server IPv4 when querying Facepunch. Each source reports its own status, so one failure need not hide the other results. Account tickets are never sent to the public count API. Administrator-operated diagnostic files are documented under [server-upload/](../server-upload/README.en.md).
+
+### A2S query proxy
+
+The query-proxy panel integrates the reply-modification functionality reviewed in `server-query-fake-player-count`: compare original A2S, A2S with added `[A2S TEST]` entries, and Facepunch's public population while preserving the original `cp` tag. The local API permits only a loopback listener and defaults to zero additions.
+
+Use `/v1/rust/query-proxy` to start, stop, or read proxy status, and `/v1/rust/query-proxy/sample` to collect the comparison. Starting a local proxy does not take over a remote public query endpoint, create a Rust player, or establish EAC. See the [deployment instructions](../server-upload/query-proxy/README.en.md) and [integration evidence](../rust-research/query-proxy-integration-2026-10-26.en.md).
+
+### Import, connect, and review events
+
+- Import one `account:password` pair per line, up to 200 per job. Passwords can contain colons. The input is cleared immediately after submission; plaintext passwords are not retained in account storage, job results, or account event logs.
+- A newly imported account that requires Steam Guard, fails, or times out is stopped and removed by the import workflow. Existing account records and existing online sessions are retained. Submit Guard codes through the ordinary account login page, not the batch-import form.
+- Select accounts to log into Steam, connect to a game IPv4 and game port, or disconnect. This connection form accepts an optional query port and otherwise defaults to game port plus one; this is separate from the public-query form's exact registration discovery. Connections are spaced out, and already active Rust sessions are skipped.
+- Server groups show the name and this application's connected/connecting account counts. Names are read using A2S; failures fall back to the endpoint. These local counts are not Rust's public population.
+- Each account has up to 200 recent events. Jobs and event logs are in service memory and reset when the service restarts. Steam logins restore according to their saved preference; Rust sessions must be started again explicitly.
+- An admitted account can send a single ordinary global chat message with a minimum five-second interval. Text is limited to 128 characters/512 UTF-8 bytes on one line; double quotes, backslashes, semicolons, and control characters are rejected. Message bodies are not retained in the local connection log.
+
+`POST /v1/accounts/{id}/rust-chat` accepts `{"text":"connection test"}`. HTTP 202 with `status: sent_to_transport` means the native send was invoked; `serverConfirmed` remains false. Confirm reception using the game or server chat records. The route returns 409 when not ready, 429 when rate limited, and 504 when waiting for a result times out. A timed-out result is unknown and is not automatically retried. Pending requests end when the worker closes. The Steam ticket is canceled and cleared only after the network worker has fully exited.
+
+The one-shot respawn option is off by default. It requires an observed own-player death snapshot and completed loading. Admission, being alive, and inclusion in a public list are separate observations. The current connection implementation stops at an EAC requirement or unsupported protected encryption.
+
+The role-actions dialog also exposes wake, respawn, stop, suicide, short steps, and jump. Suicide requires `confirmDeath: true`; movement and jump require administrator confirmation of flat, unobstructed test ground through `flatGround: true`. The movement traces do not implement terrain, collision, or complete client physics. A 202 response is acceptance of the request, not proof that an action succeeded. See [player-action evidence](../rust-research/player-actions-2026-10-26.en.md).
+
+## Account details, inventory, free licenses, and Steam game activity
+
+Open the account-details view from an account card:
+
+- **Profile:** nickname, avatar, Steam level, country, partially masked email, wallet balance, authorized-device and license information, account restrictions, community bans, and VAC status. Some values arrive asynchronously and remain pending until Steam supplies them.
+- **Library:** readable games, AppIDs, lifetime/two-week playtime, search, and shortcuts to report a selected game as being played. Privacy and Steam's responses can affect the list.
+- **Inventory:** presets for Steam Community items, CS2, Dota 2, and TF2, plus custom AppID and ContextID. Results include images, names, types, quantities, trade/market flags, descriptions, and pagination. A ready web session is required; permission and network failures are reported independently.
+- **Free licenses:** search the Steam Store or enter an AppID/free-package SubID. AppIDs use the free-on-demand license API; SubIDs use the Store's free-package claim endpoint. Ownership, region, promotion eligibility, and license type affect the result. The UI distinguishes new grants, no new grant, and errors. Each account is limited to 40 requested licenses per hour and at least three seconds between requests.
+- **Steam game activity:** set one or more AppIDs, update them, or stop. Settings are encrypted and restored on reconnect/service restart. If the account plays elsewhere, this service pauses and later resumes without forcing that other game session to end. Steam determines actual recorded playtime; appropriate game ownership is still required.
+
+Profile refresh requests nickname, avatar, and level again. Web-session refresh regenerates the session used by inventory and Store calls; allow a few seconds before retrying inventory.
+
+Profile, library, inventory, and web cookies are cached only in memory. Cookies are not returned by the local API, and email is masked by default. Saved Steam activity settings share the encrypted account store with login tokens.
+
+## PowerShell client
+
+Open another PowerShell window in this directory:
 
 ```powershell
-# 使用已有令牌重新连接。
+# Prompts for account name, hidden password, and Steam Guard if required.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 login account1
+
+# The first account keeps its independent connection.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 login account2
+
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 list
+
+# Reconnect using the saved token.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 connect account1
 
-# 退出并关闭该账号的自动恢复，保留令牌。
+# Log out and disable automatic restoration, retaining the saved token.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 logout account1
 
-# 断开并删除本服务保存的账号资料和令牌。
+# Disconnect and delete this service's local account record and tokens.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 remove account1
 
-# 停止整个服务；正在连接的账号会在下次启动时自动恢复。
+# Shut down while retaining saved restoration preferences.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\steam.ps1 stop
 ```
 
-## HTTP 接口
+`account1` and `account2` are internal IDs for the script/API, not Steam account names. The browser handles those IDs automatically. `state: online` means the account logged in and the service set its Steam persona online. Active saved logins restore with refresh tokens after restart; an explicitly logged-out account stays offline until reconnected.
 
-默认地址：`http://127.0.0.1:3210`。所有 `/v1/` 请求都需要请求头：
+## HTTP API
+
+The default base URL is `http://127.0.0.1:3210`. All `/v1/` requests require:
 
 ```text
-Authorization: Bearer <data/api-key.txt 中的内容>
+Authorization: Bearer <contents of the local data/api-key.txt>
 Content-Type: application/json
 ```
 
-| 方法 | 路径 | JSON 请求体 | 含义 |
-|---|---|---|---|
-| GET | `/health` | 无 | 无需鉴权的存活检查 |
-| GET | `/` | 无 | 管理页面，操作账号前需验证访问密钥 |
-| GET | `/rust` | 无 | Rust 批量连接页面 |
-| GET | `/v1/rust/overview` | 无 | 账号、服务器分组、本系统人数及近期任务 |
-| POST | `/v1/rust/import` | `{"text":"账号:密码\\n另一个账号:密码"}` | 创建导入及登录任务，返回 202 |
-| POST | `/v1/rust/actions` | `{"action":"login","accountIds":["内部标识"]}` | 对所选账号批量操作；action 支持 login/connect/disconnect |
-| GET | `/v1/rust/jobs/{job}` | 无 | 查询本批次每账号的结果 |
-| GET | `/v1/rust/accounts/{id}/logs` | 无 | 当前服务内存中的单账号日志 |
-| POST | `/v1/service/shutdown` | `{}` | 停止整个服务并保留自动恢复设置 |
-| GET | `/v1/accounts` | 无 | 列出所有账号状态 |
-| GET | `/v1/accounts/{id}` | 无 | 查询单个账号状态 |
-| POST | `/v1/accounts/{id}/login` | `{"accountName":"账号名","password":"密码"}` | 发起账号密码登录 |
-| POST | `/v1/accounts/{id}/login` | `{}` | 用已保存的令牌重新登录 |
-| POST | `/v1/accounts/{id}/guard` | `{"code":"ABCDE"}` | 提交当前登录需要的验证码 |
-| POST | `/v1/accounts/{id}/logout` | `{}` | 退出并关闭自动恢复 |
-| DELETE | `/v1/accounts/{id}` | 无 | 断开并删除本地保存的账号资料 |
-| GET | `/v1/accounts/{id}/details` | 无 | 资料、网页会话状态、挂机状态及本次连接的领取记录 |
-| POST | `/v1/accounts/{id}/profile-refresh` | `{}` | 刷新昵称、头像及等级 |
-| POST | `/v1/accounts/{id}/web-refresh` | `{}` | 请求重新生成 Steam 网页会话 |
-| GET | `/v1/accounts/{id}/games` | 无 | 游戏库；`?refresh=1` 强制刷新 |
-| GET | `/v1/accounts/{id}/inventory` | 无 | 库存，见下面的查询参数 |
-| GET | `/v1/free-games` | 无 | 商店免费游戏；查询参数 `term` 和 `start` |
-| POST | `/v1/accounts/{id}/free-license` | `{"appIds":[570]}` 或 `{"packageId":123}` | 申请免费游戏或免费游戏包许可 |
-| POST | `/v1/accounts/{id}/idle` | `{"appIds":[570,730]}` | 设置挂机，空数组停止 |
-| POST | `/v1/accounts/{id}/rust-auth-check` | `{}` | 申请并取消 Rust Steam 会话票据，核对所有权及加密票据签发 |
-| POST | `/v1/accounts/{id}/rust-chat` | `{"text":"连接测试"}` | 已入服账号发送一条普通全服聊天 |
+| Method | Path | JSON body | Purpose |
+| --- | --- | --- | --- |
+| GET | `/health` | None | Unauthenticated health check |
+| GET | `/` | None | Account dashboard; actions require the local API key |
+| GET | `/rust` | None | Rust dashboard |
+| GET | `/v1/rust/overview` | None | Accounts, local server groups/counts, and recent jobs |
+| POST | `/v1/rust/import` | `{"text":"account:password\nsecond:password"}` | Create import/login job; returns 202 |
+| POST | `/v1/rust/actions` | `{"action":"login","accountIds":["account1"]}` | Batch `login`, `connect`, or `disconnect` |
+| GET | `/v1/rust/jobs/{job}` | None | Per-account results for a batch job |
+| GET | `/v1/rust/accounts/{id}/logs` | None | In-memory per-account events |
+| POST | `/v1/rust/server-query` | `{"host":"127.0.0.1","port":28015}` | Compare public/A2S sources; optional query port and player list |
+| GET | `/v1/rust/query-proxy` | None | A2S proxy state |
+| POST | `/v1/rust/query-proxy` | `{"host":"127.0.0.1","gamePort":28015,"queryPort":28017,"listenPort":42177,"addPlayers":0}` | Start loopback query proxy |
+| DELETE | `/v1/rust/query-proxy` | None | Stop proxy and release UDP sockets |
+| POST | `/v1/rust/query-proxy/sample` | `{}` | Original/proxy/Facepunch comparison |
+| POST | `/v1/service/shutdown` | `{}` | Stop service, preserving restoration preferences |
+| GET | `/v1/accounts` | None | List account states |
+| GET | `/v1/accounts/{id}` | None | Read one account's state |
+| POST | `/v1/accounts/{id}/login` | `{"accountName":"name","password":"password"}` | Start credential login |
+| POST | `/v1/accounts/{id}/login` | `{}` | Log in with the saved token |
+| POST | `/v1/accounts/{id}/guard` | `{"code":"ABCDE"}` | Submit the currently requested Steam Guard code |
+| POST | `/v1/accounts/{id}/logout` | `{}` | Log out and disable restoration |
+| DELETE | `/v1/accounts/{id}` | None | Disconnect and delete saved account information |
+| GET | `/v1/accounts/{id}/details` | None | Profile, web/Steam activity state, and current-session claim results |
+| POST | `/v1/accounts/{id}/profile-refresh` | `{}` | Refresh nickname, avatar, and level |
+| POST | `/v1/accounts/{id}/web-refresh` | `{}` | Request a new Steam web session |
+| GET | `/v1/accounts/{id}/games` | None | Library; `?refresh=1` forces refresh |
+| GET | `/v1/accounts/{id}/inventory` | None | Inventory with the query parameters below |
+| GET | `/v1/free-games` | None | Store search; query parameters `term` and `start` |
+| POST | `/v1/accounts/{id}/free-license` | `{"appIds":[570]}` or `{"packageId":123}` | Request free app/package licenses |
+| POST | `/v1/accounts/{id}/idle` | `{"appIds":[570,730]}` | Set Steam activity; an empty array stops it |
+| POST | `/v1/accounts/{id}/rust-auth-check` | `{}` | Request/cancel a Rust Steam ticket and check ownership/encrypted-ticket issuance |
+| POST | `/v1/accounts/{id}/rust-connect` | `{"host":"127.0.0.1","port":28015,"seconds":60}` | Bounded Rust connection probe |
+| POST | `/v1/accounts/{id}/rust-session` | `{"host":"127.0.0.1","port":28015}` | Start persistent Rust connection; returns 202 |
+| GET | `/v1/accounts/{id}/rust-session` | None | Session progress, safe metadata, and Steam ticket observations |
+| DELETE | `/v1/accounts/{id}/rust-session` | None | Gracefully disconnect the Rust session |
+| POST | `/v1/accounts/{id}/rust-chat` | `{"text":"connection test"}` | Send one ordinary global chat message through an admitted connection |
+| POST | `/v1/accounts/{id}/rust-action` | `{"action":"wake"}` | Fixed role action; additional confirmations apply to death/movement |
+| GET | `/v1/accounts/{id}/rust-steam-count` | None | Query Steam GMS/server-list count sources for the selected endpoint |
 
-`rust-auth-check` 仅检查固定 AppID `252490`。账号需在线；已有 Rust 会话票据时拒绝操作，同账号检查串行，加密票据申请尝试之间至少 60 秒。返回结果只有状态、长度、AppID、签名校验及取消数量；票据仅存内存，结束时清零，接口和日志均不输出票据。该检查不修改挂机配置或上报游戏活动，不连接游戏服务器；`serverValidated`、`eacVerified`、`playerConnected` 均为 `false`。成功仅表示 Steam 票据签发及本次会话票据取消得到确认，不能证明票据已被 Rust 服务器接受。请求超过 70 秒会返回 504，底层请求及清理继续执行，完成前拒绝再次检查。
+Inventory parameters: `appId` defaults to 753, `contextId` to `6`; supply the previous `nextAssetId` as `startAssetId`. `refresh=1` forces refresh. Up to 100 items are returned per page. Free-game search returns `nextStart` for the next `start`, or null when complete.
 
-库存参数：`appId` 默认 753，`contextId` 默认 6，`startAssetId` 为上一页返回的 `nextAssetId`；`refresh=1` 强制刷新。每次最多返回 100 件物品。免费游戏列表返回 `nextStart`，可作为下一页 `start`；没有下一页时为 `null`。
+`login` and `guard` return **202 Accepted**. Poll until the state becomes `online`, `guard_required`, or `error`. Login can also include `authCode` for email or `twoFactorCode` for the mobile authenticator.
 
-`login` 和 `guard` 返回 HTTP **202**，表示已受理。继续查询状态，直到得到 `online`、`guard_required` 或 `error`。登录请求也可带 `authCode`（邮件验证码）或 `twoFactorCode`（手机验证码）。
+Batch `connect` additionally requires `target: {host, port, queryPort?}`. Optional `respawnOnDead` and `wakeOnConnect` must be booleans. Batch selection permits 1-200 accounts. Import has a 128 KiB JSON limit; ordinary requests have a 16 KiB limit, with smaller limits on chat/action routes. A `started` result records initiation, not completed admission; check the overview. Job and Guard errors do not return the original password line.
 
-Rust 批量 `connect` 还需要 `target: {host, port, queryPort?}`，可选 `respawnOnDead` 和 `wakeOnConnect` 必须为布尔值。批量接口每次选择 1–200 个账号；导入接口 JSON 请求体上限为 128 KiB，其余接口仍为 16 KiB。`started` 仅表示连接/断开已发起，最终状态见 overview；验证码与错误结果不会包含原始密码行。内部标识由 overview 提供，仅供程序调用，网页不显示。
-
-需要验证码时的查询示例：
+A Guard-required state can look like:
 
 ```json
 {
@@ -140,34 +172,36 @@ Rust 批量 `connect` 还需要 `target: {host, port, queryPort?}`，可选 `res
 }
 ```
 
-`type` 为 `email` 时使用邮件验证码，为 `totp` 时使用 Steam 手机令牌中的五位验证码。手机验证码错误后，等待 `retryAfterSeconds` 秒，再获取并提交新验证码。
+Use an emailed code for `email`, or the five-character mobile authenticator code for `totp`. After a wrong mobile code, wait `retryAfterSeconds`, then obtain a fresh code.
 
-状态含义：
+| Steam state | Meaning |
+| --- | --- |
+| `offline` | No current connection |
+| `connecting` | Login in progress |
+| `guard_required` | Waiting for Steam Guard |
+| `online` | Logged in with online persona set |
+| `reconnecting` | `steam-user` is reconnecting after interruption |
+| `error` | Terminal login/connection error; inspect `lastError` before retrying |
 
-| state | 含义 |
-|---|---|
-| `offline` | 当前未连接 |
-| `connecting` | 正在登录 |
-| `guard_required` | 等待提交 Steam Guard 验证码 |
-| `online` | 已登录并设置在线状态 |
-| `reconnecting` | 连接中断，`steam-user` 正在自动重连 |
-| `error` | 登录或连接发生终止性错误，查看 `lastError` 后重新登录 |
+Common HTTP errors are 400 invalid input, 401 invalid API key, 404 missing resource/account, 409 state conflict or duplicate account, 429 cooldown/concurrency limit, 500 local storage/service error, and 504 operation timeout. The local server also rejects unexpected Host headers and browser cross-origin requests.
 
-常见 HTTP 错误：400 参数错误；401 API 密钥错误；404 账号不存在；409 当前状态冲突或重复账号；429 验证码重试冷却；500 本地存储或服务错误。
+### Steam ticket check
 
-## 从自己的 Node.js 程序调用
+`rust-auth-check` is fixed to AppID `252490`. The account must be online. An existing active Rust ticket prevents another check; same-account checks are serialized, and encrypted-ticket attempts are spaced by at least 60 seconds.
 
-根目录的 `client.js` 是一个可直接导入的 HTTP 客户端。先启动服务，再调用：
+Results contain only statuses, lengths, AppID, signature checks, and cancellation counts. Tickets stay in memory and are cleared after cleanup; they are not returned or logged. This check does not change Steam activity or connect to the game server. `serverValidated`, `eacVerified`, and `playerConnected` remain false. Success means ticket issuance and cancellation were observed, not that a Rust server accepted the ticket. After 70 seconds the request can return 504 while underlying cleanup continues; another check remains blocked until it finishes.
+
+## Use the Node.js HTTP client
+
+`client.js` can be imported by another local Node.js program. Start the service first:
 
 ```javascript
 import { SteamAccountsApi } from './client.js';
 
-const api = new SteamAccountsApi(); // 自动读取本地 data/api-key.txt
+const api = new SteamAccountsApi(); // Reads the local data/api-key.txt.
 
-// 首次登录：从你自己的交互输入或凭据管理器取得这两个值。
+// Obtain these values from your own interactive input or credential manager.
 await api.login('account1', { accountName, password });
-
-// 也可以独立发起另一个账号的登录：
 await api.login('account2', {
   accountName: secondAccountName,
   password: secondPassword,
@@ -175,122 +209,154 @@ await api.login('account2', {
 
 const account = await api.status('account1');
 if (account.state === 'guard_required') {
-  // code 是用户本次提供的 Steam Guard 验证码。
-  // lastCodeWrong=true 时先等待 retryAfterSeconds，再取得新验证码。
+  // Use the current user-provided code. If lastCodeWrong, first wait
+  // retryAfterSeconds and obtain a fresh code.
   await api.submitGuard('account1', code);
 }
 
 console.log(await api.list());
-
-// 以下各操作按需调用：
-// await api.logout('account1');
-// await api.login('account1');   // 以已保存的令牌恢复连接
-// await api.remove('account1');
-```
-
-新增功能的 Node.js 调用：
-
-```javascript
 console.log(await api.details('account1'));
 console.log(await api.games('account1'));
 console.log(await api.inventory('account1', { appId: 753, contextId: '6' }));
 console.log(await api.freeGames('Dota'));
 
-// 以下操作会改变该账号的许可或游戏状态，按需调用。
-await api.claimFreeGames('account1', [570]);
-// await api.claimFreePackage('account1', 已知免费包SubID);
-await api.startIdling('account1', [570]);
-await api.stopIdling('account1');
+// State-changing examples: invoke only when desired.
+// await api.claimFreeGames('account1', [570]);
+// await api.claimFreePackage('account1', knownFreePackageSubId);
+// await api.startIdling('account1', [570]);
+// await api.stopIdling('account1');
+// await api.logout('account1');
+// await api.login('account1'); // Reuse saved token.
+// await api.remove('account1');
 ```
 
-`login` 返回后请轮询 `status`，例如每两秒一次；Steam Guard 请求可能在稍后才出现。
+Poll `status` after login, for example every two seconds; Guard may be requested after the initial call. The generic `api.request(method, path, body)` covers routes without dedicated client methods. Its default request timeout is 15 seconds; a bounded `rust-connect` call can take longer and requires an HTTP caller with an appropriately larger timeout.
 
-## 保存数据和运行配置
+## Saved data and runtime configuration
 
-`data/` 首次启动时自动创建，已加入 `.gitignore`：
+The service creates the ignored `data/` directory on first start:
 
-- `accounts.enc`：使用 AES-256-GCM 加密的账号资料、刷新令牌及邮件设备认证令牌。密码和验证码不写入磁盘。
-- `key.dpapi`：Windows DPAPI 保护的加密密钥，绑定当前 Windows 用户及电脑。复制到其他电脑或 Windows 用户下通常无法解密，需要重新登录。
-- `api-key.txt`：随机生成的本地接口密钥。不要公开或提交到代码仓库。
-- `service.lock`：防止多个服务进程同时操作一份数据。正常退出时会删除；异常退出后会检查旧进程再清理。
-
-请保护整个 `data/` 目录。DPAPI 防止直接读取密钥文件得到令牌；以同一个 Windows 用户运行的程序仍可解密。其他系统使用权限为 `0600` 的本地密钥文件。
-
-环境变量可在启动前设置：
-
-| 变量 | 默认值 | 含义 |
-|---|---|---|
-| `PORT` | `3210` | HTTP 端口，始终仅监听 `127.0.0.1` |
-| `STEAM_DATA_DIR` | 本项目的 `data` 目录 | 数据保存位置，建议使用绝对路径 |
-| `STEAM_WEB_COMPAT` | `1` | 使用 Steam WebSocket 443 端口；设置 `0` 使用库的默认传输选择 |
-| `STEAM_CM_PROXY` | `auto` | Steam CM 登录复用已配置的 HTTP/系统代理；设置 `direct` 可单独让 CM 直连 |
-| `STEAM_HTTP_PROXY` | 自动检测 | 库存与商店请求的 HTTP/HTTPS 代理地址；设置 `direct` 禁用代理 |
-| `RUST_NATIVE_DLL` | 无 | 独立 Rust 研究连接使用的本机 x64 RakNet.dll 绝对路径；加载前核对已研究版本的 SHA-256 |
-| `RUST_PYTHON` | 无 | 64 位 Windows Python 可执行文件的绝对路径 |
-
-库存、商店请求与 Steam CM 登录优先使用 `STEAM_HTTP_PROXY`，其次是 `HTTPS_PROXY` / `HTTP_PROXY`，最后读取 Windows 已启用的静态系统代理。`STEAM_HTTP_PROXY=direct` 禁用这条代理配置；`STEAM_CM_PROXY=direct` 只让 CM 直连。Rust 游戏 UDP 连接继续使用其自身网络路径。修改后重启服务生效。
-
-修改端口后，PowerShell 脚本使用 `-BaseUrl http://127.0.0.1:新端口`，Node 客户端传入 `{ baseUrl: 'http://127.0.0.1:新端口' }`。
-
-网络临时中断时由库自动重连；密码、令牌失效或登录被替换等终止性错误会显示为 `error`，避免无限重试账号认证。令牌能续期时会自动保存新令牌；被撤销或失效后仍可能需要密码及 Steam Guard 重新登录。保持电脑唤醒、网络连通及服务进程运行，连接才能持续。
-
-## 独立 Rust 连接研究接口
-
-`POST /v1/accounts/{id}/rust-connect` 接受 `{"host":"目标IPv4","port":28015,"seconds":60}`。账号须在线，且先配置上述两个本机路径；时长范围为 5 到 120 秒。接口等待此次连接结束及票据清理后返回阶段、消息数量和固定拒绝分类。票据只通过匿名本机管道传给独立网络进程，不出现在 API 返回、命令行或磁盘中。
-
-程序从 Steam 申请并核验新会话票据，在收到 Rust 身份请求后提交身份；审批指定等级 0（不加密）或等级 1（协议 2635 的普通 XOR 混淆）时发送经过当前版本核对的最小 Ready，并按消息类型处理收发。等级大于 1 或 EAC 消息仍停止，等级 1 不代表 EAC 认证。`approved`、`readySent`、`worldMessages` 分别记录协议进展；只有本账号自身实体及发给它的精确 FinishLoading RPC 都已观察到，`playerConnected` 才为 true。`eacVerified` 始终为 false。
-
-持续连接使用 `POST /v1/accounts/{id}/rust-session`，请求体为 `{"host":"目标IPv4","port":28015}`；立即返回 202。`GET` 同一路径查询状态，`DELETE` 优雅断开。`entered_game` 表示已经确认本账号的玩家实体和 FinishLoading。网页“账号详情 → Rust 服务器连接”提供相同操作；关闭页面后连接继续，停止服务或退出 Steam 账号会断开。
-
-请求可选严格布尔值 `respawnOnDead`，默认 `false`。设为 `true` 时，仅在同一自身实体的精确 FinishLoading 已观察到、最新完整自身快照不超过 10 秒且 `lifeState=dead` 后，经已认证游戏连接尝试一次固定 `respawn`；发送失败也不重试。自身实体变化会清除该实体的 FinishLoading 门控。服务端仍检查死亡状态及重生冷却；此选项不发送 PlayerTick、唤醒或移动，也不改变遇到 EAC 或受保护加密时停止的行为。
-
-网页连接区提供“死亡时尝试重生一次”复选框，打开账号详情时默认不选。连接期间显示该会话实际启用的设置并禁止修改；选择后在下次连接提交，未提交的选择不会被状态刷新覆盖。进度显示最近角色快照的存活/死亡/未知状态及采样时快照年龄；连接结束后明确标为历史记录，不代表当前在线状态。
-
-`metadata.respawnOnDeadEnabled`、`respawnAttempted` 和 `respawnSent` 分别记录开关、尝试及原生发送结果。只有发送后收到同一自身实体的完整 `alive` 快照，`respawnAliveObserved` 才为 `true`，并附 `respawnAliveAfterSeconds`；未观察到时保持 `false`。实体消息序号尚未核对，因此这只表示发送之后接收到 alive，不是服务端命令确认或因果证明，也不能证明已计入游戏列表人数。
-
-本机可在被忽略的 `data/rust-runtime.json` 保存 `{"dll":"RakNet.dll绝对路径","python":"Python绝对路径","sha256":"已验证DLL的SHA256"}`，环境变量优先。该文件只存本机运行配置，迁移电脑后需重新配置。持续会话目前不自动恢复；服务重启后先等待账号上线，再连接服务器。
-
-也可在本目录执行 `node scripts/configure-rust-runtime.mjs --dll "已验证RakNet.dll路径" --python "64位Python路径"`。脚本先核对支持的 DLL SHA256 及 Python 3.10+、64 位，再保存本机路径和实际哈希；省略 --python 时使用 RUST_PYTHON 或本机 Codex 捆绑 Python。支持以下两个经过核对的 Windows x64 原生库，不是 Oxide 扩展 DLL；其他版本仍拒绝加载：
-
-| 来源 | SHA256 |
+| File | Purpose |
 | --- | --- |
-| 客户端 `RustClient_Data/Plugins/x86_64/RakNet.dll` | `5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44` |
-| 专用服务器 depot 258551 / manifest 93946663446561466 的 `RustDedicated_Data/Plugins/x86_64/RakNet.dll` | `a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21` |
+| `accounts.enc` | AES-256-GCM encrypted account records, refresh tokens, machine-authentication data, and saved Steam activity settings; no plaintext passwords or Guard codes |
+| `key.dpapi` | Encryption key protected by Windows DPAPI for the current user and machine |
+| `api-key.txt` | Randomly generated local HTTP API key |
+| `service.lock` | Prevents two service processes from sharing one data directory; normal exit removes it, and stale locks are checked against the recorded process |
+| `rust-runtime.json` | Optional local native-runtime paths and supported DLL hash |
 
-两者提供的客户端传输接口已分别检查；库兼容不代表具备 EAC 会话。证据见 `../rust-research/runtime-repair-2026-10-26.md`。环境变量方式配置第二种库时，同时设置 `RUST_NATIVE_DLL`、`RUST_PYTHON` 和 `RUST_NATIVE_SHA256`；覆盖 DLL 路径时不会继承另一份保存配置的哈希。旧配置不含 sha256 时仍按原客户端哈希检查。worker 在加载前检查文件实际完整哈希和 x64 PE。设置文件在每次开始 Rust 连接时读取，补齐配置后无需重启服务；后端代码更新需要重启。
+Protect the entire directory. DPAPI prevents direct key-file reading from revealing the account encryption key; another program running as the same Windows user can still request decryption. Other operating systems use a local key file with mode `0600`.
 
-运行库未配置时，账号 Rust 状态会显示连接结束及具体原因，批量结果和日志也会保留该原因；此时尚未申请入服票据或启动网络进程，不代表服务器拒绝或 EAC 失败。
+Set environment variables before starting the service:
 
-请求可选严格布尔值 `wakeOnConnect`，默认 `false`；账号详情和 Rust 页面对应“入服后尝试唤醒一次”。例如单账号请求 `{"host":"127.0.0.1","port":28015,"wakeOnConnect":true}`。命令行 worker 对应 `--wake-on-connect`。后端代码更新需要重新启动服务才能接受新选项，现有运行中的会话不会自动启用；本批没有重启用户服务。
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `PORT` | `3210` | HTTP port; binding remains `127.0.0.1` |
+| `STEAM_DATA_DIR` | This application's `data` directory | Local data path; an absolute path is recommended |
+| `STEAM_WEB_COMPAT` | `1` | Steam WebSocket on port 443; `0` uses the library's default transport selection |
+| `STEAM_CM_PROXY` | `auto` | Reuse configured HTTP/system proxy for Steam CM; `direct` makes CM direct |
+| `STEAM_HTTP_PROXY` | Auto-detected | HTTP/HTTPS proxy for inventory, Store, and default CM connections; `direct` disables it |
+| `RUST_NATIVE_DLL` | None | Absolute path to an inspected Windows x64 RakNet DLL |
+| `RUST_NATIVE_SHA256` | Client-build hash when not otherwise supplied | Hash corresponding to an explicitly supplied native DLL |
+| `RUST_PYTHON` | None | Absolute path to a 64-bit Windows Python executable |
 
-启用后，只在已批准且加密等级为 0 或 1 的连接、同一自身实体的 FinishLoading、两秒内有序完整自身快照、存活且有正健康值、已连接且不在接收快照/旁观/受伤/转移状态时，尝试一次普通 `PlayerTick` 唤醒。初版只支持有接地模型状态、静止、无父实体/坐骑、非水中及非特殊移动姿态；从自身完整快照取得位置、视角和模型，按无父实体的直立/蹲伏眼位构造完整输入。未支持状态等待后续快照，不猜测坐标或执行管理员唤醒命令。
+Proxy selection checks `STEAM_HTTP_PROXY`, then `HTTPS_PROXY`/`HTTP_PROXY`, then enabled Windows static proxy settings. `STEAM_HTTP_PROXY=direct` disables this configuration; `STEAM_CM_PROXY=direct` changes only CM routing. Rust UDP transport uses its own network path. Restart the service after changing startup environment values.
 
-一次尝试最多三帧，间隔设计为 50 毫秒：中立 → 蹲伏键 `64` → 中立释放。按可靠有序通道 0 发送，每一帧显式写出所有 Tick、Input、ModelState 和向量分量，包括零值，覆盖服务端旧 ProtoDelta 基线。该过程收起活动物品，不发送攻击。自身未知 RPC、销毁、真实位置改变或基础实体 flags 改变使保留状态失效；已核对的 UI/宠物元数据 RPC 和位置未变的同步回包允许继续，单独的视角回包不刷新完整状态年龄。按下后不能安全释放时关闭本账号连接，发送失败也关闭，不重试。
+For a different HTTP port, pass `-BaseUrl http://127.0.0.1:PORT` to the PowerShell client or `{ baseUrl: 'http://127.0.0.1:PORT' }` to the Node client.
 
-第一帧 Tick 会启动服务端的玩家响应计时。启用唤醒且已发送 Tick 后，独立发送普通无参数 owner RPC `ClientKeepConnectionAlive`，设计间隔 100 毫秒，独立于唤醒成功或中断状态；不循环发送旧坐标或按键。已核对目标 `server.playertimeout=60`，RPC 接收先检查 `antihack.rpcstallthreshold=0.8`，因此每两秒才发送维护消息仍会超时。本机维护间隔超过 500 毫秒则关闭自己的连接并提示重新连接，不突发补发、不更改服务端门槛。维护原生发送失败也关闭。此功能不包含持续 PlayerTick、走路、地形碰撞或完整 Rust 客户端；自定义门槛、网络或调度停顿仍可能导致断开。
+Temporary network interruptions use library reconnection. Terminal errors such as invalid credentials, revoked tokens, or replaced logon sessions become `error` rather than an infinite authentication retry loop. Renewed tokens are saved automatically where possible; revoked/expired credentials can require a fresh password and Steam Guard. The computer, network, and service process must stay available.
 
-`metadata.tickWakeEnabled`、`tickPacketsSent`、`wakeAttempted`、`wakePressSent`、`wakeReleaseSent`、`wakeAwakeObserved`、`wakeState` 区分开关、尝试、发送、释放与观察结果。仅在按下后五秒内收到同一实体、更大有序序号、可用完整自身状态且 Sleeping 已清除时记录 `wakeAwakeObserved=true`；三帧完成但没有该快照时为 `awaiting_confirmation`，超时为 `unconfirmed`。`awake_observed` 同时要求释放帧已发送。发送成功不等于服务端处理成功，也不是唤醒因果或公共列表计数证明。坐标、实体 ID、完整 flags 和输入内容均不进入状态 API。
+## Independent Rust connection research
 
-离线验证：`python -B tools/rust-research/test_rust_player_tick.py` 和 `python -B tools/rust-research/test_rust_peer.py` 从仓库根目录运行；Node 验证在本目录运行 `npm.cmd test`。可使用 .NET 10 SDK 执行 `tools/rust-research/Test-PlayerTickInterop.ps1 -ServerDirectory <Rust服务端目录>`，用本机真实 Rust.Data 解码器验证三帧覆盖非零旧状态并可重新完整序列化；输出在 ignored work 中，不启动游戏或网络。2026-10-25 已实际观察到三帧完成后自身 Sleeping 清除；留服回归结果见 `../rust-research/connection-timeout-fix-2026-10-25.md`。
+### Transport, identity, and persistent sessions
 
-持续会话开始后会报告实际 Rust 游戏活动；传输连接后附上真实游戏地址，结束清理后恢复保存的挂机配置。账号在其他 Steam 会话游戏时，活动报告继续遵守暂停规则。此报告不保证外部可信人数或游戏列表人数更新。
+`POST /v1/accounts/{id}/rust-connect` accepts `{"host":"127.0.0.1","port":28015,"seconds":60}`. The account must be online and the native runtime must be configured. Duration is 5-120 seconds. The route waits for the bounded connection and ticket cleanup, then returns stages, message counts, and fixed rejection categories. The ticket reaches the network worker through an anonymous local stdin pipe, not API output, command-line arguments, or disk.
 
-`src/rust-auth-association.js` 是供受控研究使用的实验模块，当前未接入网页或常规会话。它将当前独占票据的 AppID、CRC、GC token、Steam 连接代次与成功的 `authTicketStatus` 关联；验证者还须等于刚查询到的目标游戏服务器身份。只有同一真实会话已经入服时才可取得带精确 `steam_id_gs` 的活动数据，票据取消、身份不匹配或连接代次变化立即失效。模块本身只观察和构造数据，不发送活动或认证请求；实验驱动另行选择是否发送。2026-10-25 已完成单账号同连接的 6→11→6 分钟对照：关联阶段真实名单/cp 均为14，两个较新的公共批次均为3，未观察人数增加；还原阶段另有自然玩家变化。候选仍未接入常规服务，不是已验证修复，详见 `rust-research/presence-association-experiment-2026-10-25.md`。
+The service obtains a fresh Steam session ticket. After a Rust identity request, the worker submits the account identity. Approval with encryption level 0 or level 1 permits the version-checked minimal Ready message. Level 1 is protocol-2635 XOR obfuscation, not EAC authentication. EAC messages or levels greater than 1 stop the worker.
 
-`GET /v1/accounts/{id}/rust-session` 的 `steamAuthentication` 返回本账号 Rust 票据活动及验证观察状态，不返回票据或身份字段。`GET /v1/accounts/{id}/rust-steam-count` 通过当前 Steam 连接只读查询最近所选游戏地址的 GMS 认证人数，另在 `serverList` 保留 `GameServers.GetServerList` 的状态和人数；该 `players` 字段不保证等同于认证人数。缺失或失败保持未知值。它们与服务器 A2S、`cp` 和 Facepunch 可信人数是不同来源，不能用单个数值证明某账号已计入 Rust 列表。
+`approved`, `readySent`, and `worldMessages` describe distinct stages. `playerConnected` is true only after observing both this account's own player entity and the precise FinishLoading RPC addressed to it. `eacVerified` remains false.
 
-2026-10-25 的网络资料复核见 [公共人数项目与源码调查](../rust-research/public-count-web-survey-2026-10-25.md)。GameDig 的 Rust 人数取自 `cp`，部分第三方浏览器使用 BattleMetrics 或 Steam `GetServerList.players`；这些值不能直接作为 Facepunch 公共人数修复的验收。已核对的四份 steam-user 上游文件与本机一致，本轮尚未找到可验证的公共人数修复实现。
+Persistent connections use `POST /v1/accounts/{id}/rust-session` with `{"host":"127.0.0.1","port":28015}` and return 202 immediately. `GET` reads state, and `DELETE` disconnects gracefully. `entered_game` records own-entity and FinishLoading confirmation. Closing the browser leaves the service connection running; stopping the service or logging the Steam account out ends it. Persistent Rust sessions do not restore automatically on restart.
 
-`metadata.ownPlayerState` 观察本账号完整实体快照中的生命与玩家标志。`observed=false` 表示未知；观察成功后提供 `sleeping`、`receivingSnapshot`、`lifeState`（alive/dead/unknown）、`healthPositive`（布尔或未显式观察时的 null）、观战/受伤/连接/切换加载标志、字段是否出现、快照和状态变化计数、`ageSeconds`。Sleeping=false 不能单独证明角色存活或已醒；entered_game 也只表示此前确认入服。年龄以最近一次 worker 报告时刻计算，解析失败时保留旧状态并继续增加年龄；目前未核对消息序号，不能把旧快照当作当前服务器状态。`entityParseFailures` 统计所有 Entity 的解析失败。诊断不输出玩家 ID、坐标、生命值数值或原始标志，也不发送唤醒或移动输入。
+### Native runtime setup
 
-历史研究已在当时目标配置下确认自身实体及 FinishLoading，并观察数分钟持续连接；2026-10-25 新增的一次 PlayerTick 已实际观察到唤醒，随后补上唤醒后的连接维护。有效 EAC 受保护会话仍未实现，遇到 EAC 或非零加密要求继续停止，不能保证其他服务器兼容或无限期留服。历史实测时原有 Steam/Rust 客户端保留作观察基线，尚未进行两者全部退出后的重连实验；本程序不调用它们的会话或 IPC。
+Store local configuration in ignored `data/rust-runtime.json`:
 
-## 检查
+```json
+{"dll":"C:\\path\\to\\RakNet.dll","python":"C:\\path\\to\\python.exe","sha256":"supported DLL SHA-256"}
+```
+
+Environment overrides take precedence. On a new computer, configure that computer's paths rather than copying another machine's paths. Alternatively:
+
+```powershell
+node scripts/configure-rust-runtime.mjs --dll "C:\path\to\RakNet.dll" --python "C:\path\to\python.exe"
+```
+
+The script validates a supported DLL hash and Python 3.10+ with a 64-bit interpreter before saving the actual paths/hash. If `--python` is omitted, it checks `RUST_PYTHON` and a locally available bundled runtime. The supported native libraries are transport DLLs, not Oxide extensions:
+
+| Inspected source | SHA-256 |
+| --- | --- |
+| Client `RustClient_Data/Plugins/x86_64/RakNet.dll` | `5bd99d127e7453bf04793681bf8e6e25db8abebe16f9f15583da34807ed1aa44` |
+| Dedicated-server depot 258551, manifest 93946663446561466, `RustDedicated_Data/Plugins/x86_64/RakNet.dll` | `a6d10e2c45dc346f889301fcda97da317d0b20b80b393be401a8bb65fcb7cc21` |
+
+Both client-facing transport ABIs were inspected; ABI compatibility does not provide an EAC session. See [runtime-repair evidence](../rust-research/runtime-repair-2026-10-26.en.md). When configuring the second library through the environment, supply `RUST_NATIVE_DLL`, `RUST_PYTHON`, and `RUST_NATIVE_SHA256` together. Overriding a DLL path does not inherit another saved path's hash. Old saved settings without a hash use the original client hash.
+
+The worker checks the complete DLL hash and x64 PE format before loading. Saved runtime settings are read at each new connection, so correcting those settings needs no service restart; backend code changes do. Missing or unsupported runtime configuration produces a specific local error before requesting admission tickets or launching a network worker. It is not a game-server rejection or an EAC failure.
+
+### Optional one-shot respawn
+
+`respawnOnDead` must be a boolean and defaults to false. When true, the worker attempts one fixed ordinary `respawn` request only after the same own entity's exact FinishLoading, a complete own snapshot no older than ten seconds, and `lifeState=dead`. A changed own entity clears the old FinishLoading gate. A failed send is not retried. The server still enforces death state and cooldown.
+
+This option itself sends no PlayerTick, wake, or movement input and does not change the stop-at-EAC behavior. The UI defaults the checkbox off and locks the actual setting during a session. A pending choice applies to the next connection and is not overwritten by status polling. Finished sessions label their old role snapshots as historical.
+
+`respawnOnDeadEnabled`, `respawnAttempted`, and `respawnSent` distinguish configuration, attempt, and native-send result. `respawnAliveObserved` becomes true only after a later complete alive snapshot for the same entity, with `respawnAliveAfterSeconds`. This is a post-send observation, not a command acknowledgment, causal proof, or proof of public-list acceptance.
+
+### Optional one-shot wake and connection maintenance
+
+`wakeOnConnect` must be a boolean and defaults to false. Example: `{"host":"127.0.0.1","port":28015,"wakeOnConnect":true}`. The worker CLI equivalent is `--wake-on-connect`. Updating backend code requires a restart to accept new options; old running sessions do not gain them automatically.
+
+Wake requires approved encryption level 0/1, FinishLoading for the same own entity, a complete ordered own snapshot no older than two seconds, positive health and alive state, and suitable connected/loading/spectator/wounded/transfer flags. Initial support additionally requires a grounded, stationary state without a parent, mount, water, or special movement posture. Position, view, and model fields come from the observed own snapshot, with standing/crouching eye placement for an unparented player. Unsupported states wait for another snapshot instead of guessing coordinates or using administrator wake commands.
+
+An attempt sends at most three full frames, designed 50 ms apart: neutral, crouch button `64`, then neutral release, on reliable ordered channel 0. Every Tick/Input/ModelState/vector component is explicitly written, including zero values, to replace stale ProtoDelta state. The active item is put away and no attack is sent. Unknown own RPCs, destruction, real movement, or changed base flags invalidate retained state. Inspected UI/pet metadata RPCs and unchanged-position synchronization can continue; view-only updates do not refresh complete-state age. If a pressed input cannot safely be released, or a send fails, that account's connection closes without retrying.
+
+The first Tick starts server responsiveness timing. Once a wake Tick is sent, the worker separately sends the ordinary parameterless owner RPC `ClientKeepConnectionAlive`, designed at 100 ms intervals, independently of wake success/interruption. It does not loop old coordinates or input frames. On the inspected target, `server.playertimeout=60`, and RPC reception first applies `antihack.rpcstallthreshold=0.8`; a two-second maintenance interval was insufficient. A local maintenance gap over 500 ms closes the account connection instead of burst-catching up or changing server thresholds. Native-send failure also closes it. Custom server thresholds or network/scheduler stalls can still disconnect the session.
+
+Metadata separates `tickWakeEnabled`, `tickPacketsSent`, `wakeAttempted`, `wakePressSent`, `wakeReleaseSent`, `wakeAwakeObserved`, and `wakeState`. Wake is observed only when a later ordered, usable complete same-entity snapshot clears Sleeping within five seconds after the press; `awake_observed` also requires the release frame to have been sent. Three sends without confirmation become `awaiting_confirmation`, then `unconfirmed`. Neither native send nor a later snapshot proves causation or public population acceptance. Coordinates, entity IDs, full flags, and input contents are omitted from the state API.
+
+### Own-state observations and Steam authentication association
+
+`metadata.ownPlayerState` summarizes the account's complete entity snapshot: `observed`, `sleeping`, `receivingSnapshot`, `lifeState` (`alive`/`dead`/`unknown`), `healthPositive` (boolean/null), spectator/wounded/connection/transfer flags, field-presence flags, snapshot/state-change counters, and `ageSeconds`. Unknown stays unknown. Sleeping=false alone does not prove alive or fully awake. `entered_game` confirms an earlier admission stage, not a permanently fresh state.
+
+Age is measured at the worker sample; parse failure retains the previous observation while its age increases. `entityParseFailures` counts parse failures across all Entity messages. Diagnostics omit player IDs, coordinates, numeric health, and raw flag values, and do not themselves send input. Ordered complete snapshots are required for guarded action paths; arbitrary old snapshots must not be treated as fresh server state.
+
+Persistent sessions report Rust game activity, adding the actual server address after transport connection and restoring saved Steam activity after cleanup. Activity reporting still pauses for an external game session. This does not guarantee an external/public player-count update.
+
+`src/rust-auth-association.js` is an experimental research module, not part of routine web sessions. It relates the exclusively owned active ticket's AppID, CRC, GC token, Steam connection generation, successful `authTicketStatus`, and just-queried target game-server identity. Only a genuinely admitted session can supply activity data with the exact `steam_id_gs`; cancellation, mismatched identity, or generation changes invalidate the association. The module observes/constructs data but does not itself send activity or authentication requests.
+
+A 2026-10-25 single-account 6/11/6-minute comparison kept a real roster/`cp` of 14 during the association phase while two newer public batches stayed at 3. No public-count increase was observed; natural player changes also occurred during restoration. This candidate is not a validated fix. See [the experiment](../rust-research/presence-association-experiment-2026-10-25.en.md).
+
+`GET .../rust-session` returns safe `steamAuthentication` activity/validation observations without tickets or identity fields. `GET .../rust-steam-count` queries GMS authentication counts for the most recently selected address and separately retains the result of `GameServers.GetServerList`; that API's `players` is not guaranteed to mean authenticated players. Missing/failed sources remain unknown. Steam GMS, Steam list players, A2S, `cp`, and Facepunch public population are distinct sources.
+
+Historical tests observed the own entity, FinishLoading, sustained connections, and later Sleeping clearance after one wake sequence on the recorded configurations. They do not establish valid Rust EAC or universal/permanent admission. EAC messages and encryption levels above 1 still stop the worker. An official Steam/Rust client remained running as an observation baseline in earlier tests; repeating with both fully closed remains a separate experiment. This program does not call their session or IPC.
+
+## Validation and dependencies
+
+From this directory:
 
 ```powershell
 npm.cmd test
 ```
 
-检查使用模拟 Steam 客户端验证多账号、验证码、重连状态、令牌恢复、HTTP 鉴权、加密存储，以及资料、库存、免费许可和挂机逻辑；不向 Steam 提交真实账号密码，也不会给真实账号领取游戏或设置挂机。真实账号登录需要在本机完成验证。
+The Node suite uses simulated Steam clients to test concurrent accounts, Guard, reconnect state, token restoration, HTTP authentication, encrypted storage, account features, and query behavior. It does not submit real account passwords, claim live licenses, or change live Steam activity.
 
-依赖：[steam-user 5.3.0](https://github.com/DoctorMcKay/node-steam-user)。依赖版本由 `package-lock.json` 锁定，可执行 `npm.cmd ci --registry=https://registry.npmjs.org` 重装。
+From the repository root:
+
+```powershell
+python -B tools/rust-research/test_rust_player_tick.py
+python -B tools/rust-research/test_rust_peer.py
+```
+
+With .NET 10 and a locally supplied matching Rust server, `tools/rust-research/Test-PlayerTickInterop.ps1 -ServerDirectory <Rust-server-directory>` checks the three frames against the real Rust.Data decoder, including replacement of nonzero baseline values and full reserialization. Its generated files stay in ignored `work/`; it does not launch the game or establish a network connection.
+
+A wake sequence followed by Sleeping clearance was observed on 2026-10-25. See [connection-maintenance regression evidence](../rust-research/connection-timeout-fix-2026-10-25.en.md). The [public-count survey](../rust-research/public-count-web-survey-2026-10-25.en.md) explains why GameDig `cp`, BattleMetrics, and Steam list counts cannot substitute for Facepunch acceptance.
+
+The main upstream dependency is [steam-user 5.3.0](https://github.com/DoctorMcKay/node-steam-user). All package versions are pinned by `package-lock.json`; reinstall with `npm.cmd ci --registry=https://registry.npmjs.org`.

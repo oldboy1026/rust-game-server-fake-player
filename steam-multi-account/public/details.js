@@ -1,7 +1,8 @@
+import { tr, locale } from './i18n.js';
 const $ = selector => document.querySelector(selector);
-const states = { offline: '已退出', connecting: '正在登录', guard_required: '等待验证', online: '在线', reconnecting: '正在重连', error: '连接失败' };
-const idleStates = { stopped: '已停止', running: '挂机中', pending: '正在提交', waiting_connection: '等待账号上线', paused_other_session: '其他位置正在游戏，已暂停' };
-const rustStates = { closed: '未连接', connecting: '正在连接', receiving_world: '正在接收世界', player_initialized: '玩家已初始化', entered_game: '已进入服务器', stopping: '正在断开', error: '连接结束' };
+const states = { offline: tr('已退出'), connecting: tr('正在登录'), guard_required: tr('等待验证'), online: tr('在线'), reconnecting: tr('正在重连'), error: tr('连接失败') };
+const idleStates = { stopped: tr('已停止'), running: tr('挂机中'), pending: tr('正在提交'), waiting_connection: tr('等待账号上线'), paused_other_session: tr('其他位置正在游戏，已暂停') };
+const rustStates = { closed: tr('未连接'), connecting: tr('正在连接'), receiving_world: tr('正在接收世界'), player_initialized: tr('玩家已初始化'), entered_game: tr('已进入服务器'), stopping: tr('正在断开'), error: tr('连接结束') };
 function node(tag, className, text) {
   const result = document.createElement(tag);
   if (className) result.className = className;
@@ -14,9 +15,9 @@ function image(url, className, alt) {
   img.addEventListener('error', () => { img.hidden = true; });
   return img;
 }
-function yesNo(value) { return value === undefined || value === null ? '等待 Steam 数据' : value ? '是' : '否'; }
-function shown(value) { return value === undefined || value === null ? '等待 Steam 数据' : String(value); }
-function date(value) { return value ? new Date(value).toLocaleString('zh-CN', { hour12: false }) : '—'; }
+function yesNo(value) { return value === undefined || value === null ? tr('等待 Steam 数据') : value ? tr('是') : tr('否'); }
+function shown(value) { return value === undefined || value === null ? tr('等待 Steam 数据') : String(value); }
+function date(value) { return value ? new Date(value).toLocaleString(locale, { hour12: false }) : '—'; }
 
 export function createAccountDetails({ request, notice, changed }) {
   let currentId = null;
@@ -46,7 +47,7 @@ export function createAccountDetails({ request, notice, changed }) {
     const operationId = Symbol();
     if (button) { buttonOperations.set(button, operationId); button.disabled = true; }
     try { await operation(ctx); }
-    catch (error) { if (ctx.valid()) notice(error.message || '操作失败，请稍后重试。', true); }
+    catch (error) { if (ctx.valid()) notice(error.message || tr('操作失败，请稍后重试。'), true); }
     finally {
       if (button && buttonOperations.get(button) === operationId) {
         buttonOperations.delete(button); button.disabled = false;
@@ -62,39 +63,39 @@ export function createAccountDetails({ request, notice, changed }) {
   function paint(data) {
     latest = data;
     $('#detail-name').textContent = data.accountName;
-    $('#detail-identity').textContent = `${data.accountName} · ${data.steamId || 'Steam ID 待获取'}`;
+    $('#detail-identity').textContent = `${data.accountName} · ${data.steamId || tr('Steam ID 待获取')}`;
     $('#detail-state').className = `badge ${data.state}`;
     $('#detail-state').textContent = states[data.state] || data.state;
-    $('#detail-web-state').textContent = data.webReady ? 'Steam 网页会话已就绪' : 'Steam 网页会话未就绪';
+    $('#detail-web-state').textContent = data.webReady ? tr('Steam 网页会话已就绪') : tr('Steam 网页会话未就绪');
     $('#detail-avatar').hidden = !data.profile.avatarUrl;
     if (data.profile.avatarUrl) $('#detail-avatar').src = data.profile.avatarUrl;
     $('#detail-profile-link').hidden = !data.profile.profileUrl;
     if (data.profile.profileUrl) $('#detail-profile-link').href = data.profile.profileUrl;
     const p = data.profile;
     const fields = [
-      ['昵称', p.nickname], ['Steam 等级', p.steamLevel], ['登录地区', p.country], ['邮箱（已隐藏部分）', p.email],
-      ['邮箱已验证', yesNo(p.emailValidated)], ['授权设备数', p.authedMachines],
-      ['钱包余额', p.wallet ? `${p.wallet.balance} ${p.wallet.currencyCode}` : undefined],
-      ['拥有钱包', yesNo(p.wallet?.hasWallet)], ['游戏包许可数', p.licenseCount],
-      ['受限账号', yesNo(p.limited)], ['社区封禁', yesNo(p.communityBanned)], ['账号锁定', yesNo(p.locked)],
-      ['可邀请好友', yesNo(p.canInviteFriends)], ['VAC 封禁数', p.vacBans],
-      ['上次登录', date(p.lastLogon)], ['本服务连接时间', date(data.lastConnectedAt)],
+      [tr('昵称'), p.nickname], [tr('Steam 等级'), p.steamLevel], [tr('登录地区'), p.country], [tr('邮箱（已隐藏部分）'), p.email],
+      [tr('邮箱已验证'), yesNo(p.emailValidated)], [tr('授权设备数'), p.authedMachines],
+      [tr('钱包余额'), p.wallet ? `${p.wallet.balance} ${p.wallet.currencyCode}` : undefined],
+      [tr('拥有钱包'), yesNo(p.wallet?.hasWallet)], [tr('游戏包许可数'), p.licenseCount],
+      [tr('受限账号'), yesNo(p.limited)], [tr('社区封禁'), yesNo(p.communityBanned)], [tr('账号锁定'), yesNo(p.locked)],
+      [tr('可邀请好友'), yesNo(p.canInviteFriends)], [tr('VAC 封禁数'), p.vacBans],
+      [tr('上次登录'), date(p.lastLogon)], [tr('本服务连接时间'), date(data.lastConnectedAt)],
     ];
     $('#profile-fields').replaceChildren(...fields.map(([label, value]) => {
       const entry = node('div'); entry.append(node('dt', '', label), node('dd', '', shown(value))); return entry;
     }));
-    $('#profile-warnings').textContent = (data.warnings || []).join(' ');
+    $('#profile-warnings').textContent = (data.warnings || []).map(value => tr(value)).join(' ');
     const idle = data.idle;
     $('#idle-state').textContent = idleStates[idle.status] || idle.status;
     $('#idle-state').className = `badge ${idle.status === 'running' ? 'online' : ''}`;
-    $('#idle-games').textContent = idle.appIds.length ? `指定游戏 AppID：${idle.appIds.join(', ')}` : '当前没有挂机游戏。';
-    $('#idle-time').textContent = idle.reportedAt ? `最近提交于 ${date(idle.reportedAt)}${idle.externalAppId ? ` · 其他位置游戏：${idle.externalAppId}` : ''}` : idle.externalAppId ? `其他位置正在运行 AppID ${idle.externalAppId}` : '';
+    $('#idle-games').textContent = idle.appIds.length ? tr`指定游戏 AppID：${idle.appIds.join(', ')}` : tr('当前没有挂机游戏。');
+    $('#idle-time').textContent = idle.reportedAt ? tr`最近提交于 ${date(idle.reportedAt)}${idle.externalAppId ? tr` · 其他位置游戏：${idle.externalAppId}` : ''}` : idle.externalAppId ? tr`其他位置正在运行 AppID ${idle.externalAppId}` : '';
     $('#claim-history').replaceChildren(...(data.claims || []).map(entry => {
       const row = node('div', 'claim-entry');
-      row.append(node('span', '', `${entry.type === 'package' ? 'SubID' : 'AppID'} ${entry.requested.join(', ')} · ${date(entry.at)}`), node('p', entry.status === 'failed' ? 'error-text' : '', entry.message || '正在请求 Steam…'));
+      row.append(node('span', '', `${entry.type === 'package' ? 'SubID' : 'AppID'} ${entry.requested.join(', ')} · ${date(entry.at)}`), node('p', entry.status === 'failed' ? 'error-text' : '', tr(entry.message) || tr('正在请求 Steam…')));
       return row;
     }));
-    if (!data.claims?.length) $('#claim-history').append(node('p', 'muted', '本次连接还没有领取记录。'));
+    if (!data.claims?.length) $('#claim-history').append(node('p', 'muted', tr('本次连接还没有领取记录。')));
   }
   async function refresh() {
     if (!currentId || busy) return;
@@ -122,37 +123,37 @@ export function createAccountDetails({ request, notice, changed }) {
     if (!ctx.valid() || revision !== rustRevision) return;
     rustSessionView = session;
     const active = !['closed', 'error'].includes(session.state);
-    $('#rust-state').textContent = rustStates[session.state] || '正在连接';
+    $('#rust-state').textContent = rustStates[session.state] || tr('正在连接');
     $('#rust-state').className = `badge ${session.state === 'entered_game' ? 'online' : session.state === 'error' ? 'error' : active ? 'connecting' : ''}`;
     renderRustControls();
     if (!$('#rust-host').value && session.host) { $('#rust-host').value = session.host; $('#rust-port').value = session.port; }
-    $('#rust-target').textContent = session.host ? `${session.host}:${session.port}${session.startedAt ? ` · 开始于 ${date(session.startedAt)}` : ''}` : '尚未建立服务器连接。';
+    $('#rust-target').textContent = session.host ? `${session.host}:${session.port}${session.startedAt ? tr` · 开始于 ${date(session.startedAt)}` : ''}` : tr('尚未建立服务器连接。');
     const metadata = session.metadata || {};
     const progress = [];
     if (session.startedAt) {
-      if (!active) progress.push('连接已结束，以下为历史记录');
-      progress.push(`已接收 ${Number(metadata.receivedPackets || 0).toLocaleString('zh-CN')} 条消息`, `运行 ${Math.floor(metadata.elapsedSeconds || 0)} 秒`);
-      if (metadata.finishLoadingObserved) progress.push('已观察到入服完成');
-      else if (metadata.selfEntityObserved) progress.push('已确认本账号玩家实体');
+      if (!active) progress.push(tr('连接已结束，以下为历史记录'));
+      progress.push(tr`已接收 ${Number(metadata.receivedPackets || 0).toLocaleString(locale)} 条消息`, tr`运行 ${Math.floor(metadata.elapsedSeconds || 0)} 秒`);
+      if (metadata.finishLoadingObserved) progress.push(tr('已观察到入服完成'));
+      else if (metadata.selfEntityObserved) progress.push(tr('已确认本账号玩家实体'));
       const ownState = metadata.ownPlayerState;
       if (ownState?.observed === true) {
-        const lifeState = { alive: '存活', dead: '死亡', unknown: '未知' }[ownState.lifeState] || '未知';
+        const lifeState = { alive: tr('存活'), dead: tr('死亡'), unknown: tr('未知') }[ownState.lifeState] || tr('未知');
         const age = typeof ownState.ageSeconds === 'number' && Number.isFinite(ownState.ageSeconds) && ownState.ageSeconds >= 0
-          ? `${ownState.ageSeconds.toLocaleString('zh-CN', { maximumFractionDigits: 1 })} 秒` : '未知';
-        progress.push(`最近角色快照：${lifeState}（采样时快照年龄 ${age}）`);
-      } else progress.push('尚未观察到角色快照');
+          ? tr`${ownState.ageSeconds.toLocaleString(locale, { maximumFractionDigits: 1 })} 秒` : tr('未知');
+        progress.push(tr`最近角色快照：${lifeState}（采样时快照年龄 ${age}）`);
+      } else progress.push(tr('尚未观察到角色快照'));
       if (metadata.tickWakeEnabled) {
-        const wakeLabels = { waiting_state: '等待可用角色状态', waiting_finish_loading: '等待入服完成',
-          unsupported_state: '当前角色状态不支持唤醒', unsequenced_state: '等待有序角色快照',
-          stale_state: '等待新的角色快照', sending: '正在发送唤醒输入',
-          awaiting_confirmation: '按键已释放，等待唤醒确认', already_awake: '角色已经清醒',
-          awake_observed: '已观察到清醒快照', unconfirmed: '尚未确认唤醒',
-          interrupted: '唤醒已中止', send_failed: '唤醒输入发送失败' };
-        progress.push(`唤醒：${wakeLabels[metadata.wakeState] || '等待状态'}`);
+        const wakeLabels = { waiting_state: tr('等待可用角色状态'), waiting_finish_loading: tr('等待入服完成'),
+          unsupported_state: tr('当前角色状态不支持唤醒'), unsequenced_state: tr('等待有序角色快照'),
+          stale_state: tr('等待新的角色快照'), sending: tr('正在发送唤醒输入'),
+          awaiting_confirmation: tr('按键已释放，等待唤醒确认'), already_awake: tr('角色已经清醒'),
+          awake_observed: tr('已观察到清醒快照'), unconfirmed: tr('尚未确认唤醒'),
+          interrupted: tr('唤醒已中止'), send_failed: tr('唤醒输入发送失败') };
+        progress.push(tr`唤醒：${wakeLabels[metadata.wakeState] || tr('等待状态')}`);
       }
     }
     $('#rust-progress').textContent = progress.join(' · ');
-    $('#rust-error').textContent = typeof session.lastError === 'string' ? session.lastError : '';
+    $('#rust-error').textContent = typeof session.lastError === 'string' ? tr(session.lastError) : '';
   }
   function renderRustControls() {
     const active = rustSessionView && !['closed', 'error'].includes(rustSessionView.state);
@@ -176,7 +177,7 @@ export function createAccountDetails({ request, notice, changed }) {
     const ctx = context();
     rustPending = true; ++rustRevision; renderRustControls();
     try { await operation(ctx); }
-    catch (error) { if (ctx.valid()) notice(error.message || 'Rust 连接操作失败。', true); }
+    catch (error) { if (ctx.valid()) notice(error.message || tr('Rust 连接操作失败。'), true); }
     finally {
       if (ctx.valid()) {
         try { await loadRust(ctx); } catch (error) { if (ctx.valid()) notice(error.message, true); }
@@ -192,28 +193,28 @@ export function createAccountDetails({ request, notice, changed }) {
       const row = node('article', 'game-row');
       if (game.iconUrl) row.append(image(game.iconUrl, 'game-icon', ''));
       const title = node('div', 'grow');
-      title.append(node('h3', '', game.name), node('p', 'muted', `AppID ${game.appId} · 总计 ${(game.playtimeMinutes / 60).toFixed(1)} 小时 · 近两周 ${(game.recentMinutes / 60).toFixed(1)} 小时`));
+      title.append(node('h3', '', game.name), node('p', 'muted', tr`AppID ${game.appId} · 总计 ${(game.playtimeMinutes / 60).toFixed(1)} 小时 · 近两周 ${(game.recentMinutes / 60).toFixed(1)} 小时`));
       row.append(title);
-      action(row, '挂机此游戏', async ctx => {
+      action(row, tr('挂机此游戏'), async ctx => {
         await ctx.api('idle', 'POST', { appIds: [game.appId] });
         if (!ctx.valid()) return;
         $('#idle-apps').value = String(game.appId); selectTab('idle');
-        notice(`已为 ${game.name} 提交挂机状态。`); await refresh(); await changed();
+        notice(tr`已为 ${game.name} 提交挂机状态。`); await refresh(); await changed();
       });
       return row;
     }));
     $('#library-more').hidden = filtered.length <= gameLimit;
-    if (games.length && !filtered.length) $('#library-list').append(node('p', 'muted', '没有匹配的游戏。'));
+    if (games.length && !filtered.length) $('#library-list').append(node('p', 'muted', tr('没有匹配的游戏。')));
   }
   async function loadGames(ctx, force = false) {
     const revision = ++libraryRevision;
-    $('#library-message').textContent = '正在读取游戏库…';
+    $('#library-message').textContent = tr('正在读取游戏库…');
     try {
       const data = await ctx.api(`games${force ? '?refresh=1' : ''}`);
       if (!ctx.valid() || revision !== libraryRevision) return;
       games = data.games; libraryLoaded = true; gameLimit = 100;
-      $('#library-count').textContent = `共 ${data.total} 个游戏 · 数据更新于 ${date(data.fetchedAt)}`;
-      $('#library-message').textContent = games.length ? '' : '没有读取到可见游戏。游戏隐私设置、免费游戏是否玩过等因素可能影响列表。';
+      $('#library-count').textContent = tr`共 ${data.total} 个游戏 · 数据更新于 ${date(data.fetchedAt)}`;
+      $('#library-message').textContent = games.length ? '' : tr('没有读取到可见游戏。游戏隐私设置、免费游戏是否玩过等因素可能影响列表。');
       renderGames();
     } catch (error) {
       if (ctx.valid() && revision === libraryRevision) $('#library-message').textContent = error.message;
@@ -224,11 +225,11 @@ export function createAccountDetails({ request, notice, changed }) {
     return items.map(item => {
       const card = node('article', 'inventory-item');
       if (item.iconUrl) card.append(image(item.iconUrl, 'item-image', item.name));
-      card.append(node('h3', '', item.name), node('p', 'muted', `${item.type} · 数量 ${item.amount}`));
+      card.append(node('h3', '', item.name), node('p', 'muted', tr`${item.type} · 数量 ${item.amount}`));
       const badges = node('div', 'item-tags');
-      badges.append(node('span', 'badge', item.tradable ? '可交易' : '不可交易'), node('span', 'badge', item.marketable ? '可上架市场' : '不可上架市场'));
-      card.append(badges, node('p', 'field-help', `物品 ID ${item.assetId}`));
-      if (item.descriptions.length) { const detail = node('details'); detail.append(node('summary', '', '物品说明'), ...item.descriptions.map(text => node('p', 'field-help', text))); card.append(detail); }
+      badges.append(node('span', 'badge', item.tradable ? tr('可交易') : tr('不可交易')), node('span', 'badge', item.marketable ? tr('可上架市场') : tr('不可上架市场')));
+      card.append(badges, node('p', 'field-help', tr`物品 ID ${item.assetId}`));
+      if (item.descriptions.length) { const detail = node('details'); detail.append(node('summary', '', tr('物品说明')), ...item.descriptions.map(text => node('p', 'field-help', text))); card.append(detail); }
       return card;
     });
   }
@@ -236,7 +237,7 @@ export function createAccountDetails({ request, notice, changed }) {
     const revision = ++inventoryRevision;
     const source = more ? inventorySource : { appId: Number($('#inventory-app').value), contextId: $('#inventory-context').value.trim() };
     const params = new URLSearchParams({ ...source, refresh: force ? '1' : '0', ...(more ? { startAssetId: inventoryCursor } : {}) });
-    $('#inventory-message').textContent = '正在读取库存…';
+    $('#inventory-message').textContent = tr('正在读取库存…');
     try {
       const data = await ctx.api(`inventory?${params}`);
       if (!ctx.valid() || revision !== inventoryRevision) return;
@@ -244,7 +245,7 @@ export function createAccountDetails({ request, notice, changed }) {
       if (!more) $('#inventory-list').replaceChildren();
       $('#inventory-list').append(...inventoryNodes(data.items));
       $('#inventory-more').hidden = !data.more;
-      $('#inventory-message').textContent = `库存共 ${data.total} 件，已加载 ${$('#inventory-list').children.length} 件。`;
+      $('#inventory-message').textContent = tr`库存共 ${data.total} 件，已加载 ${$('#inventory-list').children.length} 件。`;
     } catch (error) {
       if (ctx.valid() && revision === inventoryRevision) { $('#inventory-message').textContent = error.message; if (!more) { $('#inventory-list').replaceChildren(); $('#inventory-more').hidden = true; } }
       throw error;
@@ -259,7 +260,7 @@ export function createAccountDetails({ request, notice, changed }) {
   }
   async function loadFree(ctx, more = false) {
     const revision = ++freeRevision;
-    $('#free-message').textContent = '正在从 Steam 商店读取免费游戏…';
+    $('#free-message').textContent = tr('正在从 Steam 商店读取免费游戏…');
     try {
       const params = new URLSearchParams({ term: freeTerm, start: more ? freeNext : 0 });
       const data = await request(`/v1/free-games?${params}`);
@@ -271,11 +272,11 @@ export function createAccountDetails({ request, notice, changed }) {
         if (game.imageUrl) card.append(image(game.imageUrl, 'catalog-image', ''));
         card.append(node('h3', '', game.name), node('p', 'muted', `AppID ${game.appId}${game.discount ? ` · ${game.discount}` : ''}`));
         const actions = node('div', 'toolbar');
-        action(actions, '免费入库', ctx => claim(ctx, { appIds: [game.appId] }), 'primary');
-        const link = node('a', 'external-link', '商店 ↗'); link.href = game.storeUrl; link.target = '_blank'; link.rel = 'noreferrer noopener'; actions.append(link); card.append(actions);
+        action(actions, tr('免费入库'), ctx => claim(ctx, { appIds: [game.appId] }), 'primary');
+        const link = node('a', 'external-link', tr('商店 ↗')); link.href = game.storeUrl; link.target = '_blank'; link.rel = 'noreferrer noopener'; actions.append(link); card.append(actions);
         return card;
       }));
-      $('#free-message').textContent = data.games.length ? `Steam 商店共返回 ${data.total} 个结果，按当前地区及商店规则显示。` : '没有找到匹配的免费游戏。';
+      $('#free-message').textContent = data.games.length ? tr`Steam 商店共返回 ${data.total} 个结果，按当前地区及商店规则显示。` : tr('没有找到匹配的免费游戏。');
       $('#free-more').hidden = data.nextStart === null;
     } catch (error) {
       if (ctx.valid() && revision === freeRevision) { $('#free-message').textContent = error.message; if (!more) { $('#free-list').replaceChildren(); $('#free-more').hidden = true; } }
@@ -285,7 +286,7 @@ export function createAccountDetails({ request, notice, changed }) {
   function close(clear = false) {
     currentId = null; generation++; busy = false;
     $('#account-detail').hidden = true; $('#dashboard').classList.remove('show-details');
-    if (clear) { $('#profile-fields').replaceChildren(); $('#inventory-list').replaceChildren(); $('#library-list').replaceChildren(); $('#free-list').replaceChildren(); $('#detail-avatar').removeAttribute('src'); $('#detail-name').textContent = '账号详情'; $('#detail-identity').textContent = ''; $('#claim-history').replaceChildren(); }
+    if (clear) { $('#profile-fields').replaceChildren(); $('#inventory-list').replaceChildren(); $('#library-list').replaceChildren(); $('#free-list').replaceChildren(); $('#detail-avatar').removeAttribute('src'); $('#detail-name').textContent = tr('账号详情'); $('#detail-identity').textContent = ''; $('#claim-history').replaceChildren(); }
   }
   async function open(id) {
     generation++; currentId = id; busy = false; latest = null;
@@ -298,11 +299,11 @@ export function createAccountDetails({ request, notice, changed }) {
     $('#rust-respawn-on-dead').checked = false;
     $('#rust-wake-on-connect').checked = false;
     rustRevision++; rustPending = false; rustSessionView = null;
-    $('#rust-state').textContent = '正在读取'; $('#rust-state').className = 'badge';
+    $('#rust-state').textContent = tr('正在读取'); $('#rust-state').className = 'badge';
     $('#rust-target').textContent = ''; $('#rust-progress').textContent = ''; $('#rust-error').textContent = '';
     renderRustControls();
     $('#inventory-more').hidden = true; $('#library-more').hidden = true; $('#free-more').hidden = true;
-    $('#detail-name').textContent = '正在读取账号…'; $('#profile-fields').replaceChildren();
+    $('#detail-name').textContent = tr('正在读取账号…'); $('#profile-fields').replaceChildren();
     $('#dashboard').classList.add('show-details'); $('#account-detail').hidden = false;
     selectTab('profile'); await refresh();
     if (latest) $('#idle-apps').value = latest.idle.appIds.join(', ');
@@ -310,8 +311,8 @@ export function createAccountDetails({ request, notice, changed }) {
   }
   $('#detail-back').addEventListener('click', () => close());
   document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => selectTab(button.dataset.tab)));
-  $('#profile-refresh').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('profile-refresh', 'POST', {}); if (ctx.valid()) { notice('账号资料已刷新。'); await refresh(); } }));
-  $('#web-refresh').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('web-refresh', 'POST', {}); if (ctx.valid()) notice('已请求刷新 Steam 网页会话，请稍后重试库存。'); }));
+  $('#profile-refresh').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('profile-refresh', 'POST', {}); if (ctx.valid()) { notice(tr('账号资料已刷新。')); await refresh(); } }));
+  $('#web-refresh').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('web-refresh', 'POST', {}); if (ctx.valid()) notice(tr('已请求刷新 Steam 网页会话，请稍后重试库存。')); }));
   $('#library-refresh').addEventListener('click', event => run(event.currentTarget, ctx => loadGames(ctx, true)));
   $('#library-search').addEventListener('input', () => { gameLimit = 100; renderGames(); });
   $('#library-more').addEventListener('click', () => { gameLimit += 100; renderGames(); });
@@ -327,21 +328,21 @@ export function createAccountDetails({ request, notice, changed }) {
   $('#idle-form').addEventListener('submit', event => {
     event.preventDefault();
     const values = $('#idle-apps').value.trim().split(/[,，\s]+/);
-    if (!values.length || values.some(value => !/^\d+$/.test(value))) { notice('请输入有效的数字 AppID，用逗号或空格分隔。', true); return; }
-    run(event.submitter, async ctx => { await ctx.api('idle', 'POST', { appIds: values.map(Number) }); if (ctx.valid()) { notice('已保存并提交游戏挂机配置。'); await refresh(); await changed(); } });
+    if (!values.length || values.some(value => !/^\d+$/.test(value))) { notice(tr('请输入有效的数字 AppID，用逗号或空格分隔。'), true); return; }
+    run(event.submitter, async ctx => { await ctx.api('idle', 'POST', { appIds: values.map(Number) }); if (ctx.valid()) { notice(tr('已保存并提交游戏挂机配置。')); await refresh(); await changed(); } });
   });
-  $('#idle-stop').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('idle', 'POST', { appIds: [] }); if (ctx.valid()) { notice('已停止该账号的游戏挂机。'); await refresh(); await changed(); } }));
+  $('#idle-stop').addEventListener('click', event => run(event.currentTarget, async ctx => { await ctx.api('idle', 'POST', { appIds: [] }); if (ctx.valid()) { notice(tr('已停止该账号的游戏挂机。')); await refresh(); await changed(); } }));
   $('#rust-form').addEventListener('submit', event => {
     event.preventDefault();
     rustAction(async ctx => {
       await ctx.api('rust-session', 'POST', { host: $('#rust-host').value.trim(), port: Number($('#rust-port').value), respawnOnDead: $('#rust-respawn-on-dead').checked === true,
         ...($('#rust-wake-on-connect').checked ? { wakeOnConnect: true } : {}) });
-      if (ctx.valid()) notice('已开始连接 Rust 服务器。');
+      if (ctx.valid()) notice(tr('已开始连接 Rust 服务器。'));
     });
   });
   $('#rust-disconnect').addEventListener('click', () => rustAction(async ctx => {
     await ctx.api('rust-session', 'DELETE');
-    if (ctx.valid()) notice('正在断开 Rust 服务器连接。');
+    if (ctx.valid()) notice(tr('正在断开 Rust 服务器连接。'));
   }));
   return { open, close, refresh, sync(accounts) { if (!currentId) return; if (!accounts.some(account => account.id === currentId)) close(true); else refresh(); } };
 }

@@ -1,0 +1,15 @@
+# Can a server DLL refreshing cp fix the missing public population?
+
+Historical assessment: 2026-10-25, 01:55:32–01:56:49 Beijing time (October24, 17:55:32–17:56:49 UTC). [Original](cp-dll-assessment-2026-10-25.md); [aggregate evidence](cp-dll-assessment-2026-10-25.json).
+
+A normally loaded DLL can read real active players, invoke existing information updates or alter GameTags. This observation found no missing cp publication: all three research players were in the real roster; active/cp were 12 and Facepunch was 8. Writing the same activePlayerList.Count again still publishes 12 and cannot prescribe an independent API's 8 or guarantee three additional visible players.
+
+The three local entered_game sessions had run about 422–432 seconds with own entity, FinishLoading and server ticket validation. Two server rosters totaled 12, contained all three plus nine others, and had identical identity sets. Probe active/alive/connected/networkConnected/networkAuthenticated were 12, ReceivingSnapshot 0, sleeping 1. Two A2S samples 35 seconds apart were players 14, cp 12, bots 0. Both Facepunch reads were8 from Last-Modified17:53:06 UTC, one cached batch. Samples were close but not atomic. The unexplained extra A2S 2 were not attributed to a plugin. No current client screenshot/runtime switch was observed.
+
+Two accounts previously completed three-frame wake; a third sent one frame before interruption. Their old client snapshots were not current posture evidence. The server's total sleeping 1 does not establish eligibility. Actual secure=false, encryption 0, EAC interface unavailable; missing EAC alone does not explain the public difference.
+
+`mp{maxplayers}` is capacity; `cp{activePlayerList.Count}` is the active count. Inspected ServerMgr schedules UpdateServerInformation after two seconds and every thirty seconds; that method constructs/compresses full tags and sets SteamServer.GameTags. Actualcp 12 supports normal publication. Replacing the entire string with onlymp/cp would discard protocol/query/version/map metadata. The managed wrapper suppresses identical repeated writes, but no cache mismatch/native failure was found; bypassing it has no verified backend effect.
+
+The applicable historical ordinary-list branch uses `max(0,min(cp,trusted))`, where trusted comes from Facepunch keyed by game IP/port. These inputs yield 8. This is source-path evaluation, not observation of a current client screen. Neither aggregate 8 nor cached repetition identifies which three accounts were omitted or why.
+
+If active/cp later persistently diverge, a plugin can observe timestamps, overwrites or real publication failures. Here the useful next work is correlation of genuine Steam updates/natural reporting/new public batches; causality remains unproven. No DLL was written/deployed, no count/security/service setting changed, and no player was created/stopped. The three existing connections were preserved; identities/admin data stay private. See [query/reporting analysis](count-query-reporting-deep-2026-10-24.en.md).

@@ -1,0 +1,19 @@
+# Independent EAC initialization with installed official settings
+
+Historical test: 2026-10-25, Beijing time. [Original](eac-installed-settings-test-2026-10-25.md); [20 evidence hashes](eac-installed-settings-test-2026-10-25.json).
+
+The official SDK was actually initialized, but platform creation failed. No EOS identity, protected EAC session or protected message exchange was established.
+
+At 20:15:55, installed EOSSDK 1.19.1.2-55908005 and original EasyAntiCheat/Settings.json produced EOS_Initialize = 0, diagnostic callback setup = 0, EOS_Platform_Create = null, classification `invalid_or_missing_clientid`, and EOS_Shutdown = 0. Duration: 0.079 seconds. Connect login and BeginSession were not executed. Settings contained ProductId/SandboxId/DeploymentId and RustClient.exe, but no Connect ClientId/ClientSecret. Only existing product identifiers were supplied; credentials remained empty rather than fabricated or replaced with server credentials. This is failure before identity/session creation, not a completed identity later rejected by EAC.
+
+An initial 20:13:33 probe had the same initialize/null-platform/shutdown result. The later probe added only a fixed-category log callback to explain it; raw native logs/product values/credentials were not published.
+
+The operator said independent-program integration materials existed but their location was unknown. Authorized searches covered actual desktop/documents/downloads, current user files, accessible D/E/G areas and named development directories for SDK/header/config/build names; selected matching configuration structures were inspected. No complete Connect configuration/protected independent build was found in that scope. Some D/E directories were inaccessible; all archives, embedded configurations and other computers were not exhausted. This does not disprove ownership of an authorization package. Installed game settings are not a substitute for a complete independent integration.
+
+Rust.exe, RustClient.exe, EAC installer and EOSSDK had Valid Authenticode results; SDK ABI/layout checks passed. These observations do not mean the Python process was protected or authenticated.
+
+`tools/rust-research/eac-session-probe.py` diagnoses initialization/failure stages with a fixed SDK hash and read-only settings. It never calls BeginSession on a null handle. If interfaces become available, its optional missing-LocalUserId negative diagnostic is still not a full session test; the real execution did not reach it. Exit 0 means diagnostic/cleanup completed. Six focused fake-SDK tests passed for null handles, exceptions, cleanup, error categories and not changing eacVerified; they are not EAC success evidence.
+
+No bootstrap modification, official game launch, player creation/stop, account login, service restart or server modification was performed. Read-only preflight already showed earlier 19:55 disconnect/19:56 connect jobs for 39 accounts, not initiated by this diagnosis. At 20:09:30 tickets were inactive, 38 workers closed and 36 historical results eac_required. The earlier sixteen-player historical state was not blindly restored.
+
+Next requires complete integration credentials/protected build materials applicable to the independent program, or an official protected-client baseline. Product installation IDs alone were not sufficient here, and completing EAC is not by itself evidence of public-count adoption. Official references: [session options](https://dev.epicgames.com/docs/api-ref/structs/eos-anti-cheat-client-begin-session-options), [BeginSession](https://dev.epicgames.com/docs/api-ref/functions/eos-anti-cheat-client-begin-session), [integration](https://dev.epicgames.com/docs/game-services/anti-cheat/using-anti-cheat). A guessed 404 integration URL was excluded; original paths/identities remain private.

@@ -1,0 +1,13 @@
+# First-stage diagnostics for target deployment
+
+Historical preparation with a later deployment note: 2026-10-24. See the [original report](playercount-probe-preparation-2026-10-24.md) and [evidence](playercount-probe-preparation-2026-10-24.json). The operator later uploaded the source; real RCON confirmed monitoring at 08:52 UTC and research grouping at 08:53. The [target experiment](playercount-probe-target-2026-10-24.en.md) supersedes the earlier “not deployed” status.
+
+The operator confirmed uploads to oxide/plugins and HarmonyMods. Stage one delivered one read-only Oxide PlayerCountProbe.cs observer. It returns aggregates and module MVIDs through existing RCON without restart or setting changes. Internal population growth alone cannot distinguish normal and independent client lifecycles: earlier independent connections had raised RCON/cp and received observed Steam validation without a repeatable public-count gain. EAC/input and other differences remained hypotheses.
+
+Research-versus-other grouping uses identities only in memory. Output covers actual security/Steam logon, genuine validation callbacks, active/network/life/sleep state, EAC interface/handle/cache state and optional input-hook observations. Published fields are counts, times, Booleans and MVIDs. The observer writes no counts, authentication, settings, inputs or reporting data. “Other” does not automatically mean human, and absent focus means unclassified.
+
+The timeSinceLastTick value has a zero sentinel and can be updated by keepalive, so it is not proof of input. rawTickCount is a cached rate: only positivity is inspected, not cumulative differences. Local stock modules did not establish optional OnPlayerInput injection. A zero hook count therefore means the hook was not observed, rather than necessarily no input.
+
+Preparation compiled against seventeen real references without changing their hashes. Stub tests used StringView/framework/Steam models and covered thirteen groups, 339 assertions and 38 responses: authorization before reads, atomic focus updates, user/owner grouping, 1, 000 concurrent validations, read-only input observation, missing denominators, failure freshness, unload and privacy. They did not load the game or unknown DLLs, perform network/RCON/deployment actions, or establish target runtime behavior.
+
+The planned sequence was upload, real monitoring/fresh snapshot/MVID verification, private focus setup, bounded normal/test comparison, multiple new public batches and browser refresh. A separate original-return observer was to follow module/patch checks if needed. These are not one population-modifying plugin. Preparation started no Rust players and changed no target configuration. Public-count repair remained unverified.

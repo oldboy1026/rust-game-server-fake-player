@@ -1,9 +1,10 @@
-# 项目接续
+# Continuing work
 
-开始工作前阅读 `HANDOFF.md`，了解已有进度、证据位置和当前待办。用户提供的新指示优先。
+Read `HANDOFF.md` before working to understand current progress, evidence locations, and remaining work. New user instructions take precedence.
 
-- Steam 服务在 `steam-multi-account/`，研究报告在 `rust-research/`，复核工具在 `tools/rust-research/`。
-- 原始抓包和本机资料保存在被忽略的 `captures/` 或 `work/` 中。保护 `data/` 中的账号凭据，避免输出或提交密钥、Cookie 和认证票据。
-- 清楚区分 Steam 游戏活动状态、A2S 查询、实际 Rust 玩家连接与有效 EAC 会话；结论应注明证据和未验证部分。
-- 代码应使用相对路径或由用户提供的路径，避免依赖原电脑的用户名和工作目录。
-- 用户要求每批文件更新完成后提交并推送到此 Gitee 仓库。推送后核对远端分支与本地提交一致；账号凭据和原始抓包继续保留在忽略目录。遇到认证或网络错误时明确报告，不得把本地提交当作已上传。
+- The Steam service is in `steam-multi-account/`, research reports in `rust-research/`, and research tools in `tools/rust-research/`. English documentation is indexed in `docs/ENGLISH_INDEX.md`.
+- Keep raw captures and local research material in ignored `captures/` or `work/` directories. Protect credentials in `data/`; never print or commit keys, cookies, refresh tokens, authentication tickets, or remote-administration credentials.
+- Distinguish Steam activity, A2S replies, actual Rust player admission, valid EAC sessions, and Facepunch public counts. State supporting evidence and what remains unverified.
+- Use relative paths or paths explicitly supplied by the user; do not depend on a particular computer's username or checkout directory.
+- The user requests completed change batches to be committed and pushed. The current publication target is `https://github.com/oldboy1026/rust-game-server-fake-player.git` (`main`); retain the previous Gitee remote as a mirror. Verify the remote SHA after pushing. Report authentication/network failures explicitly; a local commit alone is not an uploaded result.
+- All previously imported local accounts were explicitly deleted on 2026-10-27. Do not restore accounts from historical snapshots or rerun old reconnection scripts.

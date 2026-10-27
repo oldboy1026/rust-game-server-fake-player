@@ -11,6 +11,8 @@
 ```text
 RustQueryProxy/
   package.json
+  README.md
+  README.en.md
   README.zh-CN.md
   manifest.json
   tools/rust-research/run-query-proxy.mjs

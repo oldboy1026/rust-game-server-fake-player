@@ -1,0 +1,15 @@
+# Review of the current official client's EAC session
+
+Historical read-only review: 2026-10-25, Beijing time. [Original](official-eac-session-reuse-review-2026-10-25.md); [24 evidence hashes](official-eac-session-reuse-review-2026-10-25.json).
+
+The official EAC module loaded and the account was genuinely present, but the server's secure path was disabled. This is neither proof of complete protected backend authentication nor a session proven transferable to an independent worker.
+
+RustClient and EasyAntiCheat_EOS had run continuously since 20:39:36. Bootstrap at 20:39:37 said the module initialized; game log at 20:40:11 began Steam-ticket EAC login and 20:40:12 connected to old target `61.147.247.35:28015`, not the newer EAC-requiring target. The local active Steam identity matched the target roster at 20:48:29 and 20:50:52, ConnectedSeconds 496→639, lastHealth 100, unchanged process IDs/start times. It did not match any of the 39 saved project accounts, so its results cannot be assigned to them. Reports omit the identity/nickname/address origin/location.
+
+Existing PlayerCountProbe 0.1.0 snapshots at 20:49/20:50 showed effectiveSecure=false, encryption 0, EAC interface unavailable, mapped handles 0, actual players 4, networkAuthenticated 4, and eacStatusAuthenticated 4. No plugin was installed/reloaded. Static reference EACServer.OnJoinGame directly calls local/remote authenticated callbacks when secure is disabled or in an editor path; internal flags can therefore be complete without protected exchange. Static IL is explanatory research-version evidence, not a byte-identical claim about the remote module; live flags/interface/handles came from current diagnostics.
+
+Logs did not show EOS Connect completion or RemoteAuthComplete. Module loading, starting Steam login, world entry and internal counts cannot independently establish a reusable protected session. The official client remains useful as a normal-admission/gameplay/count baseline, but this round did not read process memory, extract credentials, inject, replay or transfer anything.
+
+Reviewed AntiCheatClient documentation lists Begin/End, message callbacks and Protect/Unprotect, with no usable documented session export/import for this program. This is limited to reviewed interfaces, not a universal statement about vendor custom integration. BeginSession documentation calls for End then Begin when changing game sessions; MessageToServer callbacks belong to that same lifecycle. A future official-client protected success also would not automatically authorize an independent process to take over.
+
+Raw logs/rosters remain ignored privately. The first read-only driver saved all three commands and requested RCON close but remained alive; that exact driver was stopped and exited 1, not naturally. The final bounded driver completed and exited 0. No game/EAC/main-service process, account, existing connection or server configuration changed, and no new player remained to clean up. No production-code change required new unit tests.
